@@ -15,18 +15,10 @@ jobs:
       - run: npm ci
       - name: Build map
         run: npx nx build mapview
-      - name: debug1
-        run: ls
-      - name: debug2
-        run: ls dist
-      - name: debug3
-        run: ls dist/apps
-      - name: debug4
-        run: ls dist/apps/mapview
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: “./dist/apps/mapview”
+          path: ./dist/apps/mapview
   deploy:
     environment:
       name: github-pages
