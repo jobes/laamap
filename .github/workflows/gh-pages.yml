@@ -14,7 +14,7 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
       - run: npm ci
       - name: Build map
-        run: npx nx build mapview
+        run: npx nx build mapview --base-href /laamap/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
