@@ -16,11 +16,3 @@
   [paint]="(paint2D$ | async) || undefined"
   [filter]="(filter$ | async) || false"
 ></mgl-layer>
-<mgl-layer
-  id="airspacesLayerFill"
-  type="fill-extrusion"
-  source="airspacesSource"
-  [paint]="(paint3D$ | async) || undefined"
-  [filter]="(filter$ | async) || false"
-  [minzoom]="zoomLevel3D"
-></mgl-layer>

@@ -34,6 +34,14 @@
         "7": "Rainbow @ SELEX-IS",
         "8": "Dark Sky"
       }
+    },
+    "airspaces": {
+      "title": "Letecké priestory",
+      "description": "Filter a farby",
+      "enable": "Povoliť",
+      "color": "Farba",
+      "opacity": "Priehľadnosť",
+      "zoomRange": "Rozsah viditeľnosti podľa zoom"
     }
   },
   "airportDialog": {

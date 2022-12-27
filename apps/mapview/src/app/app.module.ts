@@ -41,6 +41,7 @@ import { DimensionPipe } from './shared/dimension/dimension.pipe';
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common';
 import { OnMapAirSpacesComponent } from './components/map/on-map-air-spaces/on-map-air-spaces.component';
 import { AirspacesDialogComponent } from './components/airspaces-dialog/airspaces-dialog.component';
+import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { AirspacesDialogComponent } from './components/airspaces-dialog/airspace
     DimensionPipe,
     OnMapAirSpacesComponent,
     AirspacesDialogComponent,
+    AirspacesSettingsComponent,
   ],
   imports: [
     BrowserModule,

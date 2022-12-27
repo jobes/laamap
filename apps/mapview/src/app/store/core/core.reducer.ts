@@ -5,6 +5,7 @@ import {
   rainViewersWidgetSettings,
 } from './core.actions';
 import * as coreActions from './core.actions';
+import { AirspacesDefault } from './airspaces-defauls';
 
 const initialState = {
   radar: {
@@ -27,6 +28,7 @@ const initialState = {
     },
     urls: null as IRainViewerUrls | null,
   },
+  airSpaces: AirspacesDefault,
 };
 
 export type AppState = { core: typeof initialState };
@@ -139,6 +141,56 @@ export const coreReducer = createReducer(
           ...state.radar.widget,
           position,
         },
+      },
+    })
+  ),
+  on(
+    coreActions.airspacesSettings.enabledChanged,
+    (state, { airspaceType, enabled }): AppState['core'] => ({
+      ...state,
+      airSpaces: {
+        ...state.airSpaces,
+        [airspaceType]: { ...state.airSpaces[airspaceType], enabled },
+      },
+    })
+  ),
+  on(
+    coreActions.airspacesSettings.colorChanged,
+    (state, { airspaceType, color }): AppState['core'] => ({
+      ...state,
+      airSpaces: {
+        ...state.airSpaces,
+        [airspaceType]: { ...state.airSpaces[airspaceType], color },
+      },
+    })
+  ),
+  on(
+    coreActions.airspacesSettings.opacityChanged,
+    (state, { airspaceType, opacity }): AppState['core'] => ({
+      ...state,
+      airSpaces: {
+        ...state.airSpaces,
+        [airspaceType]: { ...state.airSpaces[airspaceType], opacity },
+      },
+    })
+  ),
+  on(
+    coreActions.airspacesSettings.maxZoomChanged,
+    (state, { airspaceType, maxZoom }): AppState['core'] => ({
+      ...state,
+      airSpaces: {
+        ...state.airSpaces,
+        [airspaceType]: { ...state.airSpaces[airspaceType], maxZoom },
+      },
+    })
+  ),
+  on(
+    coreActions.airspacesSettings.minZoomChanged,
+    (state, { airspaceType, minZoom }): AppState['core'] => ({
+      ...state,
+      airSpaces: {
+        ...state.airSpaces,
+        [airspaceType]: { ...state.airSpaces[airspaceType], minZoom },
       },
     })
   )

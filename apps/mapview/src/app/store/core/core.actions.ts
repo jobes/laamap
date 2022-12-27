@@ -1,4 +1,5 @@
 import { createAction, createActionGroup, props } from '@ngrx/store';
+import { EAirSpaceType } from '../../services/open-aip/airspaces.interfaces';
 import { IRainViewerUrls } from '../../services/rain-viewer.interface';
 import { AppState } from './core.reducer';
 
@@ -27,4 +28,27 @@ export const rainViewersUrlsLoaded = createAction(
 export const rainViewersWidgetSettings = createActionGroup({
   source: 'Radar widget',
   events: { Moved: props<{ position: { x: number; y: number } }>() },
+});
+
+export const airspacesSettings = createActionGroup({
+  source: 'Airspaces settings',
+  events: {
+    'Enabled Changed': props<{
+      airspaceType: EAirSpaceType;
+      enabled: boolean;
+    }>(),
+    'Color changed': props<{ airspaceType: EAirSpaceType; color: string }>(),
+    'Opacity changed': props<{
+      airspaceType: EAirSpaceType;
+      opacity: number;
+    }>(),
+    'Min zoom changed': props<{
+      airspaceType: EAirSpaceType;
+      minZoom: number;
+    }>(),
+    'Max zoom changed': props<{
+      airspaceType: EAirSpaceType;
+      maxZoom: number;
+    }>(),
+  },
 });
