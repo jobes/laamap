@@ -175,16 +175,6 @@ export const coreReducer = createReducer(
     })
   ),
   on(
-    coreActions.airspacesSettings.maxZoomChanged,
-    (state, { airspaceType, maxZoom }): AppState['core'] => ({
-      ...state,
-      airSpaces: {
-        ...state.airSpaces,
-        [airspaceType]: { ...state.airSpaces[airspaceType], maxZoom },
-      },
-    })
-  ),
-  on(
     coreActions.airspacesSettings.minZoomChanged,
     (state, { airspaceType, minZoom }): AppState['core'] => ({
       ...state,

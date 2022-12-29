@@ -6,6 +6,7 @@ import {
   ColorSpecification,
   DataDrivenPropertyValueSpecification,
   ExpressionFilterSpecification,
+  ExpressionSpecification,
   FillLayerSpecification,
 } from 'maplibre-gl';
 import { map } from 'rxjs';
@@ -59,7 +60,25 @@ export class OnMapAirSpacesComponent {
     const filterInTypes = Object.entries(value)
       .filter(([, value]) => value.enabled)
       .map(([key]) => Number.parseInt(key));
-    return ['all', ['in', ['get', 'type'], ['literal', filterInTypes]]];
+
+    const x = Object.entries(value).reduce<ExpressionSpecification>(
+      (acc, [key, value]) =>
+        [
+          ...acc,
+          Number(key),
+          ['>=', ['zoom'], value.minZoom],
+        ] as ExpressionSpecification,
+      [
+        'match',
+        ['number', ['get', 'type']],
+      ] as unknown as ExpressionSpecification
+    );
+
+    return [
+      'all',
+      ['in', ['get', 'type'], ['literal', filterInTypes]],
+      [...(x as unknown[]), true] as ExpressionSpecification,
+    ];
   }
 
   private toPaint2D(

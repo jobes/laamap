@@ -61,14 +61,9 @@
                 </span>
                 <mat-slider min="0" max="24">
                   <input
-                    matSliderStartThumb
+                    matSliderThumb
                     [ngModel]="airSpace.minZoom"
                     (ngModelChange)="$event && setMinZoom(airSpace.id, $event)"
-                  />
-                  <input
-                    matSliderEndThumb
-                    [ngModel]="airSpace.maxZoom"
-                    (ngModelChange)="$event && setMaxZoom(airSpace.id, $event)"
                   />
                 </mat-slider>
               </div>

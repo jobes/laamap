@@ -40,12 +40,6 @@ export class AirspacesSettingsComponent {
     );
   }
 
-  setMaxZoom(airspaceType: EAirSpaceType, maxZoom: number): void {
-    this.store.dispatch(
-      airspacesSettings.maxZoomChanged({ airspaceType, maxZoom })
-    );
-  }
-
   airSpaceTrack(
     index: number,
     obj: IAirSpaceSettings & { id: EAirSpaceType }

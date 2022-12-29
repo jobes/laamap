@@ -46,9 +46,5 @@ export const airspacesSettings = createActionGroup({
       airspaceType: EAirSpaceType;
       minZoom: number;
     }>(),
-    'Max zoom changed': props<{
-      airspaceType: EAirSpaceType;
-      maxZoom: number;
-    }>(),
   },
 });
