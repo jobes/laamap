@@ -96,7 +96,7 @@ import { AirspacesSettingsComponent } from './components/settings-dialog/airspac
           strictActionImmutability: true,
           strictStateSerializability: true,
           strictActionSerializability: true,
-          strictActionWithinNgZone: true,
+          strictActionWithinNgZone: false,
           strictActionTypeUniqueness: true,
         },
         metaReducers,

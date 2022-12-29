@@ -18,8 +18,13 @@
         "assets": ["apps/mapview/src/favicon.ico", "apps/mapview/src/assets"],
         "styles": [
           "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+          "./node_modules/lightgallery/scss/lightgallery.scss",
+          "./node_modules/lightgallery/scss/lg-zoom.scss",
           "apps/mapview/src/styles.scss"
         ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["node_modules"]
+        },
         "scripts": []
       },
       "configurations": {

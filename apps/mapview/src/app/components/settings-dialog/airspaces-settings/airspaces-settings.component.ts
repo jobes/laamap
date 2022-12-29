@@ -12,6 +12,7 @@ import { selectAirspacesSettingsArray } from '../../../store/core/core.selectors
 })
 export class AirspacesSettingsComponent {
   airSpaces$ = this.store.select(selectAirspacesSettingsArray);
+  expanded = false;
 
   constructor(private readonly store: Store) {}
 

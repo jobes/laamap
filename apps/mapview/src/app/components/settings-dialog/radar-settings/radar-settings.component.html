@@ -61,12 +61,12 @@
         <span class="mat-form-field-label">
           {{ t('animationSpeed') }}
         </span>
-        <mat-slider
-          [min]="0"
-          [max]="100"
-          [value]="radar.animationSpeed"
-          (valueChange)="animationSpeedChanged($event)"
-        ></mat-slider>
+        <mat-slider [min]="0" [max]="100">
+          <input
+            matSliderThumb
+            [ngModel]="radar.animationSpeed"
+            (ngModelChange)="animationSpeedChanged($event)"
+        /></mat-slider>
       </div>
       <div
         *ngIf="radar.type !== 'coverage'"
@@ -75,12 +75,12 @@
         <span class="mat-form-field-label">
           {{ t('opacity') }}
         </span>
-        <mat-slider
-          [min]="0"
-          [max]="100"
-          [value]="radar.opacity"
-          (valueChange)="opacityChanged($event)"
-        ></mat-slider>
+        <mat-slider [min]="0" [max]="100"
+          ><input
+            matSliderThumb
+            [ngModel]="radar.opacity"
+            (ngModelChange)="opacityChanged($event)"
+        /></mat-slider>
       </div>
     </div>
     <mat-card

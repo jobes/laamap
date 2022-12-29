@@ -1,5 +1,5 @@
 <ng-template transloco let-t translocoRead="settingDialog.airspaces">
-  <mat-expansion-panel>
+  <mat-expansion-panel [(expanded)]="expanded">
     <mat-expansion-panel-header>
       <mat-panel-title>
         <mat-icon>select_all</mat-icon>{{ t('title') }}
@@ -9,64 +9,73 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-accordion *transloco="let tr; read: 'airspaceDialog'">
-      <mat-expansion-panel
-        *ngFor="let airSpace of airSpaces$ | ngrxPush; trackBy: airSpaceTrack"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title>{{ tr('types.' + airSpace.id) }}</mat-panel-title>
-          <mat-panel-description>
-            {{ tr('typesLong.' + airSpace.id) }}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="description">
-          {{ tr('typesLong.' + airSpace.id) }}
-        </div>
-        <mat-slide-toggle
-          [ngModel]="airSpace.enabled"
-          (ngModelChange)="setEnabled(airSpace.id, $event)"
-          >{{ t('enable') }}
-        </mat-slide-toggle>
-        <div class="settings">
-          <mat-form-field>
-            <mat-label>{{ t('color') }}</mat-label>
-            <input
-              matInput
-              type="color"
-              [ngModel]="airSpace.color"
-              (ngModelChange)="setColor(airSpace.id, $event)"
-            />
-          </mat-form-field>
+    <ng-container *ngIf="expanded">
+      <mat-accordion *transloco="let tr; read: 'airspaceDialog'">
+        <mat-expansion-panel
+          *ngFor="let airSpace of airSpaces$ | ngrxPush; trackBy: airSpaceTrack"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ tr('types.' + airSpace.id) }}</mat-panel-title>
+            <mat-panel-description>
+              {{ tr('typesLong.' + airSpace.id) }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <ng-container *ngIf="airSpace">
+            <div class="description">
+              {{ tr('typesLong.' + airSpace.id) }}
+            </div>
+            <mat-slide-toggle
+              [ngModel]="airSpace.enabled"
+              (ngModelChange)="setEnabled(airSpace.id, $event)"
+              >{{ t('enable') }}
+            </mat-slide-toggle>
+            <div class="settings">
+              <mat-form-field>
+                <mat-label>{{ t('color') }}</mat-label>
+                <input
+                  matInput
+                  type="color"
+                  [ngModel]="airSpace.color"
+                  (ngModelChange)="setColor(airSpace.id, $event)"
+                />
+              </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>{{ t('opacity') }}</mat-label>
-            <input
-              matInput
-              type="number"
-              [ngModel]="airSpace.opacity"
-              min="0"
-              max="1"
-              step="0.05"
-              (ngModelChange)="setOpacity(airSpace.id, $event)"
-            />
-          </mat-form-field>
+              <mat-form-field>
+                <mat-label>{{ t('opacity') }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  [ngModel]="airSpace.opacity"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  (ngModelChange)="setOpacity(airSpace.id, $event)"
+                />
+              </mat-form-field>
 
-          <div
-            class="labeledSlider mat-form-field-appearance-legacy mat-form-field-can-float mat-form-field-should-float"
-          >
-            <span class="mat-form-field-label">
-              {{ t('zoomRange') }}
-            </span>
-            <mat-slider
-              min="0"
-              max="24"
-              [value]="airSpace.minZoom"
-              (valueChange)="$event && setMinZoom(airSpace.id, $event)"
-            >
-            </mat-slider>
-          </div>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
+              <div
+                class="labeledSlider mat-form-field-appearance-legacy mat-form-field-can-float mat-form-field-should-float"
+              >
+                <span class="mat-form-field-label">
+                  {{ t('zoomRange') }}
+                </span>
+                <mat-slider min="0" max="24">
+                  <input
+                    matSliderStartThumb
+                    [ngModel]="airSpace.minZoom"
+                    (ngModelChange)="$event && setMinZoom(airSpace.id, $event)"
+                  />
+                  <input
+                    matSliderEndThumb
+                    [ngModel]="airSpace.maxZoom"
+                    (ngModelChange)="$event && setMaxZoom(airSpace.id, $event)"
+                  />
+                </mat-slider>
+              </div>
+            </div>
+          </ng-container>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </ng-container>
   </mat-expansion-panel>
 </ng-template>
