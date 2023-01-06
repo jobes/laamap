@@ -5,7 +5,13 @@
     "maplibre",
     "maplibregl",
     "Notam",
+    "Notams",
     "transloco"
   ],
-  "conventionalCommits.scopes": ["radar", "airports", "airfields"]
+  "conventionalCommits.scopes": [
+    "radar",
+    "airports",
+    "airfields",
+    "notams"
+  ]
 }

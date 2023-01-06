@@ -69,7 +69,8 @@
         "development": {
           "browserTarget": "mapview:build:development",
           "disableHostCheck": true,
-          "host": "0.0.0.0"
+          "host": "0.0.0.0",
+          "proxyConfig": "apps/mapview/src/proxy.conf.json"
         }
       },
       "defaultConfiguration": "development"

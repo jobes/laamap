@@ -1,0 +1,10 @@
+{
+  "/notams": {
+    "target": "https://notams.aim.faa.gov",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/notams": ""
+    }
+  }
+}
