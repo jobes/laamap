@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EventData } from '@maplibre/ngx-maplibre-gl';
+import { EventData, Position } from '@maplibre/ngx-maplibre-gl';
 import { MapLibreEvent } from 'maplibre-gl';
 import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
+import { DataBusService } from '../../services/data-bus.service';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const AbsoluteOrientationSensor: any;
@@ -14,7 +15,10 @@ declare const AbsoluteOrientationSensor: any;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent {
-  constructor(private dialog: MatDialog) {
+  constructor(
+    private dialog: MatDialog,
+    private readonly dataBusService: DataBusService
+  ) {
     this.requestCompassPermission().then((res) => {
       if (res) {
         this.setupCompass()?.start();
@@ -33,6 +37,10 @@ export class MapComponent {
       '--bearing',
       `${event.target.getBearing()}`
     );
+  }
+
+  geolocate(event: Position): void {
+    this.dataBusService.rawGeolocation.next(event);
   }
 
   private async requestCompassPermission(): Promise<boolean> {

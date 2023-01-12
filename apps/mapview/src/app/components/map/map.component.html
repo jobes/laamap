@@ -17,8 +17,6 @@
     </div>
   </mgl-control>
 
-  <mgl-control mglFullscreen></mgl-control>
-
   <mgl-control
     mglGeolocate
     [positionOptions]="{
@@ -26,6 +24,7 @@
     }"
     [trackUserLocation]="true"
     [showUserLocation]="true"
+    (geolocate)="geolocate($event)"
   ></mgl-control>
   <mgl-control mglNavigation></mgl-control>
 
@@ -42,4 +41,5 @@
   <laamap-on-map-air-spaces></laamap-on-map-air-spaces>
   <laamap-on-map-airport></laamap-on-map-airport>
   <laamap-on-map-radar></laamap-on-map-radar>
+  <laamap-on-map-notams></laamap-on-map-notams>
 </mgl-map>

@@ -143,7 +143,7 @@ export class NotamsService {
         of(
           pointNotams.notamList.reduce(
             (acc, item) =>
-              item.decoded.fir in acc ? acc : [...acc, item.decoded.fir],
+              acc.includes(item.decoded.fir) ? acc : [...acc, item.decoded.fir],
             [] as string[]
           )
         )

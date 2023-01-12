@@ -42,6 +42,7 @@ import { APP_BASE_HREF, PlatformLocation } from '@angular/common';
 import { OnMapAirSpacesComponent } from './components/map/on-map-air-spaces/on-map-air-spaces.component';
 import { AirspacesDialogComponent } from './components/airspaces-dialog/airspaces-dialog.component';
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
+import { OnMapNotamsComponent } from './components/map/on-map-notams/on-map-notams.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { AirspacesSettingsComponent } from './components/settings-dialog/airspac
     OnMapAirSpacesComponent,
     AirspacesDialogComponent,
     AirspacesSettingsComponent,
+    OnMapNotamsComponent,
   ],
   imports: [
     BrowserModule,
