@@ -27,7 +27,9 @@ export class MapComponent {
   }
 
   openSettingsDialog(): void {
-    this.dialog.open(SettingsDialogComponent, { width: '100%' }).afterClosed();
+    this.dialog
+      .open(SettingsDialogComponent, { width: '100%', id: 'settingDialog' })
+      .afterClosed();
   }
 
   rotate(

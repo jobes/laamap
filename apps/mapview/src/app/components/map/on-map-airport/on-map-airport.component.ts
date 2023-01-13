@@ -26,13 +26,13 @@ import { AirportDialogComponent } from '../../airport-dialog/airport-dialog.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OnMapAirportComponent {
-  airPorts$ = this.openApi.getAirports$();
+  airPorts$ = this.openAip.getAirports$();
   EAirportType = EAirportType;
   imageLoaded = false;
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
-    private readonly openApi: OpenAipService,
+    private readonly openAip: OpenAipService,
     private readonly dialog: MatDialog,
     private readonly mapHelper: MapHelperFunctionsService,
     @Inject(APP_BASE_HREF) private readonly baseHref: string,
@@ -55,6 +55,7 @@ export class OnMapAirportComponent {
 
   airportClicked(airPortDef?: import('geojson').GeoJsonProperties): void {
     this.dialog.getDialogById('airspaceDialog')?.close();
+    this.dialog.getDialogById('notamDialog')?.close();
     if (airPortDef) {
       const airPort = this.mapHelper.decodeGeoJsonProperties(
         airPortDef
@@ -63,6 +64,7 @@ export class OnMapAirportComponent {
       this.dialog.open(AirportDialogComponent, {
         width: '100%',
         data: airPort,
+        id: 'airportDialog',
       });
     }
   }

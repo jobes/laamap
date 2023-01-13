@@ -1,0 +1,35 @@
+<ng-template transloco let-t translocoRead="notamsDialog">
+  <h1 mat-dialog-title>{{ t('title') }}</h1>
+
+  <mat-accordion mat-dialog-content>
+    <mat-expansion-panel *ngFor="let notam of nonHiddenNotams$ | ngrxPush">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ notam.id }}</mat-panel-title>
+        <mat-panel-description>{{ notam.issuer }}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <div class="msg">{{ notam.msg }}</div>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>{{
+            t('description')
+          }}</mat-expansion-panel-header>
+          notam decoded data
+        </mat-expansion-panel>
+        <button
+          class="remove"
+          mat-raised-button
+          color="warn"
+          (click)="hide(notam.id)"
+        >
+          {{ t('permanentlyHide') }}
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div mat-dialog-actions [align]="'end'">
+    <button mat-button [mat-dialog-close]="false" cdkFocusInitial>
+      {{ t('close') }}
+    </button>
+  </div>
+</ng-template>

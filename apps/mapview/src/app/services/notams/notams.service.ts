@@ -134,34 +134,19 @@ export class NotamsService {
       );
   }
 
-  aroundPointWithFir$(
+  aroundPointWithCodes$(
     point: LngLat,
-    radius: number
+    radius: number,
+    icaoCodes: string[]
   ): Observable<INotamDecodedResponse['notamList']> {
     return this.aroundPoint$(point, radius).pipe(
       switchMap((pointNotams) =>
-        of(
-          pointNotams.notamList.reduce(
-            (acc, item) =>
-              acc.includes(item.decoded.fir) ? acc : [...acc, item.decoded.fir],
-            [] as string[]
-          )
+        this.icaoCode$(icaoCodes).pipe(
+          map((icaoCodesNotams) => [
+            ...icaoCodesNotams.notamList,
+            ...pointNotams.notamList,
+          ])
         )
-          .pipe(
-            switchMap((icaoCodes) =>
-              iif(
-                () => icaoCodes.length === 0,
-                of({ notamList: [] }),
-                this.icaoCode$(icaoCodes)
-              )
-            )
-          )
-          .pipe(
-            map((firNotams) => [
-              ...firNotams.notamList,
-              ...pointNotams.notamList,
-            ])
-          )
       )
     );
   }

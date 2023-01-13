@@ -27,13 +27,13 @@ import { AirspacesDialogComponent } from '../../airspaces-dialog/airspaces-dialo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OnMapAirSpacesComponent {
-  airSpaces$ = this.openApi.getAirSPaces$();
+  airSpaces$ = this.openAip.getAirSPaces$();
   settings$ = this.store.select(selectAirspacesSettings);
   filter$ = this.settings$.pipe(map((settings) => this.toFilter(settings)));
   paint2D$ = this.settings$.pipe(map((settings) => this.toPaint2D(settings)));
 
   constructor(
-    private readonly openApi: OpenAipService,
+    private readonly openAip: OpenAipService,
     private readonly dialog: MatDialog,
     private readonly store: Store,
     private readonly mapHelper: MapHelperFunctionsService

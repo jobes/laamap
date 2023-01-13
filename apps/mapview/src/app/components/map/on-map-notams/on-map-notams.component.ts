@@ -7,6 +7,12 @@ import { NotamsService } from '../../../services/notams/notams.service';
 import { GeoJSONSource, LngLat } from 'maplibre-gl';
 import { INotamDecodedResponse } from '../../../services/notams/notams.interface';
 import { MapService, Position } from '@maplibre/ngx-maplibre-gl';
+import { MatDialog } from '@angular/material/dialog';
+import { NotamsDialogComponent } from '../../notams-dialog/notams-dialog.component';
+import { Store } from '@ngrx/store';
+import { selectNonHiddenNotams } from '../../../store/core/core.selectors';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'laamap-on-map-notams',
@@ -19,7 +25,11 @@ export class OnMapNotamsComponent {
     private readonly notams: NotamsService,
     private readonly mapHelper: MapHelperFunctionsService,
     private readonly dataBusService: DataBusService,
-    private readonly mapService: MapService
+    private readonly mapService: MapService,
+    private readonly dialog: MatDialog,
+    private readonly store: Store,
+    private readonly snackBar: MatSnackBar,
+    private readonly translocoService: TranslocoService
   ) {
     this.dataBusService.geolocation
       .pipe(
@@ -27,14 +37,25 @@ export class OnMapNotamsComponent {
         take(1),
         switchMap((event) =>
           this.notams
-            .aroundPointWithFir$(
+            .aroundPointWithCodes$(
               new LngLat(event.coords.longitude, event.coords.latitude),
-              100000 // 100km radius
+              100000, // 100km radius
+              ['LZBB']
             )
             .pipe(map((notams) => this.notams.notamsToGeoJson(notams)))
-        )
+        ),
+        switchMap((notams) => this.store.select(selectNonHiddenNotams(notams)))
       )
       .subscribe((geoJson) => {
+        this.snackBar.open(
+          this.translocoService.translate('notams.loaded'),
+          undefined,
+          {
+            duration: 5000,
+            politeness: 'polite',
+          }
+        );
+
         const source = this.mapService.getSource<GeoJSONSource>('notamsSource');
         source.setData(geoJson as GeoJSON.GeoJSON);
       });
@@ -43,14 +64,18 @@ export class OnMapNotamsComponent {
   click(event: {
     features?: Feature<Geometry, GeoJsonProperties>[] | undefined;
   }): void {
+    this.dialog.getDialogById('airspaceDialog')?.close();
     const notams = event.features?.map(
       (feature) =>
         this.mapHelper.decodeGeoJsonProperties(
           feature.properties
         ) as INotamDecodedResponse['notamList'][0]
     );
-    console.log(
-      notams?.map((n) => ({ issuer: n.decoded.issuer, msg: n.decoded.msg }))
-    );
+
+    this.dialog.open(NotamsDialogComponent, {
+      width: '100%',
+      data: notams?.map((notam) => notam.decoded),
+      id: 'notamDialog',
+    });
   }
 }

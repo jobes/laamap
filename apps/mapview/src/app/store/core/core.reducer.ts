@@ -29,6 +29,9 @@ const initialState = {
     urls: null as IRainViewerUrls | null,
   },
   airSpaces: AirspacesDefault,
+  notams: {
+    hiddenList: [] as string[],
+  },
 };
 
 export type AppState = { core: typeof initialState };
@@ -181,6 +184,19 @@ export const coreReducer = createReducer(
       airSpaces: {
         ...state.airSpaces,
         [airspaceType]: { ...state.airSpaces[airspaceType], minZoom },
+      },
+    })
+  ),
+  on(
+    coreActions.notamsSettings.hide,
+    (state, { notamId }): AppState['core'] => ({
+      ...state,
+      notams: {
+        ...state.notams,
+        hiddenList: [
+          ...state.notams.hiddenList.filter((nId) => nId !== notamId), // to avoid duplicity
+          notamId,
+        ],
       },
     })
   )

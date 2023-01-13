@@ -226,6 +226,12 @@
       "true": "Ano"
     }
   },
+  "notamsDialog": {
+    "title": "Notam",
+    "close": "Zavrieť",
+    "description": "Popis",
+    "permanentlyHide": "Trvalo skryť"
+  },
   "shared": {
     "altitude": {
       "heighUnit": {
@@ -239,5 +245,8 @@
         "2": "FL"
       }
     }
+  },
+  "notams": {
+    "loaded": "Notamy načítané a zobrazené na mape"
   }
 }

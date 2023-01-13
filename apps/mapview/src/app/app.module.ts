@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapComponent } from './components/map/map.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -43,6 +44,7 @@ import { OnMapAirSpacesComponent } from './components/map/on-map-air-spaces/on-m
 import { AirspacesDialogComponent } from './components/airspaces-dialog/airspaces-dialog.component';
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
 import { OnMapNotamsComponent } from './components/map/on-map-notams/on-map-notams.component';
+import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { OnMapNotamsComponent } from './components/map/on-map-notams/on-map-nota
     AirspacesDialogComponent,
     AirspacesSettingsComponent,
     OnMapNotamsComponent,
+    NotamsDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,6 +91,7 @@ import { OnMapNotamsComponent } from './components/map/on-map-notams/on-map-nota
     MatSelectModule,
     MatTooltipModule,
     MatSliderModule,
+    MatSnackBarModule,
     LetModule,
     PushModule,
     StoreModule.forRoot(
