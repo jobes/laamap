@@ -36,12 +36,16 @@ export class NotamsService {
     body.set('offset', offset.toString());
     body.set('notamsOnly', 'false');
     return this.http
-      .post<INotamResponse>(`${this.notamProxy}/notamSearch/search`, body.toString(), {
-        headers: new HttpHeaders().set(
-          'Content-Type',
-          'application/x-www-form-urlencoded'
-        ),
-      })
+      .post<INotamResponse>(
+        `${this.notamProxy}/notamSearch/search`,
+        body.toString(),
+        {
+          headers: new HttpHeaders().set(
+            'Content-Type',
+            'application/x-www-form-urlencoded'
+          ),
+        }
+      )
       .pipe(
         switchMap((resp) =>
           iif(
@@ -105,12 +109,16 @@ export class NotamsService {
     body.set('radiusSearchOnDesignator', 'false');
 
     return this.http
-      .post<INotamResponse>(`${this.notamProxy}/notamSearch/search`, body.toString(), {
-        headers: new HttpHeaders().set(
-          'Content-Type',
-          'application/x-www-form-urlencoded'
-        ),
-      })
+      .post<INotamResponse>(
+        `${this.notamProxy}/notamSearch/search`,
+        body.toString(),
+        {
+          headers: new HttpHeaders().set(
+            'Content-Type',
+            'application/x-www-form-urlencoded'
+          ),
+        }
+      )
       .pipe(
         switchMap((resp) =>
           iif(

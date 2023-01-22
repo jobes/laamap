@@ -8,10 +8,5 @@
     "Notams",
     "transloco"
   ],
-  "conventionalCommits.scopes": [
-    "radar",
-    "airports",
-    "airfields",
-    "notams"
-  ]
+  "conventionalCommits.scopes": ["radar", "airports", "airfields", "notams"]
 }
