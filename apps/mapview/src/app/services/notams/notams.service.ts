@@ -26,7 +26,7 @@ export type NotamGeoJson = turf.FeatureCollection<
   providedIn: 'root',
 })
 export class NotamsService {
-  readonly notamProxy = 'http://notams.cezmatrix.sk';
+  readonly notamProxy = 'https://notams.cezmatrix.sk';
   constructor(private http: HttpClient) {}
 
   icaoCode$(icao: string[], offset = 0): Observable<INotamDecodedResponse> {
