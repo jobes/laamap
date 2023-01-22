@@ -26,6 +26,7 @@ export type NotamGeoJson = turf.FeatureCollection<
   providedIn: 'root',
 })
 export class NotamsService {
+  readonly notamProxy = 'http://notams.cezmatrix.sk';
   constructor(private http: HttpClient) {}
 
   icaoCode$(icao: string[], offset = 0): Observable<INotamDecodedResponse> {
@@ -35,7 +36,7 @@ export class NotamsService {
     body.set('offset', offset.toString());
     body.set('notamsOnly', 'false');
     return this.http
-      .post<INotamResponse>(`/notams/notamSearch/search`, body.toString(), {
+      .post<INotamResponse>(`${this.notamProxy}/notamSearch/search`, body.toString(), {
         headers: new HttpHeaders().set(
           'Content-Type',
           'application/x-www-form-urlencoded'
@@ -104,7 +105,7 @@ export class NotamsService {
     body.set('radiusSearchOnDesignator', 'false');
 
     return this.http
-      .post<INotamResponse>(`/notams/notamSearch/search`, body.toString(), {
+      .post<INotamResponse>(`${this.notamProxy}/notamSearch/search`, body.toString(), {
         headers: new HttpHeaders().set(
           'Content-Type',
           'application/x-www-form-urlencoded'
@@ -163,6 +164,7 @@ export class NotamsService {
       to: this.convertToDate(parts.c),
       schedule: parts.d,
       msg: this.parseMsg(parts.e),
+      originalMsg: notam,
       lowerLimit2: parts.f,
       upperLimit2: parts.g,
     };
@@ -181,7 +183,6 @@ export class NotamsService {
   }
 
   private separateToParts(notam: string): INotamParts {
-    notam = notam.replaceAll('\n', ' ');
     const qStart = notam.indexOf('Q)');
     const aStart = notam.indexOf('A)');
     const bStart = notam.indexOf('B)');

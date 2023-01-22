@@ -1,8 +1,57 @@
 .msg {
   margin-bottom: 1rem;
+  white-space: pre-wrap;
 }
 
 .remove {
   float: right;
   margin-top: 1rem;
+}
+
+.originalMsg {
+  white-space: pre-wrap;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.info {
+  .label {
+    display: block;
+    color: grey;
+    font-size: 0.8rem;
+    &::after {
+      content: ': ';
+    }
+  }
+
+  .value {
+    margin-left: 0.5rem;
+    .splitList {
+      &:not(:first-child) {
+        &::before {
+          content: ', ';
+        }
+      }
+    }
+    .optionList {
+      &:not(:first-child) {
+        &::before {
+          content: ' / ';
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .info {
+    .label {
+      display: inline;
+    }
+    .value {
+      margin-left: 0;
+    }
+  }
 }

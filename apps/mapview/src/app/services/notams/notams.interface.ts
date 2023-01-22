@@ -99,10 +99,13 @@ export interface INotamDecoded extends INotamQParsed {
   to: Date;
   schedule?: string;
   msg: string;
+  originalMsg: string;
   lowerLimit2?: string;
   upperLimit2?: string;
 }
 
 export type INotamDecodedResponse = Omit<INotamResponse, 'notamList'> & {
-  notamList: Array<INotamResponse['notamList']['0'] &{ decoded: INotamDecoded }>;
+  notamList: Array<
+    INotamResponse['notamList']['0'] & { decoded: INotamDecoded }
+  >;
 };
