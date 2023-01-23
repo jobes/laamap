@@ -511,5 +511,13 @@
   },
   "notams": {
     "loaded": "Notamy načítané a zobrazené na mape"
+  },
+  "mapView": {
+    "settings": "Nastavenia",
+    "findMyLocation": "Nájsť pozíciu",
+    "locationNotAvailable": "Pozícia nie je k dispozícii",
+    "resetBearing": "Orientovať na sever",
+    "zoomIn": "Priblížiť",
+    "zoomOut": "Vzdialiť"
   }
 }
