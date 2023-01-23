@@ -92,7 +92,12 @@
         <mat-expansion-panel-header>
           <mat-panel-title> {{ t('images') }} </mat-panel-title>
         </mat-expansion-panel-header>
-        <lightgallery [settings]="gallerySettings">
+        <lightgallery
+          [settings]="gallerySettings"
+          [onAfterOpen]="galleryOpened()"
+          [onAfterClose]="galleryClosed()"
+          [onInit]="onInit"
+        >
           <a
             href="https://www.openaip.net/api/core/airports/{{
               data._id

@@ -65,6 +65,7 @@ export class OnMapAirportComponent {
         width: '100%',
         data: airPort,
         id: 'airportDialog',
+        closeOnNavigation: false,
       });
     }
   }

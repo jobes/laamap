@@ -45,6 +45,7 @@ import { AirspacesDialogComponent } from './components/airspaces-dialog/airspace
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
 import { OnMapNotamsComponent } from './components/map/on-map-notams/on-map-notams.component';
 import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.
     MatSnackBarModule,
     LetModule,
     PushModule,
+    RouterModule.forRoot([]),
     StoreModule.forRoot(
       { core: coreReducer },
       {
