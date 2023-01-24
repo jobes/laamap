@@ -15,7 +15,7 @@
         "polyfills": "apps/mapview/src/polyfills.ts",
         "tsConfig": "apps/mapview/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/mapview/src/favicon.ico", "apps/mapview/src/assets"],
+        "assets": ["apps/mapview/src/favicon.png", "apps/mapview/src/assets"],
         "styles": [
           "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
           "./node_modules/lightgallery/scss/lightgallery.scss",
