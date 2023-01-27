@@ -104,6 +104,13 @@
         "cname": "",
         "no-silent": true
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/mapview/**/*.css", "apps/mapview/**/*.scss"]
+      }
     }
   },
   "tags": []

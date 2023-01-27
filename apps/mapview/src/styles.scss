@@ -22,11 +22,13 @@ body {
   background: none;
   width: 2rem;
   height: 2rem;
-  &:after,
-  &:before {
+
+  &::after,
+  &::before {
     all: initial;
   }
-  &:after {
+
+  &::after {
     content: '';
     width: inherit;
     height: inherit;

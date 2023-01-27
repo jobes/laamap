@@ -3,6 +3,7 @@
     display: block;
     color: grey;
     font-size: 0.8rem;
+
     &::after {
       content: ': ';
     }
@@ -10,6 +11,7 @@
 
   .value {
     margin-left: 0.5rem;
+
     .splitList {
       &:not(:first-child) {
         &::before {
@@ -44,10 +46,12 @@ mat-panel-description {
     .label {
       display: inline;
     }
+
     .value {
       margin-left: 0;
     }
   }
+
   mat-panel-description {
     display: block;
   }

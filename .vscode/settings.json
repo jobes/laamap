@@ -8,5 +8,6 @@
     "Notams",
     "transloco"
   ],
-  "conventionalCommits.scopes": ["radar", "airports", "airfields", "notams"]
+  "conventionalCommits.scopes": ["radar", "airports", "airfields", "notams"],
+  "stylelint.validate": ["css", "scss"]
 }

@@ -1,0 +1,18 @@
+{
+  "extends": ["../../.stylelintrc.json"],
+  "ignoreFiles": ["!**/*"],
+  "overrides": [
+    {
+      "files": ["**/*.scss"],
+      "customSyntax": "postcss-scss",
+      "plugins": ["stylelint-color-no-non-variables", "stylelint-no-px"],
+      "extends": "stylelint-config-standard-scss",
+      "rules": {
+        "dczajkowski/color-no-non-variables": true,
+        "meowtec/no-px": [true, { "ignore": ["1px"] }],
+        "no-empty-source": null,
+        "string-quotes": "single"
+      }
+    }
+  ]
+}

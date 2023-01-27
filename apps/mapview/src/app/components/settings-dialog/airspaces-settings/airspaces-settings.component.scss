@@ -12,9 +12,11 @@ mat-panel-description {
 
 .labeledSlider {
   position: relative;
+
   mat-slider {
     width: 100%;
   }
+
   .mat-form-field-label {
     top: 0.8rem;
   }
@@ -28,6 +30,7 @@ input[type='color'] {
   mat-panel-description {
     display: flex;
   }
+
   .description {
     display: none;
   }

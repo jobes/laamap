@@ -3,6 +3,7 @@
     display: block;
     color: grey;
     font-size: 0.8rem;
+
     &::after {
       content: ': ';
     }
@@ -10,6 +11,7 @@
 
   .value {
     margin-left: 0.5rem;
+
     .splitList {
       &:not(:first-child) {
         &::before {
@@ -34,6 +36,7 @@ mat-accordion {
     .label {
       display: inline;
     }
+
     .value {
       margin-left: 0;
     }
