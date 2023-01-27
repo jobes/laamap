@@ -11,9 +11,9 @@
 
 Map icon [Plane icons created by Good Ware - Flaticon](https://www.flaticon.com/free-icons/plane).
 
-
 ### Proxy for NOTAM CORS problem
-as [notams.aim.faa.gov](https://notams.aim.faa.gov) does not work for browser app because of CORS, a proxy is needed. Config for NGINX:
+
+As [notams.aim.faa.gov](https://notams.aim.faa.gov) does not work for browser app because of CORS, a proxy is needed. Config for NGINX:
 
 ```
 server {
