@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { iif, switchMap } from 'rxjs';
+
 import { RainViewerService } from '../../../services/rain-viewer.service';
 import { selectRadar } from '../../../store/core/core.selectors';
 import {

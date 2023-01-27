@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MapComponent } from '@maplibre/ngx-maplibre-gl';
 import { ExpressionFilterSpecification } from 'maplibre-gl';
 import { forkJoin } from 'rxjs';
+
 import { MapHelperFunctionsService } from '../../../services/map-helper-functions/map-helper-functions.service';
 import {
   EAirportType,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MapComponent } from '@maplibre/ngx-maplibre-gl';
-import { fromEvent, map, Observable, take, tap } from 'rxjs';
+import { Observable, fromEvent, map, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

@@ -2,6 +2,7 @@ import {
   TranslocoTestingModule,
   TranslocoTestingOptions,
 } from '@ngneat/transloco';
+
 import en from '../../assets/i18n/en.json';
 import sk from '../../assets/i18n/sk.json';
 

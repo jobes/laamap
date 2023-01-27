@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EventData, Position } from '@maplibre/ngx-maplibre-gl';
 import { MapLibreEvent } from 'maplibre-gl';
-import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
+
 import { DataBusService } from '../../services/data-bus.service';
+import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const AbsoluteOrientationSensor: any;

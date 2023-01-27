@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import * as turf from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
-import { iif, map, Observable, of, switchMap } from 'rxjs';
+import { Observable, iif, map, of, switchMap } from 'rxjs';
+
 import { notamTranslations } from './notam-translations';
 import {
   INotamDecoded,
@@ -10,7 +12,6 @@ import {
   INotamQParsed,
   INotamResponse,
 } from './notams.interface';
-import * as turf from '@turf/turf';
 
 // data getting https://github.com/avwx-rest/avwx-engine/blob/aa929745559ad815e250a3e8bbe6166235a8c53d/avwx/service/scrape.py
 // decode structure https://www.theairlinepilots.com/flightplanningforairlinepilots/notamdecode.php

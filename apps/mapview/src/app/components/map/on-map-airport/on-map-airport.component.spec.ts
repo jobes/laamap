@@ -4,8 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { PushModule } from '@ngrx/component';
 import { of } from 'rxjs';
-import { OpenAipService } from '../../../services/open-aip/open-aip.service';
 
+import { OpenAipService } from '../../../services/open-aip/open-aip.service';
 import { OnMapAirportComponent } from './on-map-airport.component';
 
 describe('OnMapAirportComponent', () => {

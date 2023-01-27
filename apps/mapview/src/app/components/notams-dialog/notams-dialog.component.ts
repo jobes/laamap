@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs';
+
 import { INotamDecoded } from '../../services/notams/notams.interface';
 import { notamsSettings } from '../../store/core/core.actions';
 import { selectNonHiddenDecodedNotams } from '../../store/core/core.selectors';

@@ -1,5 +1,6 @@
 import { ActionReducer } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
+
 import { AppState } from '../core/core.reducer';
 
 export function localStorageSyncReducer(
@@ -8,6 +9,4 @@ export function localStorageSyncReducer(
   return localStorageSync({ keys: ['core'], rehydrate: true })(reducer);
 }
 
-export const metaReducers = [
-  localStorageSyncReducer,
-];
+export const metaReducers = [localStorageSyncReducer];

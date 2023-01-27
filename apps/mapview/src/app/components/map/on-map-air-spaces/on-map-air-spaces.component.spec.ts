@@ -5,8 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
-import { OpenAipService } from '../../../services/open-aip/open-aip.service';
 
+import { OpenAipService } from '../../../services/open-aip/open-aip.service';
 import { OnMapAirSpacesComponent } from './on-map-air-spaces.component';
 
 describe('OnMapAirSpacesComponent', () => {

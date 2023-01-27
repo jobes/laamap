@@ -19,7 +19,7 @@
           },
           "background": {
             "activeOnStart": true,
-            "beginsPattern":"Warning",
+            "beginsPattern": "Warning",
             "endsPattern": "Compiled successfully."
           }
         }

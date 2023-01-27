@@ -1,11 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
+
 import { IRainViewerUrls } from '../../services/rain-viewer.interface';
+import { AirspacesDefault } from './airspaces-defauls';
 import {
   RadarSettingsActions,
   rainViewersWidgetSettings,
 } from './core.actions';
 import * as coreActions from './core.actions';
-import { AirspacesDefault } from './airspaces-defauls';
 
 const initialState = {
   radar: {

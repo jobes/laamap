@@ -1,18 +1,19 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { filter, map, switchMap, take } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MapService, Position } from '@maplibre/ngx-maplibre-gl';
+import { TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
 import { Feature, GeoJsonProperties, Geometry } from 'geojson';
+import { GeoJSONSource, LngLat } from 'maplibre-gl';
+import { filter, map, switchMap, take } from 'rxjs';
+
 import { DataBusService } from '../../../services/data-bus.service';
 import { MapHelperFunctionsService } from '../../../services/map-helper-functions/map-helper-functions.service';
-import { NotamsService } from '../../../services/notams/notams.service';
-import { GeoJSONSource, LngLat } from 'maplibre-gl';
 import { INotamDecodedResponse } from '../../../services/notams/notams.interface';
-import { MapService, Position } from '@maplibre/ngx-maplibre-gl';
-import { MatDialog } from '@angular/material/dialog';
-import { NotamsDialogComponent } from '../../notams-dialog/notams-dialog.component';
-import { Store } from '@ngrx/store';
+import { NotamsService } from '../../../services/notams/notams.service';
 import { selectNonHiddenNotams } from '../../../store/core/core.selectors';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslocoService } from '@ngneat/transloco';
+import { NotamsDialogComponent } from '../../notams-dialog/notams-dialog.component';
 
 @Component({
   selector: 'laamap-on-map-notams',

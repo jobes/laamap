@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { map, pipe, startWith, switchMap, timer } from 'rxjs';
+
 import { selectRadar } from './core.selectors';
 
 function animationSpeedStepDuration(percentage: number): number {

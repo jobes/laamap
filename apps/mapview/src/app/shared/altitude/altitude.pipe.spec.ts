@@ -1,4 +1,5 @@
 import { TranslocoService } from '@ngneat/transloco';
+
 import { AltitudePipe } from './altitude.pipe';
 
 describe('AltitudePipe', () => {

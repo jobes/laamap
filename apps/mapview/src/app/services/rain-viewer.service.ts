@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+
 import { IRainViewerUrls } from './rain-viewer.interface';
 
 @Injectable({

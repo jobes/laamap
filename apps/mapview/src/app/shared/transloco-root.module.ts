@@ -1,15 +1,16 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable, NgModule } from '@angular/core';
 import {
+  TRANSLOCO_CONFIG,
   TRANSLOCO_LOADER,
   Translation,
   TranslocoLoader,
-  TRANSLOCO_CONFIG,
-  translocoConfig,
   TranslocoModule,
+  translocoConfig,
 } from '@ngneat/transloco';
-import { Inject, Injectable, NgModule } from '@angular/core';
+
 import { environment } from '../../environments/environment';
-import { APP_BASE_HREF } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {

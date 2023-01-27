@@ -1,4 +1,5 @@
 import { TranslocoService } from '@ngneat/transloco';
+
 import { DimensionPipe } from './dimension.pipe';
 
 describe('DimensionPipe', () => {

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { RainViewerService } from '../../../services/rain-viewer.service';
 
+import { RainViewerService } from '../../../services/rain-viewer.service';
 import { RadarWidgetComponent } from './radar-widget.component';
 
 describe('RadarWidgetComponent', () => {
