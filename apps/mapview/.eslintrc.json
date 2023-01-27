@@ -24,13 +24,133 @@
             "prefix": "laamap",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "complexity": ["warn", 5],
+        "max-depth": ["error", 4],
+        "max-lines": "warn",
+        "max-params": "warn",
+        "max-lines-per-function": ["warn", 30],
+        "max-nested-callbacks": ["error", 3],
+        "max-statements": ["warn", 10]
       }
     },
     {
       "files": ["*.html"],
       "extends": ["plugin:@nrwl/nx/angular-template"],
       "rules": {}
+    },
+    {
+      "files": ["*.ts"],
+      "excludedFiles": [
+        "jest.config.ts",
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "test-setup.ts",
+        "src/polyfills.ts",
+        "src/environments/environment.prod.ts",
+        "src/app/shared/transloco-testing.module.ts"
+      ],
+      "plugins": ["rxjs", "rxjs-angular"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:rxjs/recommended"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": ["apps/mapview/tsconfig.app.json"],
+        "sourceType": "module"
+      },
+      "rules": {
+        "arrow-body-style": ["warn", "as-needed"],
+        "@typescript-eslint/naming-convention": "warn",
+        "@typescript-eslint/member-ordering": [
+          "warn",
+          {
+            "default": [
+              "public-static-field",
+              "protected-static-field",
+              "private-static-field",
+              "static-method",
+              "public-decorated-field",
+              "protected-decorated-field",
+              "private-decorated-field",
+              "public-instance-field",
+              "protected-instance-field",
+              "private-instance-field",
+              "public-abstract-field",
+              "protected-abstract-field",
+              "constructor",
+              "public-method",
+              "protected-method",
+              "private-method"
+            ]
+          }
+        ],
+        "no-console": "warn",
+        "rxjs-angular/prefer-takeuntil": [
+          "error",
+          {
+            "alias": ["untilDestroyed", "take"],
+            "checkComplete": true
+          }
+        ],
+        "rxjs-angular/prefer-async-pipe": "warn",
+        "rxjs/suffix-subjects": [
+          "warn",
+          {
+            "parameters": true,
+            "properties": true,
+            "suffix": "Subj",
+            "types": {
+              "^EventEmitter$": false
+            },
+            "variables": true
+          }
+        ],
+        "rxjs/finnish": [
+          "error",
+          {
+            "functions": true,
+            "methods": true,
+            "names": {
+              "^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$": false
+            },
+            "parameters": true,
+            "properties": true,
+            "strict": true,
+            "types": {
+              "^EventEmitter$": false,
+              "^Store": false
+            },
+            "variables": true
+          }
+        ],
+        "rxjs/no-compat": "error",
+        "rxjs/no-explicit-generics": "warn",
+        "rxjs/no-exposed-subjects": "warn",
+        "rxjs/no-ignored-error": "warn",
+
+        "rxjs/no-unsafe-switchmap": [
+          "error",
+          {
+            "disallow": [
+              "add",
+              "create",
+              "delete",
+              "post",
+              "put",
+              "remove",
+              "set",
+              "update"
+            ],
+            "observable": "[Aa]ction(s|s\\$|\\$)$"
+          }
+        ],
+        "rxjs/throw-error": "warn",
+        "rxjs/no-subclass": "warn"
+      }
     }
   ]
 }
