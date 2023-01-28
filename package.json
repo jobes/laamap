@@ -51,6 +51,8 @@
     "@angular/cli": "~15.0.0",
     "@angular/compiler-cli": "15.0.4",
     "@angular/language-service": "15.0.4",
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
     "@google-cloud/storage": "^6.5.4",
     "@ngneat/transloco-keys-manager": "^3.5.0",
     "@ngrx/eslint-plugin": "15.1.0",
