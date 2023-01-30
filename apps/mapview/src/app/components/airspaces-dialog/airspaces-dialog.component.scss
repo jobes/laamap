@@ -1,8 +1,6 @@
 .info {
-  .label {
-    display: block;
-    color: grey;
-    font-size: 0.8rem;
+  .mat-caption {
+    color: var(--label-color);
 
     &::after {
       content: ': ';
@@ -11,14 +9,6 @@
 
   .value {
     margin-left: 0.5rem;
-
-    .splitList {
-      &:not(:first-child) {
-        &::before {
-          content: ', ';
-        }
-      }
-    }
   }
 }
 

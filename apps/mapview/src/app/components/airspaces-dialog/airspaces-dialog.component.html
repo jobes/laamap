@@ -14,60 +14,60 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div class="info">
-        <span class="label">{{ t('name') }}</span>
+        <span class="mat-caption">{{ t('name') }}</span>
         <span class="value">{{ airSpace.name }}</span>
       </div>
       <div class="info">
-        <span class="label">{{ t('icaoClass') }}</span>
+        <span class="mat-caption">{{ t('icaoClass') }}</span>
         <span class="value">{{ t('class.' + airSpace.icaoClass) }}</span>
       </div>
       <div class="info">
-        <span class="label">{{ t('lowerLimit') }}</span>
+        <span class="mat-caption">{{ t('lowerLimit') }}</span>
         <span class="value"
           >{{ airSpace.lowerLimit | altitude }}
-          <span *ngIf="airSpace.lowerLimit.unit !== EHeightUnit.FLIGHT_LEVEL">
-            ({{ airSpace.lowerLimit | altitude : EHeightUnit.METERS }})
+          <span *ngIf="airSpace.lowerLimit.unit !== eHeightUnit.flightLevel">
+            ({{ airSpace.lowerLimit | altitude : eHeightUnit.meter }})
           </span>
         </span>
       </div>
       <div class="info">
-        <span class="label">{{ t('upperLimit') }}</span>
+        <span class="mat-caption">{{ t('upperLimit') }}</span>
         <span class="value"
           >{{ airSpace.upperLimit | altitude }}
-          <span *ngIf="airSpace.upperLimit.unit !== EHeightUnit.FLIGHT_LEVEL">
-            ({{ airSpace.upperLimit | altitude : EHeightUnit.METERS }})
+          <span *ngIf="airSpace.upperLimit.unit !== eHeightUnit.flightLevel">
+            ({{ airSpace.upperLimit | altitude : eHeightUnit.meter }})
           </span>
         </span>
       </div>
       <div class="info">
-        <span class="label">{{ t('type') }}</span>
+        <span class="mat-caption">{{ t('type') }}</span>
         <span class="value"
           >{{ t('types.' + airSpace.type) }}
           {{ t('typesLong.' + airSpace.type) }}</span
         >
       </div>
       <div class="info">
-        <span class="label">{{ t('activity') }}</span>
+        <span class="mat-caption">{{ t('activity') }}</span>
         <span class="value">{{ t('activities.' + airSpace.activity) }}</span>
       </div>
       <div class="info">
-        <span class="label">{{ t('byNotam') }}</span>
+        <span class="mat-caption">{{ t('byNotam') }}</span>
         <span class="value">{{ t('boolean.' + airSpace.byNotam) }}</span>
       </div>
       <div class="info">
-        <span class="label">{{ t('onDemand') }}</span>
+        <span class="mat-caption">{{ t('onDemand') }}</span>
         <span class="value">{{ t('boolean.' + airSpace.onDemand) }}</span>
       </div>
       <div class="info">
-        <span class="label">{{ t('onRequest') }}</span>
+        <span class="mat-caption">{{ t('onRequest') }}</span>
         <span class="value">{{ t('boolean.' + airSpace.onRequest) }}</span>
       </div>
       <div class="info">
-        <span class="label">{{ t('requestCompliance') }}</span>
+        <span class="mat-caption">{{ t('requestCompliance') }}</span>
         <span class="value">{{ airSpace.requestCompliance }}</span>
       </div>
       <div class="info">
-        <span class="label">{{ t('specialAgreement') }}</span>
+        <span class="mat-caption">{{ t('specialAgreement') }}</span>
         <span class="value">{{
           t('boolean.' + airSpace.specialAgreement)
         }}</span>

@@ -9,6 +9,7 @@ import { GeoJSONSource, LngLat } from 'maplibre-gl';
 import { filter, map, switchMap, take } from 'rxjs';
 
 import { DataBusService } from '../../../services/data-bus.service';
+import { LoggerService } from '../../../services/logger/logger.service';
 import { MapHelperFunctionsService } from '../../../services/map-helper-functions/map-helper-functions.service';
 import { INotamDecodedResponse } from '../../../services/notams/notams.interface';
 import { NotamsService } from '../../../services/notams/notams.service';
@@ -30,36 +31,10 @@ export class OnMapNotamsComponent {
     private readonly dialog: MatDialog,
     private readonly store: Store,
     private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly loggingService: LoggerService
   ) {
-    this.dataBusService.geolocation
-      .pipe(
-        filter((event): event is Position => !!event),
-        take(1),
-        switchMap((event) =>
-          this.notams
-            .aroundPointWithCodes$(
-              new LngLat(event.coords.longitude, event.coords.latitude),
-              100000, // 100km radius
-              ['LZBB']
-            )
-            .pipe(map((notams) => this.notams.notamsToGeoJson(notams)))
-        ),
-        switchMap((notams) => this.store.select(selectNonHiddenNotams(notams)))
-      )
-      .subscribe((geoJson) => {
-        this.snackBar.open(
-          this.translocoService.translate('notams.loaded'),
-          undefined,
-          {
-            duration: 5000,
-            politeness: 'polite',
-          }
-        );
-
-        const source = this.mapService.getSource<GeoJSONSource>('notamsSource');
-        source.setData(geoJson as GeoJSON.GeoJSON);
-      });
+    this.loadNotamsOnFirstLocationLocked();
   }
 
   click(event: {
@@ -78,5 +53,48 @@ export class OnMapNotamsComponent {
       data: notams?.map((notam) => notam.decoded),
       id: 'notamDialog',
     });
+  }
+
+  private loadNotamsOnFirstLocationLocked(): void {
+    this.dataBusService.geolocation$
+      .pipe(
+        filter((event): event is Position => !!event),
+        take(1),
+        switchMap((event) =>
+          this.notams
+            .aroundPointWithCodes$(
+              new LngLat(event.coords.longitude, event.coords.latitude),
+              100000, // 100km radius
+              ['LZBB']
+            )
+            .pipe(map((notams) => this.notams.notamsToGeoJson(notams)))
+        ),
+        switchMap((notams) => this.store.select(selectNonHiddenNotams(notams)))
+      )
+      .subscribe({
+        next: (geoJson) => {
+          this.notamsLoaded(geoJson);
+        },
+        error: () => {
+          this.loggingService.logErrorMsg(
+            'onMapNotams first location locked',
+            'Could not load notams from backend'
+          );
+        },
+      });
+  }
+
+  private notamsLoaded(geoJson: GeoJSON.GeoJSON): void {
+    this.snackBar.open(
+      this.translocoService.translate('notams.loaded'),
+      undefined,
+      {
+        duration: 5000,
+        politeness: 'polite',
+      }
+    );
+
+    const source = this.mapService.getSource<GeoJSONSource>('notamsSource');
+    source.setData(geoJson);
   }
 }

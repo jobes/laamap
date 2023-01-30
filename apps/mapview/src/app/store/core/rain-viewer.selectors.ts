@@ -22,7 +22,7 @@ export const selectRadarUrlsTypeRadar = (tileSize: number) =>
       })) ?? []),
     ].map((item) => ({
       ...(item as Omit<typeof item, 'path'>),
-      url: `${radar.urls?.host}${item.path}/${tileSize}/{z}/{x}/{y}/${
+      url: `${radar.urls?.host ?? ''}${item.path}/${tileSize}/{z}/{x}/{y}/${
         radar.colorScheme
       }/${radar.smooth ? 1 : 0}_${radar.snow ? 1 : 0}.png`,
     }))
@@ -36,9 +36,9 @@ export const selectRadarUrlsTypeSatellite = (tileSize: number) =>
         .map((item) => ({ ...item, past: true }))
         .map((item) => ({
           ...(item as Omit<typeof item, 'path'>),
-          url: `${radar.urls?.host}${item.path}/${tileSize}/{z}/{x}/{y}/0/${
-            radar.smooth ? 1 : 0
-          }_0.png`,
+          url: `${radar.urls?.host ?? ''}${
+            item.path
+          }/${tileSize}/{z}/{x}/{y}/0/${radar.smooth ? 1 : 0}_0.png`,
         })) || []
   );
 
@@ -47,13 +47,13 @@ export const selectRadarUrlsTypeCoverage = createSelector(
   (radar) => [
     {
       opacity: radar.opacity / 100,
-      url: `${radar.urls?.host}/${radar.urls?.coverage}`,
+      url: `${radar.urls?.host ?? ''}/${radar.urls?.coverage ?? ''}`,
     },
   ]
 );
 
-export const selectRadarWithAnimation = (tileSize: number) => {
-  return pipe(
+export const selectRadarWithAnimation = (tileSize: number) =>
+  pipe(
     map(
       (state: object) =>
         [selectRadarUrlsTypeRadar(tileSize)(state), selectRadar(state)] as const
@@ -70,35 +70,42 @@ export const selectRadarWithAnimation = (tileSize: number) => {
             active: index === interval % items.length,
           }))
         ),
-        switchMap((items) =>
-          timer(0, 50).pipe(
-            map((animationInterval) =>
-              items.map((layer) => ({
-                url: layer.url,
-                time: layer.time,
-                past: layer.past,
-                active: layer.active,
-                opacity: !layer.visible
-                  ? 0
-                  : layer.active
-                  ? radar.opacity / 100
-                  : Math.max(
-                      ((10 - (animationInterval ?? 0)) / 10) *
-                        radar.opacity *
-                        0.0075,
-                      0
-                    ),
-              }))
-            )
-          )
-        )
+        switchMap((items) => radarAnimation(radar.opacity, items))
       )
     )
   );
-};
 
-export const selectSatelliteWithAnimation = (tileSize: number) => {
-  return pipe(
+const radarAnimation = (
+  opacity: number,
+  items: {
+    visible: boolean;
+    active: boolean;
+    url: string;
+    past: boolean;
+    time: number;
+  }[]
+) =>
+  timer(0, 50).pipe(
+    map((animationInterval) =>
+      items.map((layer) => ({
+        url: layer.url,
+        time: layer.time,
+        past: layer.past,
+        active: layer.active,
+        opacity: !layer.visible
+          ? 0
+          : layer.active
+          ? opacity / 100
+          : Math.max(
+              ((10 - (animationInterval ?? 0)) / 10) * opacity * 0.0075,
+              0
+            ),
+      }))
+    )
+  );
+
+export const selectSatelliteWithAnimation = (tileSize: number) =>
+  pipe(
     map(
       (state: object) =>
         [
@@ -119,4 +126,3 @@ export const selectSatelliteWithAnimation = (tileSize: number) => {
       )
     )
   );
-};

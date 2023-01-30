@@ -2,12 +2,12 @@
   <h1 mat-dialog-title>{{ t('title', data) }}</h1>
   <div mat-dialog-content>
     <div class="info">
-      <span class="label">{{ t('type') }}</span>
+      <span class="mat-caption">{{ t('type') }}</span>
       <span class="value">
         {{ t('types.' + data.type) }}
         <span *ngIf="data.trafficType?.length"
           >(<span
-            class="splitList"
+            class="split-list"
             *ngFor="let trafficType of data.trafficType"
             >{{ t('trafficTypes.' + trafficType) }}</span
           >)</span
@@ -15,24 +15,24 @@
       </span>
     </div>
     <div class="info">
-      <span class="label">{{ t('elevation') }}</span>
+      <span class="mat-caption">{{ t('elevation') }}</span>
       <span class="value">{{ data.elevation | altitude }}</span>
     </div>
     <div class="info">
-      <span class="label">{{ t('magneticDeclination') }}</span>
+      <span class="mat-caption">{{ t('magneticDeclination') }}</span>
       <span class="value">{{ data.magneticDeclination }}°</span>
     </div>
     <div class="info">
-      <span class="label">{{ t('private') }}</span>
+      <span class="mat-caption">{{ t('private') }}</span>
       <span class="value">{{ t('boolean.' + data.private) }}</span>
     </div>
     <div class="info">
-      <span class="label">{{ t('skydiveActivity') }}</span>
+      <span class="mat-caption">{{ t('skydiveActivity') }}</span>
       <span class="value">{{ t('boolean.' + data.skydiveActivity) }}</span>
     </div>
 
     <div class="info" *ngFor="let freq of data.frequencies">
-      <span class="label"
+      <span class="mat-caption"
         >{{ t('frequency') }} {{ t('frequencies.types.' + freq.type) }}</span
       >
       <span class="value" [class.highlight]="freq.primary"
@@ -54,33 +54,39 @@
               </mat-panel-title></mat-expansion-panel-header
             >
             <div class="info">
-              <span class="label">{{ t('runwaysDetail.length') }}</span>
+              <span class="mat-caption">{{ t('runwaysDetail.length') }}</span>
               <span class="value">{{
                 runway.dimension.length | dimension
               }}</span>
             </div>
             <div class="info">
-              <span class="label">{{ t('runwaysDetail.width') }}</span>
+              <span class="mat-caption">{{ t('runwaysDetail.width') }}</span>
               <span class="value">{{
                 runway.dimension.width | dimension
               }}</span>
             </div>
             <div class="info">
-              <span class="label">{{ t('runwaysDetail.operation') }}</span>
+              <span class="mat-caption">{{
+                t('runwaysDetail.operation')
+              }}</span>
               <span class="value">{{
                 t('runwaysDetail.operations.' + runway.operations)
               }}</span>
             </div>
             <div class="info" *ngIf="runway.remarks">
-              <span class="label">{{ t('runwaysDetail.remarks') }}</span>
+              <span class="mat-caption">{{ t('runwaysDetail.remarks') }}</span>
               <span class="value">{{ runway.remarks }}</span>
             </div>
             <div class="info">
-              <span class="label">{{ t('runwaysDetail.trueHeading') }}</span>
+              <span class="mat-caption">{{
+                t('runwaysDetail.trueHeading')
+              }}</span>
               <span class="value">{{ runway.trueHeading }}°</span>
             </div>
             <div class="info">
-              <span class="label">{{ t('runwaysDetail.turnDirection') }}</span>
+              <span class="mat-caption">{{
+                t('runwaysDetail.turnDirection')
+              }}</span>
               <span class="value">{{
                 t('runwaysDetail.turnDirections.' + runway.turnDirection)
               }}</span>

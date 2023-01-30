@@ -4,10 +4,17 @@ import { EventData, Position } from '@maplibre/ngx-maplibre-gl';
 import { MapLibreEvent } from 'maplibre-gl';
 
 import { DataBusService } from '../../services/data-bus.service';
+import { LoggerService } from '../../services/logger/logger.service';
 import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare const AbsoluteOrientationSensor: any;
+declare class AbsoluteOrientationSensor {
+  constructor(param: { referenceFrame: 'screen' });
+  addEventListener(
+    eventName: 'reading',
+    eventValue: (param: { target: { quaternion: number[] } }) => void
+  ): void;
+  start(): void;
+}
 
 @Component({
   selector: 'laamap-map',
@@ -18,13 +25,21 @@ declare const AbsoluteOrientationSensor: any;
 export class MapComponent {
   constructor(
     private dialog: MatDialog,
-    private readonly dataBusService: DataBusService
+    private readonly dataBusService: DataBusService,
+    private readonly logger: LoggerService
   ) {
-    this.requestCompassPermission().then((res) => {
-      if (res) {
-        this.setupCompass()?.start();
-      }
-    });
+    this.requestCompassPermission()
+      .then((res) => {
+        if (res) {
+          this.setupCompass()?.start();
+        }
+      })
+      .catch(() => {
+        this.logger.logErrorMsg(
+          'mapComponent compass permission',
+          'Can not get permission for using compass'
+        );
+      });
   }
 
   openSettingsDialog(): void {
@@ -43,7 +58,7 @@ export class MapComponent {
   }
 
   geolocate(event: Position): void {
-    this.dataBusService.rawGeolocation.next(event);
+    this.dataBusService.setGeoLocation(event);
   }
 
   private async requestCompassPermission(): Promise<boolean> {
@@ -58,25 +73,22 @@ export class MapComponent {
     return result;
   }
 
-  private setupCompass(): { start: () => void } | undefined {
+  private setupCompass(): AbsoluteOrientationSensor | undefined {
     if (`AbsoluteOrientationSensor` in window) {
       const sensor = new AbsoluteOrientationSensor({
         referenceFrame: 'screen',
       });
-      sensor.addEventListener(
-        'reading',
-        (e: { target: { quaternion: number[] } }) => {
-          const q = e.target.quaternion;
-          const heading =
-            Math.atan2(
-              2 * q[0] * q[1] + 2 * q[2] * q[3],
-              1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]
-            ) *
-            (-180 / Math.PI);
+      sensor.addEventListener('reading', (e) => {
+        const q = e.target.quaternion;
+        const heading =
+          Math.atan2(
+            2 * q[0] * q[1] + 2 * q[2] * q[3],
+            1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]
+          ) *
+          (-180 / Math.PI);
 
-          document.documentElement.style.setProperty('--heading', `${heading}`);
-        }
-      );
+        document.documentElement.style.setProperty('--heading', `${heading}`);
+      });
       return sensor;
     }
     return undefined;

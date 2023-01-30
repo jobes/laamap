@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { IRainViewerUrls } from '../../services/rain-viewer.interface';
-import { AirspacesDefault } from './airspaces-defauls';
+import { airspacesDefault } from './airspaces-defauls';
 import {
-  RadarSettingsActions,
+  radarSettingsActions,
   rainViewersWidgetSettings,
 } from './core.actions';
 import * as coreActions from './core.actions';
@@ -29,7 +29,7 @@ const initialState = {
     },
     urls: null as IRainViewerUrls | null,
   },
-  airSpaces: AirspacesDefault,
+  airSpaces: airspacesDefault,
   notams: {
     hiddenList: [] as string[],
   },
@@ -40,63 +40,63 @@ export type AppState = { core: typeof initialState };
 export const coreReducer = createReducer(
   initialState,
   on(
-    RadarSettingsActions.enabledChanged,
+    radarSettingsActions.enabledChanged,
     (state, { enabled }): AppState['core'] => ({
       ...state,
       radar: { ...state.radar, enabled },
     })
   ),
   on(
-    RadarSettingsActions.enabledWidgetChanged,
+    radarSettingsActions.enabledWidgetChanged,
     (state, { enabled }): AppState['core'] => ({
       ...state,
       radar: { ...state.radar, widget: { ...state.radar.widget, enabled } },
     })
   ),
   on(
-    RadarSettingsActions.typeChanged,
+    radarSettingsActions.typeChanged,
     (state, { viewType }): AppState['core'] => ({
       ...state,
       radar: { ...state.radar, type: viewType },
     })
   ),
   on(
-    RadarSettingsActions.colorSchemeChanged,
+    radarSettingsActions.colorSchemeChanged,
     (state, { colorScheme }): AppState['core'] => ({
       ...state,
       radar: { ...state.radar, colorScheme },
     })
   ),
   on(
-    RadarSettingsActions.enabledSmoothChanged,
+    radarSettingsActions.enabledSmoothChanged,
     (state, { enabled }): AppState['core'] => ({
       ...state,
       radar: { ...state.radar, smooth: enabled },
     })
   ),
   on(
-    RadarSettingsActions.enabledSnowChanged,
+    radarSettingsActions.enabledSnowChanged,
     (state, { enabled }): AppState['core'] => ({
       ...state,
       radar: { ...state.radar, snow: enabled },
     })
   ),
   on(
-    RadarSettingsActions.animationSpeed,
+    radarSettingsActions.animationSpeedChanged,
     (state, { animationSpeed }): AppState['core'] => ({
       ...state,
       radar: { ...state.radar, animationSpeed },
     })
   ),
   on(
-    RadarSettingsActions.opacityChanged,
+    radarSettingsActions.opacityChanged,
     (state, { opacity }): AppState['core'] => ({
       ...state,
       radar: { ...state.radar, opacity },
     })
   ),
   on(
-    RadarSettingsActions.widgetBgColorChanged,
+    radarSettingsActions.widgetBgColorChanged,
     (state, { color }): AppState['core'] => ({
       ...state,
       radar: {
@@ -106,7 +106,7 @@ export const coreReducer = createReducer(
     })
   ),
   on(
-    RadarSettingsActions.widgetTextColorPastChanged,
+    radarSettingsActions.widgetTextColorPastChanged,
     (state, { color }): AppState['core'] => ({
       ...state,
       radar: {
@@ -116,7 +116,7 @@ export const coreReducer = createReducer(
     })
   ),
   on(
-    RadarSettingsActions.widgetTextColorFutureChanged,
+    radarSettingsActions.widgetTextColorFutureChanged,
     (state, { color }): AppState['core'] => ({
       ...state,
       radar: {
@@ -136,7 +136,7 @@ export const coreReducer = createReducer(
     })
   ),
   on(
-    rainViewersWidgetSettings.moved,
+    rainViewersWidgetSettings.positionMoved,
     (state, { position }): AppState['core'] => ({
       ...state,
       radar: {

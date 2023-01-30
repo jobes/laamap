@@ -16,15 +16,15 @@
       [
         'literal',
         [
-          EAirportType.AIRPORT,
-          EAirportType.AIRFIELD_CIVIL,
-          EAirportType.INTERNATIONAL_AIRPORT,
-          EAirportType.MILITARY_AERODROME,
-          EAirportType.ULTRA_LIGHT_FLYING_SITE,
-          EAirportType.IFR,
-          EAirportType.LANDING_STRIP,
-          EAirportType.AGRICULTURAL_LANDING_STRIP,
-          EAirportType.ALTIPORT
+          eAirportType.airport,
+          eAirportType.airfieldCivil,
+          eAirportType.internationalAirport,
+          eAirportType.militaryAerodrome,
+          eAirportType.ultralightFlyingSite,
+          eAirportType.ifr,
+          eAirportType.landingStrip,
+          eAirportType.agriculturalLandingStrip,
+          eAirportType.altiport
         ]
       ]
     ],
@@ -34,8 +34,8 @@
     'icon-image': [
       'case',
       ['get', 'paved', ['get', 'mainRunway']],
-      'runway-paved',
-      'runway-unpaved'
+      'runwayPaved',
+      'runwayUnpaved'
     ],
     'icon-size': 1,
     'icon-allow-overlap': true,
@@ -57,19 +57,19 @@
     'icon-image': [
       'match',
       ['number', ['get', 'type']],
-      EAirportType.INTERNATIONAL_AIRPORT,
-      'INTERNATIONAL_AIRPORT',
-      EAirportType.ULTRA_LIGHT_FLYING_SITE,
-      'ULTRA_LIGHT_FLYING_SITE',
-      EAirportType.AIRFIELD_CIVIL,
-      'AIRFIELD_CIVIL',
-      EAirportType.MILITARY_AERODROME,
-      'MILITARY_AERODROME',
-      EAirportType.AERODROME_CLOSED,
-      'AERODROME_CLOSED',
-      EAirportType.HELIPORT_CIVIL,
-      'HELIPORT_CIVIL',
-      'AIRFIELD_CIVIL'
+      eAirportType.internationalAirport,
+      'internationalAirport',
+      eAirportType.ultralightFlyingSite,
+      'ultralightFlyingSite',
+      eAirportType.airfieldCivil,
+      'airfieldCivil',
+      eAirportType.militaryAerodrome,
+      'militaryAerodrome',
+      eAirportType.aerodromeClosed,
+      'aerodromeClosed',
+      eAirportType.heliportCivil,
+      'heliportCivil',
+      'airfieldCivil'
     ],
     'icon-size': 1,
     'icon-allow-overlap': true,

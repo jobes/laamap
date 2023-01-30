@@ -11,182 +11,182 @@ export type IAirSpaceSettingsObject = {
   [key in EAirSpaceType]: IAirSpaceSettings;
 };
 
-export const AirspacesDefault: IAirSpaceSettingsObject = {
-  [EAirSpaceType.OTHER]: {
+export const airspacesDefault: IAirSpaceSettingsObject = {
+  [EAirSpaceType.other]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.RESTRICTED]: {
+  [EAirSpaceType.restricted]: {
     enabled: true,
     color: '#ffa500',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.DANGER]: {
+  [EAirSpaceType.danger]: {
     enabled: true,
     color: '#a52a2a',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.PROHIBITED]: {
+  [EAirSpaceType.prohibited]: {
     enabled: true,
     color: '#ff0000',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.CTR]: {
+  [EAirSpaceType.ctr]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.TMZ]: {
+  [EAirSpaceType.tmz]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.RMZ]: {
+  [EAirSpaceType.rmz]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.TMA]: {
+  [EAirSpaceType.tma]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.TRA]: {
+  [EAirSpaceType.tra]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.TSA]: {
+  [EAirSpaceType.tsa]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.FIR]: {
+  [EAirSpaceType.fir]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.UIR]: {
+  [EAirSpaceType.uir]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.ADIZ]: {
+  [EAirSpaceType.adiz]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.ATZ]: {
+  [EAirSpaceType.atz]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.MATZ]: {
+  [EAirSpaceType.matz]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.AIRWAY]: {
+  [EAirSpaceType.airway]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.MTR]: {
+  [EAirSpaceType.mtr]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.ALERT_AREA]: {
+  [EAirSpaceType.alertArea]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.WARNING_AREA]: {
+  [EAirSpaceType.warningArea]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.PROTECTED_AREA]: {
+  [EAirSpaceType.protectedArea]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.HTZ]: {
+  [EAirSpaceType.htz]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.GLIDER_SECTOR]: {
+  [EAirSpaceType.gliderSector]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.TRP]: {
+  [EAirSpaceType.trp]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.TIZ]: {
+  [EAirSpaceType.tiz]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.TIA]: {
+  [EAirSpaceType.tia]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.MTA]: {
+  [EAirSpaceType.mta]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.CTA]: {
+  [EAirSpaceType.cta]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.ACC]: {
+  [EAirSpaceType.acc]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.SPORT]: {
+  [EAirSpaceType.sport]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,
     minZoom: 5,
   },
-  [EAirSpaceType.LOW_OVERFLIGHT_RESTRICTION]: {
+  [EAirSpaceType.lowOverflightRestriction]: {
     enabled: true,
     color: '#808080',
     opacity: 0.1,

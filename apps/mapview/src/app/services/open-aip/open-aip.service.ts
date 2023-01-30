@@ -83,7 +83,7 @@ export class OpenAipService {
       ...runway,
       paved:
         runway.surface.mainComposite in
-        [ERunwayComposition.ASPHALT, ERunwayComposition.CONCRETE],
+        [ERunwayComposition.asphalt, ERunwayComposition.concrete],
     };
   }
 
@@ -92,13 +92,13 @@ export class OpenAipService {
     unit: EHeightUnit;
     referenceDatum: EReferenceDatum;
   }): number {
-    if (value.referenceDatum === EReferenceDatum.GND && value.value !== 0) {
-      console.warn(`Can not convert ${value.value} GND to MSL`);
-    }
+    // if (value.referenceDatum === EReferenceDatum.gnd && value.value !== 0) {
+    //   console.warn(`Can not convert ${value.value} GND to MSL`);
+    // }
     const toMCoefficient =
-      value.unit === EHeightUnit.FEET
+      value.unit === EHeightUnit.feet
         ? 0.3048
-        : value.unit === EHeightUnit.FLIGHT_LEVEL
+        : value.unit === EHeightUnit.flightLevel
         ? 30.48
         : 1;
     return value.value * toMCoefficient;

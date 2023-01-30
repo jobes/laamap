@@ -10,6 +10,6 @@ import { IAirspace } from '../../services/open-aip/airspaces.interfaces';
   styleUrls: ['./airspaces-dialog.component.scss'],
 })
 export class AirspacesDialogComponent {
-  EHeightUnit = EHeightUnit;
+  eHeightUnit = EHeightUnit;
   constructor(@Inject(MAT_DIALOG_DATA) public data: IAirspace[]) {}
 }

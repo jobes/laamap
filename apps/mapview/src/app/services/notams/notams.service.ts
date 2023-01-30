@@ -30,6 +30,7 @@ export class NotamsService {
   readonly notamProxy = 'https://notams.cezmatrix.sk';
   constructor(private http: HttpClient) {}
 
+  // eslint-disable-next-line max-lines-per-function
   icaoCode$(icao: string[], offset = 0): Observable<INotamDecodedResponse> {
     const body = new URLSearchParams();
     body.set('searchType', '0');
@@ -74,14 +75,13 @@ export class NotamsService {
   /**
    * @param {number} [radius] Distance in meters from the center coordinates
    */
+  // eslint-disable-next-line max-lines-per-function, max-statements
   aroundPoint$(
     point: LngLat,
     radius: number,
     offset = 0
   ): Observable<INotamDecodedResponse> {
     const wrapped = point.wrap();
-    wrapped.lat % 1;
-
     const body = new URLSearchParams();
     body.set('searchType', '3');
     body.set('latDegrees', Math.abs(Math.floor(wrapped.lat)).toString());
@@ -191,6 +191,7 @@ export class NotamsService {
     );
   }
 
+  // eslint-disable-next-line complexity
   private separateToParts(notam: string): INotamParts {
     const qStart = notam.indexOf('Q)');
     const aStart = notam.indexOf('A)');
@@ -230,6 +231,7 @@ export class NotamsService {
     );
   }
 
+  // eslint-disable-next-line max-lines-per-function
   private parseQ(q: string): INotamQParsed {
     const [
       fir,

@@ -10,7 +10,7 @@ export class DimensionPipe implements PipeTransform {
   constructor(private transloco: TranslocoService) {}
   transform(value: { value: number; unit: EHeightUnit }): unknown {
     return `${value.value}${this.transloco.translate(
-      'shared.altitude.heighUnit.' + value.unit
+      `shared.altitude.heighUnit.${value.unit}`
     )}`;
   }
 }

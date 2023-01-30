@@ -50,7 +50,7 @@ export class RadarWidgetComponent {
     event: CdkDragEnd
   ): void {
     this.store.dispatch(
-      rainViewersWidgetSettings.moved({
+      rainViewersWidgetSettings.positionMoved({
         position: {
           x: originalPosition.x + event.distance.x,
           y: originalPosition.y + event.distance.y,

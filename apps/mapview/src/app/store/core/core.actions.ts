@@ -4,16 +4,16 @@ import { EAirSpaceType } from '../../services/open-aip/airspaces.interfaces';
 import { IRainViewerUrls } from '../../services/rain-viewer.interface';
 import { AppState } from './core.reducer';
 
-export const RadarSettingsActions = createActionGroup({
+export const radarSettingsActions = createActionGroup({
   source: 'Radar Settings',
   events: {
-    'Enabled Changed': props<{ enabled: boolean }>(),
+    'Enabled changed': props<{ enabled: boolean }>(),
     'Enabled widget changed': props<{ enabled: boolean }>(),
     'Type changed': props<{ viewType: AppState['core']['radar']['type'] }>(),
     'Color scheme changed': props<{ colorScheme: number }>(),
     'Enabled snow changed': props<{ enabled: boolean }>(),
     'Enabled smooth changed': props<{ enabled: boolean }>(),
-    'Animation speed': props<{ animationSpeed: number }>(),
+    'Animation speed changed': props<{ animationSpeed: number }>(),
     'Opacity changed': props<{ opacity: number }>(),
     'Widget bg color changed': props<{ color: string }>(),
     'Widget text color past changed': props<{ color: string }>(),
@@ -28,7 +28,7 @@ export const rainViewersUrlsLoaded = createAction(
 
 export const rainViewersWidgetSettings = createActionGroup({
   source: 'Radar widget',
-  events: { Moved: props<{ position: { x: number; y: number } }>() },
+  events: { 'Position Moved': props<{ position: { x: number; y: number } }>() },
 });
 
 export const airspacesSettings = createActionGroup({

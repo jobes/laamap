@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs';
 
@@ -7,6 +8,7 @@ import { INotamDecoded } from '../../services/notams/notams.interface';
 import { notamsSettings } from '../../store/core/core.actions';
 import { selectNonHiddenDecodedNotams } from '../../store/core/core.selectors';
 
+@UntilDestroy()
 @Component({
   selector: 'laamap-notams-dialog',
   templateUrl: './notams-dialog.component.html',
@@ -22,10 +24,13 @@ export class NotamsDialogComponent {
     this.nonHiddenNotams$
       .pipe(
         filter((notams) => notams.length === 0),
-        take(1)
+        take(1),
+        untilDestroyed(this)
       )
-      .subscribe(() => {
-        this.dialogRef.close();
+      .subscribe({
+        next: () => {
+          this.dialogRef.close();
+        },
       });
   }
 

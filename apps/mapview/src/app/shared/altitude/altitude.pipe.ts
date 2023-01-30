@@ -22,18 +22,19 @@ export class AltitudePipe implements PipeTransform {
     const convertedValue = Math.round(
       this.convert(value.value, value.unit, params)
     );
-    if ((params ?? value.unit) === EHeightUnit.FLIGHT_LEVEL) {
+    if ((params ?? value.unit) === EHeightUnit.flightLevel) {
       return `${this.transloco.translate(
-        'shared.altitude.referenceDatum.' + value.referenceDatum
+        `shared.altitude.referenceDatum.${value.referenceDatum}`
       )} ${convertedValue}`;
     }
     return `${convertedValue}${this.transloco.translate(
-      'shared.altitude.heighUnit.' + (params ?? value.unit)
+      `shared.altitude.heighUnit.${params ?? value.unit}`
     )} ${this.transloco.translate(
-      'shared.altitude.referenceDatum.' + value.referenceDatum
+      `shared.altitude.referenceDatum.${value.referenceDatum}`
     )}`;
   }
 
+  // eslint-disable-next-line max-lines-per-function, max-statements, complexity
   private convert(
     value: number,
     unit: EHeightUnit,
@@ -46,28 +47,22 @@ export class AltitudePipe implements PipeTransform {
     ) {
       return value;
     }
-    if (unit === EHeightUnit.FEET && resultUnit === EHeightUnit.METERS) {
+    if (unit === EHeightUnit.feet && resultUnit === EHeightUnit.meter) {
       return value * 0.3048;
     }
-    if (unit === EHeightUnit.METERS && resultUnit === EHeightUnit.FEET) {
+    if (unit === EHeightUnit.meter && resultUnit === EHeightUnit.feet) {
       return value / 0.3048;
     }
-    if (unit === EHeightUnit.FEET && resultUnit === EHeightUnit.FLIGHT_LEVEL) {
+    if (unit === EHeightUnit.feet && resultUnit === EHeightUnit.flightLevel) {
       return value / 100;
     }
-    if (unit === EHeightUnit.FLIGHT_LEVEL && resultUnit === EHeightUnit.FEET) {
+    if (unit === EHeightUnit.flightLevel && resultUnit === EHeightUnit.feet) {
       return value * 100;
     }
-    if (
-      unit === EHeightUnit.METERS &&
-      resultUnit === EHeightUnit.FLIGHT_LEVEL
-    ) {
+    if (unit === EHeightUnit.meter && resultUnit === EHeightUnit.flightLevel) {
       return value / 30.48;
     }
-    if (
-      unit === EHeightUnit.FLIGHT_LEVEL &&
-      resultUnit === EHeightUnit.METERS
-    ) {
+    if (unit === EHeightUnit.flightLevel && resultUnit === EHeightUnit.meter) {
       return value * 30.48;
     }
     return 0;

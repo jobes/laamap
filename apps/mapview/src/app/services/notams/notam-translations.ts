@@ -1,3 +1,4 @@
+/* eslint-disable max-lines, @typescript-eslint/naming-convention */
 export const notamTranslations: { [key: string]: string } = {
   ABN: 'Airport Beacon',
   ABV: 'Above',

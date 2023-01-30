@@ -15,38 +15,38 @@
           }}</mat-expansion-panel-header>
           <div>
             <div class="info">
-              <span class="label">{{ t('from') }}</span>
+              <span class="mat-caption">{{ t('from') }}</span>
               <span class="value">{{
                 notam.from
                   | translocoDate : { dateStyle: 'short', timeStyle: 'short' }
               }}</span>
             </div>
             <div class="info">
-              <span class="label">{{ t('to') }}</span>
+              <span class="mat-caption">{{ t('to') }}</span>
               <span class="value">{{
                 notam.to
                   | translocoDate : { dateStyle: 'short', timeStyle: 'short' }
               }}</span>
             </div>
             <div class="info">
-              <span class="label">{{ t('traffic') }}</span>
+              <span class="mat-caption">{{ t('traffic') }}</span>
               <span class="value"
-                ><span class="splitList" *ngIf="notam.traffic.visual">{{
+                ><span class="split-list" *ngIf="notam.traffic.visual">{{
                   t('trafficValues.visual')
                 }}</span
-                ><span class="splitList" *ngIf="notam.traffic.instrument">{{
+                ><span class="split-list" *ngIf="notam.traffic.instrument">{{
                   t('trafficValues.instrument')
                 }}</span
-                ><span class="splitList" *ngIf="notam.traffic.checklist">{{
+                ><span class="split-list" *ngIf="notam.traffic.checklist">{{
                   t('trafficValues.checklist')
                 }}</span></span
               >
             </div>
             <div class="info">
-              <span class="label">{{ t('lowerLimit') }}</span>
+              <span class="mat-caption">{{ t('lowerLimit') }}</span>
               <span class="value">
                 <span
-                  class="optionList"
+                  class="option-list"
                   *ngIf="
                     notam.flightLevelLowerLimit ||
                     notam.flightLevelLowerLimit === 0
@@ -59,16 +59,16 @@
                   </ng-container>
                   {{ notam.flightLevelLowerLimit }}
                 </span>
-                <span class="optionList" *ngIf="notam.lowerLimit2">{{
+                <span class="option-list" *ngIf="notam.lowerLimit2">{{
                   notam.lowerLimit2
                 }}</span>
               </span>
             </div>
             <div class="info">
-              <span class="label">{{ t('upperLimit') }}</span>
+              <span class="mat-caption">{{ t('upperLimit') }}</span>
               <span class="value">
                 <span
-                  class="optionList"
+                  class="option-list"
                   *ngIf="
                     notam.flightLevelUpperLimit ||
                     notam.flightLevelUpperLimit === 0
@@ -79,54 +79,58 @@
                   >
                   {{ notam.flightLevelUpperLimit }}</span
                 >
-                <span class="optionList" *ngIf="notam.upperLimit2">{{
+                <span class="option-list" *ngIf="notam.upperLimit2">{{
                   notam.upperLimit2
                 }}</span>
               </span>
             </div>
             <div class="info" *ngIf="notam.schedule">
-              <span class="label">{{ t('schedule') }}</span>
+              <span class="mat-caption">{{ t('schedule') }}</span>
               <span class="value">{{ notam.schedule }}</span>
             </div>
             <div class="info">
-              <span class="label">{{ t('purpose') }}</span>
+              <span class="mat-caption">{{ t('purpose') }}</span>
               <span class="value">
-                <span class="splitList" *ngIf="notam.purpose.checklist">{{
+                <span class="split-list" *ngIf="notam.purpose.checklist">{{
                   t('purposeValues.checklist')
                 }}</span>
-                <span class="splitList" *ngIf="notam.purpose.flightOperation">{{
-                  t('purposeValues.flightOperation')
-                }}</span>
                 <span
-                  class="splitList"
+                  class="split-list"
+                  *ngIf="notam.purpose.flightOperation"
+                  >{{ t('purposeValues.flightOperation') }}</span
+                >
+                <span
+                  class="split-list"
                   *ngIf="notam.purpose.immediateAttention"
                   >{{ t('purposeValues.immediateAttention') }}</span
                 >
-                <span class="splitList" *ngIf="notam.purpose.miscellaneous">{{
+                <span class="split-list" *ngIf="notam.purpose.miscellaneous">{{
                   t('purposeValues.miscellaneous')
                 }}</span>
                 <span
-                  class="splitList"
+                  class="split-list"
                   *ngIf="notam.purpose.preFlightBriefing"
                   >{{ t('purposeValues.preFlightBriefing') }}</span
                 >
               </span>
             </div>
             <div class="info">
-              <span class="label">{{ t('scope') }}</span>
+              <span class="mat-caption">{{ t('scope') }}</span>
               <span class="value">
-                <span class="splitList" *ngIf="notam.scope.checklist">{{
+                <span class="split-list" *ngIf="notam.scope.checklist">{{
                   t('scopeValues.checklist')
                 }}</span>
-                <span class="splitList" *ngIf="notam.scope.aerodrome">{{
+                <span class="split-list" *ngIf="notam.scope.aerodrome">{{
                   t('scopeValues.aerodrome')
                 }}</span>
-                <span class="splitList" *ngIf="notam.scope.enRoute">{{
+                <span class="split-list" *ngIf="notam.scope.enRoute">{{
                   t('scopeValues.enRoute')
                 }}</span>
-                <span class="splitList" *ngIf="notam.scope.navigationWarning">{{
-                  t('scopeValues.navigationWarning')
-                }}</span>
+                <span
+                  class="split-list"
+                  *ngIf="notam.scope.navigationWarning"
+                  >{{ t('scopeValues.navigationWarning') }}</span
+                >
               </span>
             </div>
             <div
@@ -137,7 +141,7 @@
                 )?.startsWith('notamsDialog.')
               "
             >
-              <span class="label">{{ t('subjectIdentification') }}</span>
+              <span class="mat-caption">{{ t('subjectIdentification') }}</span>
               <span class="value">{{
                 t('subjectIdentificationValues.' + notam.subjectIdentification)
               }}</span>
@@ -150,13 +154,13 @@
                 )?.startsWith('notamsDialog.')
               "
             >
-              <span class="label">{{ t('subjectCondition') }}</span>
+              <span class="mat-caption">{{ t('subjectCondition') }}</span>
               <span class="value">{{
                 t('subjectConditionValues.' + notam.subjectCondition)
               }}</span>
             </div>
           </div>
-          <div class="originalMsg">{{ notam.originalMsg }}</div>
+          <div class="mat-body-strong mat-small">{{ notam.originalMsg }}</div>
         </mat-expansion-panel>
         <button
           class="remove"

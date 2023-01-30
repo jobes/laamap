@@ -18,20 +18,20 @@ export class MapHelperFunctionsService {
             : ([key, value] as const)
         )
         .reduce(
-          (acc, [key, value]) => ({ ...acc, [key]: value }),
+          (acc, [key, value]) => ({ ...acc, [key]: value as unknown }),
           {} as object
         );
     }
     return data;
   }
 
-  loadImageToMap(
+  loadImageToMap$(
     mapComponent: MapComponent,
     name: string,
     url: string
   ): Observable<true> {
     const img = new Image();
-    const event = fromEvent(img, 'load').pipe(
+    const event$ = fromEvent(img, 'load').pipe(
       tap(() => {
         if (mapComponent) {
           mapComponent.mapInstance.addImage(name, img);
@@ -41,6 +41,6 @@ export class MapHelperFunctionsService {
       take(1)
     );
     img.src = url;
-    return event;
+    return event$;
   }
 }

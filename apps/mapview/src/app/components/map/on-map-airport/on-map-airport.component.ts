@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MapComponent } from '@maplibre/ngx-maplibre-gl';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ExpressionFilterSpecification } from 'maplibre-gl';
 import { forkJoin } from 'rxjs';
 
@@ -20,6 +21,7 @@ import {
 import { OpenAipService } from '../../../services/open-aip/open-aip.service';
 import { AirportDialogComponent } from '../../airport-dialog/airport-dialog.component';
 
+@UntilDestroy()
 @Component({
   selector: 'laamap-on-map-airport',
   templateUrl: './on-map-airport.component.html',
@@ -28,8 +30,18 @@ import { AirportDialogComponent } from '../../airport-dialog/airport-dialog.comp
 })
 export class OnMapAirportComponent {
   airPorts$ = this.openAip.getAirports$();
-  EAirportType = EAirportType;
+  eAirportType = EAirportType;
   imageLoaded = false;
+  imageList = {
+    runwayPaved: 'runway_paved-small.svg',
+    runwayUnpaved: 'runway_unpaved-small.svg',
+    ultralightFlyingSite: 'light_aircraft-small.svg',
+    airfieldCivil: 'af_civil-small.svg',
+    internationalAirport: 'apt-small.svg',
+    militaryAerodrome: 'ad_mil-small.svg',
+    aerodromeClosed: 'ad_closed-small.svg',
+    heliportCivil: 'heli_civil-small.svg',
+  };
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
@@ -75,11 +87,11 @@ export class OnMapAirportComponent {
     return [
       'match',
       ['number', ['get', 'type']],
-      EAirportType.ULTRA_LIGHT_FLYING_SITE,
+      EAirportType.ultralightFlyingSite,
       ['>=', ['zoom'], 7.2],
-      EAirportType.AERODROME_CLOSED,
+      EAirportType.aerodromeClosed,
       ['>=', ['zoom'], 7.2],
-      EAirportType.AIRFIELD_CIVIL,
+      EAirportType.airfieldCivil,
       ['>=', ['zoom'], 7],
       true,
     ];
@@ -89,50 +101,23 @@ export class OnMapAirportComponent {
     if (!this.map) {
       return;
     }
-    forkJoin([
-      this.mapHelper.loadImageToMap(
-        this.map,
-        'runway-paved',
-        this.baseHref + 'assets/open-aip-images/runway_paved-small.svg'
-      ),
-      this.mapHelper.loadImageToMap(
-        this.map,
-        'runway-unpaved',
-        this.baseHref + 'assets/open-aip-images/runway_unpaved-small.svg'
-      ),
-      this.mapHelper.loadImageToMap(
-        this.map,
-        'ULTRA_LIGHT_FLYING_SITE', // ULTRA_LIGHT_FLYING_SITE
-        this.baseHref + 'assets/open-aip-images/light_aircraft-small.svg'
-      ),
-      this.mapHelper.loadImageToMap(
-        this.map,
-        'AIRFIELD_CIVIL', // AIRFIELD_CIVIL
-        this.baseHref + 'assets/open-aip-images/af_civil-small.svg'
-      ),
-      this.mapHelper.loadImageToMap(
-        this.map,
-        'INTERNATIONAL_AIRPORT', // INTERNATIONAL_AIRPORT
-        this.baseHref + 'assets/open-aip-images/apt-small.svg'
-      ),
-      this.mapHelper.loadImageToMap(
-        this.map,
-        'MILITARY_AERODROME', // MILITARY_AERODROME
-        this.baseHref + 'assets/open-aip-images/ad_mil-small.svg'
-      ),
-      this.mapHelper.loadImageToMap(
-        this.map,
-        'AERODROME_CLOSED', // AERODROME_CLOSED
-        this.baseHref + 'assets/open-aip-images/ad_closed-small.svg'
-      ),
-      this.mapHelper.loadImageToMap(
-        this.map,
-        'HELIPORT_CIVIL', // HELIPORT_CIVIL
-        this.baseHref + 'assets/open-aip-images/heli_civil-small.svg'
-      ),
-    ]).subscribe(() => {
-      this.imageLoaded = true;
-      this.cdr.detectChanges();
-    });
+    const mapCmp = this.map;
+
+    forkJoin(
+      Object.entries(this.imageList).map(([name, src]) =>
+        this.mapHelper.loadImageToMap$(
+          mapCmp,
+          name,
+          `${this.baseHref}assets/open-aip-images/${src}`
+        )
+      )
+    )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        complete: () => {
+          this.imageLoaded = true;
+          this.cdr.detectChanges();
+        },
+      });
   }
 }

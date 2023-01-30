@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { RadarSettingsActions } from '../../../store/core/core.actions';
+import { radarSettingsActions } from '../../../store/core/core.actions';
 import { AppState } from '../../../store/core/core.reducer';
 import { selectRadar } from '../../../store/core/core.selectors';
 
@@ -19,58 +19,58 @@ export class RadarSettingsComponent {
   constructor(private readonly store: Store) {}
 
   enableRadar(enabled: boolean): void {
-    this.store.dispatch(RadarSettingsActions.enabledChanged({ enabled }));
+    this.store.dispatch(radarSettingsActions.enabledChanged({ enabled }));
   }
 
   enableWidget(enabled: boolean): void {
-    this.store.dispatch(RadarSettingsActions.enabledWidgetChanged({ enabled }));
+    this.store.dispatch(radarSettingsActions.enabledWidgetChanged({ enabled }));
   }
 
   typeChanged(type: AppState['core']['radar']['type']): void {
-    this.store.dispatch(RadarSettingsActions.typeChanged({ viewType: type }));
+    this.store.dispatch(radarSettingsActions.typeChanged({ viewType: type }));
   }
 
   colorSchemeChanged(colorScheme: number): void {
     this.store.dispatch(
-      RadarSettingsActions.colorSchemeChanged({ colorScheme })
+      radarSettingsActions.colorSchemeChanged({ colorScheme })
     );
   }
 
   enableSnow(enabled: boolean): void {
-    this.store.dispatch(RadarSettingsActions.enabledSnowChanged({ enabled }));
+    this.store.dispatch(radarSettingsActions.enabledSnowChanged({ enabled }));
   }
 
   enableSmooth(enabled: boolean): void {
-    this.store.dispatch(RadarSettingsActions.enabledSmoothChanged({ enabled }));
+    this.store.dispatch(radarSettingsActions.enabledSmoothChanged({ enabled }));
   }
 
   animationSpeedChanged(animationSpeed: number | null): void {
     this.store.dispatch(
-      RadarSettingsActions.animationSpeed({
+      radarSettingsActions.animationSpeedChanged({
         animationSpeed: animationSpeed ?? 0,
       })
     );
   }
 
   widgetBgColorChanged(color: string): void {
-    this.store.dispatch(RadarSettingsActions.widgetBgColorChanged({ color }));
+    this.store.dispatch(radarSettingsActions.widgetBgColorChanged({ color }));
   }
 
   widgetTextColorFutureChanged(color: string): void {
     this.store.dispatch(
-      RadarSettingsActions.widgetTextColorFutureChanged({ color })
+      radarSettingsActions.widgetTextColorFutureChanged({ color })
     );
   }
 
   widgetTextColorPastChanged(color: string): void {
     this.store.dispatch(
-      RadarSettingsActions.widgetTextColorPastChanged({ color })
+      radarSettingsActions.widgetTextColorPastChanged({ color })
     );
   }
 
   opacityChanged(opacity: number | null): void {
     this.store.dispatch(
-      RadarSettingsActions.opacityChanged({ opacity: opacity ?? 0 })
+      radarSettingsActions.opacityChanged({ opacity: opacity ?? 0 })
     );
   }
 }
