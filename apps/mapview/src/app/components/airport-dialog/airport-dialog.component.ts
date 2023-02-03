@@ -20,6 +20,7 @@ export class AirportDialogComponent {
   gallerySettings = {
     counter: false,
     plugins: [lgZoom],
+    licenseKey: process.env['NX_LIGHT_GALLERY_KEY'],
   };
   private lightGallery?: LightGallery;
 

@@ -11,6 +11,15 @@
 
 Map icon [Plane icons created by Good Ware - Flaticon](https://www.flaticon.com/free-icons/plane).
 
+### Secrets and keys
+
+Keys are required for some functionalities, for example for [maptiler](https://www.maptiler.com/). Keys and passwords should be saved in `.env` file
+
+```
+NX_MAP_TILES_KEY=yourKey
+NX_LIGHT_GALLERY_KEY=yourKey
+```
+
 ### Proxy for NOTAM CORS problem
 
 As [notams.aim.faa.gov](https://notams.aim.faa.gov) does not work for browser app because of CORS, a proxy is needed. Config for NGINX:

@@ -6,7 +6,7 @@
   "prefix": "laamap",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@nrwl/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/mapview",
@@ -24,6 +24,9 @@
         ],
         "stylePreprocessorOptions": {
           "includePaths": ["node_modules"]
+        },
+        "customWebpackConfig": {
+          "path": "apps/mapview/webpack.config.js"
         },
         "scripts": []
       },
@@ -61,7 +64,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@nrwl/angular:webpack-dev-server",
       "configurations": {
         "production": {
           "browserTarget": "mapview:build:production"

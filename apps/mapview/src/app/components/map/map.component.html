@@ -1,8 +1,6 @@
 <ng-container *transloco="let t; read: 'mapView'">
   <mgl-map
-    [style]="
-      'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL'
-    "
+    [style]="tileStyleUrl"
     [zoom]="[7]"
     [center]="[19.471558112191815, 48.704923970323705]"
     [attributionControl]="false"

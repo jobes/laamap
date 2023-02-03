@@ -23,6 +23,10 @@ declare class AbsoluteOrientationSensor {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent {
+  tileStyleUrl = `https://api.maptiler.com/maps/topo-v2/style.json?key=${
+    process.env['NX_MAP_TILES_KEY'] ?? ''
+  }`;
+
   constructor(
     private dialog: MatDialog,
     private readonly dataBusService: DataBusService,
