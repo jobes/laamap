@@ -15,10 +15,6 @@ jobs:
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
-      - name: Retrieve the secret
-        env:
-          NX_MAP_TILES_KEY: ${{ secrets.NX_MAP_TILES_KEY }}
-          NX_LIGHT_GALLERY_KEY: ${{ secrets.NX_LIGHT_GALLERY_KEY }}
       - run: npm ci
       - name: Build map
         run: npx nx build mapview --base-href /laamap/
