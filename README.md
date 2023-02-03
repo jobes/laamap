@@ -2,6 +2,9 @@
 
 [Live App Demo](https://jobes.github.io/laamap/)
 
+[![CI](https://github.com/jobes/laamap/actions/workflows/ci.yml/badge.svg)](https://github.com/jobes/laamap/actions/workflows/ci.yml)
+[![deploy mapview](https://github.com/jobes/laamap/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/jobes/laamap/actions/workflows/gh-pages.yml)
+
 - weather radar for storms (using [rainviewer](https://www.rainviewer.com/))
 - airspaces for Slovakia (using [openaip.net](https://www.openaip.net/))
 - airports for Slovakia (using [openaip.net](https://www.openaip.net/))

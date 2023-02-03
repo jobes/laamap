@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NX_MAP_TILES_KEY: ${{ secrets.NX_MAP_TILES_KEY }}
+      NX_LIGHT_GALLERY_KEY: ${{ secrets.NX_LIGHT_GALLERY_KEY }}
     steps:
       - uses: actions/checkout@v2
         with:
