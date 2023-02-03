@@ -24,7 +24,7 @@ declare class AbsoluteOrientationSensor {
 })
 export class MapComponent {
   tileStyleUrl = `https://api.maptiler.com/maps/topo-v2/style.json?key=${
-    process.env['NX_MAP_TILES_KEY'] ?? ''
+    process.env['NX_MAP_TILES_KEY'] ?? 'MISSING_KEY'
   }`;
 
   constructor(
