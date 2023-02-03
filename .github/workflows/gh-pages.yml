@@ -11,7 +11,7 @@ jobs:
       NX_MAP_TILES_KEY: ${{ secrets.NX_MAP_TILES_KEY }}
       NX_LIGHT_GALLERY_KEY: ${{ secrets.NX_LIGHT_GALLERY_KEY }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
