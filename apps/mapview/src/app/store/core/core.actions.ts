@@ -58,3 +58,10 @@ export const notamsSettings = createActionGroup({
     }>(),
   },
 });
+
+export const screenWakeLockSettings = createActionGroup({
+  source: 'Screen wake lock settings',
+  events: {
+    'Enable Changed': props<{ enabled: boolean }>(),
+  },
+});

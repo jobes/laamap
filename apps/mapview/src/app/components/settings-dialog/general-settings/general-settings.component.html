@@ -1,0 +1,15 @@
+<ng-template transloco let-t translocoRead="settingDialog.general">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>tune</mat-icon>{{ t('title') }}
+      </mat-panel-title>
+      <mat-panel-description> {{ t('description') }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-slide-toggle
+      [ngModel]="screenWakeLockEnabled$ | ngrxPush"
+      (ngModelChange)="screenWakeLockEnabledChange($event)"
+      >{{ t('screenWakeLockEnabled') }}
+    </mat-slide-toggle>
+  </mat-expansion-panel>
+</ng-template>

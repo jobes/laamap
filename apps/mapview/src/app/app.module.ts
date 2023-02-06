@@ -38,6 +38,7 @@ import { OnMapNotamsComponent } from './components/map/on-map-notams/on-map-nota
 import { OnMapRadarComponent } from './components/map/on-map-radar/on-map-radar.component';
 import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.component';
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
+import { GeneralSettingsComponent } from './components/settings-dialog/general-settings/general-settings.component';
 import { RadarSettingsComponent } from './components/settings-dialog/radar-settings/radar-settings.component';
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 import { RadarWidgetComponent } from './components/widgets/radar-widget/radar-widget.component';
@@ -65,6 +66,7 @@ import { metaReducers } from './store/metareducers/hydratation';
     AirspacesSettingsComponent,
     OnMapNotamsComponent,
     NotamsDialogComponent,
+    GeneralSettingsComponent,
   ],
   imports: [
     BrowserModule,

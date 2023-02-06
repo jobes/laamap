@@ -46,3 +46,8 @@ export const selectNonHiddenDecodedNotams = (notams: INotamDecoded[]) =>
   createSelector(selectHiddenNotamsIds, (hiddenNotamIds) =>
     notams.filter((n) => !hiddenNotamIds.includes(n.id))
   );
+
+export const selectScreenWakeLockEnabled = createSelector(
+  selectCore,
+  (state) => state?.screenWakeLock.enabled
+);

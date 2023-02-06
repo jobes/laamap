@@ -33,6 +33,9 @@ const initialState = {
   notams: {
     hiddenList: [] as string[],
   },
+  screenWakeLock: {
+    enabled: true,
+  },
 };
 
 export type AppState = { core: typeof initialState };
@@ -199,6 +202,13 @@ export const coreReducer = createReducer(
           notamId,
         ],
       },
+    })
+  ),
+  on(
+    coreActions.screenWakeLockSettings.enableChanged,
+    (state, { enabled }): AppState['core'] => ({
+      ...state,
+      screenWakeLock: { ...state.screenWakeLock, enabled },
     })
   )
 );
