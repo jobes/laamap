@@ -46,7 +46,8 @@
     "general": {
       "title": "Aplikácia",
       "description": "Všeobecné nastavenia",
-      "screenWakeLockEnabled": "Zakázať vypnúť obrazovku"
+      "screenWakeLockEnabled": "Zakázať vypnúť obrazovku",
+      "notSupported": "Funkcia nie je podporovaná vo vašom zariadení"
     }
   },
   "airportDialog": {

@@ -6,10 +6,20 @@
       </mat-panel-title>
       <mat-panel-description> {{ t('description') }}</mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-slide-toggle
-      [ngModel]="screenWakeLockEnabled$ | ngrxPush"
-      (ngModelChange)="screenWakeLockEnabledChange($event)"
-      >{{ t('screenWakeLockEnabled') }}
-    </mat-slide-toggle>
+    <div class="row">
+      <mat-slide-toggle
+        *ngrxLet="screenWakeLockEnabled$ as screenWakeLockEnabled"
+        [ngModel]="screenWakeLockEnabled"
+        [disabled]="!screenWakeLockSupported && !screenWakeLockEnabled"
+        (ngModelChange)="screenWakeLockEnabledChange($event)"
+        >{{ t('screenWakeLockEnabled') }}
+      </mat-slide-toggle>
+      <mat-icon
+        *ngIf="!screenWakeLockSupported"
+        [matTooltip]="t('notSupported')"
+      >
+        info
+      </mat-icon>
+    </div>
   </mat-expansion-panel>
 </ng-template>

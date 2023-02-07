@@ -58,7 +58,7 @@ export class CoreEffects {
   screenWakeLock$ = createEffect(
     () => {
       return combineLatest([this.wakeLockEnabled$, this.visibilitySubj$]).pipe(
-        debounceTime(100),
+        debounceTime(1000),
         tap(([enabled, visibility]) => {
           if (enabled && visibility === 'visible') {
             this.screenWakeLockService.lock();

@@ -21,3 +21,13 @@ mat-panel-description mat-icon {
     }
   }
 }
+
+mat-panel-description {
+  display: none;
+}
+
+@media screen and (min-width: 500px) {
+  mat-panel-description {
+    display: flex;
+  }
+}

@@ -14,7 +14,7 @@ type IWakeLock = {
   providedIn: 'root',
 })
 export class ScreenWakeLockService {
-  private supported = 'wakeLock' in navigator;
+  static supported = 'wakeLock' in navigator;
   private wakeLock?: IWakeLockReleaser;
 
   constructor(
@@ -23,7 +23,7 @@ export class ScreenWakeLockService {
   ) {}
 
   lock(): void {
-    if (this.supported) {
+    if (ScreenWakeLockService.supported) {
       (navigator as unknown as { wakeLock: IWakeLock }).wakeLock
         .request('screen')
         .then(

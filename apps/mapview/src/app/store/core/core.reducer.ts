@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { IRainViewerUrls } from '../../services/rain-viewer.interface';
+import { ScreenWakeLockService } from '../../services/screen-wake-lock/screen-wake-lock.service';
 import { airspacesDefault } from './airspaces-defauls';
 import {
   radarSettingsActions,
@@ -34,7 +35,7 @@ const initialState = {
     hiddenList: [] as string[],
   },
   screenWakeLock: {
-    enabled: true,
+    enabled: ScreenWakeLockService.supported,
   },
 };
 
