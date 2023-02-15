@@ -37,6 +37,11 @@ const initialState = {
   screenWakeLock: {
     enabled: ScreenWakeLockService.supported,
   },
+  navigation: {
+    minActivationSpeedKpH: 30,
+    directionLineSegmentSeconds: 60,
+    directionLineSegmentCount: 5,
+  },
 };
 
 export type AppState = { core: typeof initialState };
@@ -206,10 +211,31 @@ export const coreReducer = createReducer(
     })
   ),
   on(
-    coreActions.screenWakeLockSettings.enableChanged,
+    coreActions.generalSettings.screenWakeLockEnableChanged,
     (state, { enabled }): AppState['core'] => ({
       ...state,
       screenWakeLock: { ...state.screenWakeLock, enabled },
+    })
+  ),
+  on(
+    coreActions.navigationSettings.directionLineSegmentSeconds,
+    (state, { seconds }): AppState['core'] => ({
+      ...state,
+      navigation: { ...state.navigation, directionLineSegmentSeconds: seconds },
+    })
+  ),
+  on(
+    coreActions.navigationSettings.directionLineSegmentCount,
+    (state, { count }): AppState['core'] => ({
+      ...state,
+      navigation: { ...state.navigation, directionLineSegmentCount: count },
+    })
+  ),
+  on(
+    coreActions.navigationSettings.minimumActivationSpeedChanged,
+    (state, { minActivationSpeedKpH }): AppState['core'] => ({
+      ...state,
+      navigation: { ...state.navigation, minActivationSpeedKpH },
     })
   )
 );

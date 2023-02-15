@@ -51,3 +51,23 @@ export const selectScreenWakeLockEnabled = createSelector(
   selectCore,
   (state) => state?.screenWakeLock.enabled
 );
+
+export const selectNavigation = createSelector(
+  selectCore,
+  (state) => state?.navigation
+);
+
+export const selectNavigationMinActivationSpeedKpH = createSelector(
+  selectNavigation,
+  (state) => state?.minActivationSpeedKpH
+);
+
+export const selectNavigationDirectionLineSegmentCount = createSelector(
+  selectNavigation,
+  (state) => state?.directionLineSegmentCount
+);
+
+export const selectNavigationDirectionLineSegmentSeconds = createSelector(
+  selectNavigation,
+  (state) => state?.directionLineSegmentSeconds
+);

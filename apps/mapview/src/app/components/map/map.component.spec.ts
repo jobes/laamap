@@ -1,6 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { MapComponent } from './map.component';
 
@@ -11,7 +12,7 @@ describe('MapComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MapComponent],
-      providers: [{ provide: MatDialog, useValue: {} }],
+      providers: [{ provide: MatDialog, useValue: {} }, provideMockStore({})],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 

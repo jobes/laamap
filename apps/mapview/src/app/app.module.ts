@@ -34,11 +34,13 @@ import { AirspacesDialogComponent } from './components/airspaces-dialog/airspace
 import { MapComponent } from './components/map/map.component';
 import { OnMapAirSpacesComponent } from './components/map/on-map-air-spaces/on-map-air-spaces.component';
 import { OnMapAirportComponent } from './components/map/on-map-airport/on-map-airport.component';
+import { OnMapDirectionLineComponent } from './components/map/on-map-direction-line/on-map-direction-line.component';
 import { OnMapNotamsComponent } from './components/map/on-map-notams/on-map-notams.component';
 import { OnMapRadarComponent } from './components/map/on-map-radar/on-map-radar.component';
 import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.component';
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
 import { GeneralSettingsComponent } from './components/settings-dialog/general-settings/general-settings.component';
+import { NavigationSettingsComponent } from './components/settings-dialog/navigation-settings/navigation-settings.component';
 import { RadarSettingsComponent } from './components/settings-dialog/radar-settings/radar-settings.component';
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 import { RadarWidgetComponent } from './components/widgets/radar-widget/radar-widget.component';
@@ -67,6 +69,8 @@ import { metaReducers } from './store/metareducers/hydratation';
     OnMapNotamsComponent,
     NotamsDialogComponent,
     GeneralSettingsComponent,
+    NavigationSettingsComponent,
+    OnMapDirectionLineComponent,
   ],
   imports: [
     BrowserModule,

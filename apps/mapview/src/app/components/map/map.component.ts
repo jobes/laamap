@@ -1,7 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EventData, Position } from '@maplibre/ngx-maplibre-gl';
+import { MapComponent as NgxMapComponent } from '@maplibre/ngx-maplibre-gl';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MapLibreEvent } from 'maplibre-gl';
+import { combineLatest, filter, map, take } from 'rxjs';
 
 import { DataBusService } from '../../services/data-bus.service';
 import { LoggerService } from '../../services/logger/logger.service';
@@ -16,13 +24,16 @@ declare class AbsoluteOrientationSensor {
   start(): void;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'laamap-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapComponent {
+export class MapComponent implements AfterViewInit {
+  @ViewChild(NgxMapComponent) map!: NgxMapComponent;
+
   tileStyleUrl = `https://api.maptiler.com/maps/topo-v2/style.json?key=${
     process.env['NX_MAP_TILES_KEY'] ?? 'MISSING_KEY'
   }`;
@@ -44,6 +55,7 @@ export class MapComponent {
           'Can not get permission for using compass'
         );
       });
+    this.setupGpsHeading();
   }
 
   openSettingsDialog(): void {
@@ -65,6 +77,12 @@ export class MapComponent {
     this.dataBusService.setGeoLocation(event);
   }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.dataBusService.setMap(this.map.mapInstance);
+    }, 0);
+  }
+
   private async requestCompassPermission(): Promise<boolean> {
     const results = await Promise.all([
       navigator.permissions?.query({ name: 'accelerometer' as never }),
@@ -77,21 +95,52 @@ export class MapComponent {
     return result;
   }
 
+  private setupGpsHeading(): void {
+    combineLatest([
+      this.dataBusService.navigationMinSpeedHit$,
+      this.dataBusService.geolocation$,
+    ])
+      .pipe(
+        filter(
+          ([enabled, geoLocation]) =>
+            enabled &&
+            (!!geoLocation?.coords.heading || geoLocation?.coords.heading === 0)
+        ),
+        map(([, geoLocation]) => geoLocation?.coords.heading ?? 0),
+        untilDestroyed(this)
+      )
+      .subscribe({
+        next: (heading) => {
+          document.documentElement.style.setProperty('--heading', `${heading}`);
+        },
+      });
+  }
+
   private setupCompass(): AbsoluteOrientationSensor | undefined {
     if (`AbsoluteOrientationSensor` in window) {
       const sensor = new AbsoluteOrientationSensor({
         referenceFrame: 'screen',
       });
       sensor.addEventListener('reading', (e) => {
-        const q = e.target.quaternion;
-        const heading =
-          Math.atan2(
-            2 * q[0] * q[1] + 2 * q[2] * q[3],
-            1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]
-          ) *
-          (-180 / Math.PI);
+        this.dataBusService.navigationMinSpeedHit$.pipe(take(1)).subscribe({
+          next: (disableCompass) => {
+            if (disableCompass) {
+              return;
+            }
+            const q = e.target.quaternion;
+            const heading =
+              Math.atan2(
+                2 * q[0] * q[1] + 2 * q[2] * q[3],
+                1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]
+              ) *
+              (-180 / Math.PI);
 
-        document.documentElement.style.setProperty('--heading', `${heading}`);
+            document.documentElement.style.setProperty(
+              '--heading',
+              `${heading}`
+            );
+          },
+        });
       });
       return sensor;
     }

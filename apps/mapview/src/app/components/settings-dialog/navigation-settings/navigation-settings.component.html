@@ -1,0 +1,55 @@
+<ng-template transloco let-t translocoRead="settingDialog.navigation">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>navigation</mat-icon>{{ t('title') }}
+      </mat-panel-title>
+      <mat-panel-description> {{ t('description') }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-form-field>
+      <mat-label>{{ t('minActivationSpeed') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="minActivationSpeed$ | async"
+        min="1"
+        max="1000"
+        step="1"
+        (ngModelChange)="setMinActivationSpeed($event)"
+      />
+    </mat-form-field>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ t('directionLine') }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="fields">
+          <mat-form-field>
+            <mat-label>{{ t('directionLineSegmentSeconds') }}</mat-label>
+            <input
+              matInput
+              type="number"
+              [ngModel]="directionLineSegmentSeconds$ | async"
+              min="1"
+              max="3600"
+              step="1"
+              (ngModelChange)="setDirectionLineSegmentSeconds($event)"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t('directionLineSegmentCount') }}</mat-label>
+            <input
+              matInput
+              type="number"
+              [ngModel]="directionLineSegmentCount$ | async"
+              min="1"
+              max="100"
+              step="1"
+              (ngModelChange)="setDirectionLineSegmentCount($event)"
+            />
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-expansion-panel>
+</ng-template>

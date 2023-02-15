@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
-import { screenWakeLockSettings } from '../../../store/core/core.actions';
+import { generalSettings } from '../../../store/core/core.actions';
 import { selectScreenWakeLockEnabled } from '../../../store/core/core.selectors';
 
 @Component({
@@ -17,6 +17,8 @@ export class GeneralSettingsComponent {
   constructor(private readonly store: Store) {}
 
   screenWakeLockEnabledChange(enabled: boolean) {
-    this.store.dispatch(screenWakeLockSettings.enableChanged({ enabled }));
+    this.store.dispatch(
+      generalSettings.screenWakeLockEnableChanged({ enabled })
+    );
   }
 }

@@ -48,6 +48,14 @@
       "description": "Všeobecné nastavenia",
       "screenWakeLockEnabled": "Zakázať vypnúť obrazovku",
       "notSupported": "Funkcia nie je podporovaná vo vašom zariadení"
+    },
+    "navigation": {
+      "title": "Navigácia",
+      "description": "Nastavenia navigácie a pohybu",
+      "directionLine": "Ukazateľ smeru letu",
+      "minActivationSpeed": "Minimálna rýchlosť aktivácie",
+      "directionLineSegmentSeconds": "Veľkosť segmentu v sekundách",
+      "directionLineSegmentCount": "Počet segmentov"
     }
   },
   "airportDialog": {

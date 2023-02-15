@@ -59,9 +59,20 @@ export const notamsSettings = createActionGroup({
   },
 });
 
-export const screenWakeLockSettings = createActionGroup({
-  source: 'Screen wake lock settings',
+export const generalSettings = createActionGroup({
+  source: 'General settings',
   events: {
-    'Enable Changed': props<{ enabled: boolean }>(),
+    'Screen wake lock Enable Changed': props<{ enabled: boolean }>(),
+  },
+});
+
+export const navigationSettings = createActionGroup({
+  source: 'Navigation settings',
+  events: {
+    'Minimum activation speed Changed': props<{
+      minActivationSpeedKpH: number;
+    }>(),
+    'Direction line segment seconds': props<{ seconds: number }>(),
+    'Direction line segment count': props<{ count: number }>(),
   },
 });
