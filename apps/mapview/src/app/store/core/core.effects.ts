@@ -17,6 +17,7 @@ import {
   tap,
 } from 'rxjs';
 
+import { HeadingService } from '../../services/heading/heading.service';
 import { RainViewerService } from '../../services/rain-viewer.service';
 import { ScreenWakeLockService } from '../../services/screen-wake-lock/screen-wake-lock.service';
 import { rainViewersUrlsLoaded } from './core.actions';
@@ -71,9 +72,21 @@ export class CoreEffects {
     { dispatch: false }
   );
 
+  heading$ = createEffect(
+    () => {
+      return this.headingService.heading$.pipe(
+        tap((heading) =>
+          document.documentElement.style.setProperty('--heading', `${heading}`)
+        )
+      );
+    },
+    { dispatch: false }
+  );
+
   constructor(
     private readonly store: Store,
     private readonly rainViewer: RainViewerService,
-    private readonly screenWakeLockService: ScreenWakeLockService
+    private readonly screenWakeLockService: ScreenWakeLockService,
+    private readonly headingService: HeadingService
   ) {}
 }
