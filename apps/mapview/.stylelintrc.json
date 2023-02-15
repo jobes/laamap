@@ -6,7 +6,10 @@
       "files": ["**/*.scss"],
       "customSyntax": "postcss-scss",
       "plugins": ["stylelint-color-no-non-variables", "stylelint-no-px"],
-      "extends": "stylelint-config-standard-scss",
+      "extends": [
+        "stylelint-config-standard-scss",
+        "stylelint-config-prettier"
+      ],
       "rules": {
         "dczajkowski/color-no-non-variables": true,
         "meowtec/no-px": [true, { "ignore": ["1px"] }],
