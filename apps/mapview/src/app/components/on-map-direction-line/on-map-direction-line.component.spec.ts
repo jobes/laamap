@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { Observable } from 'rxjs';
 
+import { MapService } from '../../services/map/map.service';
 import { OnMapDirectionLineComponent } from './on-map-direction-line.component';
 
 describe('OnMapDirectionLineComponent', () => {
@@ -11,7 +13,16 @@ describe('OnMapDirectionLineComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OnMapDirectionLineComponent],
-      providers: [provideMockStore({})],
+      providers: [
+        provideMockStore({}),
+        {
+          provide: MapService,
+          useValue: {
+            geolocation$: new Observable(),
+            moved$: new Observable(),
+          },
+        },
+      ],
       imports: [PushModule],
     }).compileComponents();
 
