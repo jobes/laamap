@@ -15,5 +15,11 @@
     "notams",
     "navigation"
   ],
-  "stylelint.validate": ["css", "scss"]
+  "stylelint.validate": ["css", "scss"],
+  "files.exclude": {
+    "**/.*": true,
+    "**/CVS": true,
+    "**/Thumbs.db": true,
+    "node_modules": true
+  }
 }

@@ -18,7 +18,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { TranslocoMessageFormatModule } from '@ngneat/transloco-messageformat';
 import { LetModule, PushModule } from '@ngrx/component';
@@ -31,13 +30,9 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AirportDialogComponent } from './components/airport-dialog/airport-dialog.component';
 import { AirspacesDialogComponent } from './components/airspaces-dialog/airspaces-dialog.component';
-import { MapComponent } from './components/map/map.component';
-import { OnMapAirSpacesComponent } from './components/map/on-map-air-spaces/on-map-air-spaces.component';
-import { OnMapAirportComponent } from './components/map/on-map-airport/on-map-airport.component';
-import { OnMapDirectionLineComponent } from './components/map/on-map-direction-line/on-map-direction-line.component';
-import { OnMapNotamsComponent } from './components/map/on-map-notams/on-map-notams.component';
 import { OnMapRadarComponent } from './components/map/on-map-radar/on-map-radar.component';
 import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.component';
+import { OnMapDirectionLineComponent } from './components/on-map-direction-line/on-map-direction-line.component';
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
 import { GeneralSettingsComponent } from './components/settings-dialog/general-settings/general-settings.component';
 import { NavigationSettingsComponent } from './components/settings-dialog/navigation-settings/navigation-settings.component';
@@ -54,19 +49,15 @@ import { metaReducers } from './store/metareducers/hydratation';
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent,
     SettingsDialogComponent,
     RadarSettingsComponent,
     OnMapRadarComponent,
     RadarWidgetComponent,
-    OnMapAirportComponent,
     AirportDialogComponent,
     AltitudePipe,
     DimensionPipe,
-    OnMapAirSpacesComponent,
     AirspacesDialogComponent,
     AirspacesSettingsComponent,
-    OnMapNotamsComponent,
     NotamsDialogComponent,
     GeneralSettingsComponent,
     NavigationSettingsComponent,
@@ -76,7 +67,6 @@ import { metaReducers } from './store/metareducers/hydratation';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxMapLibreGLModule,
     HttpClientModule,
     TranslocoRootModule,
     TranslocoLocaleModule.forRoot({

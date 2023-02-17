@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, share } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import {
   EHeightUnit,
@@ -12,15 +12,21 @@ import {
 } from './airport.interfaces';
 import { IAirspace, IAirspaceResponse } from './airspaces.interfaces';
 
+type GetAirportsResponse = Observable<
+  GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirport>
+>;
+
 @Injectable({
   providedIn: 'root',
 })
 export class OpenAipService {
   constructor(private readonly http: HttpClient) {}
 
-  getAirSPaces$(): Observable<{ features: { properties: IAirspace }[] }> {
+  getAirSpaces$(): Observable<
+    GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirspace>
+  > {
     return this.http
-      .get<{ features: { properties: IAirspaceResponse }[] }>(
+      .get<GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirspaceResponse>>(
         'assets/open-aip-db/sk_asp.geojson'
       )
       .pipe(
@@ -42,9 +48,9 @@ export class OpenAipService {
       );
   }
 
-  getAirports$(): Observable<{ features: { properties: IAirport }[] }> {
+  getAirports$(): GetAirportsResponse {
     return this.http
-      .get<{ features: { properties: IAirportResponse }[] }>(
+      .get<GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirportResponse>>(
         'assets/open-aip-db/sk_apt.geojson'
       )
       .pipe(
@@ -68,8 +74,7 @@ export class OpenAipService {
               ),
             },
           })),
-        })),
-        share()
+        }))
       );
   }
 

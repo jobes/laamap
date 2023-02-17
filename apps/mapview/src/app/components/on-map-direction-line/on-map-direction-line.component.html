@@ -1,8 +1,8 @@
 <div *ngIf="ds$ | ngrxPush as ds">
   <div
     class="direction-line"
-    [style.left.px]="ds.currentPxPosition?.x"
-    [style.top.px]="ds.currentPxPosition?.y"
+    [style.left.px]="ds.currentPxPosition.x"
+    [style.top.px]="ds.currentPxPosition.y"
     [style.--segment-size]="ds.segmentSize"
     [style.--heading]="ds.heading"
   >

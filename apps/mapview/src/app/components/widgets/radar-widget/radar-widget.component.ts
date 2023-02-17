@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { distinctUntilChanged, iif, map, switchMap } from 'rxjs';
 
-import { RainViewerService } from '../../../services/rain-viewer.service';
+import { RainViewerService } from '../../../services/rain-viewer/rain-viewer.service';
 import { rainViewersWidgetSettings } from '../../../store/core/core.actions';
 import { selectRadar } from '../../../store/core/core.selectors';
 import {

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 
-import { DataBusService } from '../data-bus.service';
 import { LoggerService } from '../logger/logger.service';
+import { MapService } from '../map/map.service';
+import { NavigationService } from '../navigation/navigation.service';
 
 declare class AbsoluteOrientationSensor {
   constructor(param: { referenceFrame: 'screen' });
@@ -14,20 +14,20 @@ declare class AbsoluteOrientationSensor {
   start(): void;
 }
 
-@UntilDestroy()
 @Injectable({
   providedIn: 'root',
 })
 export class HeadingService {
   heading$: Observable<number>;
   private compassHeadingSubj$ = new BehaviorSubject(0);
-  private gpsHeading$ = this.dataBusService.geolocation$.pipe(
+  private gpsHeading$ = this.mapService.geolocation$.pipe(
     filter((geoLocation) => !isNaN(geoLocation?.coords.heading as number)),
     map((geoLocation): number => geoLocation?.coords.heading ?? 0)
   );
 
   constructor(
-    private readonly dataBusService: DataBusService,
+    private readonly mapService: MapService,
+    private readonly navigationService: NavigationService,
     private readonly logger: LoggerService
   ) {
     this.initCompass();
@@ -35,7 +35,7 @@ export class HeadingService {
     this.heading$ = combineLatest([
       this.compassHeadingSubj$,
       this.gpsHeading$,
-      this.dataBusService.navigationMinSpeedHit$,
+      this.navigationService.navigationMinSpeedHit$,
     ]).pipe(
       map(([compass, gps, minSpeedHit]) => (minSpeedHit ? gps : compass))
     );

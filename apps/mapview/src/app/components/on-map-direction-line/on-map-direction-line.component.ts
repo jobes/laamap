@@ -3,12 +3,13 @@ import { concatLatestFrom } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { combineLatest, map } from 'rxjs';
 
-import { DataBusService } from '../../../services/data-bus.service';
-import { MapHelperFunctionsService } from '../../../services/map-helper-functions/map-helper-functions.service';
+import { MapHelperFunctionsService } from '../../services/map-helper-functions/map-helper-functions.service';
+import { MapService } from '../../services/map/map.service';
+import { NavigationService } from '../../services/navigation/navigation.service';
 import {
   selectNavigationDirectionLineSegmentCount,
   selectNavigationDirectionLineSegmentSeconds,
-} from '../../../store/core/core.selectors';
+} from '../../store/core/core.selectors';
 
 @Component({
   selector: 'laamap-on-map-direction-line',
@@ -18,9 +19,9 @@ import {
 })
 export class OnMapDirectionLineComponent {
   ds$ = combineLatest([
-    this.dataBusService.navigationMinSpeedHit$,
-    this.dataBusService.geolocation$,
-    this.dataBusService.mapMoved$,
+    this.navigationService.navigationMinSpeedHit$,
+    this.mapService.geolocation$,
+    this.mapService.moved$,
   ]).pipe(
     concatLatestFrom(() =>
       this.store.select(selectNavigationDirectionLineSegmentSeconds)
@@ -39,20 +40,19 @@ export class OnMapDirectionLineComponent {
             ),
             segmentsArray: Array.from(Array(segmentCount).keys()),
             heading: geolocation.coords.heading,
-            currentPxPosition: this.dataBusService
-              .getMap()
-              ?.project([
-                geolocation.coords.longitude,
-                geolocation.coords.latitude,
-              ]),
+            currentPxPosition: this.mapService.instance.project([
+              geolocation.coords.longitude,
+              geolocation.coords.latitude,
+            ]),
           }
     )
   );
 
   constructor(
-    private readonly dataBusService: DataBusService,
     private readonly store: Store,
-    private readonly mapHelperFunctionsService: MapHelperFunctionsService
+    private readonly mapHelperFunctionsService: MapHelperFunctionsService,
+    private readonly mapService: MapService,
+    private readonly navigationService: NavigationService
   ) {}
 
   trackBy(index: number, value: number) {

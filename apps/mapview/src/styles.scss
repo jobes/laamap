@@ -21,6 +21,10 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
+#map {
+  height: 100%;
+}
+
 .maplibregl-user-location-dot {
   background: none;
   width: 2rem;

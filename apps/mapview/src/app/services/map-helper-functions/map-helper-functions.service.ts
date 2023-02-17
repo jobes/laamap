@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { MapComponent } from '@maplibre/ngx-maplibre-gl';
+import { Map } from 'maplibre-gl';
 import { Observable, fromEvent, map, take, tap } from 'rxjs';
 
-import { DataBusService } from '../data-bus.service';
+import { MapService } from '../map/map.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapHelperFunctionsService {
-  constructor(private readonly dataBusService: DataBusService) {}
+  constructor(private readonly mapService: MapService) {}
 
   decodeGeoJsonProperties(
     data: import('geojson').GeoJsonProperties
@@ -30,17 +30,13 @@ export class MapHelperFunctionsService {
   }
 
   loadImageToMap$(
-    mapComponent: MapComponent,
+    mapInstance: Map,
     name: string,
     url: string
   ): Observable<true> {
     const img = new Image();
     const event$ = fromEvent(img, 'load').pipe(
-      tap(() => {
-        if (mapComponent) {
-          mapComponent.mapInstance.addImage(name, img);
-        }
-      }),
+      tap(() => mapInstance.addImage(name, img)),
       map(() => true as const),
       take(1)
     );
@@ -50,9 +46,9 @@ export class MapHelperFunctionsService {
 
   metersToPixels(meters: number): number {
     const maxWidth = 100;
-    const y = (this.dataBusService.getMap()?._container.clientHeight ?? 0) / 2;
-    const left = this.dataBusService.getMap()?.unproject([0, y]);
-    const right = this.dataBusService.getMap()?.unproject([maxWidth, y]);
+    const y = (this.mapService.instance.getCanvas().clientHeight ?? 0) / 2;
+    const left = this.mapService.instance.unproject([0, y]);
+    const right = this.mapService.instance.unproject([maxWidth, y]);
     if (left && right) {
       const maxMeters = left?.distanceTo(right);
       return (maxWidth * meters) / maxMeters;

@@ -24,7 +24,6 @@
     "@angular/platform-browser": "15.0.4",
     "@angular/platform-browser-dynamic": "15.0.4",
     "@angular/router": "15.0.4",
-    "@maplibre/ngx-maplibre-gl": "^13.0.0",
     "@ngneat/transloco": "^4.2.1",
     "@ngneat/transloco-locale": "^4.0.0",
     "@ngneat/transloco-messageformat": "^4.1.0",

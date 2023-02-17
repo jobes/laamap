@@ -2,11 +2,13 @@
 import { Injectable } from '@angular/core';
 import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { LngLat } from 'maplibre-gl';
 import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
   filter,
+  forkJoin,
   fromEvent,
   iif,
   interval,
@@ -14,14 +16,26 @@ import {
   of,
   startWith,
   switchMap,
+  take,
   tap,
 } from 'rxjs';
 
 import { HeadingService } from '../../services/heading/heading.service';
-import { RainViewerService } from '../../services/rain-viewer.service';
+import { MapService } from '../../services/map/map.service';
+import { OnMapAirSpacesService } from '../../services/map/on-map-air-spaces/on-map-air-spaces.service';
+import { OnMapAirportsService } from '../../services/map/on-map-airports/on-map-airports.service';
+import { OnMapNotamsService } from '../../services/map/on-map-notams/on-map-notams.service';
+import { NotamsService } from '../../services/notams/notams.service';
+import { OpenAipService } from '../../services/open-aip/open-aip.service';
+import { RainViewerService } from '../../services/rain-viewer/rain-viewer.service';
 import { ScreenWakeLockService } from '../../services/screen-wake-lock/screen-wake-lock.service';
 import { rainViewersUrlsLoaded } from './core.actions';
-import { selectRadar, selectScreenWakeLockEnabled } from './core.selectors';
+import {
+  selectAirspacesSettings,
+  selectNonHiddenNotams,
+  selectRadar,
+  selectScreenWakeLockEnabled,
+} from './core.selectors';
 
 @Injectable()
 export class CoreEffects {
@@ -83,10 +97,69 @@ export class CoreEffects {
     { dispatch: false }
   );
 
+  loadAirSpaces$ = createEffect(
+    () => {
+      return this.mapService.loaded$.pipe(
+        filter((loaded) => loaded),
+        switchMap(() => this.openAip.getAirSpaces$()),
+        tap((geojson) => this.onMapAirSpacesService.createLayers(geojson)),
+        switchMap(() => this.store.select(selectAirspacesSettings)),
+        tap((settings) => this.onMapAirSpacesService.reloadSettings(settings))
+      );
+    },
+    { dispatch: false }
+  );
+
+  loadAirports$ = createEffect(
+    () => {
+      return this.mapService.loaded$.pipe(
+        filter((loaded) => loaded),
+        switchMap(() =>
+          forkJoin([
+            this.openAip.getAirports$(),
+            this.onMapAirportsService.addRequiredImages$(),
+          ])
+        ),
+        tap(([geojson]) => this.onMapAirportsService.createLayers(geojson))
+      );
+    },
+    { dispatch: false }
+  );
+
+  showFirstPositionNotams$ = createEffect(
+    () => {
+      return this.mapService.loaded$.pipe(
+        filter((loaded) => loaded),
+        tap(() => this.onMapNotamsService.createLayers()),
+        switchMap(() => this.mapService.geolocation$),
+        filter((event): event is NonNullable<typeof event> => !!event),
+        take(1),
+        switchMap((event) =>
+          this.notams
+            .aroundPointWithCodes$(
+              new LngLat(event.coords.longitude, event.coords.latitude),
+              100000, // 100km radius
+              ['LZBB']
+            )
+            .pipe(map((notams) => this.notams.notamsToGeoJson(notams)))
+        ),
+        switchMap((notams) => this.store.select(selectNonHiddenNotams(notams))),
+        tap((geojson) => this.onMapNotamsService.setNotamsGeoJson(geojson))
+      );
+    },
+    { dispatch: false }
+  );
+
   constructor(
     private readonly store: Store,
     private readonly rainViewer: RainViewerService,
     private readonly screenWakeLockService: ScreenWakeLockService,
-    private readonly headingService: HeadingService
+    private readonly headingService: HeadingService,
+    private readonly mapService: MapService,
+    private readonly openAip: OpenAipService,
+    private readonly onMapAirSpacesService: OnMapAirSpacesService,
+    private readonly onMapAirportsService: OnMapAirportsService,
+    private readonly onMapNotamsService: OnMapNotamsService,
+    private readonly notams: NotamsService
   ) {}
 }

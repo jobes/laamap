@@ -1,7 +1,7 @@
 import { createAction, createActionGroup, props } from '@ngrx/store';
 
 import { EAirSpaceType } from '../../services/open-aip/airspaces.interfaces';
-import { IRainViewerUrls } from '../../services/rain-viewer.interface';
+import { IRainViewerUrls } from '../../services/rain-viewer/rain-viewer.interface';
 import { AppState } from './core.reducer';
 
 export const radarSettingsActions = createActionGroup({

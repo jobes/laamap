@@ -1,9 +1,11 @@
+@use 'sass:math';
+
 $line-width: 0.25rem;
 
 :host {
   position: absolute;
   top: 0;
-  left: -$line-width / 2;
+  left: math.div(-$line-width, 2);
   pointer-events: none;
 }
 
