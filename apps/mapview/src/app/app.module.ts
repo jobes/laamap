@@ -30,7 +30,6 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AirportDialogComponent } from './components/airport-dialog/airport-dialog.component';
 import { AirspacesDialogComponent } from './components/airspaces-dialog/airspaces-dialog.component';
-import { OnMapRadarComponent } from './components/map/on-map-radar/on-map-radar.component';
 import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.component';
 import { OnMapDirectionLineComponent } from './components/on-map-direction-line/on-map-direction-line.component';
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
@@ -51,7 +50,6 @@ import { metaReducers } from './store/metareducers/hydratation';
     AppComponent,
     SettingsDialogComponent,
     RadarSettingsComponent,
-    OnMapRadarComponent,
     RadarWidgetComponent,
     AirportDialogComponent,
     AltitudePipe,

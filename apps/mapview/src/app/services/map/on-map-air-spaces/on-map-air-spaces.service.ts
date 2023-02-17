@@ -9,7 +9,7 @@ import {
 } from 'maplibre-gl';
 
 import { AirspacesDialogComponent } from '../../../components/airspaces-dialog/airspaces-dialog.component';
-import { IAirSpaceSettingsObject } from '../../../store/core/airspaces-defauls';
+import { IAirSpaceSettingsObject } from '../../../store/core/airspaces-defaults';
 import { MapHelperFunctionsService } from '../../map-helper-functions/map-helper-functions.service';
 import { EAirSpaceType, IAirspace } from '../../open-aip/airspaces.interfaces';
 import { MapService } from '../map.service';

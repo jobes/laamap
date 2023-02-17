@@ -1,25 +1,32 @@
 <ng-template transloco let-t>
-  <ng-container *ngrxLet="radar$ as radar">
+  <ng-container *ngrxLet="radarSettings$ as radarSettings">
     <div
       class="container"
       cdkDrag
-      (cdkDragEnded)="dragEnded(radar.widget.position, $event)"
+      (cdkDragEnded)="dragEnded(radarSettings.widget.position, $event)"
       cdkDragBoundary="body"
-      [cdkDragFreeDragPosition]="radar.widget.position"
+      [cdkDragFreeDragPosition]="radarSettings.widget.position"
       [cdkDragStartDelay]="1000"
-      *ngIf="radar.type !== 'coverage' && radar.widget.enabled && radar.enabled"
-      [style.background]="radar.widget.background"
+      *ngIf="
+        radarSettings.type !== 'coverage' &&
+        radarSettings.widget.enabled &&
+        radarSettings.enabled
+      "
+      [style.background]="radarSettings.widget.background"
     >
-      <h6>{{ t('settingDialog.radar.type.' + radar.type) }}</h6>
+      <h6>{{ t('settingDialog.radar.type.' + radarSettings.type) }}</h6>
       <span
         class="value"
-        *ngIf="activeTileTime$ | ngrxPush as activeTileTime"
+        *ngIf="currentAnimationFrame$ | ngrxPush as currentAnimationFrame"
         [style.color]="
-          (activeTilePast$ | async)
-            ? radar.widget.textColorPast
-            : radar.widget.textColorFuture
+          currentAnimationFrame.pastTime
+            ? radarSettings.widget.textColorPast
+            : radarSettings.widget.textColorFuture
         "
-        >{{ activeTileTime | translocoDate : { timeStyle: 'short' } }}
+        >{{
+          currentAnimationFrame.time * 1000
+            | translocoDate : { timeStyle: 'short' }
+        }}
       </span>
     </div>
   </ng-container>

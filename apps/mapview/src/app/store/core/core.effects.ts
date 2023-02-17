@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
-import { createEffect } from '@ngrx/effects';
+import { concatLatestFrom, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
 import {
@@ -25,15 +25,16 @@ import { MapService } from '../../services/map/map.service';
 import { OnMapAirSpacesService } from '../../services/map/on-map-air-spaces/on-map-air-spaces.service';
 import { OnMapAirportsService } from '../../services/map/on-map-airports/on-map-airports.service';
 import { OnMapNotamsService } from '../../services/map/on-map-notams/on-map-notams.service';
+import { OnMapRainViewerService } from '../../services/map/on-map-rain-viewer/on-map-rain-viewer.service';
 import { NotamsService } from '../../services/notams/notams.service';
 import { OpenAipService } from '../../services/open-aip/open-aip.service';
 import { RainViewerService } from '../../services/rain-viewer/rain-viewer.service';
 import { ScreenWakeLockService } from '../../services/screen-wake-lock/screen-wake-lock.service';
-import { rainViewersUrlsLoaded } from './core.actions';
 import {
   selectAirspacesSettings,
   selectNonHiddenNotams,
   selectRadar,
+  selectRadarEnabled,
   selectScreenWakeLockEnabled,
 } from './core.selectors';
 
@@ -52,23 +53,6 @@ export class CoreEffects {
     .pipe(distinctUntilChanged());
 
   private readonly radarReloadTime = 5 * 60 * 1000; // 5 minutes
-
-  radarUrls$ = createEffect(() => {
-    return this.store.select(selectRadar).pipe(
-      map((radar) => radar.enabled),
-      distinctUntilChanged(),
-      switchMap((enabled) =>
-        iif(
-          () => enabled,
-          interval(this.radarReloadTime).pipe(startWith(0)),
-          of(false)
-        )
-      ),
-      filter((val) => val !== false),
-      switchMap(() => this.rainViewer.getUrls$()),
-      map((data) => rainViewersUrlsLoaded({ data }))
-    );
-  });
 
   screenWakeLock$ = createEffect(
     () => {
@@ -150,6 +134,51 @@ export class CoreEffects {
     { dispatch: false }
   );
 
+  showRainViewer$ = createEffect(
+    () => {
+      return this.mapService.loaded$.pipe(
+        filter((loaded) => loaded),
+        switchMap(() => this.store.select(selectRadarEnabled)),
+        distinctUntilChanged(),
+        switchMap((enabled) =>
+          iif(
+            () => enabled,
+            interval(this.radarReloadTime).pipe(
+              startWith(0),
+
+              switchMap(() =>
+                combineLatest({
+                  // eslint-disable-next-line rxjs/finnish
+                  urls: this.rainViewer.getUrls$(),
+                  // eslint-disable-next-line rxjs/finnish
+                  settings: this.store.select(selectRadar),
+                }).pipe(debounceTime(1000))
+              )
+            ),
+            of(undefined)
+          )
+        ),
+
+        tap((urlsWithSettings) =>
+          this.onMapRainViewerService.createLayers(urlsWithSettings)
+        )
+      );
+    },
+    { dispatch: false }
+  );
+
+  rainViewerAnimation$ = createEffect(
+    () => {
+      return this.rainViewer.currentAnimationFrame$.pipe(
+        concatLatestFrom(() => this.store.select(selectRadar)),
+        tap(([{ frameNum }, settings]) =>
+          this.onMapRainViewerService.showFrame(frameNum, settings.opacity)
+        )
+      );
+    },
+    { dispatch: false }
+  );
+
   constructor(
     private readonly store: Store,
     private readonly rainViewer: RainViewerService,
@@ -160,6 +189,7 @@ export class CoreEffects {
     private readonly onMapAirSpacesService: OnMapAirSpacesService,
     private readonly onMapAirportsService: OnMapAirportsService,
     private readonly onMapNotamsService: OnMapNotamsService,
-    private readonly notams: NotamsService
+    private readonly notams: NotamsService,
+    private readonly onMapRainViewerService: OnMapRainViewerService
   ) {}
 }

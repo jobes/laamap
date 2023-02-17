@@ -21,11 +21,6 @@ export const radarSettingsActions = createActionGroup({
   },
 });
 
-export const rainViewersUrlsLoaded = createAction(
-  '[core effect] Rain viewer URLs loaded',
-  props<{ data: IRainViewerUrls }>()
-);
-
 export const rainViewersWidgetSettings = createActionGroup({
   source: 'Radar widget',
   events: { 'Position Moved': props<{ position: { x: number; y: number } }>() },

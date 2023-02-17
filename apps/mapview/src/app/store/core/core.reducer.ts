@@ -1,8 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { IRainViewerUrls } from '../../services/rain-viewer/rain-viewer.interface';
 import { ScreenWakeLockService } from '../../services/screen-wake-lock/screen-wake-lock.service';
-import { airspacesDefault } from './airspaces-defauls';
+import { airspacesDefault } from './airspaces-defaults';
 import {
   radarSettingsActions,
   rainViewersWidgetSettings,
@@ -28,7 +27,6 @@ const initialState = {
       textColorPast: '#707070',
       textColorFuture: '#005706',
     },
-    urls: null as IRainViewerUrls | null,
   },
   airSpaces: airspacesDefault,
   notams: {
@@ -131,16 +129,6 @@ export const coreReducer = createReducer(
       radar: {
         ...state.radar,
         widget: { ...state.radar.widget, textColorFuture: color },
-      },
-    })
-  ),
-  on(
-    coreActions.rainViewersUrlsLoaded,
-    (state, { data }): AppState['core'] => ({
-      ...state,
-      radar: {
-        ...state.radar,
-        urls: data,
       },
     })
   ),

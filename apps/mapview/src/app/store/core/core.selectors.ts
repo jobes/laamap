@@ -3,12 +3,16 @@ import { createSelector } from '@ngrx/store';
 import { INotamDecoded } from '../../services/notams/notams.interface';
 import { NotamGeoJson } from '../../services/notams/notams.service';
 import { EAirSpaceType } from '../../services/open-aip/airspaces.interfaces';
-import { IAirSpaceSettings } from './airspaces-defauls';
+import { IAirSpaceSettings } from './airspaces-defaults';
 import { AppState } from './core.reducer';
 
 const selectCore = (state: object) => (state as AppState).core;
 
 export const selectRadar = createSelector(selectCore, (state) => state?.radar);
+export const selectRadarEnabled = createSelector(
+  selectCore,
+  (state) => state?.radar.enabled
+);
 
 export const selectAirspacesSettings = createSelector(
   selectCore,
