@@ -58,7 +58,7 @@ export class VariometerWidgetComponent {
       position: position,
       bgColor: settings?.bgColor || 'white',
       textColor: settings?.textColor || 'black',
-      climbingSpeed: climbingSpeed ? Math.round(climbingSpeed * 10) / 10 : null,
+      climbingSpeed,
     }))
   );
 
