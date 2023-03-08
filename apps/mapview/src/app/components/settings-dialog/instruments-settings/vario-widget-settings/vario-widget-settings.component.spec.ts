@@ -1,5 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { LetModule } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 
+import { getTranslocoModule } from '../../../../shared/transloco-testing.module';
 import { VarioWidgetSettingsComponent } from './vario-widget-settings.component';
 
 describe('VarioWidgetSettingsComponent', () => {
@@ -9,6 +14,13 @@ describe('VarioWidgetSettingsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [VarioWidgetSettingsComponent],
+      providers: [provideMockStore({})],
+      imports: [
+        MatSnackBarModule,
+        getTranslocoModule(),
+        LetModule,
+        MatExpansionModule,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(VarioWidgetSettingsComponent);
