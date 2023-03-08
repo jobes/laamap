@@ -56,6 +56,27 @@
       "minActivationSpeed": "Minimálna rýchlosť aktivácie",
       "directionLineSegmentSeconds": "Veľkosť segmentu v sekundách",
       "directionLineSegmentCount": "Počet segmentov"
+    },
+    "instruments": {
+      "title": "Prístroje",
+      "description": "Meranie",
+      "speedMeter": "Rýchlomer",
+      "altiMeter": "Výškomer",
+      "varioMeter": "Variometer",
+      "minSpeedKph": "Minimálna rýchlosť (km/h)",
+      "textColor": "Farba textu",
+      "bgColor": "Farba pozadia",
+      "duplicity": "Chybná hodnota - duplicitný záznam",
+      "gndAltitude": "Nadmorská výška zeme",
+      "altitudeShowTypes": "Typi zobrazení",
+      "minClimbingMps": "Minimána rýchlosť stúpania",
+      "varioDiffTimeMs": "Čas v ms na rozdiel v stúpaní",
+      "altitudeShowTypeList": {
+        "altitudeM": "Nadmorská výška v metroch",
+        "gndM": "Výška nad zemou v metroch",
+        "altitudeFt": "Nadmorská výška v stopách",
+        "gndFt": "Výška nad zemou v stopách"
+      }
     }
   },
   "airportDialog": {
@@ -521,6 +542,10 @@
         "1": "n.m.",
         "2": "FL"
       }
+    },
+    "speed": {
+      "kph": "km/h",
+      "mps": "m/s"
     }
   },
   "notams": {
@@ -537,5 +562,16 @@
   "wakeLock": {
     "lockingError": "Chyba pri zakazovaní vypínania obrazovky",
     "notSupported": "Zakázanie vypnutia obrazovky nie je podporované"
+  },
+  "widgets": {
+    "speedMeter": {
+      "header": "Rýchlosť"
+    },
+    "altimeter": {
+      "header": "Výška"
+    },
+    "variometer": {
+      "header": "Stúpanie"
+    }
   }
 }

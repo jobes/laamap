@@ -6,7 +6,8 @@
     "maplibregl",
     "Notam",
     "Notams",
-    "transloco"
+    "transloco",
+    "vario"
   ],
   "conventionalCommits.scopes": [
     "radar",

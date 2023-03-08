@@ -17,18 +17,22 @@ export class AltitudePipe implements PipeTransform {
       unit: EHeightUnit;
       referenceDatum: EReferenceDatum;
     },
-    params?: EHeightUnit
+    outputUnit?: EHeightUnit,
+    output: 'value' | 'valueAndUnit' = 'valueAndUnit'
   ): string {
     const convertedValue = Math.round(
-      this.convert(value.value, value.unit, params)
+      this.convert(value.value, value.unit, outputUnit)
     );
-    if ((params ?? value.unit) === EHeightUnit.flightLevel) {
+    if (output === 'value') {
+      return `${convertedValue}`;
+    }
+    if ((outputUnit ?? value.unit) === EHeightUnit.flightLevel) {
       return `${this.transloco.translate(
         `shared.altitude.referenceDatum.${value.referenceDatum}`
       )} ${convertedValue}`;
     }
     return `${convertedValue}${this.transloco.translate(
-      `shared.altitude.heighUnit.${params ?? value.unit}`
+      `shared.altitude.heighUnit.${outputUnit ?? value.unit}`
     )} ${this.transloco.translate(
       `shared.altitude.referenceDatum.${value.referenceDatum}`
     )}`;

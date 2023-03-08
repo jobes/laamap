@@ -75,3 +75,23 @@ export const selectNavigationDirectionLineSegmentSeconds = createSelector(
   selectNavigation,
   (state) => state?.directionLineSegmentSeconds
 );
+
+const selectInstruments = createSelector(
+  selectCore,
+  (state) => state?.instrumentsWidget
+);
+
+export const selectInstrumentSpeedMeterWidget = createSelector(
+  selectInstruments,
+  (state) => state?.speedMeter
+);
+
+export const selectInstrumentAltiMeterWidget = createSelector(
+  selectInstruments,
+  (state) => state?.altimeter
+);
+
+export const selectInstrumentVarioMeterWidget = createSelector(
+  selectInstruments,
+  (state) => state?.varioMeter
+);

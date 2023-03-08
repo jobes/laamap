@@ -1,0 +1,23 @@
+<ng-template transloco let-t>
+  <ng-container *ngrxLet="colorsByClimbing$ as colorsByClimbing">
+    <div
+      class="container"
+      cdkDrag
+      (cdkDragEnded)="dragEnded(colorsByClimbing.position, $event)"
+      cdkDragBoundary="body"
+      [cdkDragFreeDragPosition]="colorsByClimbing.position"
+      [cdkDragStartDelay]="1000"
+      [style.background]="colorsByClimbing.bgColor"
+    >
+      <h6>{{ t('widgets.variometer.header') }}</h6>
+      <span class="value" [style.color]="colorsByClimbing.textColor">
+        <span class="fixed-value">{{
+          colorsByClimbing.climbingSpeed || colorsByClimbing.climbingSpeed === 0
+            ? colorsByClimbing.climbingSpeed
+            : '--'
+        }}</span>
+        {{ t('shared.speed.mps') }}</span
+      >
+    </div>
+  </ng-container>
+</ng-template>

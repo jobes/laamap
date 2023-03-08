@@ -1,0 +1,19 @@
+<ng-template transloco let-t>
+  <ng-container *ngrxLet="colorsBySpeed$ as colorsBySpeed">
+    <div
+      class="container"
+      cdkDrag
+      (cdkDragEnded)="dragEnded(colorsBySpeed.position, $event)"
+      cdkDragBoundary="body"
+      [cdkDragFreeDragPosition]="colorsBySpeed.position"
+      [cdkDragStartDelay]="1000"
+      [style.background]="colorsBySpeed.bgColor"
+    >
+      <h6>{{ t('widgets.speedMeter.header') }}</h6>
+      <span class="value" [style.color]="colorsBySpeed.textColor">
+        <span class="fixed-value">{{ colorsBySpeed.speedKph }}</span>
+        {{ t('shared.speed.kph') }}</span
+      >
+    </div>
+  </ng-container>
+</ng-template>

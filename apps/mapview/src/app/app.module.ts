@@ -34,10 +34,17 @@ import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.
 import { OnMapDirectionLineComponent } from './components/on-map-direction-line/on-map-direction-line.component';
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
 import { GeneralSettingsComponent } from './components/settings-dialog/general-settings/general-settings.component';
+import { AltitudeWidgetSettingsComponent } from './components/settings-dialog/instruments-settings/altitude-widget-settings/altitude-widget-settings.component';
+import { InstrumentsSettingsComponent } from './components/settings-dialog/instruments-settings/instruments-settings.component';
+import { SpeedWidgetSettingsComponent } from './components/settings-dialog/instruments-settings/speed-widget-settings/speed-widget-settings.component';
+import { VarioWidgetSettingsComponent } from './components/settings-dialog/instruments-settings/vario-widget-settings/vario-widget-settings.component';
 import { NavigationSettingsComponent } from './components/settings-dialog/navigation-settings/navigation-settings.component';
 import { RadarSettingsComponent } from './components/settings-dialog/radar-settings/radar-settings.component';
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
+import { AltimeterWidgetComponent } from './components/widgets/altimeter-widget/altimeter-widget.component';
 import { RadarWidgetComponent } from './components/widgets/radar-widget/radar-widget.component';
+import { SpeedMeterWidgetComponent } from './components/widgets/speed-meter-widget/speed-meter-widget.component';
+import { VariometerWidgetComponent } from './components/widgets/variometer-widget/variometer-widget.component';
 import { AltitudePipe } from './shared/altitude/altitude.pipe';
 import { DimensionPipe } from './shared/dimension/dimension.pipe';
 import { TranslocoRootModule } from './shared/transloco-root.module';
@@ -60,6 +67,13 @@ import { metaReducers } from './store/metareducers/hydratation';
     GeneralSettingsComponent,
     NavigationSettingsComponent,
     OnMapDirectionLineComponent,
+    SpeedMeterWidgetComponent,
+    InstrumentsSettingsComponent,
+    AltimeterWidgetComponent,
+    SpeedWidgetSettingsComponent,
+    AltitudeWidgetSettingsComponent,
+    VarioWidgetSettingsComponent,
+    VariometerWidgetComponent,
   ],
   imports: [
     BrowserModule,

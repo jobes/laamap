@@ -1,0 +1,79 @@
+<mat-expansion-panel *transloco="let t; read: 'settingDialog.instruments'">
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ t('speedMeter') }}</mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-accordion>
+    <ng-template transloco let-s translocoRead="shared">
+      <ng-container
+        *ngrxLet="speedWidgetColorsSettings$ as speedWidgetColorsSettings"
+      >
+        <mat-expansion-panel
+          *ngFor="
+            let speed of speedWidgetColorsSettings.colorsBySpeed;
+            let i = index;
+            trackBy: trackBySpeed
+          "
+        >
+          <mat-expansion-panel-header [style.background-color]="speed.bgColor">
+            <mat-panel-title [style.color]="speed.textColor">
+              {{ speed.minSpeed }} {{ s('speed.kph') }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-form-field>
+            <mat-label>{{ t('minSpeedKph') }}</mat-label>
+            <input
+              matInput
+              type="number"
+              [ngModel]="speed.minSpeed"
+              (ngModelChange)="
+                setMinSpeed(speedWidgetColorsSettings.colorsBySpeed, i, $event)
+              "
+              [ngModelOptions]="{ updateOn: 'blur' }"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t('textColor') }}</mat-label>
+            <input
+              matInput
+              type="color"
+              [ngModel]="speed.textColor"
+              (ngModelChange)="
+                setTextColor(speedWidgetColorsSettings.colorsBySpeed, i, $event)
+              "
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t('bgColor') }}</mat-label>
+            <input
+              matInput
+              type="color"
+              [ngModel]="speed.bgColor"
+              (ngModelChange)="
+                setBgColor(speedWidgetColorsSettings.colorsBySpeed, i, $event)
+              "
+            />
+          </mat-form-field>
+          <button
+            mat-mini-fab
+            color="warn"
+            class="add"
+            (click)="
+              removeSpeedItem(speedWidgetColorsSettings.colorsBySpeed, i)
+            "
+          >
+            <mat-icon>remove</mat-icon>
+          </button>
+        </mat-expansion-panel>
+
+        <button
+          mat-mini-fab
+          color="primary"
+          class="add"
+          (click)="addNewSpeedItem(speedWidgetColorsSettings.colorsBySpeed)"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </ng-container>
+    </ng-template>
+  </mat-accordion>
+</mat-expansion-panel>
