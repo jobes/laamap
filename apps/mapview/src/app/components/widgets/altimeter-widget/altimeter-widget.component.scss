@@ -1,0 +1,31 @@
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0.3rem;
+  padding: 0.25rem 0.75rem;
+  cursor: move;
+  z-index: 2;
+  background-color: var(--base-color);
+
+  h6 {
+    margin: 0;
+    mix-blend-mode: difference;
+    color: var(--base-color);
+  }
+
+  .value {
+    font-size: 0.75rem;
+
+    .number {
+      font-size: 1rem;
+      display: inline-block;
+      text-align: right;
+      font-family: monospace;
+      width: 3rem;
+      font-weight: 500;
+      white-space: pre-wrap;
+      margin-right: 0.1rem;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+<mat-expansion-panel *transloco="let t; read: 'settingDialog.instruments'">
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ t('altiMeter') }}</mat-panel-title>
+  </mat-expansion-panel-header>
+  <ng-container *ngIf="settings$ | ngrxPush as settings">
+    <mat-form-field>
+      <mat-label>{{ t('gndAltitude') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="settings.gndAltitude"
+        (ngModelChange)="setGndAltitude($event)"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('bgColor') }}</mat-label>
+      <input
+        matInput
+        type="color"
+        [ngModel]="settings.bgColor"
+        (ngModelChange)="bgColorChanged($event)"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('textColor') }}</mat-label>
+      <input
+        matInput
+        type="color"
+        [ngModel]="settings.textColor"
+        (ngModelChange)="textColorChanged($event)"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('altitudeShowTypes') }}</mat-label>
+      <mat-select
+        [ngModel]="settings.show"
+        (ngModelChange)="showTypeChanged($event)"
+        multiple
+      >
+        <mat-option
+          *ngFor="let showType of showTypes; trackBy: showTypeTrack"
+          [value]="showType"
+          >{{ t('altitudeShowTypeList.' + showType) }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+</mat-expansion-panel>

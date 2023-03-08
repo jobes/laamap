@@ -1,0 +1,16 @@
+<ng-template transloco let-t translocoRead="settingDialog.instruments">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>speed</mat-icon>{{ t('title') }}
+      </mat-panel-title>
+      <mat-panel-description> {{ t('description') }}</mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-accordion>
+      <laamap-speed-widget-settings></laamap-speed-widget-settings>
+      <laamap-altitude-widget-settings></laamap-altitude-widget-settings>
+      <laamap-vario-widget-settings></laamap-vario-widget-settings>
+    </mat-accordion>
+  </mat-expansion-panel>
+</ng-template>

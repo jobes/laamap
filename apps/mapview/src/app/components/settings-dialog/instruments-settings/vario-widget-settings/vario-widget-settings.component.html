@@ -1,0 +1,104 @@
+<mat-expansion-panel *transloco="let t; read: 'settingDialog.instruments'">
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ t('varioMeter') }}</mat-panel-title>
+  </mat-expansion-panel-header>
+  <ng-template transloco let-s translocoRead="shared">
+    <ng-container
+      *ngrxLet="varioWidgetColorsSettings$ as varioWidgetColorsSettings"
+    >
+      <mat-form-field>
+        <mat-label>{{ t('varioDiffTimeMs') }}</mat-label>
+        <input
+          matInput
+          min="1"
+          type="number"
+          [ngModel]="varioWidgetColorsSettings.diffTime"
+          (ngModelChange)="setTimeDifference($event)"
+          [ngModelOptions]="{ updateOn: 'blur' }"
+        />
+      </mat-form-field>
+      <mat-accordion>
+        <mat-expansion-panel
+          *ngFor="
+            let vario of varioWidgetColorsSettings.colorsByClimbing;
+            let i = index;
+            trackBy: trackByVario
+          "
+        >
+          <mat-expansion-panel-header [style.background-color]="vario.bgColor">
+            <mat-panel-title [style.color]="vario.textColor">
+              {{ vario.minClimbing }} {{ s('speed.mps') }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-form-field>
+            <mat-label>{{ t('minClimbingMps') }}</mat-label>
+            <input
+              matInput
+              type="number"
+              [ngModel]="vario.minClimbing"
+              (ngModelChange)="
+                setMinClimbing(
+                  varioWidgetColorsSettings.colorsByClimbing,
+                  i,
+                  $event
+                )
+              "
+              [ngModelOptions]="{ updateOn: 'blur' }"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t('textColor') }}</mat-label>
+            <input
+              matInput
+              type="color"
+              [ngModel]="vario.textColor"
+              (ngModelChange)="
+                setTextColor(
+                  varioWidgetColorsSettings.colorsByClimbing,
+                  i,
+                  $event
+                )
+              "
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t('bgColor') }}</mat-label>
+            <input
+              matInput
+              type="color"
+              [ngModel]="vario.bgColor"
+              (ngModelChange)="
+                setBgColor(
+                  varioWidgetColorsSettings.colorsByClimbing,
+                  i,
+                  $event
+                )
+              "
+            />
+          </mat-form-field>
+          <button
+            mat-mini-fab
+            color="warn"
+            class="add"
+            (click)="
+              removeClimbingItem(varioWidgetColorsSettings.colorsByClimbing, i)
+            "
+          >
+            <mat-icon>remove</mat-icon>
+          </button>
+        </mat-expansion-panel>
+
+        <button
+          mat-mini-fab
+          color="primary"
+          class="add"
+          (click)="
+            addNewClimbingItem(varioWidgetColorsSettings.colorsByClimbing)
+          "
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-accordion>
+    </ng-container>
+  </ng-template>
+</mat-expansion-panel>
