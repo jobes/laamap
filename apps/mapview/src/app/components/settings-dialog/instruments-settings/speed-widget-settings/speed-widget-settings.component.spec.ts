@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { provideMockStore } from '@ngrx/store/testing';
 
+import { getTranslocoModule } from '../../../../shared/transloco-testing.module';
 import { SpeedWidgetSettingsComponent } from './speed-widget-settings.component';
 
 describe('SpeedWidgetSettingsComponent', () => {
@@ -9,6 +13,8 @@ describe('SpeedWidgetSettingsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SpeedWidgetSettingsComponent],
+      providers: [provideMockStore({})],
+      imports: [MatSnackBarModule, getTranslocoModule(), MatExpansionModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SpeedWidgetSettingsComponent);
