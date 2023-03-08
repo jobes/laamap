@@ -13,7 +13,9 @@
       <span class="value" [style.color]="colorsByClimbing.textColor">
         <span class="fixed-value">{{
           colorsByClimbing.climbingSpeed || colorsByClimbing.climbingSpeed === 0
-            ? colorsByClimbing.climbingSpeed
+            ? (colorsByClimbing.climbingSpeed
+              | translocoDecimal
+                : { minimumFractionDigits: 1, maximumFractionDigits: 1 })
             : '--'
         }}</span>
         {{ t('shared.speed.mps') }}</span
