@@ -12,6 +12,7 @@
 - notams (using [notams.aim.faa.gov](https://notams.aim.faa.gov))
 - compass and position visualization
 - direction line for showing fly direction and approximate distance for given time. This line is shown after minimum speed is exceed
+- widgets for GPS powered instuments - speed meter, altitude meter and vario meter
 
 Map icon [Plane icons created by Good Ware - Flaticon](https://www.flaticon.com/free-icons/plane).
 
