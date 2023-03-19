@@ -64,24 +64,32 @@ export class OpenAipService {
           ...json,
           features: json.features.map((feature) => ({
             ...feature,
-            properties: {
-              ...feature.properties,
-              mainRunway: this.runwayPaved(
-                feature.properties.runways?.find((runway) => runway.mainRunway)
-              ),
-              runways: feature.properties.runways?.sort((a, b) =>
-                a.mainRunway === b.mainRunway ? 0 : a.mainRunway ? -1 : 1
-              ),
-              mainFrequency:
-                feature.properties.frequencies?.find((freq) => freq.primary) ??
-                {},
-              frequencies: feature.properties.frequencies?.sort((a, b) =>
-                a.primary === b.primary ? 0 : a.primary ? -1 : 1
-              ),
-            },
+            properties: this.mapAirportsResponse(feature),
           })),
         }))
       );
+  }
+
+  private mapAirportsResponse(
+    feature: import('geojson').Feature<
+      import('geojson').Geometry,
+      IAirportResponse
+    >
+  ): IAirport {
+    return {
+      ...feature.properties,
+      mainRunway: this.runwayPaved(
+        feature.properties.runways?.find((runway) => runway.mainRunway)
+      ),
+      runways: feature.properties.runways?.sort((a, b) =>
+        a.mainRunway === b.mainRunway ? 0 : a.mainRunway ? -1 : 1
+      ),
+      mainFrequency:
+        feature.properties.frequencies?.find((freq) => freq.primary) ?? {},
+      frequencies: feature.properties.frequencies?.sort((a, b) =>
+        a.primary === b.primary ? 0 : a.primary ? -1 : 1
+      ),
+    };
   }
 
   private runwayPaved(

@@ -37,4 +37,8 @@ export class NotamsDialogComponent {
   hide(notamId: string): void {
     this.store.dispatch(notamsSettings.hide({ notamId }));
   }
+
+  trackByNotam(index: number, value: INotamDecoded) {
+    return value.id;
+  }
 }

@@ -75,4 +75,12 @@ export class RadarSettingsComponent {
       radarSettingsActions.opacityChanged({ opacity: opacity ?? 0 })
     );
   }
+
+  trackByNumber(index: number, value: number) {
+    return value;
+  }
+
+  trackByString(index: number, value: string) {
+    return value;
+  }
 }
