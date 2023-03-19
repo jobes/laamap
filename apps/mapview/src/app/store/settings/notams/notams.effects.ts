@@ -7,7 +7,7 @@ import { filter, map, switchMap, take, tap } from 'rxjs';
 import { MapService } from '../../../services/map/map.service';
 import { OnMapNotamsService } from '../../../services/map/on-map-notams/on-map-notams.service';
 import { NotamsService } from '../../../services/notams/notams.service';
-import { selectNonHiddenNotams } from './notams.feature';
+import { notamsFeature } from './notams.feature';
 
 @Injectable()
 export class NotamsSettingsEffects {
@@ -28,7 +28,9 @@ export class NotamsSettingsEffects {
             )
             .pipe(map((notams) => this.notams.notamsToGeoJson(notams)))
         ),
-        switchMap((notams) => this.store.select(selectNonHiddenNotams(notams))),
+        switchMap((notams) =>
+          this.store.select(notamsFeature.selectNonHiddenNotams(notams))
+        ),
         tap((geojson) => this.onMapNotamsService.setNotamsGeoJson(geojson))
       );
     },

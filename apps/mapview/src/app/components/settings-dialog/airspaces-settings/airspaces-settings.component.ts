@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { EAirSpaceType } from '../../../services/open-aip/airspaces.interfaces';
 import { IAirSpaceSettings } from '../../../store/settings/air-spaces/air-spaces-init-value';
 import { airspacesSettings } from '../../../store/settings/air-spaces/air-spaces.actions';
-import { selectAirspacesSettingsArray } from '../../../store/settings/air-spaces/air-spaces.feature';
+import { airSpacesFeature } from '../../../store/settings/air-spaces/air-spaces.feature';
 
 @Component({
   selector: 'laamap-airspaces-settings',
@@ -12,7 +12,7 @@ import { selectAirspacesSettingsArray } from '../../../store/settings/air-spaces
   styleUrls: ['./airspaces-settings.component.scss'],
 })
 export class AirspacesSettingsComponent {
-  airSpaces$ = this.store.select(selectAirspacesSettingsArray);
+  airSpaces$ = this.store.select(airSpacesFeature.selectAirspacesSettingsArray);
   expanded = false;
 
   constructor(private readonly store: Store) {}
