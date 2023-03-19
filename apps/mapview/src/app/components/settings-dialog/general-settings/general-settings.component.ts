@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
 import { generalSettings } from '../../../store/settings/general/general.actions';
-import { selectScreenWakeLockEnabled } from '../../../store/settings/general/general.feature';
+import { generalFeature } from '../../../store/settings/general/general.feature';
 
 @Component({
   selector: 'laamap-general-settings',
@@ -11,7 +11,9 @@ import { selectScreenWakeLockEnabled } from '../../../store/settings/general/gen
   styleUrls: ['./general-settings.component.scss'],
 })
 export class GeneralSettingsComponent {
-  screenWakeLockEnabled$ = this.store.select(selectScreenWakeLockEnabled);
+  screenWakeLockEnabled$ = this.store.select(
+    generalFeature.selectScreenWakeLockEnabled
+  );
   screenWakeLockSupported = ScreenWakeLockService.supported;
 
   constructor(private readonly store: Store) {}

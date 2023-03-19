@@ -12,7 +12,7 @@ import {
 } from 'rxjs';
 
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
-import { selectScreenWakeLockEnabled } from './general.feature';
+import { generalFeature } from './general.feature';
 
 @Injectable()
 export class GeneralEffects {
@@ -25,7 +25,7 @@ export class GeneralEffects {
   );
 
   private readonly wakeLockEnabled$ = this.store
-    .select(selectScreenWakeLockEnabled)
+    .select(generalFeature.selectScreenWakeLockEnabled)
     .pipe(distinctUntilChanged());
 
   // eslint-disable-next-line @typescript-eslint/member-ordering

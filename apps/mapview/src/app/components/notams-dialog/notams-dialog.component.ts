@@ -6,7 +6,7 @@ import { filter, take } from 'rxjs';
 
 import { INotamDecoded } from '../../services/notams/notams.interface';
 import { notamsSettings } from '../../store/settings/notams/notams.actions';
-import { selectNonHiddenDecodedNotams } from '../../store/settings/notams/notams.feature';
+import { notamsFeature } from '../../store/settings/notams/notams.feature';
 
 @UntilDestroy()
 @Component({
@@ -15,7 +15,9 @@ import { selectNonHiddenDecodedNotams } from '../../store/settings/notams/notams
   styleUrls: ['./notams-dialog.component.scss'],
 })
 export class NotamsDialogComponent {
-  nonHiddenNotams$ = this.store.select(selectNonHiddenDecodedNotams(this.data));
+  nonHiddenNotams$ = this.store.select(
+    notamsFeature.selectNonHiddenDecodedNotams(this.data)
+  );
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: INotamDecoded[],
     private dialogRef: MatDialogRef<NotamsDialogComponent>,

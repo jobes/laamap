@@ -21,9 +21,10 @@ export const generalFeature = createFeature({
       })
     )
   ),
+  extraSelectors: ({ selectScreenWakeLock }) => ({
+    selectScreenWakeLockEnabled: createSelector(
+      selectScreenWakeLock,
+      (wakeLock) => wakeLock.enabled
+    ),
+  }),
 });
-
-export const selectScreenWakeLockEnabled = createSelector(
-  generalFeature.selectScreenWakeLock,
-  (state) => state.enabled
-);

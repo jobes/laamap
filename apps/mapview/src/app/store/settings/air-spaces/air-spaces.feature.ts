@@ -37,18 +37,19 @@ export const airSpacesFeature = createFeature({
       })
     )
   ),
+  extraSelectors: (selectors) => ({
+    selectAirspacesSettingsArray: createSelector(
+      selectors['selectSettings.airSpacesState'],
+      (state) => {
+        const x = Object.entries(state).reduce(
+          (acc, item) => [
+            ...acc,
+            { ...item[1], id: Number(item[0]) as EAirSpaceType },
+          ],
+          [] as (IAirSpaceSettings & { id: EAirSpaceType })[]
+        );
+        return x;
+      }
+    ),
+  }),
 });
-
-export const selectAirspacesSettingsArray = createSelector(
-  airSpacesFeature['selectSettings.airSpacesState'],
-  (state) => {
-    const x = Object.entries(state).reduce(
-      (acc, item) => [
-        ...acc,
-        { ...item[1], id: Number(item[0]) as EAirSpaceType },
-      ],
-      [] as (IAirSpaceSettings & { id: EAirSpaceType })[]
-    );
-    return x;
-  }
-);
