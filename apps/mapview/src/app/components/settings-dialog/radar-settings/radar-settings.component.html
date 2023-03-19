@@ -26,7 +26,10 @@
       <mat-form-field>
         <mat-label>{{ t('type.title') }}</mat-label>
         <mat-select [value]="radar.type" (valueChange)="typeChanged($event)">
-          <mat-option *ngFor="let type of types" [value]="type">
+          <mat-option
+            *ngFor="let type of types; trackBy: trackByString"
+            [value]="type"
+          >
             {{ t('type.' + type) }}
           </mat-option>
         </mat-select>
@@ -37,7 +40,10 @@
           [value]="radar.colorScheme"
           (valueChange)="colorSchemeChanged($event)"
         >
-          <mat-option *ngFor="let scheme of colorScheme" [value]="scheme">
+          <mat-option
+            *ngFor="let scheme of colorScheme; trackBy: trackByNumber"
+            [value]="scheme"
+          >
             {{ t('colorScheme.' + scheme) }}
           </mat-option>
         </mat-select>

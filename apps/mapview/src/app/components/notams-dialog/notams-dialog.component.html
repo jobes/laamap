@@ -2,7 +2,9 @@
   <h1 mat-dialog-title>{{ t('title') }}</h1>
 
   <mat-accordion mat-dialog-content>
-    <mat-expansion-panel *ngFor="let notam of nonHiddenNotams$ | ngrxPush">
+    <mat-expansion-panel
+      *ngFor="let notam of nonHiddenNotams$ | ngrxPush; trackBy: trackByNotam"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title>{{ notam.id }}</mat-panel-title>
         <mat-panel-description>{{ notam.issuer }}</mat-panel-description>

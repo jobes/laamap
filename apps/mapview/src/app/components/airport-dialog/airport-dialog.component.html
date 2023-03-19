@@ -8,7 +8,10 @@
         <span *ngIf="data.trafficType?.length"
           >(<span
             class="split-list"
-            *ngFor="let trafficType of data.trafficType"
+            *ngFor="
+              let trafficType of data.trafficType;
+              trackBy: trackByTrafficType
+            "
             >{{ t('trafficTypes.' + trafficType) }}</span
           >)</span
         >
@@ -31,7 +34,10 @@
       <span class="value">{{ t('boolean.' + data.skydiveActivity) }}</span>
     </div>
 
-    <div class="info" *ngFor="let freq of data.frequencies">
+    <div
+      class="info"
+      *ngFor="let freq of data.frequencies; trackBy: trackByFrequency"
+    >
       <span class="mat-caption"
         >{{ t('frequency') }} {{ t('frequencies.types.' + freq.type) }}</span
       >
@@ -47,7 +53,9 @@
           <mat-panel-title> {{ t('runways') }} </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-accordion>
-          <mat-expansion-panel *ngFor="let runway of data.runways">
+          <mat-expansion-panel
+            *ngFor="let runway of data.runways; trackBy: trackByRunway"
+          >
             <mat-expansion-panel-header
               ><mat-panel-title [class.highlight]="runway.mainRunway">
                 {{ runway.designator }}
@@ -108,7 +116,7 @@
             href="https://www.openaip.net/api/core/airports/{{
               data._id
             }}/images/{{ image._id }}"
-            *ngFor="let image of data.images"
+            *ngFor="let image of data.images; trackBy: trackByImages"
           >
             <img
               src="https://www.openaip.net/api/core/airports/{{

@@ -1,7 +1,9 @@
 <ng-template transloco let-t translocoRead="airspaceDialog">
   <h1 mat-dialog-title>{{ t('title', data) }}</h1>
   <mat-accordion mat-dialog-content>
-    <mat-expansion-panel *ngFor="let airSpace of data">
+    <mat-expansion-panel
+      *ngFor="let airSpace of data; trackBy: trackByAirSpace"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{ airSpace.name }}

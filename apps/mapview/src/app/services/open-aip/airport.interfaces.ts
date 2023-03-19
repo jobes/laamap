@@ -37,7 +37,7 @@ export enum EReferenceDatum {
   std = 2,
 }
 
-enum ETrafficType {
+export enum ETrafficType {
   vfr = 0,
   ifr = 1,
 }
@@ -171,7 +171,7 @@ enum EExclusiveAircraftType {
   baloon = 13,
 }
 
-interface IAirportFrequency {
+export interface IAirportFrequency {
   _id: string;
   value: string; // pattern: ^\d{3}\.\d{3}$
   unit: EFrequencyUnit;

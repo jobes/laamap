@@ -8,7 +8,13 @@ import { LightGallery } from 'lightgallery/lightgallery';
 import lgZoom from 'lightgallery/plugins/zoom';
 import { filter } from 'rxjs';
 
-import { IAirport } from '../../services/open-aip/airport.interfaces';
+import {
+  ETrafficType,
+  IAirport,
+  IAirportFrequency,
+  IAirportResponse,
+  IRunway,
+} from '../../services/open-aip/airport.interfaces';
 
 @UntilDestroy()
 @Component({
@@ -64,4 +70,20 @@ export class AirportDialogComponent {
   onInit = (detail: InitDetail): void => {
     this.lightGallery = detail.instance;
   };
+
+  trackByTrafficType(index: number, value: ETrafficType) {
+    return value;
+  }
+
+  trackByFrequency(index: number, value: IAirportFrequency) {
+    return value.value;
+  }
+
+  trackByRunway(index: number, value: IRunway) {
+    return value.designator;
+  }
+
+  trackByImages(index: number, value: IAirportResponse['images'][0]) {
+    return value.filename;
+  }
 }
