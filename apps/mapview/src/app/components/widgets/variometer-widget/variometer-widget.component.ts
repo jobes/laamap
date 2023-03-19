@@ -11,8 +11,8 @@ import {
 } from 'rxjs';
 
 import { MapService } from '../../../services/map/map.service';
-import { instrumentsSettings } from '../../../store/core/core.actions';
-import { selectInstrumentVarioMeterWidget } from '../../../store/core/core.selectors';
+import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
+import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
 
 @Component({
   selector: 'laamap-variometer-widget',
@@ -20,27 +20,29 @@ import { selectInstrumentVarioMeterWidget } from '../../../store/core/core.selec
   styleUrls: ['./variometer-widget.component.scss'],
 })
 export class VariometerWidgetComponent {
-  climbingSpeedMs$ = this.store.select(selectInstrumentVarioMeterWidget).pipe(
-    switchMap((settings) =>
-      this.mapService.geolocation$.pipe(
-        auditTime(settings.diffTime),
-        startWith(null),
-        startWith(null),
-        pairwise(),
-        map(([prev, curr]) =>
-          (curr?.coords.altitude || curr?.coords.altitude === 0) &&
-          (prev?.coords.altitude || prev?.coords.altitude === 0)
-            ? curr.coords.altitude - prev.coords.altitude
-            : null
-        ),
-        map((altDiff) =>
-          altDiff !== null ? (altDiff * 1000) / settings.diffTime : null
+  climbingSpeedMs$ = this.store
+    .select(instrumentsFeature.selectVarioMeter)
+    .pipe(
+      switchMap((settings) =>
+        this.mapService.geolocation$.pipe(
+          auditTime(settings.diffTime),
+          startWith(null),
+          startWith(null),
+          pairwise(),
+          map(([prev, curr]) =>
+            (curr?.coords.altitude || curr?.coords.altitude === 0) &&
+            (prev?.coords.altitude || prev?.coords.altitude === 0)
+              ? curr.coords.altitude - prev.coords.altitude
+              : null
+          ),
+          map((altDiff) =>
+            altDiff !== null ? (altDiff * 1000) / settings.diffTime : null
+          )
         )
       )
-    )
-  );
+    );
   colorsByClimbing$ = combineLatest([
-    this.store.select(selectInstrumentVarioMeterWidget),
+    this.store.select(instrumentsFeature.selectVarioMeter),
     this.climbingSpeedMs$,
   ]).pipe(
     map(

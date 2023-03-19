@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
 
 import { MapService } from '../../../services/map/map.service';
-import { instrumentsSettings } from '../../../store/core/core.actions';
-import { selectInstrumentSpeedMeterWidget } from '../../../store/core/core.selectors';
+import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
+import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
 
 @Component({
   selector: 'laamap-speed-meter-widget',
@@ -17,7 +17,9 @@ export class SpeedMeterWidgetComponent {
   colorsBySpeed$ = this.mapService.geolocation$.pipe(
     map((geoLocation) => geoLocation?.coords.speed ?? 0),
     map((speedMeterPerSeconds) => Math.round(speedMeterPerSeconds / 3.6)),
-    concatLatestFrom(() => this.store.select(selectInstrumentSpeedMeterWidget)),
+    concatLatestFrom(() =>
+      this.store.select(instrumentsFeature.selectSpeedMeter)
+    ),
     map(
       ([speedKph, speedSettings]) =>
         [

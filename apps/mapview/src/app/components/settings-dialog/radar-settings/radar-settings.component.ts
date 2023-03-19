@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { radarSettingsActions } from '../../../store/core/core.actions';
-import { AppState } from '../../../store/core/core.reducer';
-import { selectRadar } from '../../../store/core/core.selectors';
+import {
+  RadarTypes,
+  radarSettingsActions,
+} from '../../../store/settings/radar/radar.actions';
+import { radarFeature } from '../../../store/settings/radar/radar.feature';
 
 @Component({
   selector: 'laamap-radar-settings',
@@ -11,7 +13,7 @@ import { selectRadar } from '../../../store/core/core.selectors';
   styleUrls: ['./radar-settings.component.scss'],
 })
 export class RadarSettingsComponent {
-  radar$ = this.store.select(selectRadar);
+  radar$ = this.store.select(radarFeature['selectSettings.radarState']);
 
   types = ['radar', 'satellite', 'coverage'];
   colorScheme = Array.from(Array(9).keys());
@@ -26,7 +28,7 @@ export class RadarSettingsComponent {
     this.store.dispatch(radarSettingsActions.enabledWidgetChanged({ enabled }));
   }
 
-  typeChanged(type: AppState['core']['radar']['type']): void {
+  typeChanged(type: RadarTypes): void {
     this.store.dispatch(radarSettingsActions.typeChanged({ viewType: type }));
   }
 

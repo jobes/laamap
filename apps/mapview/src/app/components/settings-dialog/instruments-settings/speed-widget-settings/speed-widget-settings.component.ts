@@ -3,8 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { instrumentsSettings } from '../../../../store/core/core.actions';
-import { selectInstrumentSpeedMeterWidget } from '../../../../store/core/core.selectors';
+import { instrumentsSettings } from '../../../../store/settings/instruments/instruments.actions';
+import { instrumentsFeature } from '../../../../store/settings/instruments/instruments.feature';
 
 @Component({
   selector: 'laamap-speed-widget-settings',
@@ -13,7 +13,7 @@ import { selectInstrumentSpeedMeterWidget } from '../../../../store/core/core.se
 })
 export class SpeedWidgetSettingsComponent {
   speedWidgetColorsSettings$ = this.store.select(
-    selectInstrumentSpeedMeterWidget
+    instrumentsFeature.selectSpeedMeter
   );
   constructor(
     private readonly store: Store,

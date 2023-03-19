@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { EAirSpaceType } from '../../../services/open-aip/airspaces.interfaces';
-import { IAirSpaceSettings } from '../../../store/core/airspaces-defaults';
-import { airspacesSettings } from '../../../store/core/core.actions';
-import { selectAirspacesSettingsArray } from '../../../store/core/core.selectors';
+import { IAirSpaceSettings } from '../../../store/settings/air-spaces/air-spaces-init-value';
+import { airspacesSettings } from '../../../store/settings/air-spaces/air-spaces.actions';
+import { selectAirspacesSettingsArray } from '../../../store/settings/air-spaces/air-spaces.feature';
 
 @Component({
   selector: 'laamap-airspaces-settings',

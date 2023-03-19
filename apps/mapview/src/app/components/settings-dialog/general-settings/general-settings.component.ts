@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
-import { generalSettings } from '../../../store/core/core.actions';
-import { selectScreenWakeLockEnabled } from '../../../store/core/core.selectors';
+import { generalSettings } from '../../../store/settings/general/general.actions';
+import { selectScreenWakeLockEnabled } from '../../../store/settings/general/general.feature';
 
 @Component({
   selector: 'laamap-general-settings',

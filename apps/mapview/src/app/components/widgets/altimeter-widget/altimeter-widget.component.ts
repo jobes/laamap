@@ -8,8 +8,8 @@ import {
   EHeightUnit,
   EReferenceDatum,
 } from '../../../services/open-aip/airport.interfaces';
-import { instrumentsSettings } from '../../../store/core/core.actions';
-import { selectInstrumentAltiMeterWidget } from '../../../store/core/core.selectors';
+import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
+import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
 
 @Component({
   selector: 'laamap-altimeter-widget',
@@ -20,7 +20,7 @@ export class AltimeterWidgetComponent {
   eHeightUnit = EHeightUnit;
   heighWithSettings$ = combineLatest([
     this.mapService.geolocation$,
-    this.store.select(selectInstrumentAltiMeterWidget),
+    this.store.select(instrumentsFeature.selectAltimeter),
   ]).pipe(
     map(([geolocation, settings]) => ({
       bgColor: settings.bgColor,

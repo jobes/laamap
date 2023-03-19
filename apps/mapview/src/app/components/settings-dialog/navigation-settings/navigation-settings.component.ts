@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { navigationSettings } from '../../../store/core/core.actions';
-import {
-  selectNavigationDirectionLineSegmentCount,
-  selectNavigationDirectionLineSegmentSeconds,
-  selectNavigationMinActivationSpeedKpH,
-} from '../../../store/core/core.selectors';
+import { navigationSettings } from '../../../store/settings/navigation/navigation.actions';
+import { navigationFeature } from '../../../store/settings/navigation/navigation.feature';
 
 @Component({
   selector: 'laamap-navigation-settings',
@@ -15,13 +11,13 @@ import {
 })
 export class NavigationSettingsComponent {
   minActivationSpeed$ = this.store.select(
-    selectNavigationMinActivationSpeedKpH
+    navigationFeature.selectMinActivationSpeedKpH
   );
   directionLineSegmentSeconds$ = this.store.select(
-    selectNavigationDirectionLineSegmentSeconds
+    navigationFeature.selectDirectionLineSegmentSeconds
   );
   directionLineSegmentCount$ = this.store.select(
-    selectNavigationDirectionLineSegmentCount
+    navigationFeature.selectDirectionLineSegmentCount
   );
 
   constructor(private readonly store: Store) {}

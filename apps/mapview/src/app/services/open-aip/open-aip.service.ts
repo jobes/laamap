@@ -13,7 +13,7 @@ import {
 import { IAirspace, IAirspaceResponse } from './airspaces.interfaces';
 
 type GetAirportsResponse = Observable<
-  GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirport>
+  import('geojson').FeatureCollection<import('geojson').Geometry, IAirport>
 >;
 
 @Injectable({
@@ -23,12 +23,15 @@ export class OpenAipService {
   constructor(private readonly http: HttpClient) {}
 
   getAirSpaces$(): Observable<
-    GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirspace>
+    import('geojson').FeatureCollection<import('geojson').Geometry, IAirspace>
   > {
     return this.http
-      .get<GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirspaceResponse>>(
-        'assets/open-aip-db/sk_asp.geojson'
-      )
+      .get<
+        import('geojson').FeatureCollection<
+          import('geojson').Geometry,
+          IAirspaceResponse
+        >
+      >('assets/open-aip-db/sk_asp.geojson')
       .pipe(
         map((json) => ({
           ...json,
@@ -50,9 +53,12 @@ export class OpenAipService {
 
   getAirports$(): GetAirportsResponse {
     return this.http
-      .get<GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirportResponse>>(
-        'assets/open-aip-db/sk_apt.geojson'
-      )
+      .get<
+        import('geojson').FeatureCollection<
+          import('geojson').Geometry,
+          IAirportResponse
+        >
+      >('assets/open-aip-db/sk_apt.geojson')
       .pipe(
         map((json) => ({
           ...json,

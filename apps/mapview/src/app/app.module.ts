@@ -49,8 +49,17 @@ import { AltitudePipe } from './shared/altitude/altitude.pipe';
 import { DimensionPipe } from './shared/dimension/dimension.pipe';
 import { TranslocoRootModule } from './shared/transloco-root.module';
 import { CoreEffects } from './store/core/core.effects';
-import { coreReducer } from './store/core/core.reducer';
-import { metaReducers } from './store/metareducers/hydratation';
+import { metaReducers } from './store/metareducers/hydration';
+import { AirSpacesEffects } from './store/settings/air-spaces/air-spaces.effects';
+import { airSpacesFeature } from './store/settings/air-spaces/air-spaces.feature';
+import { GeneralEffects } from './store/settings/general/general.effects';
+import { generalFeature } from './store/settings/general/general.feature';
+import { instrumentsFeature } from './store/settings/instruments/instruments.feature';
+import { navigationFeature } from './store/settings/navigation/navigation.feature';
+import { NotamsSettingsEffects } from './store/settings/notams/notams.effects';
+import { notamsFeature } from './store/settings/notams/notams.feature';
+import { RadarSettingsEffects } from './store/settings/radar/radar.effects';
+import { radarFeature } from './store/settings/radar/radar.feature';
 
 @NgModule({
   declarations: [
@@ -106,20 +115,33 @@ import { metaReducers } from './store/metareducers/hydratation';
     PushModule,
     RouterModule.forRoot([]),
     StoreModule.forRoot(
-      { core: coreReducer },
+      {
+        [notamsFeature.name]: notamsFeature.reducer,
+        [radarFeature.name]: radarFeature.reducer,
+        [navigationFeature.name]: navigationFeature.reducer,
+        [airSpacesFeature.name]: airSpacesFeature.reducer,
+        [instrumentsFeature.name]: instrumentsFeature.reducer,
+        [generalFeature.name]: generalFeature.reducer,
+      },
       {
         runtimeChecks: {
           strictStateImmutability: true,
           strictActionImmutability: true,
           strictStateSerializability: true,
           strictActionSerializability: true,
-          strictActionWithinNgZone: false,
+          strictActionWithinNgZone: true,
           strictActionTypeUniqueness: true,
         },
         metaReducers,
       }
     ),
-    EffectsModule.forRoot([CoreEffects]),
+    EffectsModule.forRoot([
+      CoreEffects,
+      NotamsSettingsEffects,
+      RadarSettingsEffects,
+      AirSpacesEffects,
+      GeneralEffects,
+    ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

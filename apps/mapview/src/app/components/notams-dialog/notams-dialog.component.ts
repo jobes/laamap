@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs';
 
 import { INotamDecoded } from '../../services/notams/notams.interface';
-import { notamsSettings } from '../../store/core/core.actions';
-import { selectNonHiddenDecodedNotams } from '../../store/core/core.selectors';
+import { notamsSettings } from '../../store/settings/notams/notams.actions';
+import { selectNonHiddenDecodedNotams } from '../../store/settings/notams/notams.feature';
 
 @UntilDestroy()
 @Component({

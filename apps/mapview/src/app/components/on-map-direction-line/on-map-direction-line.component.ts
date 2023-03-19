@@ -6,10 +6,7 @@ import { combineLatest, map } from 'rxjs';
 import { MapHelperFunctionsService } from '../../services/map-helper-functions/map-helper-functions.service';
 import { MapService } from '../../services/map/map.service';
 import { NavigationService } from '../../services/navigation/navigation.service';
-import {
-  selectNavigationDirectionLineSegmentCount,
-  selectNavigationDirectionLineSegmentSeconds,
-} from '../../store/core/core.selectors';
+import { navigationFeature } from '../../store/settings/navigation/navigation.feature';
 
 @Component({
   selector: 'laamap-on-map-direction-line',
@@ -24,10 +21,10 @@ export class OnMapDirectionLineComponent {
     this.mapService.moved$,
   ]).pipe(
     concatLatestFrom(() =>
-      this.store.select(selectNavigationDirectionLineSegmentSeconds)
+      this.store.select(navigationFeature.selectDirectionLineSegmentSeconds)
     ),
     concatLatestFrom(() =>
-      this.store.select(selectNavigationDirectionLineSegmentCount)
+      this.store.select(navigationFeature.selectDirectionLineSegmentCount)
     ),
     map(([[[enabled, geolocation], segmentInSeconds], segmentCount]) =>
       !enabled ||

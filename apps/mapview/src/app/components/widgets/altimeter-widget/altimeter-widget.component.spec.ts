@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 
 import { MapService } from '../../../services/map/map.service';
 import { getTranslocoModule } from '../../../shared/transloco-testing.module';
-import { selectInstrumentAltiMeterWidget } from '../../../store/core/core.selectors';
+import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
 import { AltimeterWidgetComponent } from './altimeter-widget.component';
 
 describe('AltimeterWidgetComponent', () => {
@@ -20,7 +20,9 @@ describe('AltimeterWidgetComponent', () => {
       declarations: [AltimeterWidgetComponent],
       providers: [
         provideMockStore({
-          selectors: [{ selector: selectInstrumentAltiMeterWidget, value: {} }],
+          selectors: [
+            { selector: instrumentsFeature.selectAltimeter, value: {} },
+          ],
         }),
         { provide: MapService, useValue: { geolocation$: of(null) } },
       ],
