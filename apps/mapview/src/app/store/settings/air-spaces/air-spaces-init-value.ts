@@ -1,4 +1,4 @@
-import { EAirSpaceType } from '../../services/open-aip/airspaces.interfaces';
+import { EAirSpaceType } from '../../../services/open-aip/airspaces.interfaces';
 
 export interface IAirSpaceSettings {
   enabled: boolean;
@@ -11,7 +11,7 @@ export type IAirSpaceSettingsObject = {
   [key in EAirSpaceType]: IAirSpaceSettings;
 };
 
-export const airspacesDefault: IAirSpaceSettingsObject = {
+export const airspacesInitValue: IAirSpaceSettingsObject = {
   [EAirSpaceType.other]: {
     enabled: true,
     color: '#808080',

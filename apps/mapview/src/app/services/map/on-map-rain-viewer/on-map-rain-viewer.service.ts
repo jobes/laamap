@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { AppState } from '../../../store/core/core.reducer';
+import { RadarSettings } from '../../../store/settings/radar/radar.feature';
 import { IRainViewerUrls } from '../../rain-viewer/rain-viewer.interface';
 import { RainViewerService } from '../../rain-viewer/rain-viewer.service';
 import { MapService } from '../map.service';
@@ -17,7 +17,7 @@ export class OnMapRainViewerService {
 
   createLayers(urlsWithSettings?: {
     urls: IRainViewerUrls;
-    settings: AppState['core']['radar'];
+    settings: RadarSettings;
   }): void {
     this.deleteLayers();
 
@@ -60,7 +60,7 @@ export class OnMapRainViewerService {
   }
 
   private startAnimation(
-    settings: AppState['core']['radar'],
+    settings: RadarSettings,
     timeArray: { time: number; isPast: boolean }[]
   ): void {
     this.rainViewer.startAnimationTimer(
@@ -94,7 +94,7 @@ export class OnMapRainViewerService {
 
   private createFrameTimeArray(urlsWithSettings: {
     urls: IRainViewerUrls;
-    settings: AppState['core']['radar'];
+    settings: RadarSettings;
   }): { time: number; isPast: boolean }[] {
     if (urlsWithSettings.settings.type === 'radar') {
       return [
@@ -121,7 +121,7 @@ export class OnMapRainViewerService {
 
   private getSourceUrls(urlsWithSettings: {
     urls: IRainViewerUrls;
-    settings: AppState['core']['radar'];
+    settings: RadarSettings;
   }): string[] {
     if (urlsWithSettings.settings.type === 'radar') {
       return this.getRadarSourceUrls(urlsWithSettings);
@@ -134,7 +134,7 @@ export class OnMapRainViewerService {
 
   private getRadarSourceUrls(urlsWithSettings: {
     urls: IRainViewerUrls;
-    settings: AppState['core']['radar'];
+    settings: RadarSettings;
   }): string[] {
     return [
       ...urlsWithSettings.urls.radar.past,
@@ -151,7 +151,7 @@ export class OnMapRainViewerService {
 
   private getSatelliteSourceUrls(urlsWithSettings: {
     urls: IRainViewerUrls;
-    settings: AppState['core']['radar'];
+    settings: RadarSettings;
   }): string[] {
     return urlsWithSettings.urls.satellite.infrared.map(
       (item) =>

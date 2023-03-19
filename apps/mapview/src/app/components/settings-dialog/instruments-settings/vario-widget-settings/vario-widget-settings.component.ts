@@ -3,8 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { instrumentsSettings } from '../../../../store/core/core.actions';
-import { selectInstrumentVarioMeterWidget } from '../../../../store/core/core.selectors';
+import { instrumentsSettings } from '../../../../store/settings/instruments/instruments.actions';
+import { instrumentsFeature } from '../../../../store/settings/instruments/instruments.feature';
 
 @Component({
   selector: 'laamap-vario-widget-settings',
@@ -13,7 +13,7 @@ import { selectInstrumentVarioMeterWidget } from '../../../../store/core/core.se
 })
 export class VarioWidgetSettingsComponent {
   varioWidgetColorsSettings$ = this.store.select(
-    selectInstrumentVarioMeterWidget
+    instrumentsFeature.selectVarioMeter
   );
 
   constructor(

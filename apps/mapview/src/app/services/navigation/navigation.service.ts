@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest, map } from 'rxjs';
 
-import { selectNavigationMinActivationSpeedKpH } from '../../store/core/core.selectors';
+import { navigationFeature } from '../../store/settings/navigation/navigation.feature';
 import { MapService } from '../map/map.service';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { MapService } from '../map/map.service';
 })
 export class NavigationService {
   navigationMinSpeedHit$ = combineLatest([
-    this.store.select(selectNavigationMinActivationSpeedKpH),
+    this.store.select(navigationFeature.selectMinActivationSpeedKpH),
     this.mapService.geolocation$,
   ]).pipe(
     map(

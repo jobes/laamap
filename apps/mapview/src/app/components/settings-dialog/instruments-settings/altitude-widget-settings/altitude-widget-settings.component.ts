@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { instrumentsSettings } from '../../../../store/core/core.actions';
-import { selectInstrumentAltiMeterWidget } from '../../../../store/core/core.selectors';
+import { instrumentsSettings } from '../../../../store/settings/instruments/instruments.actions';
+import { instrumentsFeature } from '../../../../store/settings/instruments/instruments.feature';
 
 @Component({
   selector: 'laamap-altitude-widget-settings',
@@ -11,7 +11,7 @@ import { selectInstrumentAltiMeterWidget } from '../../../../store/core/core.sel
 })
 export class AltitudeWidgetSettingsComponent {
   showTypes = ['altitudeM', 'gndM', 'altitudeFt', 'gndFt'];
-  settings$ = this.store.select(selectInstrumentAltiMeterWidget);
+  settings$ = this.store.select(instrumentsFeature.selectAltimeter);
 
   constructor(private readonly store: Store) {}
 
