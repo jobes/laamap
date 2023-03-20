@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
+import { Store } from '@ngrx/store';
 
+import { mapActions } from '../../store/map/map.actions';
 import { LoggerService } from '../logger/logger.service';
-import { MapService } from '../map/map.service';
-import { NavigationService } from '../navigation/navigation.service';
 
 declare class AbsoluteOrientationSensor {
   constructor(param: { referenceFrame: 'screen' });
@@ -17,35 +16,17 @@ declare class AbsoluteOrientationSensor {
 @Injectable({
   providedIn: 'root',
 })
-export class HeadingService {
-  heading$: Observable<number>;
-  private compassHeadingSubj$ = new BehaviorSubject(0);
-  private gpsHeading$ = this.mapService.geolocation$.pipe(
-    filter((geoLocation) => !isNaN(geoLocation?.coords.heading as number)),
-    map((geoLocation): number => geoLocation?.coords.heading ?? 0)
-  );
-
+export class CompassService {
   constructor(
-    private readonly mapService: MapService,
-    private readonly navigationService: NavigationService,
-    private readonly logger: LoggerService
-  ) {
-    this.initCompass();
+    private readonly logger: LoggerService,
+    private readonly store: Store
+  ) {}
 
-    this.heading$ = combineLatest([
-      this.compassHeadingSubj$,
-      this.gpsHeading$,
-      this.navigationService.navigationMinSpeedHit$,
-    ]).pipe(
-      map(([compass, gps, minSpeedHit]) => (minSpeedHit ? gps : compass))
-    );
-  }
-
-  private initCompass(): void {
-    this.requestCompassPermission()
+  public init(): void {
+    this.requestPermission()
       .then((res) => {
         if (res) {
-          this.setupCompass()?.start();
+          this.setup()?.start();
         }
       })
       .catch(() => {
@@ -56,7 +37,7 @@ export class HeadingService {
       });
   }
 
-  private async requestCompassPermission(): Promise<boolean> {
+  private async requestPermission(): Promise<boolean> {
     const results = await Promise.all([
       navigator.permissions?.query({ name: 'accelerometer' as never }),
       navigator.permissions?.query({ name: 'magnetometer' as never }),
@@ -68,7 +49,7 @@ export class HeadingService {
     return result;
   }
 
-  private setupCompass(): AbsoluteOrientationSensor | undefined {
+  private setup(): AbsoluteOrientationSensor | undefined {
     if (`AbsoluteOrientationSensor` in window) {
       const sensor = new AbsoluteOrientationSensor({
         referenceFrame: 'screen',
@@ -82,7 +63,7 @@ export class HeadingService {
             1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]
           ) *
           (-180 / Math.PI);
-        this.compassHeadingSubj$.next(heading);
+        this.store.dispatch(mapActions.compassHeadingChanged({ heading }));
       });
       return sensor;
     }

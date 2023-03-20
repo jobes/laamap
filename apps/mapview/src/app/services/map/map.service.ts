@@ -1,32 +1,29 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
 import maplibregl from 'maplibre-gl';
 import { Map } from 'maplibre-gl';
-import { BehaviorSubject, Observable, take } from 'rxjs';
+import { take } from 'rxjs';
 
 import { SettingsDialogComponent } from '../../components/settings-dialog/settings-dialog.component';
+import { mapActions } from '../../store/map/map.actions';
+import { CompassService } from '../compass/compass.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
   instance: Map;
-  moved$: Observable<null>;
-  geolocation$: Observable<GeolocationPosition | null>;
-  loaded$: Observable<boolean>;
-  private movedSubj$ = new BehaviorSubject(null);
-  private loadedSubj$ = new BehaviorSubject(false);
-  private geolocationSubj$ = new BehaviorSubject(
-    null as GeolocationPosition | null
-  );
   private tileStyleUrl = `https://api.maptiler.com/maps/topo-v2/style.json?key=${
     process.env['NX_MAP_TILES_KEY'] ?? 'MISSING_KEY'
   }`;
 
   constructor(
     private readonly transloco: TranslocoService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly compassService: CompassService,
+    private readonly store: Store
   ) {
     this.instance = new Map({
       container: 'map',
@@ -37,25 +34,31 @@ export class MapService {
       maxPitch: 85,
     });
     this.addTranslatedControlsToMap();
-    this.setupRotate();
-    this.geolocation$ = this.geolocationSubj$.asObservable();
-    this.moved$ = this.movedSubj$.asObservable();
-    this.loaded$ = this.loadedSubj$.asObservable();
-    this.instance?.on('move', () => {
-      this.movedSubj$.next(null);
-    });
-    this.instance?.on('load', () => {
-      this.loadedSubj$.next(true);
-    });
+    this.setupEvents();
+    this.compassService.init();
   }
 
-  private setupRotate(): void {
-    this.instance.on('rotate', (event) =>
-      document.documentElement.style.setProperty(
-        '--bearing',
-        `${event.target.getBearing()}`
-      )
-    );
+  private setupEvents(): void {
+    this.instance.on('rotate', (event) => {
+      this.store.dispatch(
+        mapActions.rotated({ bearing: event.target.getBearing() })
+      );
+    });
+
+    this.instance?.on('move', (moved) => {
+      this.store.dispatch(
+        mapActions.moved({
+          center: {
+            lng: moved.target.getCenter().lng,
+            lat: moved.target.getCenter().lat,
+          },
+        })
+      );
+    });
+
+    this.instance?.on('load', () => {
+      this.store.dispatch(mapActions.loaded());
+    });
   }
 
   private addTranslatedControlsToMap(): void {
@@ -114,8 +117,25 @@ export class MapService {
       showAccuracyCircle: true,
     });
 
-    control.on('geolocate', (geolocate: GeolocationPosition | null) =>
-      this.geolocationSubj$.next(geolocate)
+    control.on('geolocate', (geoLocation: GeolocationPosition | null) =>
+      this.store.dispatch(
+        mapActions.geolocationChanged({
+          geoLocation: geoLocation
+            ? {
+                coords: {
+                  accuracy: geoLocation.coords.accuracy,
+                  altitude: geoLocation.coords.altitude,
+                  altitudeAccuracy: geoLocation.coords.altitudeAccuracy,
+                  heading: geoLocation.coords.heading,
+                  latitude: geoLocation.coords.latitude,
+                  longitude: geoLocation.coords.longitude,
+                  speed: geoLocation.coords.speed,
+                },
+                timestamp: geoLocation.timestamp,
+              }
+            : null,
+        })
+      )
     );
     this.instance.addControl(control);
   }
