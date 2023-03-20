@@ -11,6 +11,7 @@ import {
 } from 'rxjs';
 
 import { MapService } from '../../../services/map/map.service';
+import { mapFeature } from '../../../store/map/map.feature';
 import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
 import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
 
@@ -20,11 +21,12 @@ import { instrumentsFeature } from '../../../store/settings/instruments/instrume
   styleUrls: ['./variometer-widget.component.scss'],
 })
 export class VariometerWidgetComponent {
+  // TODO change computing
   climbingSpeedMs$ = this.store
     .select(instrumentsFeature.selectVarioMeter)
     .pipe(
       switchMap((settings) =>
-        this.mapService.geolocation$.pipe(
+        this.store.select(mapFeature.selectGeoLocation).pipe(
           auditTime(settings.diffTime),
           startWith(null),
           startWith(null),

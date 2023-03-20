@@ -1,15 +1,37 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { combineLatest, map } from 'rxjs';
+import { Store, createSelector } from '@ngrx/store';
 
-import { MapService } from '../../../services/map/map.service';
 import {
   EHeightUnit,
   EReferenceDatum,
 } from '../../../services/open-aip/airport.interfaces';
+import { mapFeature } from '../../../store/map/map.feature';
 import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
 import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
+
+const selectHeighSettings = createSelector(
+  mapFeature.selectGeoLocation,
+  instrumentsFeature.selectAltimeter,
+  (geolocation, settings) => ({
+    bgColor: settings.bgColor,
+    textColor: settings.textColor,
+    altitudeMeters: geolocation?.coords.altitude,
+    altitudeObject: {
+      value: geolocation?.coords.altitude ?? 0,
+      unit: EHeightUnit.meter,
+      referenceDatum: EReferenceDatum.msl,
+    },
+    gndHeightObject: {
+      value: (geolocation?.coords.altitude ?? 0) - settings.gndAltitude,
+      unit: EHeightUnit.meter,
+      referenceDatum: EReferenceDatum.gnd,
+    },
+    types: settings.show,
+    position: settings.position,
+    hasAltitude: !!geolocation,
+  })
+);
 
 @Component({
   selector: 'laamap-altimeter-widget',
@@ -18,35 +40,10 @@ import { instrumentsFeature } from '../../../store/settings/instruments/instrume
 })
 export class AltimeterWidgetComponent {
   eHeightUnit = EHeightUnit;
-  heighWithSettings$ = combineLatest([
-    this.mapService.geolocation$,
-    this.store.select(instrumentsFeature.selectAltimeter),
-  ]).pipe(
-    map(([geolocation, settings]) => ({
-      bgColor: settings.bgColor,
-      textColor: settings.textColor,
-      altitudeMeters: geolocation?.coords.altitude,
-      altitudeObject: {
-        value: geolocation?.coords.altitude ?? 0,
-        unit: EHeightUnit.meter,
-        referenceDatum: EReferenceDatum.msl,
-      },
-      gndHeightObject: {
-        value: (geolocation?.coords.altitude ?? 0) - settings.gndAltitude,
-        unit: EHeightUnit.meter,
-        referenceDatum: EReferenceDatum.gnd,
-      },
-      types: settings.show,
-      position: settings.position,
-      hasAltitude: !!geolocation,
-    }))
-  );
+  heighWithSettings$ = this.store.select(selectHeighSettings);
 
   private dragging = false;
-  constructor(
-    private readonly store: Store,
-    private readonly mapService: MapService
-  ) {}
+  constructor(private readonly store: Store) {}
 
   dragStarted(): void {
     this.dragging = true;

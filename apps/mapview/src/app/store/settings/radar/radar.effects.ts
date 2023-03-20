@@ -17,6 +17,7 @@ import {
 import { MapService } from '../../../services/map/map.service';
 import { OnMapRainViewerService } from '../../../services/map/on-map-rain-viewer/on-map-rain-viewer.service';
 import { RainViewerService } from '../../../services/rain-viewer/rain-viewer.service';
+import { mapFeature } from '../../map/map.feature';
 import { radarFeature } from './radar.feature';
 
 @Injectable()
@@ -24,7 +25,7 @@ export class RadarSettingsEffects {
   showRainViewer$ = createEffect(
     // eslint-disable-next-line max-lines-per-function
     () => {
-      return this.mapService.loaded$.pipe(
+      return this.store.select(mapFeature.selectLoaded).pipe(
         filter((loaded) => loaded),
         switchMap(() => this.store.select(radarFeature.selectEnabled)),
         distinctUntilChanged(),

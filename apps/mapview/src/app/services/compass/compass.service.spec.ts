@@ -3,10 +3,10 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { Subject } from 'rxjs';
 
 import { MapService } from '../map/map.service';
-import { HeadingService } from './heading.service';
+import { CompassService } from './compass.service';
 
-describe('HeadingService', () => {
-  let service: HeadingService;
+describe('CompassService', () => {
+  let service: CompassService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -15,7 +15,7 @@ describe('HeadingService', () => {
         { provide: MapService, useValue: { geolocation$: new Subject() } },
       ],
     });
-    service = TestBed.inject(HeadingService);
+    service = TestBed.inject(CompassService);
   });
 
   it('should be created', () => {

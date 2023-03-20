@@ -48,7 +48,8 @@ import { VariometerWidgetComponent } from './components/widgets/variometer-widge
 import { AltitudePipe } from './shared/altitude/altitude.pipe';
 import { DimensionPipe } from './shared/dimension/dimension.pipe';
 import { TranslocoRootModule } from './shared/transloco-root.module';
-import { CoreEffects } from './store/core/core.effects';
+import { MapEffects } from './store/map/map.effects';
+import { mapFeature } from './store/map/map.feature';
 import { metaReducers } from './store/metareducers/hydration';
 import { AirSpacesEffects } from './store/settings/air-spaces/air-spaces.effects';
 import { airSpacesFeature } from './store/settings/air-spaces/air-spaces.feature';
@@ -116,6 +117,7 @@ import { radarFeature } from './store/settings/radar/radar.feature';
     RouterModule.forRoot([]),
     StoreModule.forRoot(
       {
+        [mapFeature.name]: mapFeature.reducer,
         [notamsFeature.name]: notamsFeature.reducer,
         [radarFeature.name]: radarFeature.reducer,
         [navigationFeature.name]: navigationFeature.reducer,
@@ -136,7 +138,7 @@ import { radarFeature } from './store/settings/radar/radar.feature';
       }
     ),
     EffectsModule.forRoot([
-      CoreEffects,
+      MapEffects,
       NotamsSettingsEffects,
       RadarSettingsEffects,
       AirSpacesEffects,
