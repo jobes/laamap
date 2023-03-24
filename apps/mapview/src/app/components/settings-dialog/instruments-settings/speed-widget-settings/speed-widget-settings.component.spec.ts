@@ -3,7 +3,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { getTranslocoModule } from '../../../../shared/transloco-testing.module';
+import { getTranslocoModule } from '../../../../transloco-testing.module';
 import { SpeedWidgetSettingsComponent } from './speed-widget-settings.component';
 
 describe('SpeedWidgetSettingsComponent', () => {
