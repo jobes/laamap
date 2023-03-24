@@ -45,9 +45,8 @@ import { AltimeterWidgetComponent } from './components/widgets/altimeter-widget/
 import { RadarWidgetComponent } from './components/widgets/radar-widget/radar-widget.component';
 import { SpeedMeterWidgetComponent } from './components/widgets/speed-meter-widget/speed-meter-widget.component';
 import { VariometerWidgetComponent } from './components/widgets/variometer-widget/variometer-widget.component';
-import { AltitudePipe } from './shared/altitude/altitude.pipe';
-import { DimensionPipe } from './shared/dimension/dimension.pipe';
-import { TranslocoRootModule } from './shared/transloco-root.module';
+import { AltitudePipe } from './pipes/altitude/altitude.pipe';
+import { DimensionPipe } from './pipes/dimension/dimension.pipe';
 import { MapEffects } from './store/map/map.effects';
 import { mapFeature } from './store/map/map.feature';
 import { metaReducers } from './store/metareducers/hydration';
@@ -61,6 +60,7 @@ import { NotamsSettingsEffects } from './store/settings/notams/notams.effects';
 import { notamsFeature } from './store/settings/notams/notams.feature';
 import { RadarSettingsEffects } from './store/settings/radar/radar.effects';
 import { radarFeature } from './store/settings/radar/radar.feature';
+import { TranslocoRootModule } from './transloco-root.module';
 
 @NgModule({
   declarations: [

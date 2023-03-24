@@ -3,7 +3,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { provideMockStore } from '@ngrx/store/testing';
 import maplibregl from 'maplibre-gl';
 
-import { getTranslocoModule } from '../../shared/transloco-testing.module';
+import { getTranslocoModule } from '../../transloco-testing.module';
 import { MapService } from './map.service';
 
 describe('MapService', () => {

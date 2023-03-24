@@ -10,7 +10,7 @@ import {
   translocoConfig,
 } from '@ngneat/transloco';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {

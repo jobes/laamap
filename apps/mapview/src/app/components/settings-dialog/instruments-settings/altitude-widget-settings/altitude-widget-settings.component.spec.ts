@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { getTranslocoModule } from '../../../../shared/transloco-testing.module';
+import { getTranslocoModule } from '../../../../transloco-testing.module';
 import { AltitudeWidgetSettingsComponent } from './altitude-widget-settings.component';
 
 describe('AltitudeWidgetSettingsComponent', () => {

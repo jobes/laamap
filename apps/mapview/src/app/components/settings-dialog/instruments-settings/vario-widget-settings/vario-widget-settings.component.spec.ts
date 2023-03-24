@@ -4,7 +4,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LetModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { getTranslocoModule } from '../../../../shared/transloco-testing.module';
+import { getTranslocoModule } from '../../../../transloco-testing.module';
 import { VarioWidgetSettingsComponent } from './vario-widget-settings.component';
 
 describe('VarioWidgetSettingsComponent', () => {

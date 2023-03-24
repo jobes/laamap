@@ -49,7 +49,7 @@
         "test-setup.ts",
         "src/polyfills.ts",
         "src/environments/environment.prod.ts",
-        "src/app/shared/transloco-testing.module.ts"
+        "src/app/transloco-testing.module.ts"
       ],
       "plugins": ["rxjs", "rxjs-angular"],
       "extends": [
