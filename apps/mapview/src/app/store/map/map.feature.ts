@@ -16,6 +16,7 @@ const initialState = {
   center: [0, 0] as LngLatLike,
   bearing: 0,
   loaded: false,
+  geoLocationTrackingStarting: false,
 };
 
 export const mapFeature = createFeature({
@@ -47,6 +48,14 @@ export const mapFeature = createFeature({
     on(mapActions.rotated, (state, { bearing }): typeof initialState => ({
       ...state,
       bearing,
+    })),
+    on(mapActions.geolocationTrackingStaring, (state): typeof initialState => ({
+      ...state,
+      geoLocationTrackingStarting: true,
+    })),
+    on(mapActions.geolocationTrackingRunning, (state): typeof initialState => ({
+      ...state,
+      geoLocationTrackingStarting: false,
     }))
   ),
   extraSelectors: ({ selectGeoLocation }) => ({

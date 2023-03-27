@@ -8,5 +8,7 @@ export const navigationSettings = createActionGroup({
     }>(),
     'Direction line segment seconds': props<{ seconds: number }>(),
     'Direction line segment count': props<{ count: number }>(),
+    'GPS tracking initial zoom': props<{ zoom: number }>(),
+    'GPS tracking initial pitch': props<{ pitch: number }>(),
   },
 });
