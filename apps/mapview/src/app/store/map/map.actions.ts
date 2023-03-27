@@ -9,5 +9,7 @@ export const mapActions = createActionGroup({
     moved: props<{ center: LngLatLike }>(),
     rotated: props<{ bearing: number }>(),
     loaded: emptyProps(),
+    'geolocation tracking staring': emptyProps(),
+    'geolocation tracking running': emptyProps(),
   },
 });

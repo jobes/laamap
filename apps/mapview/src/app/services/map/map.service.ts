@@ -89,14 +89,13 @@ export class MapService {
   private addControlsToMap(): void {
     this.addSettingsControl();
     this.addGeoLocateControl();
-
-    this.instance.addControl(
-      new maplibregl.NavigationControl({
-        showCompass: true,
-        showZoom: true,
-        visualizePitch: true,
-      })
-    );
+    const navigationControl = new maplibregl.NavigationControl({
+      showCompass: true,
+      showZoom: true,
+      visualizePitch: true,
+    });
+    this.overrideNavigationControl(navigationControl);
+    this.instance.addControl(navigationControl);
 
     this.instance.addControl(
       new maplibregl.AttributionControl({
@@ -105,8 +104,20 @@ export class MapService {
       }),
       'bottom-right'
     );
-
     this.instance.addControl(new maplibregl.ScaleControl({}), 'bottom-right');
+  }
+
+  private overrideNavigationControl(
+    control: maplibregl.NavigationControl
+  ): void {
+    control._zoomInButton.removeAllListeners?.('click');
+    control._zoomOutButton.removeAllListeners?.('click');
+    control._zoomInButton.addEventListener('click', (e) =>
+      this.instance.zoomIn({}, { originalEvent: e, geolocateSource: true })
+    );
+    control._zoomOutButton.addEventListener('click', (e) =>
+      this.instance.zoomOut({}, { originalEvent: e, geolocateSource: true })
+    );
   }
 
   private addGeoLocateControl(): void {
@@ -120,24 +131,42 @@ export class MapService {
     control.on('geolocate', (geoLocation: GeolocationPosition | null) =>
       this.store.dispatch(
         mapActions.geolocationChanged({
-          geoLocation: geoLocation
-            ? {
-                coords: {
-                  accuracy: geoLocation.coords.accuracy,
-                  altitude: geoLocation.coords.altitude,
-                  altitudeAccuracy: geoLocation.coords.altitudeAccuracy,
-                  heading: geoLocation.coords.heading,
-                  latitude: geoLocation.coords.latitude,
-                  longitude: geoLocation.coords.longitude,
-                  speed: geoLocation.coords.speed,
-                },
-                timestamp: geoLocation.timestamp,
-              }
-            : null,
+          geoLocation: this.deepCopyGeoLocation(geoLocation),
         })
       )
     );
+    control.on('trackuserlocationstart', () =>
+      this.store.dispatch(mapActions.geolocationTrackingStaring())
+    );
+    this.overrideGeoLocationControl(control);
     this.instance.addControl(control);
+  }
+
+  private overrideGeoLocationControl(
+    control: maplibregl.GeolocateControl
+  ): void {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    control._updateCamera = () => {}; // disable auto updating camera, do it through effects
+  }
+
+  private deepCopyGeoLocation(
+    geoLocation: GeolocationPosition | null
+  ): GeolocationPosition | null {
+    if (!geoLocation) {
+      return null;
+    }
+    return {
+      coords: {
+        accuracy: geoLocation.coords.accuracy,
+        altitude: geoLocation.coords.altitude,
+        altitudeAccuracy: geoLocation.coords.altitudeAccuracy,
+        heading: geoLocation.coords.heading,
+        latitude: geoLocation.coords.latitude,
+        longitude: geoLocation.coords.longitude,
+        speed: geoLocation.coords.speed,
+      },
+      timestamp: geoLocation.timestamp,
+    };
   }
 
   private addSettingsControl(): void {

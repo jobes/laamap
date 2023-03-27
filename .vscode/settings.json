@@ -15,7 +15,8 @@
     "airfields",
     "notams",
     "navigation",
-    "widgets"
+    "widgets",
+    "map"
   ],
   "stylelint.validate": ["css", "scss"],
   "files.exclude": {
