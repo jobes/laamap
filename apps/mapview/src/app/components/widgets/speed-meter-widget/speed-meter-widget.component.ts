@@ -1,28 +1,9 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { Store, createSelector } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
-import { mapFeature } from '../../../store/map/map.feature';
+import { selectColorsBySpeed } from '../../../store/advanced-selectors';
 import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
-import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
-
-const selectColorsBySpeed = createSelector(
-  mapFeature.selectGeoLocation,
-  instrumentsFeature.selectSpeedMeter,
-  (geoLocation, speedSettings) => {
-    const speedKph = Math.round((geoLocation?.coords.speed ?? 0) * 3.6);
-    const selectedSetting =
-      [...speedSettings.colorsBySpeed]
-        .reverse()
-        .find((settings) => settings.minSpeed <= speedKph) ?? null;
-    return {
-      textColor: selectedSetting?.textColor || 'black',
-      bgColor: selectedSetting?.bgColor || 'white',
-      speedKph,
-      position: speedSettings.position,
-    };
-  }
-);
 
 @Component({
   selector: 'laamap-speed-meter-widget',

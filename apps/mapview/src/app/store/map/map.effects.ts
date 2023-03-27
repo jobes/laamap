@@ -1,21 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store, createSelector } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import maplibreGl from 'maplibre-gl';
 import { filter, map, tap } from 'rxjs';
 
 import { MapService } from '../../services/map/map.service';
-import { navigationFeature } from '../settings/navigation/navigation.feature';
+import { selectOnMapTrackingSelector } from '../advanced-selectors';
 import { mapActions } from './map.actions';
 import { mapFeature } from './map.feature';
-
-const selectOnMapTrackingSelector = createSelector(
-  mapFeature.selectGeoLocation,
-  mapFeature.selectHeading,
-  navigationFeature.selectGpsTrackingInitZoom,
-  navigationFeature.selectGpsTrackingInitPitch,
-  (geoLocation, heading, zoom, pitch) => ({ geoLocation, heading, zoom, pitch })
-);
 
 @Injectable()
 export class MapEffects {

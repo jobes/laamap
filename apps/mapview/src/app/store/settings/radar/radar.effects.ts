@@ -14,7 +14,6 @@ import {
   tap,
 } from 'rxjs';
 
-import { MapService } from '../../../services/map/map.service';
 import { OnMapRainViewerService } from '../../../services/map/on-map-rain-viewer/on-map-rain-viewer.service';
 import { RainViewerService } from '../../../services/rain-viewer/rain-viewer.service';
 import { mapFeature } from '../../map/map.feature';
@@ -77,7 +76,6 @@ export class RadarSettingsEffects {
   constructor(
     private readonly store: Store,
     private readonly rainViewer: RainViewerService,
-    private readonly mapService: MapService,
     private readonly onMapRainViewerService: OnMapRainViewerService
   ) {}
 }

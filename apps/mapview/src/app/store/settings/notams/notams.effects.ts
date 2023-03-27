@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
 import { filter, map, switchMap, take, tap } from 'rxjs';
 
-import { MapService } from '../../../services/map/map.service';
 import { OnMapNotamsService } from '../../../services/map/on-map-notams/on-map-notams.service';
 import { NotamsService } from '../../../services/notams/notams.service';
 import { mapFeature } from '../../map/map.feature';
@@ -40,7 +39,6 @@ export class NotamsSettingsEffects {
 
   constructor(
     private readonly store: Store,
-    private readonly mapService: MapService,
     private readonly onMapNotamsService: OnMapNotamsService,
     private readonly notams: NotamsService
   ) {}
