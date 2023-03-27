@@ -1,37 +1,10 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { Store, createSelector } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
-import {
-  EHeightUnit,
-  EReferenceDatum,
-} from '../../../services/open-aip/airport.interfaces';
-import { mapFeature } from '../../../store/map/map.feature';
+import { EHeightUnit } from '../../../services/open-aip/airport.interfaces';
+import { selectHeighSettings } from '../../../store/advanced-selectors';
 import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
-import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
-
-const selectHeighSettings = createSelector(
-  mapFeature.selectGeoLocation,
-  instrumentsFeature.selectAltimeter,
-  (geolocation, settings) => ({
-    bgColor: settings.bgColor,
-    textColor: settings.textColor,
-    altitudeMeters: geolocation?.coords.altitude,
-    altitudeObject: {
-      value: geolocation?.coords.altitude ?? 0,
-      unit: EHeightUnit.meter,
-      referenceDatum: EReferenceDatum.msl,
-    },
-    gndHeightObject: {
-      value: (geolocation?.coords.altitude ?? 0) - settings.gndAltitude,
-      unit: EHeightUnit.meter,
-      referenceDatum: EReferenceDatum.gnd,
-    },
-    types: settings.show,
-    position: settings.position,
-    hasAltitude: !!geolocation,
-  })
-);
 
 @Component({
   selector: 'laamap-altimeter-widget',
