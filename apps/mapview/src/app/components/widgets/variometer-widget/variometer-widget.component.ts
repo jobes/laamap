@@ -20,6 +20,7 @@ import { instrumentsFeature } from '../../../store/settings/instruments/instrume
   styleUrls: ['./variometer-widget.component.scss'],
 })
 export class VariometerWidgetComponent {
+  show$ = this.store.select(mapFeature.selectShowInstruments);
   climbingSpeedMs$ = this.store
     .select(instrumentsFeature.selectVarioMeter)
     .pipe(

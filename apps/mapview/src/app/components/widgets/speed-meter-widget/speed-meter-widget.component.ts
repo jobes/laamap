@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { selectColorsBySpeed } from '../../../store/advanced-selectors';
+import { mapFeature } from '../../../store/map/map.feature';
 import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
 
 @Component({
@@ -11,6 +12,7 @@ import { instrumentsSettings } from '../../../store/settings/instruments/instrum
   styleUrls: ['./speed-meter-widget.component.scss'],
 })
 export class SpeedMeterWidgetComponent {
+  show$ = this.store.select(mapFeature.selectShowInstruments);
   colorsBySpeed$ = this.store.select(selectColorsBySpeed);
 
   constructor(private readonly store: Store) {}

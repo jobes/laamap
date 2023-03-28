@@ -3,6 +3,7 @@ import { createActionGroup, props } from '@ngrx/store';
 export const instrumentsSettings = createActionGroup({
   source: 'Instrument settings',
   events: {
+    'Show only on active gps': props<{ showOnlyOnActiveGps: boolean }>(),
     'Speed Meter Widget Position Moved': props<{
       position: { x: number; y: number };
     }>(),

@@ -3,6 +3,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { instrumentsSettings } from './instruments.actions';
 
 const initialState = {
+  showOnlyOnActiveGps: true,
   speedMeter: {
     position: { x: 0, y: 0 },
     colorsBySpeed: [
@@ -149,6 +150,13 @@ export const instrumentsFeature = createFeature({
       (state, { show }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, show },
+      })
+    ),
+    on(
+      instrumentsSettings.showOnlyOnActiveGps,
+      (state, { showOnlyOnActiveGps }): typeof initialState => ({
+        ...state,
+        showOnlyOnActiveGps,
       })
     )
   ),

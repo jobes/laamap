@@ -138,6 +138,11 @@ export class MapService {
     control.on('trackuserlocationstart', () =>
       this.store.dispatch(mapActions.geolocationTrackingStaring())
     );
+    control.on('trackuserlocationend', () => {
+      if (control._watchState === 'OFF') {
+        this.store.dispatch(mapActions.geolocationTrackingEnded());
+      }
+    });
     this.overrideGeoLocationControl(control);
     this.instance.addControl(control);
   }
