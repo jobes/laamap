@@ -19,6 +19,12 @@ export class NavigationSettingsComponent {
   directionLineSegmentCount$ = this.store.select(
     navigationFeature.selectDirectionLineSegmentCount
   );
+  gpsTrackingInitialZoom$ = this.store.select(
+    navigationFeature.selectGpsTrackingInitZoom
+  );
+  gpsTrackingInitialPitch$ = this.store.select(
+    navigationFeature.selectGpsTrackingInitPitch
+  );
 
   constructor(private readonly store: Store) {}
 
@@ -34,6 +40,22 @@ export class NavigationSettingsComponent {
     this.store.dispatch(
       navigationSettings.directionLineSegmentSeconds({
         seconds,
+      })
+    );
+  }
+
+  setGpsTrackingInitialZoom(zoom: number): void {
+    this.store.dispatch(
+      navigationSettings.gpsTrackingInitialZoom({
+        zoom,
+      })
+    );
+  }
+
+  setGpsTrackingInitialPitch(pitch: number): void {
+    this.store.dispatch(
+      navigationSettings.gpsTrackingInitialPitch({
+        pitch,
       })
     );
   }
