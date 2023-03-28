@@ -55,7 +55,9 @@
       "directionLine": "Ukazateľ smeru letu",
       "minActivationSpeed": "Minimálna rýchlosť aktivácie",
       "directionLineSegmentSeconds": "Veľkosť segmentu v sekundách",
-      "directionLineSegmentCount": "Počet segmentov"
+      "directionLineSegmentCount": "Počet segmentov",
+      "gpsTrackingInitialZoom": "Priblíženie mapy",
+      "gpsTrackingInitialPitch": "Náklon mapy"
     },
     "instruments": {
       "title": "Prístroje",
