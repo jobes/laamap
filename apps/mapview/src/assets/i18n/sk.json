@@ -62,6 +62,7 @@
     "instruments": {
       "title": "Prístroje",
       "description": "Meranie",
+      "showOnlyOnActiveGps": "Zobraz len pri aktivovanom GPS",
       "speedMeter": "Rýchlomer",
       "altiMeter": "Výškomer",
       "varioMeter": "Variometer",

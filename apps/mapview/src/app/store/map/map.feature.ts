@@ -7,6 +7,7 @@ import {
 } from '@ngrx/store';
 import { LngLatLike } from 'maplibre-gl';
 
+import { instrumentsFeature } from '../settings/instruments/instruments.feature';
 import { navigationFeature } from '../settings/navigation/navigation.feature';
 import { mapActions } from './map.actions';
 
@@ -17,6 +18,7 @@ const initialState = {
   bearing: 0,
   loaded: false,
   geoLocationTrackingStarting: false,
+  geoLocationTrackingActive: false,
 };
 
 export const mapFeature = createFeature({
@@ -52,13 +54,19 @@ export const mapFeature = createFeature({
     on(mapActions.geolocationTrackingStaring, (state): typeof initialState => ({
       ...state,
       geoLocationTrackingStarting: true,
+      geoLocationTrackingActive: true,
     })),
     on(mapActions.geolocationTrackingRunning, (state): typeof initialState => ({
       ...state,
       geoLocationTrackingStarting: false,
+    })),
+    on(mapActions.geolocationTrackingEnded, (state): typeof initialState => ({
+      ...state,
+      geoLocationTrackingStarting: false,
+      geoLocationTrackingActive: false,
     }))
   ),
-  extraSelectors: ({ selectGeoLocation }) => ({
+  extraSelectors: ({ selectGeoLocation, selectGeoLocationTrackingActive }) => ({
     selectGpsHeading: createSelector(selectGeoLocation, (geoLocation) =>
       geoLocation?.coords.heading || geoLocation?.coords.heading === 0
         ? geoLocation?.coords.heading
@@ -69,6 +77,11 @@ export const mapFeature = createFeature({
       selectGeoLocation,
       (minSpeed, geolocation) =>
         minSpeed <= (geolocation?.coords.speed ?? 0) * 3.6
+    ),
+    selectShowInstruments: createSelector(
+      instrumentsFeature.selectShowOnlyOnActiveGps,
+      selectGeoLocationTrackingActive,
+      (onlyOnActiveGps, trackingActive) => !onlyOnActiveGps || trackingActive
     ),
     selectHeading: null as unknown as MemoizedSelector<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

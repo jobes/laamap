@@ -7,6 +7,13 @@
       <mat-panel-description> {{ t('description') }}</mat-panel-description>
     </mat-expansion-panel-header>
 
+    <ng-container *ngrxLet="showOnlyOnActiveGps$ as showOnlyOnActiveGps">
+      <mat-slide-toggle
+        [checked]="showOnlyOnActiveGps"
+        (change)="setShowOnlyOnActiveGps($event.checked)"
+        >{{ t('showOnlyOnActiveGps') }}</mat-slide-toggle
+      >
+    </ng-container>
     <mat-accordion>
       <laamap-speed-widget-settings></laamap-speed-widget-settings>
       <laamap-altitude-widget-settings></laamap-altitude-widget-settings>

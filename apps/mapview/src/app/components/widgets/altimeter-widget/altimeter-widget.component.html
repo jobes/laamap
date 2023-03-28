@@ -1,6 +1,7 @@
 <ng-template transloco let-t>
   <ng-container *ngrxLet="heighWithSettings$ as heighWithSettings">
     <div
+      *ngIf="show$ | async"
       class="container"
       cdkDrag
       (cdkDragEnded)="dragEnded(heighWithSettings.position, $event)"

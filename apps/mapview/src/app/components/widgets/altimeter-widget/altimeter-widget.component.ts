@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { EHeightUnit } from '../../../services/open-aip/airport.interfaces';
 import { selectHeighSettings } from '../../../store/advanced-selectors';
+import { mapFeature } from '../../../store/map/map.feature';
 import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
 
 @Component({
@@ -12,6 +13,7 @@ import { instrumentsSettings } from '../../../store/settings/instruments/instrum
   styleUrls: ['./altimeter-widget.component.scss'],
 })
 export class AltimeterWidgetComponent {
+  show$ = this.store.select(mapFeature.selectShowInstruments);
   eHeightUnit = EHeightUnit;
   heighWithSettings$ = this.store.select(selectHeighSettings);
 

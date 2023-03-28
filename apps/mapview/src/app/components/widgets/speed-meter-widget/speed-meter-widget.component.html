@@ -1,6 +1,7 @@
 <ng-template transloco let-t>
   <ng-container *ngrxLet="colorsBySpeed$ as colorsBySpeed">
     <div
+      *ngIf="show$ | async"
       class="container"
       cdkDrag
       (cdkDragEnded)="dragEnded(colorsBySpeed.position, $event)"
