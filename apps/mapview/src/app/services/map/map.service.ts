@@ -110,8 +110,20 @@ export class MapService {
   private overrideNavigationControl(
     control: maplibregl.NavigationControl
   ): void {
-    control._zoomInButton.removeAllListeners?.('click');
-    control._zoomOutButton.removeAllListeners?.('click');
+    // remove listeners
+    const clonedZoomIn = control._zoomInButton.cloneNode(
+      true
+    ) as HTMLButtonElement;
+    control._zoomInButton.replaceWith(clonedZoomIn);
+    control._zoomInButton = clonedZoomIn;
+
+    const clonedZoomOut = control._zoomOutButton.cloneNode(
+      true
+    ) as HTMLButtonElement;
+    control._zoomOutButton.replaceWith(clonedZoomOut);
+    control._zoomOutButton = clonedZoomOut;
+
+    // add new listener
     control._zoomInButton.addEventListener('click', (e) =>
       this.instance.zoomIn({}, { originalEvent: e, geolocateSource: true })
     );
