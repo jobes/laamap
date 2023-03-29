@@ -72,7 +72,9 @@ export class MapEffects {
               geolocateSource: true,
             }
           );
-          this.startGpsTracking = false;
+          setTimeout(() => {
+            this.startGpsTracking = false; // wait until initial animation ends
+          }, 5000);
         })
       );
     },
