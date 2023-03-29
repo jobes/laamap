@@ -26,6 +26,20 @@ body {
   height: 100%;
 }
 
+.maplibregl-ctrl-top-right {
+  padding: 0 0 1.25rem 1.25rem;
+  pointer-events: all;
+}
+
+.maplibregl-ctrl-group button {
+  width: 2.125rem;
+  height: 2.125rem;
+
+  .maplibregl-ctrl-icon {
+    background-size: cover;
+  }
+}
+
 .maplibregl-user-location-dot {
   background: none;
   width: 2rem;
