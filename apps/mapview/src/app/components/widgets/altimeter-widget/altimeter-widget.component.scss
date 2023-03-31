@@ -9,23 +9,26 @@
   background-color: var(--base-color);
 
   h6 {
+    font-size: calc(0.625rem * var(--widget-font-size-ratio));
+    line-height: 100%;
     margin: 0;
     mix-blend-mode: difference;
     color: var(--base-color);
   }
 
   .value {
-    font-size: 0.75rem;
+    font-size: calc(0.75rem * var(--widget-font-size-ratio));
 
     .number {
-      font-size: 1rem;
+      font-size: calc(1rem * var(--widget-font-size-ratio));
+      line-height: 100%;
       display: inline-block;
       text-align: right;
       font-family: monospace;
-      width: 3rem;
+      width: calc(3rem * var(--widget-font-size-ratio));
       font-weight: 500;
       white-space: pre-wrap;
-      margin-right: 0.1rem;
+      margin-right: calc(0.1rem * var(--widget-font-size-ratio));
     }
   }
 }

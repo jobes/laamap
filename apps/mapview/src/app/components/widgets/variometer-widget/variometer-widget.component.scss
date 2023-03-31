@@ -11,16 +11,21 @@
     margin: 0;
     mix-blend-mode: difference;
     color: var(--base-color);
+    font-size: calc(0.625rem * var(--widget-font-size-ratio));
+    line-height: 100%;
   }
 
   .value {
     font-weight: 500;
+    font-size: calc(0.75rem * var(--widget-font-size-ratio));
+    line-height: 100%;
   }
 
   .fixed-value {
     display: inline-block;
     text-align: right;
     font-family: monospace;
-    width: 2rem;
+    font-size: calc(1rem * var(--widget-font-size-ratio));
+    width: calc(2rem * var(--widget-font-size-ratio));
   }
 }

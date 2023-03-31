@@ -9,9 +9,13 @@
 
   h6 {
     margin: 0;
+    font-size: calc(0.625rem * var(--widget-font-size-ratio));
+    line-height: 100%;
   }
 
   .value {
+    font-size: calc(1rem * var(--widget-font-size-ratio));
     font-weight: 500;
+    line-height: 100%;
   }
 }

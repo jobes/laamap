@@ -47,7 +47,8 @@
       "title": "Aplikácia",
       "description": "Všeobecné nastavenia",
       "screenWakeLockEnabled": "Zakázať vypnúť obrazovku",
-      "notSupported": "Funkcia nie je podporovaná vo vašom zariadení"
+      "notSupported": "Funkcia nie je podporovaná vo vašom zariadení",
+      "widgetFontSizeRatio": "Velkosť písma widgetu"
     },
     "navigation": {
       "title": "Navigácia",
