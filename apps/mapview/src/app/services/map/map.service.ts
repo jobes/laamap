@@ -15,7 +15,7 @@ import { CompassService } from '../compass/compass.service';
 })
 export class MapService {
   instance: Map;
-  private tileStyleUrl = `https://api.maptiler.com/maps/topo-v2/style.json?key=${
+  private tileStyleUrl = `https://api.maptiler.com/maps/openstreetmap/style.json?key=${
     process.env['NX_MAP_TILES_KEY'] ?? 'MISSING_KEY'
   }`;
 
@@ -36,6 +36,15 @@ export class MapService {
     this.addTranslatedControlsToMap();
     this.setupEvents();
     this.compassService.init();
+  }
+
+  setMapFontSizeRatio(ratio: number) {
+    this.setTownFontSizeRatio(ratio);
+    this.setCityFontSizeRatio(ratio);
+    this.setVillageFontSizeRatio(ratio);
+    this.setCapitalFontSizeRatio(ratio);
+    this.setPlaceOtherFontSizeRatio(ratio);
+    this.setWaterFontSizeRatio(ratio);
   }
 
   private setupEvents(): void {
@@ -211,5 +220,81 @@ export class MapService {
     this.dialog
       .open(SettingsDialogComponent, { width: '100%', id: 'settingDialog' })
       .afterClosed();
+  }
+
+  private setTownFontSizeRatio(ratio: number) {
+    this.instance.setLayoutProperty('place_town', 'text-field', [
+      'format',
+      ['get', 'name'],
+      {
+        'font-scale': ratio,
+      },
+    ]);
+  }
+
+  private setCityFontSizeRatio(ratio: number) {
+    this.instance.setLayoutProperty('place_city', 'text-field', [
+      'format',
+      ['get', 'name'],
+      {
+        'font-scale': ratio,
+      },
+    ]);
+  }
+
+  private setVillageFontSizeRatio(ratio: number) {
+    this.instance.setLayoutProperty('place_village', 'text-field', [
+      'format',
+      ['get', 'name'],
+      {
+        'font-scale': ratio,
+      },
+    ]);
+  }
+
+  private setPlaceOtherFontSizeRatio(ratio: number) {
+    this.instance.setLayoutProperty('place_other', 'text-field', [
+      'format',
+      ['get', 'name'],
+      {
+        'font-scale': ratio,
+      },
+    ]);
+  }
+
+  private setCapitalFontSizeRatio(ratio: number) {
+    this.instance.setLayoutProperty('place_capital', 'text-field', [
+      'format',
+      ['get', 'name'],
+      {
+        'font-scale': ratio,
+      },
+    ]);
+  }
+
+  private setWaterFontSizeRatio(ratio: number) {
+    this.instance.setLayoutProperty('water_way_name', 'text-field', [
+      'format',
+      ['get', 'name'],
+      {
+        'font-scale': ratio,
+      },
+    ]);
+
+    this.instance.setLayoutProperty('water_name_line', 'text-field', [
+      'format',
+      ['get', 'name'],
+      {
+        'font-scale': ratio,
+      },
+    ]);
+
+    this.instance.setLayoutProperty('water_name_point', 'text-field', [
+      'format',
+      ['get', 'name'],
+      {
+        'font-scale': ratio,
+      },
+    ]);
   }
 }

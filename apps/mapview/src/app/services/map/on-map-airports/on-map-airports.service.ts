@@ -17,6 +17,7 @@ import { MapService } from '../map.service';
   providedIn: 'root',
 })
 export class OnMapAirportsService {
+  readonly fontSize = 12;
   private imageList = {
     runwayPaved: 'runway_paved-small.svg',
     runwayUnpaved: 'runway_unpaved-small.svg',
@@ -35,7 +36,6 @@ export class OnMapAirportsService {
     @Inject(APP_BASE_HREF) private readonly baseHref: string
   ) {}
 
-  // eslint-disable-next-line max-lines-per-function
   createLayers(
     airports: GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirport>
   ): void {
@@ -194,7 +194,8 @@ export class OnMapAirportsService {
         'text-optional': true,
         'text-anchor': 'bottom',
         'text-offset': [0, -1.2],
-        'text-size': 12,
+        'text-size': this.fontSize,
+        'icon-rotation-alignment': 'map',
       },
     });
   }
