@@ -48,7 +48,8 @@
       "description": "Všeobecné nastavenia",
       "screenWakeLockEnabled": "Zakázať vypnúť obrazovku",
       "notSupported": "Funkcia nie je podporovaná vo vašom zariadení",
-      "widgetFontSizeRatio": "Velkosť písma widgetu"
+      "widgetFontSizeRatio": "Velkosť písma widgetu",
+      "mapFontSizeRatio": "Velkosť písma mapy"
     },
     "navigation": {
       "title": "Navigácia",
