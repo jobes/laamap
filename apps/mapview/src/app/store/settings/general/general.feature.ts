@@ -7,6 +7,7 @@ const initialState = {
   screenWakeLock: {
     enabled: ScreenWakeLockService.supported,
   },
+  widgetFontSizeRation: 1.5,
 };
 
 export const generalFeature = createFeature({
@@ -18,6 +19,13 @@ export const generalFeature = createFeature({
       (state, { enabled }): typeof initialState => ({
         ...state,
         screenWakeLock: { ...state.screenWakeLock, enabled },
+      })
+    ),
+    on(
+      generalSettings.widgetFontSizeRatioChanged,
+      (state, { value }): typeof initialState => ({
+        ...state,
+        widgetFontSizeRation: value,
       })
     )
   ),

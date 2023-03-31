@@ -4,6 +4,7 @@
 :root {
   --bearing: 0; // map rotation
   --heading: 0; // device rotation to magnetic north
+  --widget-font-size-ratio: 1;
   --label-color: grey;
   --direction-line-color: black;
   --direction-line-odd-color: white;

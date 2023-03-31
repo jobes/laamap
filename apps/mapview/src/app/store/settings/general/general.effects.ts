@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
 import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -28,7 +29,6 @@ export class GeneralEffects {
     .select(generalFeature.selectScreenWakeLockEnabled)
     .pipe(distinctUntilChanged());
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   screenWakeLock$ = createEffect(
     () => {
       return combineLatest([this.wakeLockEnabled$, this.visibilitySubj$]).pipe(
@@ -39,6 +39,20 @@ export class GeneralEffects {
           } else {
             this.screenWakeLockService.release();
           }
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  widgetFontSizeRation$ = createEffect(
+    () => {
+      return this.store.select(generalFeature.selectWidgetFontSizeRation).pipe(
+        tap((ration) => {
+          document.documentElement.style.setProperty(
+            '--widget-font-size-ratio',
+            `${ration}`
+          );
         })
       );
     },

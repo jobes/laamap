@@ -15,6 +15,9 @@ export class GeneralSettingsComponent {
     generalFeature.selectScreenWakeLockEnabled
   );
   screenWakeLockSupported = ScreenWakeLockService.supported;
+  widgetFontSizeRatio$ = this.store.select(
+    generalFeature.selectWidgetFontSizeRation
+  );
 
   constructor(private readonly store: Store) {}
 
@@ -22,5 +25,9 @@ export class GeneralSettingsComponent {
     this.store.dispatch(
       generalSettings.screenWakeLockEnableChanged({ enabled })
     );
+  }
+
+  widgetFontSizeRatioChanged(value: number) {
+    this.store.dispatch(generalSettings.widgetFontSizeRatioChanged({ value }));
   }
 }
