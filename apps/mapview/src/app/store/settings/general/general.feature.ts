@@ -9,6 +9,7 @@ const initialState = {
   },
   widgetFontSizeRatio: 1.5,
   mapFontSizeRatio: 1.5,
+  airplaneName: 'OMH-XXX (John Doe)',
 };
 
 export const generalFeature = createFeature({
@@ -34,6 +35,13 @@ export const generalFeature = createFeature({
       (state, { value }): typeof initialState => ({
         ...state,
         mapFontSizeRatio: value,
+      })
+    ),
+    on(
+      generalSettings.setAirplaneName,
+      (state, { airplaneName }): typeof initialState => ({
+        ...state,
+        airplaneName,
       })
     )
   ),

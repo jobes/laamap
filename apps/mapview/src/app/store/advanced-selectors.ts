@@ -10,7 +10,7 @@ import { mapFeature } from './map/map.feature';
 import { instrumentsFeature } from './settings/instruments/instruments.feature';
 import { navigationFeature } from './settings/navigation/navigation.feature';
 
-export const selectOnMapTrackingSelector = createSelector(
+export const selectOnMapTrackingState = createSelector(
   mapFeature.selectGeoLocation,
   mapFeature.selectHeading,
   navigationFeature.selectGpsTrackingInitZoom,

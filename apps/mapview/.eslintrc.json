@@ -194,8 +194,7 @@
     {
       "files": ["*effects.ts"],
       "rules": {
-        "arrow-body-style": "off",
-        "@ngrx/avoid-combining-selectors": "off"
+        "arrow-body-style": "off"
       }
     },
     { "files": ["*spec.ts"], "rules": { "max-lines-per-function": "off" } }
