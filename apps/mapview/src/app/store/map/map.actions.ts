@@ -12,5 +12,8 @@ export const mapActions = createActionGroup({
     'geolocation tracking staring': emptyProps(),
     'geolocation tracking running': emptyProps(),
     'geolocation tracking ended': emptyProps(),
+    'track saving started': emptyProps(),
+    'track saving ended': emptyProps(),
+    'gps timed out': emptyProps(),
   },
 });
