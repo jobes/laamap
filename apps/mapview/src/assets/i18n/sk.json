@@ -49,7 +49,8 @@
       "screenWakeLockEnabled": "Zakázať vypnúť obrazovku",
       "notSupported": "Funkcia nie je podporovaná vo vašom zariadení",
       "widgetFontSizeRatio": "Velkosť písma widgetu",
-      "mapFontSizeRatio": "Velkosť písma mapy"
+      "mapFontSizeRatio": "Velkosť písma mapy",
+      "airPlaneName": "Názov lietadla"
     },
     "navigation": {
       "title": "Navigácia",

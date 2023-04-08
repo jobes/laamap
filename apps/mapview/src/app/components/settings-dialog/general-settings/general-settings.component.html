@@ -45,5 +45,14 @@
         (ngModelChange)="mapFontSizeRatioChanged($event)"
       />
     </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('airPlaneName') }}</mat-label>
+      <input
+        matInput
+        type="string"
+        [ngModel]="airplaneName$ | async"
+        (ngModelChange)="airplaneNameChanged($event)"
+      />
+    </mat-form-field>
   </mat-expansion-panel>
 </ng-template>
