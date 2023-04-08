@@ -19,6 +19,7 @@ export class GeneralSettingsComponent {
     generalFeature.selectWidgetFontSizeRatio
   );
   mapFontSizeRatio$ = this.store.select(generalFeature.selectMapFontSizeRatio);
+  airplaneName$ = this.store.select(generalFeature.selectAirplaneName);
 
   constructor(private readonly store: Store) {}
 
@@ -34,5 +35,9 @@ export class GeneralSettingsComponent {
 
   mapFontSizeRatioChanged(value: number) {
     this.store.dispatch(generalSettings.mapFontSizeRatioChanged({ value }));
+  }
+
+  airplaneNameChanged(airplaneName: string) {
+    this.store.dispatch(generalSettings.setAirplaneName({ airplaneName }));
   }
 }
