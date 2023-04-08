@@ -2,7 +2,16 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import maplibreGl from 'maplibre-gl';
-import { filter, map, tap } from 'rxjs';
+import {
+  combineLatest,
+  delay,
+  filter,
+  iif,
+  map,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 import { MapService } from '../../services/map/map.service';
 import { selectOnMapTrackingSelector } from '../advanced-selectors';
@@ -44,6 +53,42 @@ export class MapEffects {
       ofType(mapActions.geolocationTrackingStaring),
       tap(() => (this.startGpsTracking = true)),
       map(() => mapActions.geolocationTrackingRunning())
+    );
+  });
+
+  gpsTimeOut$ = createEffect(() => {
+    return this.store.select(mapFeature.selectGeoLocation).pipe(
+      switchMap((geoLocation) =>
+        iif(() => !geoLocation, of(false), of(true).pipe(delay(5000)))
+      ),
+      filter((timedOut) => timedOut),
+      map(() => mapActions.gpsTimedOut())
+    );
+  });
+
+  gpsRouteSavingStarted$ = createEffect(() => {
+    return combineLatest([
+      this.store.select(mapFeature.selectMinSpeedHit),
+      this.store.select(mapFeature.selectTrackSaving),
+    ]).pipe(
+      filter(
+        ([hitMinSpeed, trackSavingInProgress]) =>
+          hitMinSpeed && !trackSavingInProgress
+      ),
+      map(() => mapActions.trackSavingStarted())
+    );
+  });
+
+  gpsRouteSavingEnded$ = createEffect(() => {
+    return combineLatest([
+      this.store.select(mapFeature.selectMinSpeedHit),
+      this.store.select(mapFeature.selectTrackSaving),
+    ]).pipe(
+      filter(
+        ([hitMinSpeed, trackSavingInProgress]) =>
+          trackSavingInProgress && !hitMinSpeed
+      ),
+      map(() => mapActions.trackSavingEnded())
     );
   });
 

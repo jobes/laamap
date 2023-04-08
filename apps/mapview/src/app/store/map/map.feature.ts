@@ -19,6 +19,7 @@ const initialState = {
   loaded: false,
   geoLocationTrackingStarting: false,
   geoLocationTrackingActive: false,
+  trackSaving: false,
 };
 
 export const mapFeature = createFeature({
@@ -64,6 +65,18 @@ export const mapFeature = createFeature({
       ...state,
       geoLocationTrackingStarting: false,
       geoLocationTrackingActive: false,
+    })),
+    on(mapActions.trackSavingStarted, (state): typeof initialState => ({
+      ...state,
+      trackSaving: true,
+    })),
+    on(mapActions.trackSavingEnded, (state): typeof initialState => ({
+      ...state,
+      trackSaving: false,
+    })),
+    on(mapActions.gpsTimedOut, (state): typeof initialState => ({
+      ...state,
+      geoLocation: null,
     }))
   ),
   extraSelectors: ({ selectGeoLocation, selectGeoLocationTrackingActive }) => ({

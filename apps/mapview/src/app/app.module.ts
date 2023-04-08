@@ -145,7 +145,7 @@ import { TranslocoRootModule } from './transloco-root.module';
       GeneralEffects,
     ]),
     StoreDevtoolsModule.instrument({
-      maxAge: 25,
+      maxAge: 500,
       logOnly: environment.production,
     }),
     LightgalleryModule,
