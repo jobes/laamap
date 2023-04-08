@@ -41,5 +41,23 @@ export const instrumentsSettings = createActionGroup({
     'Altimeter Show Type Changed': props<{
       show: ('altitudeM' | 'gndM' | 'altitudeFt' | 'gndFt')[];
     }>(),
+    'Tracking Widget Position Moved': props<{
+      position: { x: number; y: number };
+    }>(),
+    'Tracking active text Color Changed': props<{
+      activeText: string;
+    }>(),
+
+    'Tracking inactive text Color Changed': props<{
+      inactiveText: string;
+    }>(),
+
+    'Tracking active bg Color Changed': props<{
+      activeBg: string;
+    }>(),
+
+    'Tracking inactive bg Color Changed': props<{
+      inactiveBg: string;
+    }>(),
   },
 });

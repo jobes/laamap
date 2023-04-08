@@ -77,6 +77,11 @@
       "altitudeShowTypes": "Typi zobrazení",
       "minClimbingMps": "Minimána rýchlosť stúpania",
       "varioDiffTimeMs": "Čas v ms na rozdiel v stúpaní",
+      "tracking": "Záznam letu",
+      "activeBgColor": "Farba pozadia",
+      "activeTextColor": "Farba písma",
+      "inactiveBgColor": "Farba pozadia pri neaktivite",
+      "inactiveTextColor": "Farba písma pri neaktivite",
       "altitudeShowTypeList": {
         "altitudeM": "Nadmorská výška v metroch",
         "gndM": "Výška nad zemou v metroch",
@@ -578,6 +583,9 @@
     },
     "variometer": {
       "header": "Stúpanie"
+    },
+    "tracking": {
+      "header": "Čas letu"
     }
   }
 }

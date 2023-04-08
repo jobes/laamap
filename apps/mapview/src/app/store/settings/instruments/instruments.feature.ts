@@ -55,13 +55,20 @@ const initialState = {
     gndAltitude: 0,
     method: 'manual' as 'manual' | 'terrain',
     bgColor: '#ffffff',
-    textColor: '#707070',
+    textColor: '#000000',
     show: ['altitudeM', 'gndM'] as (
       | 'altitudeM'
       | 'gndM'
       | 'altitudeFt'
       | 'gndFt'
     )[],
+  },
+  tracking: {
+    position: { x: 0, y: 300 },
+    activeBg: '#ffffff',
+    inactiveBg: '#d3d3d3',
+    activeText: '#000000',
+    inactiveText: '#000000',
   },
 };
 
@@ -157,6 +164,41 @@ export const instrumentsFeature = createFeature({
       (state, { showOnlyOnActiveGps }): typeof initialState => ({
         ...state,
         showOnlyOnActiveGps,
+      })
+    ),
+    on(
+      instrumentsSettings.trackingWidgetPositionMoved,
+      (state, { position }): typeof initialState => ({
+        ...state,
+        tracking: { ...state.tracking, position },
+      })
+    ),
+    on(
+      instrumentsSettings.trackingActiveBgColorChanged,
+      (state, { activeBg }): typeof initialState => ({
+        ...state,
+        tracking: { ...state.tracking, activeBg },
+      })
+    ),
+    on(
+      instrumentsSettings.trackingInactiveBgColorChanged,
+      (state, { inactiveBg }): typeof initialState => ({
+        ...state,
+        tracking: { ...state.tracking, inactiveBg },
+      })
+    ),
+    on(
+      instrumentsSettings.trackingActiveTextColorChanged,
+      (state, { activeText }): typeof initialState => ({
+        ...state,
+        tracking: { ...state.tracking, activeText },
+      })
+    ),
+    on(
+      instrumentsSettings.trackingInactiveTextColorChanged,
+      (state, { inactiveText }): typeof initialState => ({
+        ...state,
+        tracking: { ...state.tracking, inactiveText },
       })
     )
   ),

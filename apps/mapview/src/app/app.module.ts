@@ -37,6 +37,7 @@ import { GeneralSettingsComponent } from './components/settings-dialog/general-s
 import { AltitudeWidgetSettingsComponent } from './components/settings-dialog/instruments-settings/altitude-widget-settings/altitude-widget-settings.component';
 import { InstrumentsSettingsComponent } from './components/settings-dialog/instruments-settings/instruments-settings.component';
 import { SpeedWidgetSettingsComponent } from './components/settings-dialog/instruments-settings/speed-widget-settings/speed-widget-settings.component';
+import { TrackingWidgetSettingsComponent } from './components/settings-dialog/instruments-settings/tracking-widget-settings/tracking-widget-settings.component';
 import { VarioWidgetSettingsComponent } from './components/settings-dialog/instruments-settings/vario-widget-settings/vario-widget-settings.component';
 import { NavigationSettingsComponent } from './components/settings-dialog/navigation-settings/navigation-settings.component';
 import { RadarSettingsComponent } from './components/settings-dialog/radar-settings/radar-settings.component';
@@ -44,6 +45,7 @@ import { SettingsDialogComponent } from './components/settings-dialog/settings-d
 import { AltimeterWidgetComponent } from './components/widgets/altimeter-widget/altimeter-widget.component';
 import { RadarWidgetComponent } from './components/widgets/radar-widget/radar-widget.component';
 import { SpeedMeterWidgetComponent } from './components/widgets/speed-meter-widget/speed-meter-widget.component';
+import { TrackingWidgetComponent } from './components/widgets/tracking-widget/tracking-widget.component';
 import { VariometerWidgetComponent } from './components/widgets/variometer-widget/variometer-widget.component';
 import { AltitudePipe } from './pipes/altitude/altitude.pipe';
 import { DimensionPipe } from './pipes/dimension/dimension.pipe';
@@ -84,6 +86,8 @@ import { TranslocoRootModule } from './transloco-root.module';
     AltitudeWidgetSettingsComponent,
     VarioWidgetSettingsComponent,
     VariometerWidgetComponent,
+    TrackingWidgetComponent,
+    TrackingWidgetSettingsComponent,
   ],
   imports: [
     BrowserModule,

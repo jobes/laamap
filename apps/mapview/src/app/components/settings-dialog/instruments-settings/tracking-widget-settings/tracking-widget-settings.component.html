@@ -1,0 +1,43 @@
+<mat-expansion-panel *transloco="let t; read: 'settingDialog.instruments'">
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ t('tracking') }}</mat-panel-title>
+  </mat-expansion-panel-header>
+  <ng-container *ngIf="settings$ | ngrxPush as settings">
+    <mat-form-field>
+      <mat-label>{{ t('activeBgColor') }}</mat-label>
+      <input
+        matInput
+        type="color"
+        [ngModel]="settings.activeBg"
+        (ngModelChange)="activeBgColorChanged($event)"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('activeTextColor') }}</mat-label>
+      <input
+        matInput
+        type="color"
+        [ngModel]="settings.activeText"
+        (ngModelChange)="activeTextColorChanged($event)"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('inactiveBgColor') }}</mat-label>
+      <input
+        matInput
+        type="color"
+        [ngModel]="settings.inactiveBg"
+        (ngModelChange)="inactiveBgColorChanged($event)"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('inactiveTextColor') }}</mat-label>
+      <input
+        matInput
+        type="color"
+        [ngModel]="settings.inactiveText"
+        (ngModelChange)="inactiveTextColorChanged($event)"
+      />
+    </mat-form-field>
+  </ng-container>
+</mat-expansion-panel>
