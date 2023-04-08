@@ -1,0 +1,28 @@
+<ng-template transloco let-t>
+  <ng-container *ngrxLet="tracking$ as tracking">
+    <ng-container *ngrxLet="currentFlyTime$ as currentFlyTime">
+      <div
+        [style.background-color]="
+          currentFlyTime.active ? tracking.activeBg : tracking.inactiveBg
+        "
+        [style.color]="
+          currentFlyTime.active ? tracking.activeText : tracking.inactiveText
+        "
+        *ngIf="show$ | async"
+        class="container"
+        cdkDrag
+        (cdkDragEnded)="dragEnded(tracking.position, $event)"
+        cdkDragBoundary="body"
+        [cdkDragFreeDragPosition]="tracking.position"
+        [cdkDragStartDelay]="1000"
+      >
+        <h6>{{ t('widgets.tracking.header') }}</h6>
+        <span class="value">
+          {{ currentFlyTime.hours | number : '1.0' }}:{{
+            currentFlyTime.minutes | number : '2.0'
+          }}:{{ currentFlyTime.seconds | number : '2.0' }}
+        </span>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-template>
