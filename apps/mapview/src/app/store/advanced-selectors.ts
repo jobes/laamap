@@ -85,3 +85,12 @@ export const selectColorsBySpeed = createSelector(
     };
   }
 );
+
+export const selectTrackInProgressWithMinSpeed = createSelector(
+  mapFeature.selectMinSpeedHit,
+  mapFeature.selectTrackSaving,
+  (hitMinSpeed, trackSavingInProgress) => ({
+    hitMinSpeed,
+    trackSavingInProgress,
+  })
+);

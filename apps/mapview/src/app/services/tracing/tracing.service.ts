@@ -46,6 +46,7 @@ export class TracingService {
   > {
     const db = new PouchDb(dbName);
     const indexDbRows = await db.allDocs<GeolocationCoordinates>({
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       include_docs: true,
     });
     const geoCoordinations = indexDbRows.rows
