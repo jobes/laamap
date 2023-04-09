@@ -34,7 +34,6 @@ import { AirportDialogComponent } from './components/airport-dialog/airport-dial
 import { AirspacesDialogComponent } from './components/airspaces-dialog/airspaces-dialog.component';
 import { FlyTracingHistoryDialogComponent } from './components/fly-tracing-history-dialog/fly-tracing-history-dialog.component';
 import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.component';
-import { OnMapDirectionLineComponent } from './components/on-map-direction-line/on-map-direction-line.component';
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
 import { GeneralSettingsComponent } from './components/settings-dialog/general-settings/general-settings.component';
 import { AltitudeWidgetSettingsComponent } from './components/settings-dialog/instruments-settings/altitude-widget-settings/altitude-widget-settings.component';
@@ -82,7 +81,6 @@ import { TranslocoRootModule } from './transloco-root.module';
     NotamsDialogComponent,
     GeneralSettingsComponent,
     NavigationSettingsComponent,
-    OnMapDirectionLineComponent,
     SpeedMeterWidgetComponent,
     InstrumentsSettingsComponent,
     AltimeterWidgetComponent,
