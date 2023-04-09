@@ -1,10 +1,10 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
   endWith,
-  last,
   map,
   pairwise,
   startWith,
@@ -17,6 +17,7 @@ import { mapActions } from '../../../store/map/map.actions';
 import { mapFeature } from '../../../store/map/map.feature';
 import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
 import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
+import { FlyTracingHistoryDialogComponent } from '../../fly-tracing-history-dialog/fly-tracing-history-dialog.component';
 
 @Component({
   selector: 'laamap-tracking-widget',
@@ -32,31 +33,34 @@ export class TrackingWidgetComponent {
       timer(0, 1000).pipe(
         startWith(0),
         map((seconds) => ({
-          hours: Math.floor(seconds / 3600),
-          minutes: Math.floor(seconds / 60) % 60,
-          seconds: seconds % 60,
+          seconds,
           active: true,
         })),
         // eslint-disable-next-line rxjs/no-unsafe-takeuntil
         takeUntil(this.actions$.pipe(ofType(mapActions.trackSavingEnded))),
-        endWith({ hours: 0, minutes: 0, seconds: 0, active: false }),
+        endWith({ seconds: 0, active: false }),
         pairwise(),
         map(([first, second]) =>
           !second.active ? { ...first, active: false } : second
         )
       )
     ),
-    startWith({ hours: 0, minutes: 0, seconds: 0, active: false })
+    startWith({ seconds: 0, active: false })
   );
 
+  private dragging = false;
   constructor(
     private readonly store: Store,
-    private readonly actions$: Actions
+    private readonly actions$: Actions,
+    private readonly dialog: MatDialog
   ) {}
   dragEnded(
     originalPosition: { x: number; y: number },
     event: CdkDragEnd
   ): void {
+    setTimeout(() => {
+      this.dragging = false;
+    }, 50);
     this.store.dispatch(
       instrumentsSettings.trackingWidgetPositionMoved({
         position: {
@@ -65,5 +69,21 @@ export class TrackingWidgetComponent {
         },
       })
     );
+  }
+
+  dragStarted(): void {
+    this.dragging = true;
+  }
+
+  openHistory(): void {
+    if (this.dragging) {
+      return;
+    }
+    this.dialog
+      .open(FlyTracingHistoryDialogComponent, {
+        width: '100%',
+        id: 'flyHistory',
+      })
+      .afterClosed();
   }
 }

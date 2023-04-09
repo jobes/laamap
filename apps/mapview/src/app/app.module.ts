@@ -10,10 +10,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,6 +32,7 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AirportDialogComponent } from './components/airport-dialog/airport-dialog.component';
 import { AirspacesDialogComponent } from './components/airspaces-dialog/airspaces-dialog.component';
+import { FlyTracingHistoryDialogComponent } from './components/fly-tracing-history-dialog/fly-tracing-history-dialog.component';
 import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.component';
 import { OnMapDirectionLineComponent } from './components/on-map-direction-line/on-map-direction-line.component';
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
@@ -48,6 +51,7 @@ import { SpeedMeterWidgetComponent } from './components/widgets/speed-meter-widg
 import { TrackingWidgetComponent } from './components/widgets/tracking-widget/tracking-widget.component';
 import { VariometerWidgetComponent } from './components/widgets/variometer-widget/variometer-widget.component';
 import { AltitudePipe } from './pipes/altitude/altitude.pipe';
+import { DigitalTimePipe } from './pipes/digital-time/digital-time.pipe';
 import { DimensionPipe } from './pipes/dimension/dimension.pipe';
 import { MapEffects } from './store/map/map.effects';
 import { mapFeature } from './store/map/map.feature';
@@ -88,6 +92,8 @@ import { TranslocoRootModule } from './transloco-root.module';
     VariometerWidgetComponent,
     TrackingWidgetComponent,
     TrackingWidgetSettingsComponent,
+    FlyTracingHistoryDialogComponent,
+    DigitalTimePipe,
   ],
   imports: [
     BrowserModule,
@@ -106,6 +112,7 @@ import { TranslocoRootModule } from './transloco-root.module';
     MatCardModule,
     MatIconModule,
     MatDialogModule,
+    MatTableModule,
     MatFormFieldModule,
     MatButtonModule,
     DragDropModule,
@@ -114,6 +121,7 @@ import { TranslocoRootModule } from './transloco-root.module';
     MatSlideToggleModule,
     MatSelectModule,
     MatTooltipModule,
+    MatPaginatorModule,
     MatSliderModule,
     MatSnackBarModule,
     LetModule,

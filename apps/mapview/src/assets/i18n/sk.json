@@ -541,6 +541,16 @@
       "XX": "Where 4th and 5th letter Code does not cover the situation, use XX and supplement by plain language"
     }
   },
+  "flyHistoryDialog": {
+    "title": "História letov",
+    "close": "Zavrieť",
+    "today": "Dnes",
+    "month": "Tento mesiac",
+    "year": "Tento rok",
+    "all": "Od začiatku merania",
+    "name": "Názov",
+    "duration": "Trvanie"
+  },
   "shared": {
     "altitude": {
       "heighUnit": {
