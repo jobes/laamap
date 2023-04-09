@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import maplibreGl from 'maplibre-gl';
 import { delay, filter, iif, map, of, switchMap, tap } from 'rxjs';
 
 import { MapService } from '../../services/map/map.service';
+import { OnMapDirectionLineService } from '../../services/map/on-map-direction-line/on-map-direction-line.service';
 import { TracingService } from '../../services/tracing/tracing.service';
 import {
+  selectLineDefinitionBorderGeoJson,
+  selectLineDefinitionSegmentGeoJson,
   selectOnMapTrackingState,
   selectTrackInProgressWithMinSpeed,
 } from '../advanced-selectors';
@@ -150,13 +153,31 @@ export class MapEffects {
     { dispatch: false }
   );
 
+  setDirectionLine$ = createEffect(
+    () => {
+      return this.store.select(mapFeature.selectLoaded).pipe(
+        filter((loaded) => loaded),
+        tap(() => this.onMapDirectionLine.createLayers()),
+        switchMap(() => this.store.select(selectLineDefinitionSegmentGeoJson)),
+        concatLatestFrom(() =>
+          this.store.select(selectLineDefinitionBorderGeoJson)
+        ),
+        tap(([segmentGeoJson, borderGeoJson]) =>
+          this.onMapDirectionLine.setSource(segmentGeoJson, borderGeoJson)
+        )
+      );
+    },
+    { dispatch: false }
+  );
+
   private startGpsTracking = false;
 
   constructor(
     private readonly actions$: Actions,
     private readonly store: Store,
     private readonly mapService: MapService,
-    private readonly tracing: TracingService
+    private readonly tracing: TracingService,
+    private readonly onMapDirectionLine: OnMapDirectionLineService
   ) {}
 
   private trackingActive(params: {

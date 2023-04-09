@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { getTranslocoModule } from '../../../../transloco-testing.module';
 import { TrackingWidgetSettingsComponent } from './tracking-widget-settings.component';
 
 describe('TrackingWidgetSettingsComponent', () => {
@@ -11,6 +13,7 @@ describe('TrackingWidgetSettingsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [TrackingWidgetSettingsComponent],
       providers: [provideMockStore({})],
+      imports: [getTranslocoModule(), MatExpansionModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TrackingWidgetSettingsComponent);

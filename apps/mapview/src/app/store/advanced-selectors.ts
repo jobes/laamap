@@ -1,7 +1,6 @@
 import { createSelector } from '@ngrx/store';
+import * as turf from '@turf/turf';
 
-import { MapHelperFunctionsService } from '../services/map-helper-functions/map-helper-functions.service';
-import { MapService } from '../services/map/map.service';
 import {
   EHeightUnit,
   EReferenceDatum,
@@ -18,32 +17,73 @@ export const selectOnMapTrackingState = createSelector(
   (geoLocation, heading, zoom, pitch) => ({ geoLocation, heading, zoom, pitch })
 );
 
-export const selectLineDefinition = (
-  mapService: MapService,
-  mapHelperFunctionsService: MapHelperFunctionsService
-) =>
-  createSelector(
-    mapFeature.selectMinSpeedHit,
-    mapFeature.selectGeoLocation,
-    navigationFeature.selectDirectionLineSegmentSeconds,
-    navigationFeature.selectDirectionLineSegmentCount,
-    (enabled, geolocation, segmentInSeconds, segmentCount) =>
-      !enabled ||
-      !geolocation?.coords.longitude ||
-      !geolocation?.coords.latitude
-        ? null
-        : {
-            segmentSize: mapHelperFunctionsService.metersToPixels(
-              (geolocation.coords.speed ?? 0) * segmentInSeconds
-            ),
-            segmentsArray: Array.from(Array(segmentCount).keys()),
-            heading: geolocation.coords.heading,
-            currentPxPosition: mapService.instance.project([
-              geolocation.coords.longitude,
-              geolocation.coords.latitude,
-            ]),
-          }
-  );
+export const selectLineDefinitionSegmentGeoJson = createSelector(
+  mapFeature.selectMinSpeedHit,
+  mapFeature.selectGeoLocation,
+  navigationFeature.selectDirectionLineSegmentSeconds,
+  navigationFeature.selectDirectionLineSegmentCount,
+  // eslint-disable-next-line max-lines-per-function
+  (minSpeedHit, geoLocation, seconds, segmentCount) => {
+    if (geoLocation && minSpeedHit) {
+      const startPoint = [
+        geoLocation.coords.longitude,
+        geoLocation.coords.latitude,
+      ];
+      const distanceKm = ((geoLocation.coords.speed ?? 0) * seconds) / 1000;
+      const pointList = Array.from(Array(segmentCount).keys()).reduce(
+        (acc, index) => [
+          ...acc,
+          turf.destination(
+            acc[index],
+            distanceKm,
+            geoLocation.coords.heading ?? 0
+          ).geometry.coordinates,
+        ],
+        [startPoint]
+      );
+
+      return turf.featureCollection(
+        pointList.reduce(
+          (acc, point, index, array) =>
+            index === 0
+              ? acc
+              : [
+                  ...acc,
+                  turf.lineString([array[index - 1], point], {
+                    color: index % 2 ? 'white' : 'black',
+                  }),
+                ],
+          [] as turf.Feature<turf.LineString>[]
+        )
+      );
+    }
+    return null;
+  }
+);
+
+export const selectLineDefinitionBorderGeoJson = createSelector(
+  mapFeature.selectMinSpeedHit,
+  mapFeature.selectGeoLocation,
+  navigationFeature.selectDirectionLineSegmentSeconds,
+  navigationFeature.selectDirectionLineSegmentCount,
+  (minSpeedHit, geoLocation, seconds, segmentCount) => {
+    if (geoLocation && minSpeedHit) {
+      const distanceKm =
+        ((geoLocation.coords.speed ?? 0) * seconds * segmentCount) / 1000;
+      const startPoint = [
+        geoLocation.coords.longitude,
+        geoLocation.coords.latitude,
+      ];
+      const endPoint = turf.destination(
+        startPoint,
+        distanceKm,
+        geoLocation.coords.heading ?? 0
+      ).geometry.coordinates;
+      return turf.featureCollection([turf.lineString([startPoint, endPoint])]);
+    }
+    return null;
+  }
+);
 
 export const selectHeighSettings = createSelector(
   mapFeature.selectGeoLocation,
