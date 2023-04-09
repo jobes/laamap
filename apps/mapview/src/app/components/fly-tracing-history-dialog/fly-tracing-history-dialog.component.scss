@@ -1,0 +1,38 @@
+.info {
+  .mat-caption {
+    display: block;
+    color: var(--label-color);
+
+    &::after {
+      content: ': ';
+    }
+  }
+
+  .value {
+    margin-left: 0.5rem;
+
+    .split-list {
+      &:not(:first-child) {
+        &::before {
+          content: ', ';
+        }
+      }
+    }
+  }
+}
+
+table {
+  margin-top: 1rem;
+}
+
+@media screen and (min-width: 500px) {
+  .info {
+    .mat-caption {
+      display: inline;
+    }
+
+    .value {
+      margin-left: 0;
+    }
+  }
+}
