@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { FlyTracingHistoryDialogComponent } from './fly-tracing-history-dialog.component';
 
@@ -9,6 +10,7 @@ describe('FlyTracingHistoryDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [FlyTracingHistoryDialogComponent],
+      providers: [provideMockStore({})],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FlyTracingHistoryDialogComponent);
