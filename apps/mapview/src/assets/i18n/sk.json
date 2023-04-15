@@ -597,5 +597,14 @@
     "tracking": {
       "header": "Čas letu"
     }
+  },
+  "mapLocationMenu": {
+    "showAirport": "Detaili letiska",
+    "showAirspaces": "Letecké priestory",
+    "showNotams": "Zobraz NOTAM",
+    "newNavigation": "Nová navigácia",
+    "addToNavigation": "Pridať bod do navigácie",
+    "latitude": "Zemepisná šírka",
+    "longitude": "Zemepisná dĺžka"
   }
 }
