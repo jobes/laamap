@@ -1,16 +1,12 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { ExpressionFilterSpecification } from 'maplibre-gl';
 import { Observable, forkJoin } from 'rxjs';
 
-import { AirportDialogComponent } from '../../../components/airport-dialog/airport-dialog.component';
+import { mapActions } from '../../../store/map/map.actions';
 import { MapHelperFunctionsService } from '../../map-helper-functions/map-helper-functions.service';
-import {
-  EAirportType,
-  IAirport,
-  IAirportResponse,
-} from '../../open-aip/airport.interfaces';
+import { EAirportType, IAirport } from '../../open-aip/airport.interfaces';
 import { MapService } from '../map.service';
 
 @Injectable({
@@ -31,7 +27,7 @@ export class OnMapAirportsService {
 
   constructor(
     private readonly mapService: MapService,
-    private readonly dialog: MatDialog,
+    private readonly store: Store,
     private readonly mapHelper: MapHelperFunctionsService,
     @Inject(APP_BASE_HREF) private readonly baseHref: string
   ) {}
@@ -71,20 +67,13 @@ export class OnMapAirportsService {
     });
 
     this.mapService.instance.on('click', 'airportTypeLayer', (event) => {
-      this.dialog.getDialogById('airspaceDialog')?.close();
-      this.dialog.getDialogById('notamDialog')?.close();
-      if (event.features?.[0]?.properties) {
-        const airPort = this.mapHelper.decodeGeoJsonProperties(
-          event.features?.[0]?.properties
-        ) as IAirportResponse;
-
-        this.dialog.open(AirportDialogComponent, {
-          width: '100%',
-          data: airPort,
-          id: 'airportDialog',
-          closeOnNavigation: false,
-        });
-      }
+      this.store.dispatch(
+        mapActions.airportLayerClicked({
+          features: JSON.parse(
+            JSON.stringify(event.features ?? [])
+          ) as GeoJSON.Feature[],
+        })
+      );
     });
   }
 

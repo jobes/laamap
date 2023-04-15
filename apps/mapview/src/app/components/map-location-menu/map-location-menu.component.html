@@ -1,0 +1,37 @@
+<mat-nav-list *transloco="let t; read: 'mapLocationMenu'">
+  <a mat-list-item (click)="newNavigation(data.lngLat)">
+    <span matListItemTitle>{{ t('newNavigation') }}</span>
+    <span matListItemLine>{{ t('latitude') }}: {{ data.lngLat.lat }}</span>
+    <span matListItemLine>{{ t('longitude') }}: {{ data.lngLat.lng }}</span>
+  </a>
+
+  <a
+    mat-list-item
+    *ngIf="data.airport"
+    (click)="showAirport(data.airport.features)"
+  >
+    <span matListItemTitle>{{ t('showAirport') }}</span>
+    <span matLine
+      >{{data.airport.features[0].properties?.['name']}}
+      <ng-container *ngIf="data.airport.features[0].properties?.['icaoCode']">
+        ({{data.airport.features[0].properties?.['icaoCode']}})</ng-container
+      >
+    </span>
+  </a>
+
+  <a
+    mat-list-item
+    *ngIf="data.airspace"
+    (click)="showAirspaces(data.airspace.features)"
+  >
+    <span matListItemTitle>{{ t('showAirspaces') }}</span>
+  </a>
+
+  <a
+    mat-list-item
+    *ngIf="data.notams"
+    (click)="showNotams(data.notams.features)"
+  >
+    <span matListItemTitle>{{ t('showNotams') }}</span>
+  </a>
+</mat-nav-list>

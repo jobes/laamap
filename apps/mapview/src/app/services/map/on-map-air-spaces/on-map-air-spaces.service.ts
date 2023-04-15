@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { Feature, GeoJsonProperties, Geometry } from 'geojson';
 import {
   ColorSpecification,
@@ -8,9 +8,8 @@ import {
   ExpressionSpecification,
 } from 'maplibre-gl';
 
-import { AirspacesDialogComponent } from '../../../components/airspaces-dialog/airspaces-dialog.component';
+import { mapActions } from '../../../store/map/map.actions';
 import { IAirSpaceSettingsObject } from '../../../store/settings/air-spaces/air-spaces-init-value';
-import { MapHelperFunctionsService } from '../../map-helper-functions/map-helper-functions.service';
 import { EAirSpaceType, IAirspace } from '../../open-aip/airspaces.interfaces';
 import { MapService } from '../map.service';
 
@@ -18,11 +17,7 @@ import { MapService } from '../map.service';
   providedIn: 'root',
 })
 export class OnMapAirSpacesService {
-  constructor(
-    private readonly mapService: MapService,
-    private readonly dialog: MatDialog,
-    private readonly mapHelper: MapHelperFunctionsService
-  ) {}
+  constructor(private readonly mapService: MapService, private store: Store) {}
 
   createLayers(
     airSpaces: GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirspace>
@@ -83,21 +78,13 @@ export class OnMapAirSpacesService {
       (event: {
         features?: Feature<Geometry, GeoJsonProperties>[] | undefined;
       }) => {
-        if (this.dialog.getDialogById('notamDialog')) {
-          return;
-        }
-        const airspaces = event.features?.map(
-          (feature) =>
-            this.mapHelper.decodeGeoJsonProperties(
-              feature.properties
-            ) as IAirspace
+        this.store.dispatch(
+          mapActions.airspaceLayerClicked({
+            features: JSON.parse(
+              JSON.stringify(event.features ?? [])
+            ) as GeoJSON.Feature[],
+          })
         );
-
-        this.dialog.open(AirspacesDialogComponent, {
-          width: '100%',
-          data: airspaces,
-          id: 'airspaceDialog',
-        });
       }
     );
   }

@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
 import { GeoJSONSource } from 'maplibre-gl';
 
-import { NotamsDialogComponent } from '../../../components/notams-dialog/notams-dialog.component';
-import { MapHelperFunctionsService } from '../../map-helper-functions/map-helper-functions.service';
-import { INotamDecodedResponse } from '../../notams/notams.interface';
+import { mapActions } from '../../../store/map/map.actions';
 import { MapService } from '../map.service';
 
 @Injectable({
@@ -15,10 +13,9 @@ import { MapService } from '../map.service';
 export class OnMapNotamsService {
   constructor(
     private readonly mapService: MapService,
-    private readonly dialog: MatDialog,
-    private readonly mapHelper: MapHelperFunctionsService,
     private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly store: Store
   ) {}
 
   createLayers(): void {
@@ -61,18 +58,13 @@ export class OnMapNotamsService {
 
   private addListeners(): void {
     this.mapService.instance.on('click', 'notamsLayer', (event) => {
-      const notams = event.features?.map(
-        (feature) =>
-          this.mapHelper.decodeGeoJsonProperties(
-            feature.properties
-          ) as INotamDecodedResponse['notamList'][0]
+      this.store.dispatch(
+        mapActions.notamLayerClicked({
+          features: JSON.parse(
+            JSON.stringify(event.features ?? [])
+          ) as GeoJSON.Feature[],
+        })
       );
-
-      this.dialog.open(NotamsDialogComponent, {
-        width: '100%',
-        data: notams?.map((notam) => notam.decoded),
-        id: 'notamDialog',
-      });
     });
   }
 }

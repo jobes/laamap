@@ -3,6 +3,7 @@ import { APP_BASE_HREF, PlatformLocation } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -10,6 +11,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -33,6 +35,7 @@ import { AppComponent } from './app.component';
 import { AirportDialogComponent } from './components/airport-dialog/airport-dialog.component';
 import { AirspacesDialogComponent } from './components/airspaces-dialog/airspaces-dialog.component';
 import { FlyTracingHistoryDialogComponent } from './components/fly-tracing-history-dialog/fly-tracing-history-dialog.component';
+import { MapLocationMenuComponent } from './components/map-location-menu/map-location-menu.component';
 import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.component';
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
 import { GeneralSettingsComponent } from './components/settings-dialog/general-settings/general-settings.component';
@@ -92,12 +95,15 @@ import { TranslocoRootModule } from './transloco-root.module';
     TrackingWidgetSettingsComponent,
     FlyTracingHistoryDialogComponent,
     DigitalTimePipe,
+    MapLocationMenuComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatBottomSheetModule,
+    MatListModule,
     TranslocoRootModule,
     TranslocoLocaleModule.forRoot({
       langToLocaleMapping: {

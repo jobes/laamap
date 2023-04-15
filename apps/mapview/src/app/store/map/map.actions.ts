@@ -15,5 +15,12 @@ export const mapActions = createActionGroup({
     'track saving started': emptyProps(),
     'track saving ended': emptyProps(),
     'gps timed out': emptyProps(),
+    clicked: props<{ lngLat: LngLatLike }>(),
+    'double clicked': emptyProps(),
+    'open bottom sheet': emptyProps(),
+    'close bottom sheet': props<{ lngLat: LngLatLike }>(),
+    'airport layer clicked': props<{ features: GeoJSON.Feature[] }>(),
+    'airspace layer clicked': props<{ features: GeoJSON.Feature[] }>(),
+    'notam layer clicked': props<{ features: GeoJSON.Feature[] }>(),
   },
 });

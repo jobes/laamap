@@ -54,7 +54,7 @@ export class MapService {
       );
     });
 
-    this.instance?.on('move', (moved) => {
+    this.instance.on('move', (moved) => {
       this.store.dispatch(
         mapActions.moved({
           center: {
@@ -65,8 +65,18 @@ export class MapService {
       );
     });
 
-    this.instance?.on('load', () => {
+    this.instance.on('load', () => {
       this.store.dispatch(mapActions.loaded());
+    });
+
+    this.instance.on('click', (e) => {
+      this.store.dispatch(
+        mapActions.clicked({ lngLat: { lat: e.lngLat.lat, lng: e.lngLat.lng } })
+      );
+    });
+
+    this.instance.on('dblclick', () => {
+      this.store.dispatch(mapActions.doubleClicked());
     });
   }
 
