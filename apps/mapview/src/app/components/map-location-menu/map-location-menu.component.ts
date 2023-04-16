@@ -4,12 +4,15 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { Point } from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
 
 import { MapHelperFunctionsService } from '../../services/map-helper-functions/map-helper-functions.service';
 import { INotamDecodedResponse } from '../../services/notams/notams.interface';
 import { IAirportResponse } from '../../services/open-aip/airport.interfaces';
 import { IAirspace } from '../../services/open-aip/airspaces.interfaces';
+import { navigationActions } from '../../store/navigation/navigation.actions';
 import { AirportDialogComponent } from '../airport-dialog/airport-dialog.component';
 import { AirspacesDialogComponent } from '../airspaces-dialog/airspaces-dialog.component';
 import { NotamsDialogComponent } from '../notams-dialog/notams-dialog.component';
@@ -24,13 +27,16 @@ export class MapLocationMenuComponent {
     private readonly bottomSheetRef: MatBottomSheetRef<MapLocationMenuComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA)
     public data: {
-      airport?: { features: GeoJSON.Feature[] };
+      airport?: {
+        features: GeoJSON.Feature<Point, IAirportResponse>[];
+      };
       airspace?: { features: GeoJSON.Feature[] };
       lngLat: LngLat;
       notams?: { features: GeoJSON.Feature[] };
     },
     private readonly mapHelper: MapHelperFunctionsService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly store: Store
   ) {}
 
   showAirport(features: GeoJSON.Feature[]): void {
@@ -76,6 +82,30 @@ export class MapLocationMenuComponent {
 
   newNavigation(point: LngLat): void {
     this.bottomSheetRef.dismiss();
-    console.log(point);
+    this.store.dispatch(
+      navigationActions.startedNewRouteNavigation({
+        point,
+        name: this.getPointName(point),
+      })
+    );
+  }
+
+  addToNavigation(point: LngLat): void {
+    this.bottomSheetRef.dismiss();
+    this.store.dispatch(
+      navigationActions.addedPointToNavigation({
+        point,
+        name: this.getPointName(point),
+      })
+    );
+  }
+
+  private getPointName(point: LngLat): string {
+    return this.data.airport
+      ? `${this.data.airport.features[0].properties?.['name']}` +
+          (this.data.airport.features[0].properties?.['icaoCode']
+            ? `(${this.data.airport.features[0].properties?.['icaoCode']})`
+            : '')
+      : `${point.lat.toFixed(4)} ${point.lng.toFixed(4)}`;
   }
 }

@@ -58,12 +58,14 @@ import { DimensionPipe } from './pipes/dimension/dimension.pipe';
 import { MapEffects } from './store/map/map.effects';
 import { mapFeature } from './store/map/map.feature';
 import { metaReducers } from './store/metareducers/hydration';
+import { NavigationEffects } from './store/navigation/navigation.effects';
+import { navigationFeature } from './store/navigation/navigation.feature';
 import { AirSpacesEffects } from './store/settings/air-spaces/air-spaces.effects';
 import { airSpacesFeature } from './store/settings/air-spaces/air-spaces.feature';
 import { GeneralEffects } from './store/settings/general/general.effects';
 import { generalFeature } from './store/settings/general/general.feature';
 import { instrumentsFeature } from './store/settings/instruments/instruments.feature';
-import { navigationFeature } from './store/settings/navigation/navigation.feature';
+import { navigationFeature as navigationSettingsFeature } from './store/settings/navigation/navigation.feature';
 import { NotamsSettingsEffects } from './store/settings/notams/notams.effects';
 import { notamsFeature } from './store/settings/notams/notams.feature';
 import { RadarSettingsEffects } from './store/settings/radar/radar.effects';
@@ -134,9 +136,10 @@ import { TranslocoRootModule } from './transloco-root.module';
     StoreModule.forRoot(
       {
         [mapFeature.name]: mapFeature.reducer,
+        [navigationFeature.name]: navigationFeature.reducer,
         [notamsFeature.name]: notamsFeature.reducer,
         [radarFeature.name]: radarFeature.reducer,
-        [navigationFeature.name]: navigationFeature.reducer,
+        [navigationSettingsFeature.name]: navigationSettingsFeature.reducer,
         [airSpacesFeature.name]: airSpacesFeature.reducer,
         [instrumentsFeature.name]: instrumentsFeature.reducer,
         [generalFeature.name]: generalFeature.reducer,
@@ -155,6 +158,7 @@ import { TranslocoRootModule } from './transloco-root.module';
     ),
     EffectsModule.forRoot([
       MapEffects,
+      NavigationEffects,
       NotamsSettingsEffects,
       RadarSettingsEffects,
       AirSpacesEffects,
