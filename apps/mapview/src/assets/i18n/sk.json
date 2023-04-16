@@ -567,6 +567,10 @@
     "speed": {
       "kph": "km/h",
       "mps": "m/s"
+    },
+    "errors": {
+      "navigationFailed_NO_GPS": "Nenašiel sa signál GPS, navigácia zlihala",
+      "navigationFailed_NO_ROUTE": "Chýba bod navigácie"
     }
   },
   "notams": {

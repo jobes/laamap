@@ -5,6 +5,10 @@
     <span matListItemLine>{{ t('longitude') }}: {{ data.lngLat.lng }}</span>
   </a>
 
+  <a mat-list-item (click)="addToNavigation(data.lngLat)">
+    <span matListItemTitle>{{ t('addToNavigation') }}</span>
+  </a>
+
   <a
     mat-list-item
     *ngIf="data.airport"
@@ -12,9 +16,9 @@
   >
     <span matListItemTitle>{{ t('showAirport') }}</span>
     <span matLine
-      >{{data.airport.features[0].properties?.['name']}}
-      <ng-container *ngIf="data.airport.features[0].properties?.['icaoCode']">
-        ({{data.airport.features[0].properties?.['icaoCode']}})</ng-container
+      >{{ data.airport.features[0].properties['name'] }}
+      <ng-container *ngIf="data.airport.features[0].properties['icaoCode']">
+        ({{ data.airport.features[0].properties['icaoCode'] }})</ng-container
       >
     </span>
   </a>
