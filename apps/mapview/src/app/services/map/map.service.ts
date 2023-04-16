@@ -10,6 +10,7 @@ import { NavigationDialogComponent } from '../../components/navigation-dialog/na
 import { SettingsDialogComponent } from '../../components/settings-dialog/settings-dialog.component';
 import { mapActions } from '../../store/map/map.actions';
 import { CompassService } from '../compass/compass.service';
+import { MapFontSizeService } from './map-font-size.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,8 @@ export class MapService {
     private readonly transloco: TranslocoService,
     private readonly dialog: MatDialog,
     private readonly compassService: CompassService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly mapFontSize: MapFontSizeService
   ) {
     this.instance = new Map({
       container: 'map',
@@ -40,12 +42,7 @@ export class MapService {
   }
 
   setMapFontSizeRatio(ratio: number) {
-    this.setTownFontSizeRatio(ratio);
-    this.setCityFontSizeRatio(ratio);
-    this.setVillageFontSizeRatio(ratio);
-    this.setCapitalFontSizeRatio(ratio);
-    this.setPlaceOtherFontSizeRatio(ratio);
-    this.setWaterFontSizeRatio(ratio);
+    this.mapFontSize.setMapFontSizeRatio(ratio, this.instance);
   }
 
   private setupEvents(): void {
@@ -69,7 +66,10 @@ export class MapService {
     this.instance.on('load', () => {
       this.store.dispatch(mapActions.loaded());
     });
+    this.setupClickEvents();
+  }
 
+  private setupClickEvents(): void {
     this.instance.on('click', (e) => {
       this.store.dispatch(
         mapActions.clicked({ lngLat: { lat: e.lngLat.lat, lng: e.lngLat.lng } })
@@ -260,81 +260,5 @@ export class MapService {
     this.dialog
       .open(NavigationDialogComponent, { width: '100%', id: 'settingDialog' })
       .afterClosed();
-  }
-
-  private setTownFontSizeRatio(ratio: number) {
-    this.instance.setLayoutProperty('place_town', 'text-field', [
-      'format',
-      ['get', 'name'],
-      {
-        'font-scale': ratio,
-      },
-    ]);
-  }
-
-  private setCityFontSizeRatio(ratio: number) {
-    this.instance.setLayoutProperty('place_city', 'text-field', [
-      'format',
-      ['get', 'name'],
-      {
-        'font-scale': ratio,
-      },
-    ]);
-  }
-
-  private setVillageFontSizeRatio(ratio: number) {
-    this.instance.setLayoutProperty('place_village', 'text-field', [
-      'format',
-      ['get', 'name'],
-      {
-        'font-scale': ratio,
-      },
-    ]);
-  }
-
-  private setPlaceOtherFontSizeRatio(ratio: number) {
-    this.instance.setLayoutProperty('place_other', 'text-field', [
-      'format',
-      ['get', 'name'],
-      {
-        'font-scale': ratio,
-      },
-    ]);
-  }
-
-  private setCapitalFontSizeRatio(ratio: number) {
-    this.instance.setLayoutProperty('place_capital', 'text-field', [
-      'format',
-      ['get', 'name'],
-      {
-        'font-scale': ratio,
-      },
-    ]);
-  }
-
-  private setWaterFontSizeRatio(ratio: number) {
-    this.instance.setLayoutProperty('water_way_name', 'text-field', [
-      'format',
-      ['get', 'name'],
-      {
-        'font-scale': ratio,
-      },
-    ]);
-
-    this.instance.setLayoutProperty('water_name_line', 'text-field', [
-      'format',
-      ['get', 'name'],
-      {
-        'font-scale': ratio,
-      },
-    ]);
-
-    this.instance.setLayoutProperty('water_name_point', 'text-field', [
-      'format',
-      ['get', 'name'],
-      {
-        'font-scale': ratio,
-      },
-    ]);
   }
 }

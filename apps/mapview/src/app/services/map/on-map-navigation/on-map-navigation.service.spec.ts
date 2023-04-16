@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
+import { MapService } from '../map.service';
 import { OnMapNavigationService } from './on-map-navigation.service';
 
 describe('OnMapNavigationService', () => {
   let service: OnMapNavigationService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [{ provide: MapService, useValue: {} }],
+    });
     service = TestBed.inject(OnMapNavigationService);
   });
 
