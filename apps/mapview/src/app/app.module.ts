@@ -36,6 +36,7 @@ import { AirportDialogComponent } from './components/airport-dialog/airport-dial
 import { AirspacesDialogComponent } from './components/airspaces-dialog/airspaces-dialog.component';
 import { FlyTracingHistoryDialogComponent } from './components/fly-tracing-history-dialog/fly-tracing-history-dialog.component';
 import { MapLocationMenuComponent } from './components/map-location-menu/map-location-menu.component';
+import { NavigationDialogComponent } from './components/navigation-dialog/navigation-dialog.component';
 import { NotamsDialogComponent } from './components/notams-dialog/notams-dialog.component';
 import { AirspacesSettingsComponent } from './components/settings-dialog/airspaces-settings/airspaces-settings.component';
 import { GeneralSettingsComponent } from './components/settings-dialog/general-settings/general-settings.component';
@@ -48,6 +49,7 @@ import { NavigationSettingsComponent } from './components/settings-dialog/naviga
 import { RadarSettingsComponent } from './components/settings-dialog/radar-settings/radar-settings.component';
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 import { AltimeterWidgetComponent } from './components/widgets/altimeter-widget/altimeter-widget.component';
+import { NavigationWidgetComponent } from './components/widgets/navigation-widget/navigation-widget.component';
 import { RadarWidgetComponent } from './components/widgets/radar-widget/radar-widget.component';
 import { SpeedMeterWidgetComponent } from './components/widgets/speed-meter-widget/speed-meter-widget.component';
 import { TrackingWidgetComponent } from './components/widgets/tracking-widget/tracking-widget.component';
@@ -65,7 +67,7 @@ import { airSpacesFeature } from './store/settings/air-spaces/air-spaces.feature
 import { GeneralEffects } from './store/settings/general/general.effects';
 import { generalFeature } from './store/settings/general/general.feature';
 import { instrumentsFeature } from './store/settings/instruments/instruments.feature';
-import { navigationFeature as navigationSettingsFeature } from './store/settings/navigation/navigation.feature';
+import { navigationSettingsFeature } from './store/settings/navigation/navigation.feature';
 import { NotamsSettingsEffects } from './store/settings/notams/notams.effects';
 import { notamsFeature } from './store/settings/notams/notams.feature';
 import { RadarSettingsEffects } from './store/settings/radar/radar.effects';
@@ -98,6 +100,8 @@ import { TranslocoRootModule } from './transloco-root.module';
     FlyTracingHistoryDialogComponent,
     DigitalTimePipe,
     MapLocationMenuComponent,
+    NavigationWidgetComponent,
+    NavigationDialogComponent,
   ],
   imports: [
     BrowserModule,

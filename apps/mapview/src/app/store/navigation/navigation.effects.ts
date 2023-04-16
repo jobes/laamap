@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoService } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import * as turf from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
 import { combineLatest, filter, map, switchMap, tap } from 'rxjs';
 
@@ -26,7 +27,10 @@ export class NavigationEffects {
 
   validateNavigationStarted$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(navigationActions.startedNewRouteNavigation),
+      ofType(
+        navigationActions.startedNewRouteNavigation,
+        navigationActions.startNavigation
+      ),
       switchMap(() =>
         this.store.select(mapFeature.selectGeoLocationTrackingActive)
       ),
@@ -54,6 +58,32 @@ export class NavigationEffects {
     { dispatch: false }
   );
 
+  removeReachedPoint$ = createEffect(() => {
+    return combineLatest({
+      /* eslint-disable rxjs/finnish */
+      geoLocation: this.actions$.pipe(ofType(mapActions.geolocationChanged)),
+      navigationRunning: this.store.select(navigationFeature.selectRunning),
+      route: this.store.select(navigationFeature.selectRoute),
+      /* eslint-enable rxjs/finnish */
+    }).pipe(
+      filter(
+        ({ geoLocation, navigationRunning, route }) =>
+          navigationRunning &&
+          !!geoLocation.geoLocation &&
+          route.length > 0 &&
+          turf.distance(
+            [route[0].point.lng, route[0].point.lat],
+            [
+              geoLocation.geoLocation.coords.longitude,
+              geoLocation.geoLocation.coords.latitude,
+            ]
+          ) < 1
+      ),
+      tap(({ route }) => this.showNavigationPointReachedMessage(route.length)),
+      map(() => navigationActions.nextPointReached())
+    );
+  });
+
   recalculateNavigationLine$ = createEffect(
     () => {
       return combineLatest({
@@ -64,7 +94,11 @@ export class NavigationEffects {
         /* eslint-enable rxjs/finnish */
       }).pipe(
         tap(({ geoLocation, navigationRunning, route }) => {
-          if (navigationRunning && geoLocation.geoLocation) {
+          if (
+            navigationRunning &&
+            geoLocation.geoLocation &&
+            route.length > 0
+          ) {
             this.onMapNavigation.createNavigationLine([
               {
                 point: new LngLat(
@@ -90,4 +124,16 @@ export class NavigationEffects {
     private readonly translocoService: TranslocoService,
     private readonly onMapNavigation: OnMapNavigationService
   ) {}
+
+  private showNavigationPointReachedMessage(routeLength: number): void {
+    this.snackBar.open(
+      this.translocoService.translate(
+        routeLength > 1
+          ? `shared.messages.navigationReachedNextPoint`
+          : `shared.messages.navigationReachedGoal`
+      ),
+      '',
+      { duration: 5000 }
+    );
+  }
 }

@@ -8,7 +8,7 @@ import {
 import { LngLatLike } from 'maplibre-gl';
 
 import { instrumentsFeature } from '../settings/instruments/instruments.feature';
-import { navigationFeature } from '../settings/navigation/navigation.feature';
+import { navigationSettingsFeature } from '../settings/navigation/navigation.feature';
 import { mapActions } from './map.actions';
 
 const initialState = {
@@ -86,7 +86,7 @@ export const mapFeature = createFeature({
         : null
     ),
     selectMinSpeedHit: createSelector(
-      navigationFeature.selectMinActivationSpeedKpH,
+      navigationSettingsFeature.selectMinActivationSpeedKpH,
       selectGeoLocation,
       (minSpeed, geolocation) =>
         minSpeed <= (geolocation?.coords.speed ?? 0) * 3.6

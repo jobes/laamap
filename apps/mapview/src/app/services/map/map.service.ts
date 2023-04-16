@@ -6,6 +6,7 @@ import maplibregl from 'maplibre-gl';
 import { Map } from 'maplibre-gl';
 import { take } from 'rxjs';
 
+import { NavigationDialogComponent } from '../../components/navigation-dialog/navigation-dialog.component';
 import { SettingsDialogComponent } from '../../components/settings-dialog/settings-dialog.component';
 import { mapActions } from '../../store/map/map.actions';
 import { CompassService } from '../compass/compass.service';
@@ -97,6 +98,7 @@ export class MapService {
             'NavigationControl.ZoomIn': translations.zoomIn,
             'NavigationControl.ZoomOut': translations.zoomOut,
             'SettingControl.Settings': translations.settings,
+            'NavigationControl.Navigation': translations.navigation,
           };
           this.addControlsToMap();
         },
@@ -115,6 +117,7 @@ export class MapService {
     });
     this.overrideNavigationControl(navigationControl);
     this.instance.addControl(navigationControl);
+    this.addNavigationControl();
 
     this.instance.addControl(
       new maplibregl.AttributionControl({
@@ -226,9 +229,36 @@ export class MapService {
     });
   }
 
+  private addNavigationControl(): void {
+    const box = document.createElement('div');
+    const button = document.createElement('button');
+    box.appendChild(button);
+
+    box.classList.add('maplibregl-ctrl', 'maplibregl-ctrl-group');
+    button.style.fontFamily = 'Material Icons';
+    button.style.fontSize = '20px';
+    button.textContent = 'navigation';
+    button.title = this.instance._getUIString(
+      'NavigationControl.Navigation'
+    ) as string;
+    button.addEventListener('click', () => this.navigationClicked());
+
+    this.instance.addControl({
+      onAdd: () => box,
+      onRemove: () => box.parentNode?.removeChild(box),
+      getDefaultPosition: () => 'top-right',
+    });
+  }
+
   private settingsClicked(): void {
     this.dialog
       .open(SettingsDialogComponent, { width: '100%', id: 'settingDialog' })
+      .afterClosed();
+  }
+
+  private navigationClicked(): void {
+    this.dialog
+      .open(NavigationDialogComponent, { width: '100%', id: 'settingDialog' })
       .afterClosed();
   }
 
