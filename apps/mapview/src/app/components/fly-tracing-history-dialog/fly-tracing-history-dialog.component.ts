@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { concatLatestFrom } from '@ngrx/effects';

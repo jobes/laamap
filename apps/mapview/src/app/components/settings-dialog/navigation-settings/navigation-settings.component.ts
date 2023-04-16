@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { navigationSettings } from '../../../store/settings/navigation/navigation.actions';
-import { navigationFeature } from '../../../store/settings/navigation/navigation.feature';
+import {
+  AllowedNavigationWidgetRowType,
+  navigationSettingsFeature,
+} from '../../../store/settings/navigation/navigation.feature';
 
 @Component({
   selector: 'laamap-navigation-settings',
@@ -11,20 +14,22 @@ import { navigationFeature } from '../../../store/settings/navigation/navigation
 })
 export class NavigationSettingsComponent {
   minActivationSpeed$ = this.store.select(
-    navigationFeature.selectMinActivationSpeedKpH
+    navigationSettingsFeature.selectMinActivationSpeedKpH
   );
   directionLineSegmentSeconds$ = this.store.select(
-    navigationFeature.selectDirectionLineSegmentSeconds
+    navigationSettingsFeature.selectDirectionLineSegmentSeconds
   );
   directionLineSegmentCount$ = this.store.select(
-    navigationFeature.selectDirectionLineSegmentCount
+    navigationSettingsFeature.selectDirectionLineSegmentCount
   );
   gpsTrackingInitialZoom$ = this.store.select(
-    navigationFeature.selectGpsTrackingInitZoom
+    navigationSettingsFeature.selectGpsTrackingInitZoom
   );
   gpsTrackingInitialPitch$ = this.store.select(
-    navigationFeature.selectGpsTrackingInitPitch
+    navigationSettingsFeature.selectGpsTrackingInitPitch
   );
+
+  widget$ = this.store.select(navigationSettingsFeature.selectWidget);
 
   constructor(private readonly store: Store) {}
 
@@ -64,6 +69,30 @@ export class NavigationSettingsComponent {
     this.store.dispatch(
       navigationSettings.directionLineSegmentCount({
         count,
+      })
+    );
+  }
+
+  widgetBgColorChanged(color: string): void {
+    this.store.dispatch(
+      navigationSettings.widgetBgColorChanged({
+        color,
+      })
+    );
+  }
+
+  widgetTextColorChanged(color: string): void {
+    this.store.dispatch(
+      navigationSettings.widgetTextColorChanged({
+        color,
+      })
+    );
+  }
+
+  widgetAllowedRowsChanged(list: AllowedNavigationWidgetRowType): void {
+    this.store.dispatch(
+      navigationSettings.widgetAllowedRows({
+        list,
       })
     );
   }

@@ -25,7 +25,6 @@
             "style": "kebab-case"
           }
         ],
-        "complexity": ["warn", 5],
         "max-depth": ["error", 4],
         "max-lines": "warn",
         "max-lines-per-function": ["warn", 30],
@@ -109,18 +108,11 @@
           "warn",
           {
             "default": [
-              "public-static-field",
-              "protected-static-field",
-              "private-static-field",
+              "static-field",
               "static-method",
-              "public-decorated-field",
-              "protected-decorated-field",
-              "private-decorated-field",
-              "public-instance-field",
-              "protected-instance-field",
-              "private-instance-field",
-              "public-abstract-field",
-              "protected-abstract-field",
+              "decorated-field",
+              "instance-field",
+              "abstract-field",
               "constructor",
               "public-method",
               "protected-method",

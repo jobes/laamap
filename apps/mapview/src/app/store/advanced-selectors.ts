@@ -1,27 +1,29 @@
 import { createSelector } from '@ngrx/store';
 import * as turf from '@turf/turf';
+import { LngLat } from 'maplibre-gl';
 
 import {
   EHeightUnit,
   EReferenceDatum,
 } from '../services/open-aip/airport.interfaces';
 import { mapFeature } from './map/map.feature';
+import { navigationFeature } from './navigation/navigation.feature';
 import { instrumentsFeature } from './settings/instruments/instruments.feature';
-import { navigationFeature } from './settings/navigation/navigation.feature';
+import { navigationSettingsFeature } from './settings/navigation/navigation.feature';
 
 export const selectOnMapTrackingState = createSelector(
   mapFeature.selectGeoLocation,
   mapFeature.selectHeading,
-  navigationFeature.selectGpsTrackingInitZoom,
-  navigationFeature.selectGpsTrackingInitPitch,
+  navigationSettingsFeature.selectGpsTrackingInitZoom,
+  navigationSettingsFeature.selectGpsTrackingInitPitch,
   (geoLocation, heading, zoom, pitch) => ({ geoLocation, heading, zoom, pitch })
 );
 
 export const selectLineDefinitionSegmentGeoJson = createSelector(
   mapFeature.selectMinSpeedHit,
   mapFeature.selectGeoLocation,
-  navigationFeature.selectDirectionLineSegmentSeconds,
-  navigationFeature.selectDirectionLineSegmentCount,
+  navigationSettingsFeature.selectDirectionLineSegmentSeconds,
+  navigationSettingsFeature.selectDirectionLineSegmentCount,
   // eslint-disable-next-line max-lines-per-function
   (minSpeedHit, geoLocation, seconds, segmentCount) => {
     if (geoLocation && minSpeedHit) {
@@ -64,8 +66,8 @@ export const selectLineDefinitionSegmentGeoJson = createSelector(
 export const selectLineDefinitionBorderGeoJson = createSelector(
   mapFeature.selectMinSpeedHit,
   mapFeature.selectGeoLocation,
-  navigationFeature.selectDirectionLineSegmentSeconds,
-  navigationFeature.selectDirectionLineSegmentCount,
+  navigationSettingsFeature.selectDirectionLineSegmentSeconds,
+  navigationSettingsFeature.selectDirectionLineSegmentCount,
   (minSpeedHit, geoLocation, seconds, segmentCount) => {
     if (geoLocation && minSpeedHit) {
       const distanceKm =
@@ -134,3 +136,77 @@ export const selectTrackInProgressWithMinSpeed = createSelector(
     trackSavingInProgress,
   })
 );
+
+export const selectRouteNavigationStats = createSelector(
+  mapFeature.selectMinSpeedHit,
+  mapFeature.selectGeoLocation,
+  navigationFeature.selectRoute,
+  (minSpeedHit, geoLocation, route) => {
+    if (!geoLocation) return null;
+    const pointPairs = [
+      {
+        point: new LngLat(
+          geoLocation.coords.longitude,
+          geoLocation.coords.latitude
+        ),
+      },
+      ...route,
+    ].reduce((acc, item, index, array) => {
+      if (index === 0) return acc;
+      return [
+        ...acc,
+        [array[index - 1].point, array[index].point] as [LngLat, LngLat],
+      ];
+    }, [] as [LngLat, LngLat][]);
+    const distanceList = pointPairs.map(([from, to]) =>
+      turf.distance([from.lng, from.lat], [to.lng, to.lat])
+    );
+    const durationList = minSpeedHit
+      ? distanceList.map(
+          (distance) => (1000 * distance) / (geoLocation?.coords.speed ?? 1)
+        )
+      : null;
+
+    return { distanceList, durationList };
+  }
+);
+
+export const selectNavigationStats = createSelector(
+  selectRouteNavigationStats,
+  (routeNavStats) => {
+    if (!routeNavStats) return null;
+    const distanceWithDuration = {
+      distanceToNextPoint:
+        routeNavStats.distanceList.length > 1
+          ? routeNavStats.distanceList[0]
+          : undefined,
+      distanceToGoal: routeNavStats.distanceList.reduce(
+        (acc, item) => acc + item,
+        0
+      ),
+      timeToNextPoint:
+        (routeNavStats.durationList?.length ?? 0) > 1
+          ? routeNavStats.durationList?.[0]
+          : undefined,
+      timeToGoal: routeNavStats.durationList?.reduce(
+        (acc, item) => acc + item,
+        0
+      ),
+    };
+    return {
+      ...distanceWithDuration,
+      arriveTimeToNextPoint: currentDateAddSeconds(
+        distanceWithDuration.timeToNextPoint ?? 0
+      ),
+      arriveTimeToGoal: currentDateAddSeconds(
+        distanceWithDuration.timeToGoal ?? 0
+      ),
+    };
+  }
+);
+
+function currentDateAddSeconds(seconds: number): Date {
+  const date = new Date();
+  date.setSeconds(date.getSeconds() + seconds);
+  return date;
+}
