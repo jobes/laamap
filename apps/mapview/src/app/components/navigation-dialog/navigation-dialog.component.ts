@@ -52,4 +52,8 @@ export class NavigationDialogComponent {
       })
       .afterClosed();
   }
+
+  routeTrack(index: number, item: { name: string; point: LngLat }): string {
+    return `${index}${item.point.lat};${item.point.lng}`;
+  }
 }

@@ -3,7 +3,9 @@
   <ng-container *ngIf="currentRoute$ | ngrxPush as currentRoute">
     <div mat-dialog-content>
       <mat-list cdkDropList (cdkDropListDropped)="drop($event, currentRoute)">
-        <ng-container *ngFor="let point of currentRoute; let i = index">
+        <ng-container
+          *ngFor="let point of currentRoute; trackBy: routeTrack; let i = index"
+        >
           <mat-list-item cdkDrag>
             <div class="route-line">
               <div>{{ point.name }}</div>
