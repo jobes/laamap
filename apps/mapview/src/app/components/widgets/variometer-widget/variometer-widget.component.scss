@@ -26,6 +26,6 @@
     text-align: right;
     font-family: monospace;
     font-size: calc(1rem * var(--widget-font-size-ratio));
-    width: calc(2rem * var(--widget-font-size-ratio));
+    min-width: calc(3.25rem * var(--widget-font-size-ratio));
   }
 }
