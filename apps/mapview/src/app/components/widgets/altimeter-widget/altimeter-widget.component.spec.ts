@@ -7,7 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
 
 import { MapService } from '../../../services/map/map.service';
-import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
+import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 import { getTranslocoModule } from '../../../transloco-testing.module';
 import { AltimeterWidgetComponent } from './altimeter-widget.component';
 
