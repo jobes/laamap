@@ -3,8 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { instrumentsSettings } from '../../../../store/settings/instruments/instruments.actions';
-import { instrumentsFeature } from '../../../../store/settings/instruments/instruments.feature';
+import { instrumentSpeedSettingsActions } from '../../../../store/actions/settings.actions';
+import { instrumentsFeature } from '../../../../store/features/settings/instruments.feature';
 
 @Component({
   selector: 'laamap-speed-widget-settings',
@@ -37,7 +37,7 @@ export class SpeedWidgetSettingsComponent {
       );
     } else {
       this.store.dispatch(
-        instrumentsSettings.speedMeterWidgetColorsChanged({
+        instrumentSpeedSettingsActions.widgetColorsChanged({
           colorsBySpeed: [
             ...array.slice(0, index),
             { ...array[index], minSpeed },
@@ -54,7 +54,7 @@ export class SpeedWidgetSettingsComponent {
     textColor: string
   ): void {
     this.store.dispatch(
-      instrumentsSettings.speedMeterWidgetColorsChanged({
+      instrumentSpeedSettingsActions.widgetColorsChanged({
         colorsBySpeed: [
           ...array.slice(0, index),
           { ...array[index], textColor },
@@ -70,7 +70,7 @@ export class SpeedWidgetSettingsComponent {
     bgColor: string
   ): void {
     this.store.dispatch(
-      instrumentsSettings.speedMeterWidgetColorsChanged({
+      instrumentSpeedSettingsActions.widgetColorsChanged({
         colorsBySpeed: [
           ...array.slice(0, index),
           { ...array[index], bgColor },
@@ -84,7 +84,7 @@ export class SpeedWidgetSettingsComponent {
     array: { minSpeed: number; bgColor: string; textColor: string }[]
   ): void {
     this.store.dispatch(
-      instrumentsSettings.speedMeterWidgetColorsChanged({
+      instrumentSpeedSettingsActions.widgetColorsChanged({
         colorsBySpeed: [
           ...array,
           {
@@ -102,7 +102,7 @@ export class SpeedWidgetSettingsComponent {
     index: number
   ): void {
     this.store.dispatch(
-      instrumentsSettings.speedMeterWidgetColorsChanged({
+      instrumentSpeedSettingsActions.widgetColorsChanged({
         colorsBySpeed: [...array.slice(0, index), ...array.slice(index + 1)],
       })
     );

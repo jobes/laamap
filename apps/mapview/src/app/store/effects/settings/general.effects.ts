@@ -14,8 +14,8 @@ import {
 
 import { MapService } from '../../../services/map/map.service';
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
-import { mapActions } from '../../map/map.actions';
-import { generalFeature } from './general.feature';
+import { mapActions } from '../../actions/map.actions';
+import { generalFeature } from '../../features/settings/general.feature';
 
 @Injectable()
 export class GeneralEffects {

@@ -1,7 +1,7 @@
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
-import { generalSettings } from './general.actions';
+import { generalSettingsActions } from '../../actions/settings.actions';
 
 const initialState = {
   screenWakeLock: {
@@ -17,28 +17,28 @@ export const generalFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
-      generalSettings.screenWakeLockEnableChanged,
+      generalSettingsActions.screenWakeLockEnableChanged,
       (state, { enabled }): typeof initialState => ({
         ...state,
         screenWakeLock: { ...state.screenWakeLock, enabled },
       })
     ),
     on(
-      generalSettings.widgetFontSizeRatioChanged,
+      generalSettingsActions.widgetFontSizeRatioChanged,
       (state, { value }): typeof initialState => ({
         ...state,
         widgetFontSizeRatio: value,
       })
     ),
     on(
-      generalSettings.mapFontSizeRatioChanged,
+      generalSettingsActions.mapFontSizeRatioChanged,
       (state, { value }): typeof initialState => ({
         ...state,
         mapFontSizeRatio: value,
       })
     ),
     on(
-      generalSettings.setAirplaneName,
+      generalSettingsActions.airplaneNameChanged,
       (state, { airplaneName }): typeof initialState => ({
         ...state,
         airplaneName,

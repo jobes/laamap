@@ -8,7 +8,7 @@ import { take } from 'rxjs';
 
 import { NavigationDialogComponent } from '../../components/navigation-dialog/navigation-dialog.component';
 import { SettingsDialogComponent } from '../../components/settings-dialog/settings-dialog.component';
-import { mapActions } from '../../store/map/map.actions';
+import { mapActions } from '../../store/actions/map.actions';
 import { CompassService } from '../compass/compass.service';
 import { MapFontSizeService } from './map-font-size.service';
 
@@ -170,7 +170,7 @@ export class MapService {
       )
     );
     control.on('trackuserlocationstart', () =>
-      this.store.dispatch(mapActions.geolocationTrackingStaring())
+      this.store.dispatch(mapActions.geolocationTrackingStarted())
     );
     control.on('trackuserlocationend', () => {
       if (control._watchState === 'OFF') {

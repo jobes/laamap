@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { instrumentsSettings } from '../../../../store/settings/instruments/instruments.actions';
-import { instrumentsFeature } from '../../../../store/settings/instruments/instruments.feature';
+import { instrumentAltimeterSettingsActions } from '../../../../store/actions/settings.actions';
+import { instrumentsFeature } from '../../../../store/features/settings/instruments.feature';
 
 @Component({
   selector: 'laamap-altitude-widget-settings',
@@ -17,26 +17,30 @@ export class AltitudeWidgetSettingsComponent {
 
   setGndAltitude(gndAltitude: number): void {
     this.store.dispatch(
-      instrumentsSettings.altimeterManualGndAltitudeChanged({ gndAltitude })
+      instrumentAltimeterSettingsActions.manualGndAltitudeChanged({
+        gndAltitude,
+      })
     );
   }
 
   bgColorChanged(bgColor: string): void {
     this.store.dispatch(
-      instrumentsSettings.altimeterBgColorChanged({ bgColor })
+      instrumentAltimeterSettingsActions.bgColorChanged({ bgColor })
     );
   }
 
   textColorChanged(textColor: string): void {
     this.store.dispatch(
-      instrumentsSettings.altimeterTextColorChanged({ textColor })
+      instrumentAltimeterSettingsActions.textColorChanged({ textColor })
     );
   }
 
   showTypeChanged(
     show: ('altitudeM' | 'gndM' | 'altitudeFt' | 'gndFt')[]
   ): void {
-    this.store.dispatch(instrumentsSettings.altimeterShowTypeChanged({ show }));
+    this.store.dispatch(
+      instrumentAltimeterSettingsActions.showTypeChanged({ show })
+    );
   }
 
   showTypeTrack(index: number, item: string): string {

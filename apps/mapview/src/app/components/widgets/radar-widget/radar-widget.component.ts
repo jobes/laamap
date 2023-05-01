@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { RainViewerService } from '../../../services/rain-viewer/rain-viewer.service';
-import { radarSettingsActions } from '../../../store/settings/radar/radar.actions';
-import { radarFeature } from '../../../store/settings/radar/radar.feature';
+import { radarWidgetActions } from '../../../store/actions/widgets.actions';
+import { radarFeature } from '../../../store/features/settings/radar.feature';
 
 @Component({
   selector: 'laamap-radar-widget',
@@ -25,7 +25,7 @@ export class RadarWidgetComponent {
     event: CdkDragEnd
   ): void {
     this.store.dispatch(
-      radarSettingsActions.widgetPositionMoved({
+      radarWidgetActions.positionMoved({
         position: {
           x: originalPosition.x + event.distance.x,
           y: originalPosition.y + event.distance.y,

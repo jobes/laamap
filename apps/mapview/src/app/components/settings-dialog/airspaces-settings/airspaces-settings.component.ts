@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { EAirSpaceType } from '../../../services/open-aip/airspaces.interfaces';
-import { IAirSpaceSettings } from '../../../store/settings/air-spaces/air-spaces-init-value';
-import { airspacesSettings } from '../../../store/settings/air-spaces/air-spaces.actions';
-import { airSpacesFeature } from '../../../store/settings/air-spaces/air-spaces.feature';
+import { airspacesSettingsActions } from '../../../store/actions/settings.actions';
+import { IAirSpaceSettings } from '../../../store/features/settings/air-spaces-init-value';
+import { airSpacesFeature } from '../../../store/features/settings/air-spaces.feature';
 
 @Component({
   selector: 'laamap-airspaces-settings',
@@ -19,25 +19,25 @@ export class AirspacesSettingsComponent {
 
   setEnabled(airspaceType: EAirSpaceType, enabled: boolean): void {
     this.store.dispatch(
-      airspacesSettings.enabledChanged({ airspaceType, enabled })
+      airspacesSettingsActions.enabledChanged({ airspaceType, enabled })
     );
   }
 
   setColor(airspaceType: EAirSpaceType, color: string): void {
     this.store.dispatch(
-      airspacesSettings.colorChanged({ airspaceType, color })
+      airspacesSettingsActions.colorChanged({ airspaceType, color })
     );
   }
 
   setOpacity(airspaceType: EAirSpaceType, opacity: number): void {
     this.store.dispatch(
-      airspacesSettings.opacityChanged({ airspaceType, opacity })
+      airspacesSettingsActions.opacityChanged({ airspaceType, opacity })
     );
   }
 
   setMinZoom(airspaceType: EAirSpaceType, minZoom: number): void {
     this.store.dispatch(
-      airspacesSettings.minZoomChanged({ airspaceType, minZoom })
+      airspacesSettingsActions.minZoomChanged({ airspaceType, minZoom })
     );
   }
 

@@ -4,7 +4,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { GeoJSONSource } from 'maplibre-gl';
 
-import { mapActions } from '../../../store/map/map.actions';
+import { layerNotamsActions } from '../../../store/actions/map.actions';
 import { MapService } from '../map.service';
 
 @Injectable({
@@ -59,7 +59,7 @@ export class OnMapNotamsService {
   private addListeners(): void {
     this.mapService.instance.on('click', 'notamsLayer', (event) => {
       this.store.dispatch(
-        mapActions.notamLayerClicked({
+        layerNotamsActions.clicked({
           features: JSON.parse(
             JSON.stringify(event.features ?? [])
           ) as GeoJSON.Feature[],

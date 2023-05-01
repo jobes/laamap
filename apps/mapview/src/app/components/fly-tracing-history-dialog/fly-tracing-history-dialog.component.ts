@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, forkJoin, switchMap } from 'rxjs';
 
 import { TracingService } from '../../services/tracing/tracing.service';
-import { generalFeature } from '../../store/settings/general/general.feature';
+import { generalFeature } from '../../store/features/settings/general.feature';
 
 @Component({
   selector: 'laamap-fly-tracing-history-dialog',

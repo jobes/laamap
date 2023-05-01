@@ -2,11 +2,11 @@ import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { navigationWidgetActions } from '../../../store/actions/widgets.actions';
 import { selectNavigationStats } from '../../../store/advanced-selectors';
-import { mapFeature } from '../../../store/map/map.feature';
-import { navigationFeature } from '../../../store/navigation/navigation.feature';
-import { navigationSettings } from '../../../store/settings/navigation/navigation.actions';
-import { navigationSettingsFeature } from '../../../store/settings/navigation/navigation.feature';
+import { mapFeature } from '../../../store/features/map.feature';
+import { navigationFeature } from '../../../store/features/navigation.feature';
+import { navigationSettingsFeature } from '../../../store/features/settings/navigation.feature';
 
 @Component({
   selector: 'laamap-navigation-widget',
@@ -27,7 +27,7 @@ export class NavigationWidgetComponent {
     event: CdkDragEnd
   ): void {
     this.store.dispatch(
-      navigationSettings.widgetPositionMoved({
+      navigationWidgetActions.positionMoved({
         position: {
           x: originalPosition.x + event.distance.x,
           y: originalPosition.y + event.distance.y,

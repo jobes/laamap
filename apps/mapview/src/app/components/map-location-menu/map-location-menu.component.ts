@@ -12,7 +12,7 @@ import { MapHelperFunctionsService } from '../../services/map-helper-functions/m
 import { INotamDecodedResponse } from '../../services/notams/notams.interface';
 import { IAirportResponse } from '../../services/open-aip/airport.interfaces';
 import { IAirspace } from '../../services/open-aip/airspaces.interfaces';
-import { navigationActions } from '../../store/navigation/navigation.actions';
+import { mapLocationMenuActions } from '../../store/actions/map.actions';
 import { AirportDialogComponent } from '../airport-dialog/airport-dialog.component';
 import { AirspacesDialogComponent } from '../airspaces-dialog/airspaces-dialog.component';
 import { NotamsDialogComponent } from '../notams-dialog/notams-dialog.component';
@@ -83,7 +83,7 @@ export class MapLocationMenuComponent {
   newNavigation(point: LngLat): void {
     this.bottomSheetRef.dismiss();
     this.store.dispatch(
-      navigationActions.startedNewRouteNavigation({
+      mapLocationMenuActions.startedNewRouteNavigation({
         point,
         name: this.getPointName(point),
       })
@@ -93,7 +93,7 @@ export class MapLocationMenuComponent {
   addToNavigation(point: LngLat): void {
     this.bottomSheetRef.dismiss();
     this.store.dispatch(
-      navigationActions.addedPointToNavigation({
+      mapLocationMenuActions.addedPointToNavigation({
         point,
         name: this.getPointName(point),
       })

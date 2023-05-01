@@ -1,6 +1,18 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 
-import { instrumentsSettings } from './instruments.actions';
+import {
+  instrumentAltimeterSettingsActions,
+  instrumentSettingsActions,
+  instrumentSpeedSettingsActions,
+  trackingSettingsActions,
+  varioSettingsActions,
+} from '../../actions/settings.actions';
+import {
+  altimeterWidgetActions,
+  speedMeterWidgetActions,
+  trackingWidgetActions,
+  varioMeterWidgetActions,
+} from '../../actions/widgets.actions';
 
 const initialState = {
   showOnlyOnActiveGps: true,
@@ -77,28 +89,28 @@ export const instrumentsFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
-      instrumentsSettings.speedMeterWidgetPositionMoved,
+      speedMeterWidgetActions.positionMoved,
       (state, { position }): typeof initialState => ({
         ...state,
         speedMeter: { ...state.speedMeter, position },
       })
     ),
     on(
-      instrumentsSettings.speedMeterWidgetColorsChanged,
+      instrumentSpeedSettingsActions.widgetColorsChanged,
       (state, { colorsBySpeed }): typeof initialState => ({
         ...state,
         speedMeter: { ...state.speedMeter, colorsBySpeed },
       })
     ),
     on(
-      instrumentsSettings.variometerWidgetPositionMoved,
+      varioMeterWidgetActions.positionMoved,
       (state, { position }): typeof initialState => ({
         ...state,
         varioMeter: { ...state.varioMeter, position },
       })
     ),
     on(
-      instrumentsSettings.variometerWidgetColorsChanged,
+      varioSettingsActions.widgetColorsChanged,
       (state, { colorsByClimbingSpeed }): typeof initialState => ({
         ...state,
         varioMeter: {
@@ -108,7 +120,7 @@ export const instrumentsFeature = createFeature({
       })
     ),
     on(
-      instrumentsSettings.variometerDiffTimeChanged,
+      varioSettingsActions.diffTimeChanged,
       (state, { diffTime }): typeof initialState => ({
         ...state,
         varioMeter: {
@@ -118,84 +130,85 @@ export const instrumentsFeature = createFeature({
       })
     ),
     on(
-      instrumentsSettings.altimeterWidgetPositionMoved,
+      altimeterWidgetActions.positionMoved,
       (state, { position }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, position },
       })
     ),
+    // on(
+    //   instrumentAltimeterSettingsActions.altimeterGndFromAltitudeMethodChanged,
+    //   (state, { method }): typeof initialState => ({
+    //     ...state,
+    //     altimeter: { ...state.altimeter, method },
+    //   })
+    // ),
     on(
-      instrumentsSettings.altimeterGndFromAltitudeMethodChanged,
-      (state, { method }): typeof initialState => ({
-        ...state,
-        altimeter: { ...state.altimeter, method },
-      })
-    ),
-    on(
-      instrumentsSettings.altimeterManualGndAltitudeChanged,
+      altimeterWidgetActions.manualGndAltitudeChanged,
+      instrumentAltimeterSettingsActions.manualGndAltitudeChanged,
       (state, { gndAltitude }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, gndAltitude },
       })
     ),
     on(
-      instrumentsSettings.altimeterBgColorChanged,
+      instrumentAltimeterSettingsActions.bgColorChanged,
       (state, { bgColor }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, bgColor },
       })
     ),
     on(
-      instrumentsSettings.altimeterTextColorChanged,
+      instrumentAltimeterSettingsActions.textColorChanged,
       (state, { textColor }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, textColor },
       })
     ),
     on(
-      instrumentsSettings.altimeterShowTypeChanged,
+      instrumentAltimeterSettingsActions.showTypeChanged,
       (state, { show }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, show },
       })
     ),
     on(
-      instrumentsSettings.showOnlyOnActiveGps,
+      instrumentSettingsActions.visibleOnGpsTrackingChanged,
       (state, { showOnlyOnActiveGps }): typeof initialState => ({
         ...state,
         showOnlyOnActiveGps,
       })
     ),
     on(
-      instrumentsSettings.trackingWidgetPositionMoved,
+      trackingWidgetActions.positionMoved,
       (state, { position }): typeof initialState => ({
         ...state,
         tracking: { ...state.tracking, position },
       })
     ),
     on(
-      instrumentsSettings.trackingActiveBgColorChanged,
+      trackingSettingsActions.activeBgColorChanged,
       (state, { activeBg }): typeof initialState => ({
         ...state,
         tracking: { ...state.tracking, activeBg },
       })
     ),
     on(
-      instrumentsSettings.trackingInactiveBgColorChanged,
+      trackingSettingsActions.inactiveBgColorChanged,
       (state, { inactiveBg }): typeof initialState => ({
         ...state,
         tracking: { ...state.tracking, inactiveBg },
       })
     ),
     on(
-      instrumentsSettings.trackingActiveTextColorChanged,
+      trackingSettingsActions.activeTextColorChanged,
       (state, { activeText }): typeof initialState => ({
         ...state,
         tracking: { ...state.tracking, activeText },
       })
     ),
     on(
-      instrumentsSettings.trackingInactiveTextColorChanged,
+      trackingSettingsActions.inactiveTextColorChanged,
       (state, { inactiveText }): typeof initialState => ({
         ...state,
         tracking: { ...state.tracking, inactiveText },

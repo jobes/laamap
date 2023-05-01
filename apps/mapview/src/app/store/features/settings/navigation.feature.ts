@@ -1,6 +1,7 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 
-import { navigationSettings } from './navigation.actions';
+import { navigationSettingsActions } from '../../actions/settings.actions';
+import { navigationWidgetActions } from '../../actions/widgets.actions';
 
 export type AllowedNavigationWidgetRowType = (
   | 'NEXT_POINT_DISTANCE'
@@ -40,63 +41,63 @@ export const navigationSettingsFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
-      navigationSettings.directionLineSegmentSeconds,
+      navigationSettingsActions.directionLineSegmentSecondsChanged,
       (state, { seconds }): typeof initialState => ({
         ...state,
         directionLineSegmentSeconds: seconds,
       })
     ),
     on(
-      navigationSettings.directionLineSegmentCount,
+      navigationSettingsActions.directionLineSegmentCountChanged,
       (state, { count }): typeof initialState => ({
         ...state,
         directionLineSegmentCount: count,
       })
     ),
     on(
-      navigationSettings.minimumActivationSpeedChanged,
+      navigationSettingsActions.minimumActivationSpeedChanged,
       (state, { minActivationSpeedKpH }): typeof initialState => ({
         ...state,
         minActivationSpeedKpH,
       })
     ),
     on(
-      navigationSettings.gpsTrackingInitialPitch,
+      navigationSettingsActions.gpsTrackingInitialPitchChanged,
       (state, { pitch }): typeof initialState => ({
         ...state,
         gpsTrackingInitPitch: pitch,
       })
     ),
     on(
-      navigationSettings.gpsTrackingInitialZoom,
+      navigationSettingsActions.gpsTrackingInitialZoomChanged,
       (state, { zoom }): typeof initialState => ({
         ...state,
         gpsTrackingInitZoom: zoom,
       })
     ),
     on(
-      navigationSettings.widgetPositionMoved,
+      navigationWidgetActions.positionMoved,
       (state, { position }): typeof initialState => ({
         ...state,
         widget: { ...state.widget, position },
       })
     ),
     on(
-      navigationSettings.widgetAllowedRows,
+      navigationSettingsActions.widgetAllowedRowsChanged,
       (state, { list }): typeof initialState => ({
         ...state,
         widget: { ...state.widget, allowedRow: list },
       })
     ),
     on(
-      navigationSettings.widgetBgColorChanged,
+      navigationSettingsActions.widgetBgColorChanged,
       (state, { color }): typeof initialState => ({
         ...state,
         widget: { ...state.widget, bgColor: color },
       })
     ),
     on(
-      navigationSettings.widgetTextColorChanged,
+      navigationSettingsActions.widgetTextColorChanged,
       (state, { color }): typeof initialState => ({
         ...state,
         widget: { ...state.widget, textColor: color },

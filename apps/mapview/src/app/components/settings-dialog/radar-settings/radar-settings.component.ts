@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import {
   RadarTypes,
   radarSettingsActions,
-} from '../../../store/settings/radar/radar.actions';
-import { radarFeature } from '../../../store/settings/radar/radar.feature';
+} from '../../../store/actions/settings.actions';
+import { radarFeature } from '../../../store/features/settings/radar.feature';
 
 @Component({
   selector: 'laamap-radar-settings',
@@ -25,7 +25,7 @@ export class RadarSettingsComponent {
   }
 
   enableWidget(enabled: boolean): void {
-    this.store.dispatch(radarSettingsActions.enabledWidgetChanged({ enabled }));
+    this.store.dispatch(radarSettingsActions.widgetEnabled({ enabled }));
   }
 
   typeChanged(type: RadarTypes): void {

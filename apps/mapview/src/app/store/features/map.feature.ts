@@ -7,9 +7,10 @@ import {
 } from '@ngrx/store';
 import { LngLatLike } from 'maplibre-gl';
 
-import { instrumentsFeature } from '../settings/instruments/instruments.feature';
-import { navigationSettingsFeature } from '../settings/navigation/navigation.feature';
-import { mapActions } from './map.actions';
+import { mapEffectsActions } from '../actions/effects.actions';
+import { compassActions, mapActions } from '../actions/map.actions';
+import { instrumentsFeature } from './settings/instruments.feature';
+import { navigationSettingsFeature } from './settings/navigation.feature';
 
 const initialState = {
   compassHeading: 0,
@@ -38,7 +39,7 @@ export const mapFeature = createFeature({
       })
     ),
     on(
-      mapActions.compassHeadingChanged,
+      compassActions.headingChanged,
       (state, { heading }): typeof initialState => ({
         ...state,
         compassHeading: heading,
@@ -52,29 +53,32 @@ export const mapFeature = createFeature({
       ...state,
       bearing,
     })),
-    on(mapActions.geolocationTrackingStaring, (state): typeof initialState => ({
+    on(mapActions.geolocationTrackingStarted, (state): typeof initialState => ({
       ...state,
       geoLocationTrackingStarting: true,
       geoLocationTrackingActive: true,
     })),
-    on(mapActions.geolocationTrackingRunning, (state): typeof initialState => ({
-      ...state,
-      geoLocationTrackingStarting: false,
-    })),
+    on(
+      mapEffectsActions.geolocationTrackingRunning,
+      (state): typeof initialState => ({
+        ...state,
+        geoLocationTrackingStarting: false,
+      })
+    ),
     on(mapActions.geolocationTrackingEnded, (state): typeof initialState => ({
       ...state,
       geoLocationTrackingStarting: false,
       geoLocationTrackingActive: false,
     })),
-    on(mapActions.trackSavingStarted, (state): typeof initialState => ({
+    on(mapEffectsActions.trackSavingStarted, (state): typeof initialState => ({
       ...state,
       trackSaving: true,
     })),
-    on(mapActions.trackSavingEnded, (state): typeof initialState => ({
+    on(mapEffectsActions.trackSavingEnded, (state): typeof initialState => ({
       ...state,
       trackSaving: false,
     })),
-    on(mapActions.gpsTimedOut, (state): typeof initialState => ({
+    on(mapEffectsActions.gpsTimedOut, (state): typeof initialState => ({
       ...state,
       geoLocation: null,
     }))

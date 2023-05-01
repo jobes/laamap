@@ -2,12 +2,12 @@
 import { ActionReducer } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
 
-import { airSpacesFeature } from '../settings/air-spaces/air-spaces.feature';
-import { generalFeature } from '../settings/general/general.feature';
-import { instrumentsFeature } from '../settings/instruments/instruments.feature';
-import { navigationSettingsFeature } from '../settings/navigation/navigation.feature';
-import { notamsFeature } from '../settings/notams/notams.feature';
-import { radarFeature } from '../settings/radar/radar.feature';
+import { airSpacesFeature } from '../features/settings/air-spaces.feature';
+import { generalFeature } from '../features/settings/general.feature';
+import { instrumentsFeature } from '../features/settings/instruments.feature';
+import { navigationSettingsFeature } from '../features/settings/navigation.feature';
+import { notamsFeature } from '../features/settings/notams.feature';
+import { radarFeature } from '../features/settings/radar.feature';
 
 export function localStorageSyncReducer(
   reducer: ActionReducer<any>

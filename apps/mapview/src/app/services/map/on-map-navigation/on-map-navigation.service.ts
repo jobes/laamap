@@ -31,7 +31,7 @@ export class OnMapNavigationService {
     });
   }
 
-  hideNavigationLine(): void {
+  hideNavigationRoute(): void {
     const source = this.mapService.instance.getSource(
       'navigationSource'
     ) as GeoJSONSource;
@@ -41,7 +41,7 @@ export class OnMapNavigationService {
     });
   }
 
-  createNavigationLine(points: { point: LngLat }[]): void {
+  createNavigationRoute(points: { point: LngLat }[]): void {
     if (points.length < 2) {
       return;
     }

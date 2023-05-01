@@ -2,7 +2,7 @@ import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { INotamDecoded } from '../../../services/notams/notams.interface';
 import { NotamGeoJson } from '../../../services/notams/notams.service';
-import { notamsSettings } from './notams.actions';
+import { notamsViewActions } from '../../actions/notams.actions';
 
 const initialState = { hiddenList: [] as string[] };
 
@@ -10,7 +10,7 @@ export const notamsFeature = createFeature({
   name: 'settings.notam',
   reducer: createReducer(
     initialState,
-    on(notamsSettings.hide, (state, { notamId }): typeof initialState => ({
+    on(notamsViewActions.hide, (state, { notamId }): typeof initialState => ({
       ...state,
       hiddenList: [
         ...state.hiddenList.filter((nId) => nId !== notamId), // to avoid duplicity
