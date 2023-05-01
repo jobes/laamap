@@ -13,10 +13,10 @@ import {
   timer,
 } from 'rxjs';
 
-import { mapActions } from '../../../store/map/map.actions';
-import { mapFeature } from '../../../store/map/map.feature';
-import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
-import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
+import { mapActions } from '../../../store/actions/map.actions';
+import { trackingWidgetActions } from '../../../store/actions/widgets.actions';
+import { mapFeature } from '../../../store/features/map.feature';
+import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 import { FlyTracingHistoryDialogComponent } from '../../fly-tracing-history-dialog/fly-tracing-history-dialog.component';
 
 @Component({
@@ -28,7 +28,7 @@ export class TrackingWidgetComponent {
   show$ = this.store.select(mapFeature.selectShowInstruments);
   tracking$ = this.store.select(instrumentsFeature.selectTracking);
   currentFlyTime$ = this.actions$.pipe(
-    ofType(mapActions.trackSavingStarted),
+    ofType(mapActions.geolocationTrackingStarted),
     switchMap(() =>
       timer(0, 1000).pipe(
         startWith(0),
@@ -37,7 +37,9 @@ export class TrackingWidgetComponent {
           active: true,
         })),
         // eslint-disable-next-line rxjs/no-unsafe-takeuntil
-        takeUntil(this.actions$.pipe(ofType(mapActions.trackSavingEnded))),
+        takeUntil(
+          this.actions$.pipe(ofType(mapActions.geolocationTrackingEnded))
+        ),
         endWith({ seconds: 0, active: false }),
         pairwise(),
         map(([first, second]) =>
@@ -62,7 +64,7 @@ export class TrackingWidgetComponent {
       this.dragging = false;
     }, 50);
     this.store.dispatch(
-      instrumentsSettings.trackingWidgetPositionMoved({
+      trackingWidgetActions.positionMoved({
         position: {
           x: originalPosition.x + event.distance.x,
           y: originalPosition.y + event.distance.y,

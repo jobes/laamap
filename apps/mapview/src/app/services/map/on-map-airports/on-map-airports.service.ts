@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { ExpressionFilterSpecification } from 'maplibre-gl';
 import { Observable, forkJoin } from 'rxjs';
 
-import { mapActions } from '../../../store/map/map.actions';
+import { layerAirportActions } from '../../../store/actions/map.actions';
 import { MapHelperFunctionsService } from '../../map-helper-functions/map-helper-functions.service';
 import { EAirportType, IAirport } from '../../open-aip/airport.interfaces';
 import { MapService } from '../map.service';
@@ -68,7 +68,7 @@ export class OnMapAirportsService {
 
     this.mapService.instance.on('click', 'airportTypeLayer', (event) => {
       this.store.dispatch(
-        mapActions.airportLayerClicked({
+        layerAirportActions.clicked({
           features: JSON.parse(
             JSON.stringify(event.features ?? [])
           ) as GeoJSON.Feature[],

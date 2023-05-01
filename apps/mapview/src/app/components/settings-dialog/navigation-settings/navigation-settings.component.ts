@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { navigationSettings } from '../../../store/settings/navigation/navigation.actions';
+import { navigationSettingsActions } from '../../../store/actions/settings.actions';
 import {
   AllowedNavigationWidgetRowType,
   navigationSettingsFeature,
-} from '../../../store/settings/navigation/navigation.feature';
+} from '../../../store/features/settings/navigation.feature';
 
 @Component({
   selector: 'laamap-navigation-settings',
@@ -35,7 +35,7 @@ export class NavigationSettingsComponent {
 
   setMinActivationSpeed(minActivationSpeedKpH: number): void {
     this.store.dispatch(
-      navigationSettings.minimumActivationSpeedChanged({
+      navigationSettingsActions.minimumActivationSpeedChanged({
         minActivationSpeedKpH,
       })
     );
@@ -43,7 +43,7 @@ export class NavigationSettingsComponent {
 
   setDirectionLineSegmentSeconds(seconds: number): void {
     this.store.dispatch(
-      navigationSettings.directionLineSegmentSeconds({
+      navigationSettingsActions.directionLineSegmentSecondsChanged({
         seconds,
       })
     );
@@ -51,7 +51,7 @@ export class NavigationSettingsComponent {
 
   setGpsTrackingInitialZoom(zoom: number): void {
     this.store.dispatch(
-      navigationSettings.gpsTrackingInitialZoom({
+      navigationSettingsActions.gpsTrackingInitialZoomChanged({
         zoom,
       })
     );
@@ -59,7 +59,7 @@ export class NavigationSettingsComponent {
 
   setGpsTrackingInitialPitch(pitch: number): void {
     this.store.dispatch(
-      navigationSettings.gpsTrackingInitialPitch({
+      navigationSettingsActions.gpsTrackingInitialPitchChanged({
         pitch,
       })
     );
@@ -67,7 +67,7 @@ export class NavigationSettingsComponent {
 
   setDirectionLineSegmentCount(count: number): void {
     this.store.dispatch(
-      navigationSettings.directionLineSegmentCount({
+      navigationSettingsActions.directionLineSegmentCountChanged({
         count,
       })
     );
@@ -75,7 +75,7 @@ export class NavigationSettingsComponent {
 
   widgetBgColorChanged(color: string): void {
     this.store.dispatch(
-      navigationSettings.widgetBgColorChanged({
+      navigationSettingsActions.widgetBgColorChanged({
         color,
       })
     );
@@ -83,7 +83,7 @@ export class NavigationSettingsComponent {
 
   widgetTextColorChanged(color: string): void {
     this.store.dispatch(
-      navigationSettings.widgetTextColorChanged({
+      navigationSettingsActions.widgetTextColorChanged({
         color,
       })
     );
@@ -91,7 +91,7 @@ export class NavigationSettingsComponent {
 
   widgetAllowedRowsChanged(list: AllowedNavigationWidgetRowType): void {
     this.store.dispatch(
-      navigationSettings.widgetAllowedRows({
+      navigationSettingsActions.widgetAllowedRowsChanged({
         list,
       })
     );

@@ -8,9 +8,10 @@ import { LngLat } from 'maplibre-gl';
 import { combineLatest, filter, map, switchMap, tap } from 'rxjs';
 
 import { OnMapNavigationService } from '../../services/map/on-map-navigation/on-map-navigation.service';
-import { mapActions } from '../map/map.actions';
-import { mapFeature } from '../map/map.feature';
-import { navigationActions } from './navigation.actions';
+import { navigationEffectsActions } from '../actions/effects.actions';
+import { mapActions, mapLocationMenuActions } from '../actions/map.actions';
+import { navigationDialogActions } from '../actions/navigation.actions';
+import { mapFeature } from './map.feature';
 import { navigationFeature } from './navigation.feature';
 
 @Injectable()
@@ -28,21 +29,21 @@ export class NavigationEffects {
   validateNavigationStarted$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(
-        navigationActions.startedNewRouteNavigation,
-        navigationActions.startNavigation
+        mapLocationMenuActions.startedNewRouteNavigation,
+        navigationDialogActions.navigationStarted
       ),
       switchMap(() =>
         this.store.select(mapFeature.selectGeoLocationTrackingActive)
       ),
       filter((trackingActive) => !trackingActive),
-      map(() => navigationActions.navigationFailed({ reason: 'NO_GPS' }))
+      map(() => navigationEffectsActions.navigationFailed({ reason: 'NO_GPS' }))
     );
   });
 
   navigationFailed$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(navigationActions.navigationFailed),
+        ofType(navigationEffectsActions.navigationFailed),
         tap(({ reason }) =>
           this.snackBar.open(
             this.translocoService.translate(
@@ -52,7 +53,7 @@ export class NavigationEffects {
             { duration: 5000 }
           )
         ),
-        tap(() => this.onMapNavigation.hideNavigationLine())
+        tap(() => this.onMapNavigation.hideNavigationRoute())
       );
     },
     { dispatch: false }
@@ -80,7 +81,7 @@ export class NavigationEffects {
           ) < 1
       ),
       tap(({ route }) => this.showNavigationPointReachedMessage(route.length)),
-      map(() => navigationActions.nextPointReached())
+      map(() => navigationEffectsActions.nextPointReached())
     );
   });
 
@@ -99,7 +100,7 @@ export class NavigationEffects {
             geoLocation.geoLocation &&
             route.length > 0
           ) {
-            this.onMapNavigation.createNavigationLine([
+            this.onMapNavigation.createNavigationRoute([
               {
                 point: new LngLat(
                   geoLocation.geoLocation.coords.longitude,
@@ -109,7 +110,7 @@ export class NavigationEffects {
               ...route,
             ]);
           } else {
-            this.onMapNavigation.hideNavigationLine();
+            this.onMapNavigation.hideNavigationRoute();
           }
         })
       );

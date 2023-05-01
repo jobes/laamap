@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
-import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
+import { instrumentSettingsActions } from '../../../store/actions/settings.actions';
+import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 
 @Component({
   selector: 'laamap-instruments-settings',
@@ -18,7 +18,9 @@ export class InstrumentsSettingsComponent {
 
   setShowOnlyOnActiveGps(showOnlyOnActiveGps: boolean): void {
     this.store.dispatch(
-      instrumentsSettings.showOnlyOnActiveGps({ showOnlyOnActiveGps })
+      instrumentSettingsActions.visibleOnGpsTrackingChanged({
+        showOnlyOnActiveGps,
+      })
     );
   }
 }

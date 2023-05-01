@@ -1,36 +1,36 @@
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { EAirSpaceType } from '../../../services/open-aip/airspaces.interfaces';
+import { airspacesSettingsActions } from '../../actions/settings.actions';
 import { IAirSpaceSettings, airspacesInitValue } from './air-spaces-init-value';
-import { airspacesSettings } from './air-spaces.actions';
 
 export const airSpacesFeature = createFeature({
   name: 'settings.airSpaces',
   reducer: createReducer(
     airspacesInitValue,
     on(
-      airspacesSettings.enabledChanged,
+      airspacesSettingsActions.enabledChanged,
       (state, { airspaceType, enabled }): typeof airspacesInitValue => ({
         ...state,
         [airspaceType]: { ...state[airspaceType], enabled },
       })
     ),
     on(
-      airspacesSettings.colorChanged,
+      airspacesSettingsActions.colorChanged,
       (state, { airspaceType, color }): typeof airspacesInitValue => ({
         ...state,
         [airspaceType]: { ...state[airspaceType], color },
       })
     ),
     on(
-      airspacesSettings.opacityChanged,
+      airspacesSettingsActions.opacityChanged,
       (state, { airspaceType, opacity }): typeof airspacesInitValue => ({
         ...state,
         [airspaceType]: { ...state[airspaceType], opacity },
       })
     ),
     on(
-      airspacesSettings.minZoomChanged,
+      airspacesSettingsActions.minZoomChanged,
       (state, { airspaceType, minZoom }): typeof airspacesInitValue => ({
         ...state,
         [airspaceType]: { ...state[airspaceType], minZoom },

@@ -20,15 +20,21 @@ import { MapLocationMenuComponent } from '../../components/map-location-menu/map
 import { MapService } from '../../services/map/map.service';
 import { OnMapDirectionLineService } from '../../services/map/on-map-direction-line/on-map-direction-line.service';
 import { TracingService } from '../../services/tracing/tracing.service';
+import { mapEffectsActions } from '../actions/effects.actions';
+import {
+  layerAirSpacesActions,
+  layerAirportActions,
+  layerNotamsActions,
+  mapActions,
+} from '../actions/map.actions';
 import {
   selectLineDefinitionBorderGeoJson,
   selectLineDefinitionSegmentGeoJson,
   selectOnMapTrackingState,
   selectTrackInProgressWithMinSpeed,
 } from '../advanced-selectors';
-import { generalFeature } from '../settings/general/general.feature';
-import { mapActions } from './map.actions';
-import { mapFeature } from './map.feature';
+import { mapFeature } from '../features/map.feature';
+import { generalFeature } from '../features/settings/general.feature';
 
 @Injectable()
 export class MapEffects {
@@ -62,9 +68,9 @@ export class MapEffects {
 
   gpsTrackingStarted$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(mapActions.geolocationTrackingStaring),
+      ofType(mapActions.geolocationTrackingStarted),
       tap(() => (this.startGpsTracking = true)),
-      map(() => mapActions.geolocationTrackingRunning())
+      map(() => mapEffectsActions.geolocationTrackingRunning())
     );
   });
 
@@ -75,7 +81,7 @@ export class MapEffects {
         iif(() => !geoLocation, of(false), of(true).pipe(delay(5000)))
       ),
       filter((timedOut) => timedOut),
-      map(() => mapActions.gpsTimedOut())
+      map(() => mapEffectsActions.gpsTimedOut())
     );
   });
 
@@ -85,7 +91,7 @@ export class MapEffects {
         ({ hitMinSpeed, trackSavingInProgress }) =>
           hitMinSpeed && !trackSavingInProgress
       ),
-      map(() => mapActions.trackSavingStarted())
+      map(() => mapEffectsActions.trackSavingStarted())
     );
   });
 
@@ -95,7 +101,7 @@ export class MapEffects {
         ({ hitMinSpeed, trackSavingInProgress }) =>
           trackSavingInProgress && !hitMinSpeed
       ),
-      map(() => mapActions.trackSavingEnded())
+      map(() => mapEffectsActions.trackSavingEnded())
     );
   });
 
@@ -136,7 +142,7 @@ export class MapEffects {
   startTraceSavingToDb$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(mapActions.trackSavingStarted),
+        ofType(mapEffectsActions.trackSavingStarted),
         switchMap(() => this.store.select(generalFeature.selectAirplaneName)),
         tap((airPlaneName) =>
           this.tracing.createFlyTrace(airPlaneName, new Date().toISOString())
@@ -192,15 +198,15 @@ export class MapEffects {
             /* eslint-disable rxjs/finnish */
             lngLat: of(click.lngLat),
             airport: this.actions$.pipe(
-              ofType(mapActions.airportLayerClicked),
+              ofType(layerAirportActions.clicked),
               startWith(null)
             ),
             airspace: this.actions$.pipe(
-              ofType(mapActions.airspaceLayerClicked),
+              ofType(layerAirSpacesActions.clicked),
               startWith(null)
             ),
             notams: this.actions$.pipe(
-              ofType(mapActions.notamLayerClicked),
+              ofType(layerNotamsActions.clicked),
               startWith(null)
             ),
             doubleClick: this.actions$.pipe(

@@ -6,8 +6,8 @@ import { filter, map, switchMap, take, tap } from 'rxjs';
 
 import { OnMapNotamsService } from '../../../services/map/on-map-notams/on-map-notams.service';
 import { NotamsService } from '../../../services/notams/notams.service';
-import { mapFeature } from '../../map/map.feature';
-import { notamsFeature } from './notams.feature';
+import { mapFeature } from '../../features/map.feature';
+import { notamsFeature } from '../../features/settings/notams.feature';
 
 @Injectable()
 export class NotamsSettingsEffects {

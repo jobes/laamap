@@ -1,6 +1,10 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 
-import { RadarTypes, radarSettingsActions } from './radar.actions';
+import {
+  RadarTypes,
+  radarSettingsActions,
+} from '../../actions/settings.actions';
+import { radarWidgetActions } from '../../actions/widgets.actions';
 
 const initialState = {
   enabled: false,
@@ -36,7 +40,7 @@ export const radarFeature = createFeature({
       })
     ),
     on(
-      radarSettingsActions.enabledWidgetChanged,
+      radarSettingsActions.widgetEnabled,
       (state, { enabled }): RadarSettings => ({
         ...state,
         widget: { ...state.widget, enabled },
@@ -106,7 +110,7 @@ export const radarFeature = createFeature({
       })
     ),
     on(
-      radarSettingsActions.widgetPositionMoved,
+      radarWidgetActions.positionMoved,
       (state, { position }): RadarSettings => ({
         ...state,
         widget: {

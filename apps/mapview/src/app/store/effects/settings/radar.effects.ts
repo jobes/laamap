@@ -16,8 +16,8 @@ import {
 
 import { OnMapRainViewerService } from '../../../services/map/on-map-rain-viewer/on-map-rain-viewer.service';
 import { RainViewerService } from '../../../services/rain-viewer/rain-viewer.service';
-import { mapFeature } from '../../map/map.feature';
-import { radarFeature } from './radar.feature';
+import { mapFeature } from '../../features/map.feature';
+import { radarFeature } from '../../features/settings/radar.feature';
 
 @Injectable()
 export class RadarSettingsEffects {

@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { instrumentsSettings } from '../../../../store/settings/instruments/instruments.actions';
-import { instrumentsFeature } from '../../../../store/settings/instruments/instruments.feature';
+import { trackingSettingsActions } from '../../../../store/actions/settings.actions';
+import { instrumentsFeature } from '../../../../store/features/settings/instruments.feature';
 
 @Component({
   selector: 'laamap-tracking-widget-settings',
@@ -15,25 +15,25 @@ export class TrackingWidgetSettingsComponent {
 
   activeBgColorChanged(activeBg: string): void {
     this.store.dispatch(
-      instrumentsSettings.trackingActiveBgColorChanged({ activeBg })
+      trackingSettingsActions.activeBgColorChanged({ activeBg })
     );
   }
 
   activeTextColorChanged(activeText: string): void {
     this.store.dispatch(
-      instrumentsSettings.trackingActiveTextColorChanged({ activeText })
+      trackingSettingsActions.activeTextColorChanged({ activeText })
     );
   }
 
   inactiveBgColorChanged(inactiveBg: string): void {
     this.store.dispatch(
-      instrumentsSettings.trackingInactiveBgColorChanged({ inactiveBg })
+      trackingSettingsActions.inactiveBgColorChanged({ inactiveBg })
     );
   }
 
   inactiveTextColorChanged(inactiveText: string): void {
     this.store.dispatch(
-      instrumentsSettings.trackingInactiveTextColorChanged({ inactiveText })
+      trackingSettingsActions.inactiveTextColorChanged({ inactiveText })
     );
   }
 }

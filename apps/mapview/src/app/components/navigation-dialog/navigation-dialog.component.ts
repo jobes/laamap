@@ -4,8 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
 
-import { navigationActions } from '../../store/navigation/navigation.actions';
-import { navigationFeature } from '../../store/navigation/navigation.feature';
+import { navigationDialogActions } from '../../store/actions/navigation.actions';
+import { navigationFeature } from '../../store/features/navigation.feature';
 import { FlyTracingHistoryDialogComponent } from '../fly-tracing-history-dialog/fly-tracing-history-dialog.component';
 
 @Component({
@@ -25,23 +25,23 @@ export class NavigationDialogComponent {
   ) {
     const route = [...oldRoute];
     moveItemInArray(route, event.previousIndex, event.currentIndex);
-    this.store.dispatch(navigationActions.reorderRoute({ route }));
+    this.store.dispatch(navigationDialogActions.routeReordered({ route }));
   }
 
   deleteRoutePoint(index: number): void {
-    this.store.dispatch(navigationActions.routeItemDeleted({ index }));
+    this.store.dispatch(navigationDialogActions.routeItemDeleted({ index }));
   }
 
   deleteRoute(): void {
-    this.store.dispatch(navigationActions.routeClear());
+    this.store.dispatch(navigationDialogActions.routeCleared());
   }
 
   startNavigation(): void {
-    this.store.dispatch(navigationActions.startNavigation());
+    this.store.dispatch(navigationDialogActions.navigationStarted());
   }
 
   stopNavigation(): void {
-    this.store.dispatch(navigationActions.endNavigation());
+    this.store.dispatch(navigationDialogActions.navigationEnded());
   }
 
   showTrackHistory(): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { RadarSettings } from '../../../store/settings/radar/radar.feature';
+import { RadarSettings } from '../../../store/features/settings/radar.feature';
 import { IRainViewerUrls } from '../../rain-viewer/rain-viewer.interface';
 import { RainViewerService } from '../../rain-viewer/rain-viewer.service';
 import { MapService } from '../map.service';

@@ -3,8 +3,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { instrumentsSettings } from '../../../../store/settings/instruments/instruments.actions';
-import { instrumentsFeature } from '../../../../store/settings/instruments/instruments.feature';
+import { varioSettingsActions } from '../../../../store/actions/settings.actions';
+import { instrumentsFeature } from '../../../../store/features/settings/instruments.feature';
 
 @Component({
   selector: 'laamap-vario-widget-settings',
@@ -23,9 +23,7 @@ export class VarioWidgetSettingsComponent {
   ) {}
 
   setTimeDifference(diffTime: number): void {
-    this.store.dispatch(
-      instrumentsSettings.variometerDiffTimeChanged({ diffTime })
-    );
+    this.store.dispatch(varioSettingsActions.diffTimeChanged({ diffTime }));
   }
 
   setMinClimbing(
@@ -44,7 +42,7 @@ export class VarioWidgetSettingsComponent {
       );
     } else {
       this.store.dispatch(
-        instrumentsSettings.variometerWidgetColorsChanged({
+        varioSettingsActions.widgetColorsChanged({
           colorsByClimbingSpeed: [
             ...array.slice(0, index),
             { ...array[index], minClimbing },
@@ -61,7 +59,7 @@ export class VarioWidgetSettingsComponent {
     textColor: string
   ): void {
     this.store.dispatch(
-      instrumentsSettings.variometerWidgetColorsChanged({
+      varioSettingsActions.widgetColorsChanged({
         colorsByClimbingSpeed: [
           ...array.slice(0, index),
           { ...array[index], textColor },
@@ -77,7 +75,7 @@ export class VarioWidgetSettingsComponent {
     bgColor: string
   ): void {
     this.store.dispatch(
-      instrumentsSettings.variometerWidgetColorsChanged({
+      varioSettingsActions.widgetColorsChanged({
         colorsByClimbingSpeed: [
           ...array.slice(0, index),
           { ...array[index], bgColor },
@@ -91,7 +89,7 @@ export class VarioWidgetSettingsComponent {
     array: { minClimbing: number; bgColor: string; textColor: string }[]
   ): void {
     this.store.dispatch(
-      instrumentsSettings.variometerWidgetColorsChanged({
+      varioSettingsActions.widgetColorsChanged({
         colorsByClimbingSpeed: [
           ...array,
           {
@@ -109,7 +107,7 @@ export class VarioWidgetSettingsComponent {
     index: number
   ): void {
     this.store.dispatch(
-      instrumentsSettings.variometerWidgetColorsChanged({
+      varioSettingsActions.widgetColorsChanged({
         colorsByClimbingSpeed: [
           ...array.slice(0, index),
           ...array.slice(index + 1),

@@ -10,9 +10,9 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { mapFeature } from '../../../store/map/map.feature';
-import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
-import { instrumentsFeature } from '../../../store/settings/instruments/instruments.feature';
+import { varioMeterWidgetActions } from '../../../store/actions/widgets.actions';
+import { mapFeature } from '../../../store/features/map.feature';
+import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 
 @Component({
   selector: 'laamap-variometer-widget',
@@ -76,7 +76,7 @@ export class VariometerWidgetComponent {
     event: CdkDragEnd
   ): void {
     this.store.dispatch(
-      instrumentsSettings.variometerWidgetPositionMoved({
+      varioMeterWidgetActions.positionMoved({
         position: {
           x: originalPosition.x + event.distance.x,
           y: originalPosition.y + event.distance.y,

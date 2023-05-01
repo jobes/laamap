@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { mapActions } from '../../store/map/map.actions';
+import { compassActions } from '../../store/actions/map.actions';
 import { LoggerService } from '../logger/logger.service';
 
 declare class AbsoluteOrientationSensor {
@@ -63,7 +63,7 @@ export class CompassService {
             1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]
           ) *
           (-180 / Math.PI);
-        this.store.dispatch(mapActions.compassHeadingChanged({ heading }));
+        this.store.dispatch(compassActions.headingChanged({ heading }));
       });
       return sensor;
     }

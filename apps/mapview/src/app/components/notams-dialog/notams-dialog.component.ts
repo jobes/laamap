@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs';
 
 import { INotamDecoded } from '../../services/notams/notams.interface';
-import { notamsSettings } from '../../store/settings/notams/notams.actions';
-import { notamsFeature } from '../../store/settings/notams/notams.feature';
+import { notamsViewActions } from '../../store/actions/notams.actions';
+import { notamsFeature } from '../../store/features/settings/notams.feature';
 
 @UntilDestroy()
 @Component({
@@ -37,7 +37,7 @@ export class NotamsDialogComponent {
   }
 
   hide(notamId: string): void {
-    this.store.dispatch(notamsSettings.hide({ notamId }));
+    this.store.dispatch(notamsViewActions.hide({ notamId }));
   }
 
   trackByNotam(index: number, value: INotamDecoded) {

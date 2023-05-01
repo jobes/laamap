@@ -1,7 +1,7 @@
 import { createActionGroup, props } from '@ngrx/store';
 
-export const notamsSettings = createActionGroup({
-  source: 'Notams settings',
+export const notamsViewActions = createActionGroup({
+  source: 'Notams view',
   events: {
     hide: props<{
       notamId: string;

@@ -8,8 +8,8 @@ import {
   ExpressionSpecification,
 } from 'maplibre-gl';
 
-import { mapActions } from '../../../store/map/map.actions';
-import { IAirSpaceSettingsObject } from '../../../store/settings/air-spaces/air-spaces-init-value';
+import { layerAirSpacesActions } from '../../../store/actions/map.actions';
+import { IAirSpaceSettingsObject } from '../../../store/features/settings/air-spaces-init-value';
 import { EAirSpaceType, IAirspace } from '../../open-aip/airspaces.interfaces';
 import { MapService } from '../map.service';
 
@@ -79,7 +79,7 @@ export class OnMapAirSpacesService {
         features?: Feature<Geometry, GeoJsonProperties>[] | undefined;
       }) => {
         this.store.dispatch(
-          mapActions.airspaceLayerClicked({
+          layerAirSpacesActions.clicked({
             features: JSON.parse(
               JSON.stringify(event.features ?? [])
             ) as GeoJSON.Feature[],

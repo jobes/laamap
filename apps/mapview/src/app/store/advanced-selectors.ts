@@ -6,10 +6,10 @@ import {
   EHeightUnit,
   EReferenceDatum,
 } from '../services/open-aip/airport.interfaces';
-import { mapFeature } from './map/map.feature';
-import { navigationFeature } from './navigation/navigation.feature';
-import { instrumentsFeature } from './settings/instruments/instruments.feature';
-import { navigationSettingsFeature } from './settings/navigation/navigation.feature';
+import { mapFeature } from './features/map.feature';
+import { navigationFeature } from './features/navigation.feature';
+import { instrumentsFeature } from './features/settings/instruments.feature';
+import { navigationSettingsFeature } from './features/settings/navigation.feature';
 
 export const selectOnMapTrackingState = createSelector(
   mapFeature.selectGeoLocation,

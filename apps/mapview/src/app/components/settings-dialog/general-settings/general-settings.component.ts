@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
-import { generalSettings } from '../../../store/settings/general/general.actions';
-import { generalFeature } from '../../../store/settings/general/general.feature';
+import { generalSettingsActions } from '../../../store/actions/settings.actions';
+import { generalFeature } from '../../../store/features/settings/general.feature';
 
 @Component({
   selector: 'laamap-general-settings',
@@ -25,19 +25,25 @@ export class GeneralSettingsComponent {
 
   screenWakeLockEnabledChange(enabled: boolean) {
     this.store.dispatch(
-      generalSettings.screenWakeLockEnableChanged({ enabled })
+      generalSettingsActions.screenWakeLockEnableChanged({ enabled })
     );
   }
 
   widgetFontSizeRatioChanged(value: number) {
-    this.store.dispatch(generalSettings.widgetFontSizeRatioChanged({ value }));
+    this.store.dispatch(
+      generalSettingsActions.widgetFontSizeRatioChanged({ value })
+    );
   }
 
   mapFontSizeRatioChanged(value: number) {
-    this.store.dispatch(generalSettings.mapFontSizeRatioChanged({ value }));
+    this.store.dispatch(
+      generalSettingsActions.mapFontSizeRatioChanged({ value })
+    );
   }
 
   airplaneNameChanged(airplaneName: string) {
-    this.store.dispatch(generalSettings.setAirplaneName({ airplaneName }));
+    this.store.dispatch(
+      generalSettingsActions.airplaneNameChanged({ airplaneName })
+    );
   }
 }

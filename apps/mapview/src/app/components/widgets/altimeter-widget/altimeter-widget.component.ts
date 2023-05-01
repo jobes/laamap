@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { EHeightUnit } from '../../../services/open-aip/airport.interfaces';
+import { altimeterWidgetActions } from '../../../store/actions/widgets.actions';
 import { selectHeighSettings } from '../../../store/advanced-selectors';
-import { mapFeature } from '../../../store/map/map.feature';
-import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
+import { mapFeature } from '../../../store/features/map.feature';
 
 @Component({
   selector: 'laamap-altimeter-widget',
@@ -32,7 +32,7 @@ export class AltimeterWidgetComponent {
     }, 50);
 
     this.store.dispatch(
-      instrumentsSettings.altimeterWidgetPositionMoved({
+      altimeterWidgetActions.positionMoved({
         position: {
           x: originalPosition.x + event.distance.x,
           y: originalPosition.y + event.distance.y,
@@ -47,7 +47,7 @@ export class AltimeterWidgetComponent {
     }
 
     this.store.dispatch(
-      instrumentsSettings.altimeterManualGndAltitudeChanged({
+      altimeterWidgetActions.manualGndAltitudeChanged({
         gndAltitude,
       })
     );

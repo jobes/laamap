@@ -2,9 +2,9 @@ import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { speedMeterWidgetActions } from '../../../store/actions/widgets.actions';
 import { selectColorsBySpeed } from '../../../store/advanced-selectors';
-import { mapFeature } from '../../../store/map/map.feature';
-import { instrumentsSettings } from '../../../store/settings/instruments/instruments.actions';
+import { mapFeature } from '../../../store/features/map.feature';
 
 @Component({
   selector: 'laamap-speed-meter-widget',
@@ -22,7 +22,7 @@ export class SpeedMeterWidgetComponent {
     event: CdkDragEnd
   ): void {
     this.store.dispatch(
-      instrumentsSettings.speedMeterWidgetPositionMoved({
+      speedMeterWidgetActions.positionMoved({
         position: {
           x: originalPosition.x + event.distance.x,
           y: originalPosition.y + event.distance.y,
