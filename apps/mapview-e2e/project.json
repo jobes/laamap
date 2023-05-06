@@ -9,11 +9,17 @@
       "options": {
         "cypressConfig": "apps/mapview-e2e/cypress.config.ts",
         "devServerTarget": "mapview:serve:development",
-        "testingType": "e2e"
+        "testingType": "e2e",
+        "watch": true
       },
       "configurations": {
         "production": {
-          "devServerTarget": "mapview:serve:production"
+          "devServerTarget": "mapview:serve:production",
+          "watch": false
+        },
+        "ci": {
+          "devServerTarget": "mapview:serve-static",
+          "watch": false
         }
       }
     },
