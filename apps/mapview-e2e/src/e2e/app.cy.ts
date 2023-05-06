@@ -1,13 +1,42 @@
-import { getGreeting } from '../support/app.po';
+/* eslint-disable cypress/no-unnecessary-waiting */
+import * as turf from '@turf/turf';
+
+import { getGeolocationButton, locationForSecond } from '../support/app.po';
 
 describe('mapview', () => {
-  beforeEach(() => cy.visit('/'));
+  let watchPosition: Cypress.Agent<sinon.SinonStub>;
+  let airportPosition: { latitude: number; longitude: number };
 
-  it('should display welcome message', () => {
-    // Custom command example, see `../support/commands.ts` file
-    cy.login('my-email@something.com', 'myPassword');
+  beforeEach(() => {
+    cy.visit('/', {
+      onBeforeLoad({ navigator }) {
+        watchPosition = cy.stub(navigator.geolocation, 'watchPosition');
+      },
+    });
+  });
 
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome mapview');
+  before(() => {
+    cy.fixture('sliac-airport').then((data) => (airportPosition = data));
+  });
+
+  it('should show a test flight', () => {
+    const start = [airportPosition.longitude, airportPosition.latitude];
+    const goal = turf.destination(
+      [airportPosition.longitude, airportPosition.latitude],
+      100,
+      30
+    );
+    const secondsAway = turf.greatCircle(start, goal, { npoints: 3600 })
+      .geometry.coordinates as number[][];
+    let success: (_: unknown) => void;
+    watchPosition.callsFake((onSuccess) => {
+      onSuccess(locationForSecond(0, secondsAway));
+      success = onSuccess;
+    });
+
+    getGeolocationButton().click();
+    for (let time = 1; time < 100; time++) {
+      cy.wait(1000).then(() => success(locationForSecond(time, secondsAway)));
+    }
   });
 });

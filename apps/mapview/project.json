@@ -114,6 +114,12 @@
       "options": {
         "lintFilePatterns": ["apps/mapview/**/*.css", "apps/mapview/**/*.scss"]
       }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "mapview:build"
+      }
     }
   },
   "tags": []
