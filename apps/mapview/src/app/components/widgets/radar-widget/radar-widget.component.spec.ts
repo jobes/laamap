@@ -10,7 +10,7 @@ describe('RadarWidgetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RadarWidgetComponent],
+      imports: [RadarWidgetComponent],
       providers: [
         provideMockStore({}),
         { provide: RainViewerService, useValue: {} },

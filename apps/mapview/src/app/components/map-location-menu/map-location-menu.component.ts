@@ -1,9 +1,12 @@
+import { NgIf } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { Point } from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
@@ -21,6 +24,8 @@ import { NotamsDialogComponent } from '../notams-dialog/notams-dialog.component'
   selector: 'laamap-map-location-menu',
   templateUrl: './map-location-menu.component.html',
   styleUrls: ['./map-location-menu.component.scss'],
+  standalone: true,
+  imports: [TranslocoModule, MatListModule, NgIf, MatDialogModule],
 })
 export class MapLocationMenuComponent {
   constructor(

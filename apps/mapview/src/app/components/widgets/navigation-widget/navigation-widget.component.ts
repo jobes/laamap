@@ -1,7 +1,12 @@
-import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+import { LetModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
+import { DigitalTimePipe } from '../../../pipes/digital-time/digital-time.pipe';
 import { navigationWidgetActions } from '../../../store/actions/widgets.actions';
 import { selectNavigationStats } from '../../../store/advanced-selectors';
 import { mapFeature } from '../../../store/features/map.feature';
@@ -12,6 +17,16 @@ import { navigationSettingsFeature } from '../../../store/features/settings/navi
   selector: 'laamap-navigation-widget',
   templateUrl: './navigation-widget.component.html',
   styleUrls: ['./navigation-widget.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    LetModule,
+    NgIf,
+    CdkDrag,
+    AsyncPipe,
+    TranslocoLocaleModule,
+    DigitalTimePipe,
+  ],
 })
 export class NavigationWidgetComponent {
   private readonly store = inject(Store);

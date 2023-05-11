@@ -1,6 +1,14 @@
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslocoService } from '@ngneat/transloco';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { LetModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { instrumentSpeedSettingsActions } from '../../../../store/actions/settings.actions';
@@ -10,6 +18,19 @@ import { instrumentsFeature } from '../../../../store/features/settings/instrume
   selector: 'laamap-speed-widget-settings',
   templateUrl: './speed-widget-settings.component.html',
   styleUrls: ['./speed-widget-settings.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    MatSnackBarModule,
+    MatExpansionModule,
+    LetModule,
+    NgFor,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class SpeedWidgetSettingsComponent {
   speedWidgetColorsSettings$ = this.store.select(

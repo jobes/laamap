@@ -6,6 +6,7 @@ import maplibregl from 'maplibre-gl';
 import { Map } from 'maplibre-gl';
 import { take } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
 import { NavigationDialogComponent } from '../../components/navigation-dialog/navigation-dialog.component';
 import { SettingsDialogComponent } from '../../components/settings-dialog/settings-dialog.component';
 import { mapActions } from '../../store/actions/map.actions';
@@ -17,9 +18,7 @@ import { MapFontSizeService } from './map-font-size.service';
 })
 export class MapService {
   instance: Map;
-  private tileStyleUrl = `https://api.maptiler.com/maps/openstreetmap/style.json?key=${
-    process.env['NX_MAP_TILES_KEY'] ?? 'MISSING_KEY'
-  }`;
+  private tileStyleUrl = `https://api.maptiler.com/maps/openstreetmap/style.json?key=${environment.mapTilesKey}`;
 
   constructor(
     private readonly transloco: TranslocoService,

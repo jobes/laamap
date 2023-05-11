@@ -52,6 +52,14 @@
           ],
           "outputHashing": "all"
         },
+        "cypress": {
+          "fileReplacements": [
+            {
+              "replace": "apps/mapview/src/environments/environment.ts",
+              "with": "apps/mapview/src/environments/environment.cypress.ts"
+            }
+          ]
+        },
         "development": {
           "buildOptimizer": false,
           "optimization": false,
@@ -119,6 +127,21 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "mapview:build"
+      }
+    },
+    "component-test": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/mapview/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "mapview:build:cypress",
+        "watch": true
+      },
+      "configurations": {
+        "production": {
+          "watch": false
+        }
       }
     }
   },

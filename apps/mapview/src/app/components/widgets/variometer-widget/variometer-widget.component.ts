@@ -1,5 +1,9 @@
-import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+import { LetModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import {
   auditTime,
@@ -18,10 +22,19 @@ import { instrumentsFeature } from '../../../store/features/settings/instruments
   selector: 'laamap-variometer-widget',
   templateUrl: './variometer-widget.component.html',
   styleUrls: ['./variometer-widget.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    LetModule,
+    NgIf,
+    CdkDrag,
+    AsyncPipe,
+    TranslocoLocaleModule,
+  ],
 })
 export class VariometerWidgetComponent {
   show$ = this.store.select(mapFeature.selectShowInstruments);
-  climbingSpeedMs$ = this.store
+  private climbingSpeedMs$ = this.store
     .select(instrumentsFeature.selectVarioMeter)
     .pipe(
       switchMap((settings) =>

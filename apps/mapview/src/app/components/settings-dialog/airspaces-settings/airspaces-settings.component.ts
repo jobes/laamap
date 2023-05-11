@@ -1,4 +1,14 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { TranslocoModule } from '@ngneat/transloco';
+import { PushModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { EAirSpaceType } from '../../../services/open-aip/airspaces.interfaces';
@@ -10,6 +20,20 @@ import { airSpacesFeature } from '../../../store/features/settings/air-spaces.fe
   selector: 'laamap-airspaces-settings',
   templateUrl: './airspaces-settings.component.html',
   styleUrls: ['./airspaces-settings.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    MatExpansionModule,
+    MatIconModule,
+    NgIf,
+    NgFor,
+    MatSlideToggleModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSliderModule,
+    PushModule,
+  ],
 })
 export class AirspacesSettingsComponent {
   airSpaces$ = this.store.select(airSpacesFeature.selectAirspacesSettingsArray);

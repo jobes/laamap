@@ -1,0 +1,386 @@
+[
+  {
+    "_id": "6261507ccb27f42509462b43",
+    "approved": true,
+    "name": "LZTRA06A",
+    "type": 1,
+    "icaoClass": 7,
+    "onDemand": false,
+    "onRequest": false,
+    "byNotam": false,
+    "specialAgreement": false,
+    "country": "SK",
+    "upperLimit": {
+      "value": 135,
+      "unit": 6,
+      "referenceDatum": 2
+    },
+    "lowerLimit": {
+      "value": 4000,
+      "unit": 1,
+      "referenceDatum": 1
+    },
+    "createdAt": "2022-04-21T12:39:24.439Z",
+    "updatedAt": "2022-10-19T21:08:02.557Z",
+    "createdBy": "AUTO-IMPORTER",
+    "updatedBy": "openaip-system",
+    "activity": 0,
+    "hoursOfOperation": {
+      "operatingHours": [
+        {
+          "dayOfWeek": 0,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 1,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 2,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 3,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 4,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 5,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 6,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        }
+      ]
+    },
+    "lowerLimitMetersMsl": 1219.2,
+    "upperLimitMetersMsl": 4114.8
+  },
+  {
+    "_id": "6261507a5e9ded571044ef3f",
+    "approved": true,
+    "name": "LZR60A",
+    "type": 1,
+    "icaoClass": 7,
+    "onDemand": false,
+    "onRequest": false,
+    "byNotam": false,
+    "specialAgreement": false,
+    "country": "SK",
+    "upperLimit": {
+      "value": 4000,
+      "unit": 1,
+      "referenceDatum": 1
+    },
+    "lowerLimit": {
+      "value": 0,
+      "unit": 1,
+      "referenceDatum": 0
+    },
+    "createdAt": "2022-04-21T12:39:22.546Z",
+    "updatedAt": "2022-10-19T21:07:42.378Z",
+    "createdBy": "AUTO-IMPORTER",
+    "updatedBy": "openaip-system",
+    "activity": 0,
+    "hoursOfOperation": {
+      "operatingHours": [
+        {
+          "dayOfWeek": 0,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 1,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 2,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 3,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 4,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 5,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 6,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        }
+      ]
+    },
+    "lowerLimitMetersMsl": 0,
+    "upperLimitMetersMsl": 1219.2
+  },
+  {
+    "_id": "626150764b027aab592b14ad",
+    "approved": true,
+    "name": "FIR BRATISLAVA 135,965 MHZ",
+    "type": 0,
+    "icaoClass": 2,
+    "onDemand": false,
+    "onRequest": false,
+    "byNotam": false,
+    "specialAgreement": false,
+    "country": "SK",
+    "upperLimit": {
+      "value": 999,
+      "unit": 6,
+      "referenceDatum": 2
+    },
+    "lowerLimit": {
+      "value": 0,
+      "unit": 1,
+      "referenceDatum": 0
+    },
+    "createdAt": "2022-04-21T12:39:18.060Z",
+    "updatedAt": "2022-10-19T21:07:03.903Z",
+    "createdBy": "AUTO-IMPORTER",
+    "updatedBy": "openaip-system",
+    "activity": 0,
+    "hoursOfOperation": {
+      "operatingHours": [
+        {
+          "dayOfWeek": 0,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 1,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 2,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 3,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 4,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 5,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 6,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        }
+      ]
+    },
+    "lowerLimitMetersMsl": 0,
+    "upperLimitMetersMsl": 30449.52
+  },
+  {
+    "_id": "62615075cb27f42509462a15",
+    "approved": true,
+    "name": "BRATISLAVA CTA SEKTOR WEST",
+    "type": 0,
+    "icaoClass": 2,
+    "onDemand": false,
+    "onRequest": false,
+    "byNotam": false,
+    "specialAgreement": false,
+    "country": "SK",
+    "upperLimit": {
+      "value": 660,
+      "unit": 6,
+      "referenceDatum": 2
+    },
+    "lowerLimit": {
+      "value": 8000,
+      "unit": 1,
+      "referenceDatum": 1
+    },
+    "createdAt": "2022-04-21T12:39:17.366Z",
+    "updatedAt": "2022-10-19T21:06:52.629Z",
+    "createdBy": "AUTO-IMPORTER",
+    "updatedBy": "openaip-system",
+    "activity": 0,
+    "hoursOfOperation": {
+      "operatingHours": [
+        {
+          "dayOfWeek": 0,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 1,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 2,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 3,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 4,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 5,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        },
+        {
+          "dayOfWeek": 6,
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "byNotam": false,
+          "sunrise": false,
+          "sunset": false,
+          "publicHolidaysExcluded": false
+        }
+      ]
+    },
+    "lowerLimitMetersMsl": 2438.4,
+    "upperLimitMetersMsl": 20116.8
+  }
+]

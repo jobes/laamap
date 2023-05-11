@@ -1,9 +1,16 @@
+import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { TranslocoModule } from '@ngneat/transloco';
+import { PushModule } from '@ngrx/component';
 import { concatLatestFrom } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, forkJoin, switchMap } from 'rxjs';
 
+import { DigitalTimePipe } from '../../pipes/digital-time/digital-time.pipe';
 import { TracingService } from '../../services/tracing/tracing.service';
 import { generalFeature } from '../../store/features/settings/general.feature';
 
@@ -11,6 +18,17 @@ import { generalFeature } from '../../store/features/settings/general.feature';
   selector: 'laamap-fly-tracing-history-dialog',
   templateUrl: './fly-tracing-history-dialog.component.html',
   styleUrls: ['./fly-tracing-history-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    MatDialogModule,
+    NgIf,
+    MatTableModule,
+    MatPaginatorModule,
+    MatButtonModule,
+    PushModule,
+    DigitalTimePipe,
+  ],
 })
 export class FlyTracingHistoryDialogComponent {
   private readonly tracingService = inject(TracingService);

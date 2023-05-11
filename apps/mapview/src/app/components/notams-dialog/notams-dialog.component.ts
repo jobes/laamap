@@ -1,6 +1,16 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { PushModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs';
 
@@ -13,6 +23,17 @@ import { notamsFeature } from '../../store/features/settings/notams.feature';
   selector: 'laamap-notams-dialog',
   templateUrl: './notams-dialog.component.html',
   styleUrls: ['./notams-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    MatDialogModule,
+    MatExpansionModule,
+    NgFor,
+    NgIf,
+    MatButtonModule,
+    TranslocoLocaleModule,
+    PushModule,
+  ],
 })
 export class NotamsDialogComponent {
   nonHiddenNotams$ = this.store.select(

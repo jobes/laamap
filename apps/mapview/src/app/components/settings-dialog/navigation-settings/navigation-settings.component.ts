@@ -1,4 +1,13 @@
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatOptionModule } from '@angular/material/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { navigationSettingsActions } from '../../../store/actions/settings.actions';
@@ -11,6 +20,18 @@ import {
   selector: 'laamap-navigation-settings',
   templateUrl: './navigation-settings.component.html',
   styleUrls: ['./navigation-settings.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatSelectModule,
+    MatOptionModule,
+    AsyncPipe,
+  ],
 })
 export class NavigationSettingsComponent {
   minActivationSpeed$ = this.store.select(

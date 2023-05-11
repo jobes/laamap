@@ -19,6 +19,7 @@ jobs:
         npx nx affected --target=stylelint --parallel=4
         npx nx affected --target=test --parallel=4 --ci --code-coverage
         npx nx affected --target=build --parallel=4
+        npx nx affected --target=component-test --configuration=production --parallel=4
 
   agents:
     name: Nx Cloud - Agents

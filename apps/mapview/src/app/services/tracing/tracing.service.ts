@@ -23,8 +23,9 @@ export class TracingService {
   createFlyTrace(airplaneId: string, name: string): void {
     const dbName = this.itemDbName(airplaneId, name);
     const allFlyTraces = new PouchDb(this.indexDbName(airplaneId));
+    const id = new Date().toISOString();
     void allFlyTraces.put({
-      _id: new Date().toISOString(),
+      _id: id,
       dbName,
       name,
     } as IIndexDb);

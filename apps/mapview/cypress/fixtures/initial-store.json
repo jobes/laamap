@@ -1,0 +1,327 @@
+{
+  "map": {
+    "compassHeading": 0,
+    "geoLocation": null,
+    "center": [0, 0],
+    "bearing": 0,
+    "loaded": true,
+    "geoLocationTrackingStarting": false,
+    "geoLocationTrackingActive": false,
+    "trackSaving": false
+  },
+  "navigation": {
+    "running": false,
+    "route": []
+  },
+  "settings.notam": {
+    "hiddenList": []
+  },
+  "settings.radar": {
+    "enabled": false,
+    "type": "radar",
+    "colorScheme": 1,
+    "snow": false,
+    "smooth": true,
+    "animationSpeed": 30,
+    "opacity": 75,
+    "widget": {
+      "enabled": false,
+      "position": {
+        "x": 0,
+        "y": 270
+      },
+      "background": "#ffffff",
+      "textColorPast": "#707070",
+      "textColorFuture": "#005706"
+    }
+  },
+  "settings.navigation": {
+    "minActivationSpeedKpH": 30,
+    "directionLineSegmentSeconds": 60,
+    "directionLineSegmentCount": 5,
+    "gpsTrackingInitZoom": 13,
+    "gpsTrackingInitPitch": 60,
+    "widget": {
+      "position": {
+        "x": 200,
+        "y": 200
+      },
+      "bgColor": "#ffffff",
+      "textColor": "#000000",
+      "allowedRow": [
+        "NEXT_POINT_DISTANCE",
+        "NEXT_POINT_DURATION_LEFT",
+        "NEXT_POINT_ARRIVE_TIME",
+        "GOAL_DISTANCE",
+        "GOAL_DURATION_LEFT",
+        "GOAL_ARRIVE_TIME"
+      ]
+    }
+  },
+  "settings.airSpaces": {
+    "0": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "1": {
+      "enabled": true,
+      "color": "#ffa500",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "2": {
+      "enabled": true,
+      "color": "#a52a2a",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "3": {
+      "enabled": true,
+      "color": "#ff0000",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "4": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "5": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "6": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "7": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "8": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "9": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "10": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "11": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "12": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "13": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "14": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "15": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "16": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "17": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "18": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "19": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "20": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "21": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "22": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "23": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "24": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "25": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "26": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "27": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "28": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    },
+    "29": {
+      "enabled": true,
+      "color": "#808080",
+      "opacity": 0.1,
+      "minZoom": 5
+    }
+  },
+  "settings.instruments": {
+    "showOnlyOnActiveGps": true,
+    "speedMeter": {
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "colorsBySpeed": [
+        {
+          "minSpeed": 0,
+          "bgColor": "#d6d6d6",
+          "textColor": "#262626"
+        },
+        {
+          "minSpeed": 50,
+          "bgColor": "#e60000",
+          "textColor": "#feec7c"
+        },
+        {
+          "minSpeed": 80,
+          "bgColor": "#ffffff",
+          "textColor": "#020203"
+        },
+        {
+          "minSpeed": 110,
+          "bgColor": "#dff532",
+          "textColor": "#020203"
+        }
+      ]
+    },
+    "varioMeter": {
+      "position": {
+        "x": 0,
+        "y": 200
+      },
+      "diffTime": 1000,
+      "colorsByClimbing": [
+        {
+          "minClimbing": -1000,
+          "bgColor": "#ffffff",
+          "textColor": "#e51515"
+        },
+        {
+          "minClimbing": -3,
+          "bgColor": "#ffffff",
+          "textColor": "#000000"
+        },
+        {
+          "minClimbing": 3,
+          "bgColor": "#ff4d4d",
+          "textColor": "#000000"
+        }
+      ]
+    },
+    "altimeter": {
+      "position": {
+        "x": 0,
+        "y": 60
+      },
+      "gndAltitude": 0,
+      "method": "manual",
+      "bgColor": "#ffffff",
+      "textColor": "#000000",
+      "show": ["altitudeM", "gndM"]
+    },
+    "tracking": {
+      "position": {
+        "x": 0,
+        "y": 300
+      },
+      "activeBg": "#ffffff",
+      "inactiveBg": "#d3d3d3",
+      "activeText": "#000000",
+      "inactiveText": "#000000"
+    }
+  },
+  "settings.general": {
+    "screenWakeLock": {
+      "enabled": true
+    },
+    "widgetFontSizeRatio": 1.5,
+    "mapFontSizeRatio": 1.5,
+    "airplaneName": "OMH-XXX (John Doe)"
+  }
+}

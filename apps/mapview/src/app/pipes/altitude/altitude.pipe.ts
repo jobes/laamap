@@ -8,6 +8,7 @@ import {
 
 @Pipe({
   name: 'altitude',
+  standalone: true,
 })
 export class AltitudePipe implements PipeTransform {
   constructor(private transloco: TranslocoService) {}

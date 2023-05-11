@@ -5,6 +5,7 @@ import { EHeightUnit } from '../../services/open-aip/airport.interfaces';
 
 @Pipe({
   name: 'dimension',
+  standalone: true,
 })
 export class DimensionPipe implements PipeTransform {
   constructor(private transloco: TranslocoService) {}

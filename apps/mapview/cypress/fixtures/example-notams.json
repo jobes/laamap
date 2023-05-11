@@ -1,0 +1,42 @@
+[
+  {
+    "fir": "LZBB",
+    "subjectIdentification": "WP",
+    "subjectCondition": "LW",
+    "traffic": {
+      "checklist": false,
+      "instrument": true,
+      "visual": true
+    },
+    "purpose": {
+      "checklist": false,
+      "flightOperation": false,
+      "immediateAttention": false,
+      "miscellaneous": true,
+      "preFlightBriefing": false
+    },
+    "scope": {
+      "aerodrome": false,
+      "checklist": false,
+      "enRoute": false,
+      "navigationWarning": true
+    },
+    "flightLevelLowerLimit": 0,
+    "flightLevelUpperLimit": 80,
+    "radius": 5556,
+    "position": {
+      "lng": 18.11,
+      "lat": 47.58
+    },
+    "id": "A0867/23",
+    "type": "NOTAMN",
+    "issuer": "LZBB",
+    "from": "2023-05-12T06:00:00.000Z",
+    "to": "2023-05-28T18:34:00.000Z",
+    "schedule": "12-14 19-21 26-28 0600-SS",
+    "msg": "NAVIGATION WARNING - PARACHUTE JUMPS IN AREA:\nCIRCLE RADIUS 3NAUTICAL MILE(S) CENTRED ON 475742NORTH 0181102EAST (ARP LZNZ).",
+    "originalMsg": "A0867/23 NOTAMN\nQ) LZBB/QWPLW/IV/M  /W /000/080/4758N01811E003\nA) LZBB B) 2305120600 C) 2305281834\nD) 12-14 19-21 26-28 0600-SS\nE) NAVIGATION WARNING - PARACHUTE JUMPS IN AREA:\nCIRCLE RADIUS 3NM CENTRED ON 475742N 0181102E (ARP LZNZ).\nF) GND G) 8000FT AMSL",
+    "lowerLimit2": "GND",
+    "upperLimit2": "8000FT AMSL"
+  }
+]

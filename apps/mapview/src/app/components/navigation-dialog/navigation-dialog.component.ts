@@ -1,6 +1,18 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
+import { NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule, PushModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
 
@@ -12,6 +24,21 @@ import { FlyTracingHistoryDialogComponent } from '../fly-tracing-history-dialog/
   selector: 'laamap-navigation-dialog',
   templateUrl: './navigation-dialog.component.html',
   styleUrls: ['./navigation-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    MatDialogModule,
+    NgIf,
+    MatListModule,
+    CdkDropList,
+    NgFor,
+    CdkDrag,
+    MatIconModule,
+    MatDividerModule,
+    LetModule,
+    MatButtonModule,
+    PushModule,
+  ],
 })
 export class NavigationDialogComponent {
   private readonly store = inject(Store);
