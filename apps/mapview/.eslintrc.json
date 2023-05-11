@@ -4,6 +4,7 @@
   "overrides": [
     {
       "files": ["*.ts"],
+      "excludedFiles": ["**/*.cy.ts", "src/app/cypress-helpers.ts"],
       "extends": [
         "plugin:@nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates"
@@ -45,8 +46,13 @@
         "jest.config.ts",
         "**/*.test.ts",
         "**/*.spec.ts",
+        "**/*.cy.ts",
+        "src/app/cypress-helpers.ts",
+        "**/cypress/**",
+        "cypress.config.ts",
         "test-setup.ts",
         "src/polyfills.ts",
+        "src/environments/environment.cypress.ts",
         "src/environments/environment.prod.ts",
         "src/app/transloco-testing.module.ts"
       ],

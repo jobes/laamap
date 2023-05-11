@@ -1,13 +1,24 @@
-import { Location } from '@angular/common';
+import { Location, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { LightgalleryModule } from 'lightgallery/angular';
 import { InitDetail } from 'lightgallery/lg-events';
 import { LightGallery } from 'lightgallery/lightgallery';
 import lgZoom from 'lightgallery/plugins/zoom';
 import { filter } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
+import { AltitudePipe } from '../../pipes/altitude/altitude.pipe';
+import { DimensionPipe } from '../../pipes/dimension/dimension.pipe';
 import {
   ETrafficType,
   IAirport,
@@ -21,12 +32,24 @@ import {
   templateUrl: './airport-dialog.component.html',
   styleUrls: ['./airport-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    MatDialogModule,
+    NgIf,
+    NgFor,
+    MatExpansionModule,
+    LightgalleryModule,
+    MatButtonModule,
+    AltitudePipe,
+    DimensionPipe,
+  ],
 })
 export class AirportDialogComponent {
   gallerySettings = {
     counter: false,
     plugins: [lgZoom],
-    licenseKey: process.env['NX_LIGHT_GALLERY_KEY'],
+    licenseKey: environment.galleryLicenseKey,
   };
   private lightGallery?: LightGallery;
 

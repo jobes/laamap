@@ -1,6 +1,14 @@
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslocoService } from '@ngneat/transloco';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { LetModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { varioSettingsActions } from '../../../../store/actions/settings.actions';
@@ -10,6 +18,19 @@ import { instrumentsFeature } from '../../../../store/features/settings/instrume
   selector: 'laamap-vario-widget-settings',
   templateUrl: './vario-widget-settings.component.html',
   styleUrls: ['./vario-widget-settings.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    MatSnackBarModule,
+    MatExpansionModule,
+    LetModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    NgFor,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class VarioWidgetSettingsComponent {
   varioWidgetColorsSettings$ = this.store.select(

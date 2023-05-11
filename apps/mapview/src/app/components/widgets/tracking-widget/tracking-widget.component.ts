@@ -1,6 +1,9 @@
-import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule } from '@ngrx/component';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
@@ -13,6 +16,7 @@ import {
   timer,
 } from 'rxjs';
 
+import { DigitalTimePipe } from '../../../pipes/digital-time/digital-time.pipe';
 import { mapActions } from '../../../store/actions/map.actions';
 import { trackingWidgetActions } from '../../../store/actions/widgets.actions';
 import { mapFeature } from '../../../store/features/map.feature';
@@ -23,6 +27,16 @@ import { FlyTracingHistoryDialogComponent } from '../../fly-tracing-history-dial
   selector: 'laamap-tracking-widget',
   templateUrl: './tracking-widget.component.html',
   styleUrls: ['./tracking-widget.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    LetModule,
+    NgIf,
+    CdkDrag,
+    AsyncPipe,
+    DigitalTimePipe,
+    MatDialogModule,
+  ],
 })
 export class TrackingWidgetComponent {
   show$ = this.store.select(mapFeature.selectShowInstruments);

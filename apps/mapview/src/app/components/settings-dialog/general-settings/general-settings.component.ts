@@ -1,4 +1,14 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
@@ -9,6 +19,20 @@ import { generalFeature } from '../../../store/features/settings/general.feature
   selector: 'laamap-general-settings',
   templateUrl: './general-settings.component.html',
   styleUrls: ['./general-settings.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    MatExpansionModule,
+    MatIconModule,
+    LetModule,
+    MatSlideToggleModule,
+    FormsModule,
+    NgIf,
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatInputModule,
+    AsyncPipe,
+  ],
 })
 export class GeneralSettingsComponent {
   screenWakeLockEnabled$ = this.store.select(

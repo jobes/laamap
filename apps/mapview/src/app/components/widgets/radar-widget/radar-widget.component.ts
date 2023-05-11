@@ -1,5 +1,9 @@
-import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+import { LetModule, PushModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { RainViewerService } from '../../../services/rain-viewer/rain-viewer.service';
@@ -10,6 +14,15 @@ import { radarFeature } from '../../../store/features/settings/radar.feature';
   selector: 'laamap-radar-widget',
   templateUrl: './radar-widget.component.html',
   styleUrls: ['./radar-widget.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    LetModule,
+    NgIf,
+    CdkDrag,
+    TranslocoLocaleModule,
+    PushModule,
+  ],
 })
 export class RadarWidgetComponent {
   radarSettings$ = this.store.select(radarFeature['selectSettings.radarState']);

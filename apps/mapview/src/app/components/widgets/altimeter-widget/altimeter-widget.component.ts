@@ -1,7 +1,17 @@
-import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
+import {
+  AsyncPipe,
+  NgFor,
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+} from '@angular/common';
 import { Component } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
+import { AltitudePipe } from '../../../pipes/altitude/altitude.pipe';
 import { EHeightUnit } from '../../../services/open-aip/airport.interfaces';
 import { altimeterWidgetActions } from '../../../store/actions/widgets.actions';
 import { selectHeighSettings } from '../../../store/advanced-selectors';
@@ -11,6 +21,18 @@ import { mapFeature } from '../../../store/features/map.feature';
   selector: 'laamap-altimeter-widget',
   templateUrl: './altimeter-widget.component.html',
   styleUrls: ['./altimeter-widget.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoModule,
+    LetModule,
+    NgIf,
+    CdkDrag,
+    NgFor,
+    NgSwitch,
+    NgSwitchCase,
+    AsyncPipe,
+    AltitudePipe,
+  ],
 })
 export class AltimeterWidgetComponent {
   show$ = this.store.select(mapFeature.selectShowInstruments);

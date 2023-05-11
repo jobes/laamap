@@ -10,7 +10,7 @@ describe('NavigationWidgetComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [provideMockStore({})],
-      declarations: [NavigationWidgetComponent],
+      imports: [NavigationWidgetComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavigationWidgetComponent);

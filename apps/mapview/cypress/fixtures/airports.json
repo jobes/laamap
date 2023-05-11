@@ -1,0 +1,173 @@
+{
+  "_id": "6261506c4b027aab592b1220",
+  "approved": true,
+  "name": "NOVE ZAMKY",
+  "icaoCode": "LZNZ",
+  "type": 2,
+  "trafficType": [0],
+  "magneticDeclination": 5.37,
+  "country": "SK",
+  "elevation": {
+    "value": 115,
+    "unit": 0,
+    "referenceDatum": 1
+  },
+  "ppr": false,
+  "private": false,
+  "skydiveActivity": false,
+  "winchOnly": false,
+  "frequencies": [
+    {
+      "value": "120.055",
+      "unit": 2,
+      "type": 10,
+      "name": "Nove Zamky PREVADZKA",
+      "primary": true,
+      "publicUse": true,
+      "_id": "6261506c4b027aab592b1221"
+    }
+  ],
+  "runways": [
+    {
+      "designator": "15",
+      "trueHeading": 154,
+      "alignedTrueNorth": false,
+      "operations": 0,
+      "mainRunway": true,
+      "turnDirection": 2,
+      "takeOffOnly": false,
+      "landingOnly": false,
+      "surface": {
+        "composition": [2],
+        "mainComposite": 2,
+        "condition": 0,
+        "mtow": {
+          "value": 5.7,
+          "unit": 9
+        }
+      },
+      "dimension": {
+        "length": {
+          "value": 1001,
+          "unit": 0
+        },
+        "width": {
+          "value": 69,
+          "unit": 0
+        }
+      },
+      "declaredDistance": {
+        "tora": {
+          "value": 1001,
+          "unit": 0
+        },
+        "lda": {
+          "value": 1001,
+          "unit": 0
+        }
+      },
+      "pilotCtrlLighting": false,
+      "_id": "6261506c4b027aab592b1222"
+    },
+    {
+      "designator": "33",
+      "trueHeading": 334,
+      "alignedTrueNorth": false,
+      "operations": 0,
+      "mainRunway": true,
+      "turnDirection": 2,
+      "takeOffOnly": false,
+      "landingOnly": false,
+      "surface": {
+        "composition": [2],
+        "mainComposite": 2,
+        "condition": 0,
+        "mtow": {
+          "value": 5.7,
+          "unit": 9
+        }
+      },
+      "dimension": {
+        "length": {
+          "value": 1001,
+          "unit": 0
+        },
+        "width": {
+          "value": 69,
+          "unit": 0
+        }
+      },
+      "declaredDistance": {
+        "tora": {
+          "value": 1001,
+          "unit": 0
+        },
+        "lda": {
+          "value": 1001,
+          "unit": 0
+        }
+      },
+      "pilotCtrlLighting": false,
+      "_id": "6261506c4b027aab592b1223"
+    }
+  ],
+  "createdAt": "2022-04-21T12:39:08.998Z",
+  "updatedAt": "2022-10-20T11:13:49.882Z",
+  "createdBy": "AUTO-IMPORTER",
+  "updatedBy": "openaip-system",
+  "elevationGeoid": {
+    "geoidHeight": 43.456764399999486,
+    "hae": 158.45676439999949
+  },
+  "mainRunway": {
+    "designator": "15",
+    "trueHeading": 154,
+    "alignedTrueNorth": false,
+    "operations": 0,
+    "mainRunway": true,
+    "turnDirection": 2,
+    "takeOffOnly": false,
+    "landingOnly": false,
+    "surface": {
+      "composition": [2],
+      "mainComposite": 2,
+      "condition": 0,
+      "mtow": {
+        "value": 5.7,
+        "unit": 9
+      }
+    },
+    "dimension": {
+      "length": {
+        "value": 1001,
+        "unit": 0
+      },
+      "width": {
+        "value": 69,
+        "unit": 0
+      }
+    },
+    "declaredDistance": {
+      "tora": {
+        "value": 1001,
+        "unit": 0
+      },
+      "lda": {
+        "value": 1001,
+        "unit": 0
+      }
+    },
+    "pilotCtrlLighting": false,
+    "_id": "6261506c4b027aab592b1222",
+    "paved": false
+  },
+  "mainFrequency": {
+    "value": "120.055",
+    "unit": 2,
+    "type": 10,
+    "name": "Nove Zamky PREVADZKA",
+    "primary": true,
+    "publicUse": true,
+    "_id": "6261506c4b027aab592b1221"
+  }
+}

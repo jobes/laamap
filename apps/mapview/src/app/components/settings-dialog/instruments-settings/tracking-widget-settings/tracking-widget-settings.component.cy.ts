@@ -1,0 +1,29 @@
+import { provideMockStore } from '@ngrx/store/testing';
+
+import { testingSharedMountConfig } from '../../../../cypress-helpers';
+import { TrackingWidgetSettingsComponent } from './tracking-widget-settings.component';
+
+const initialState = {
+  tracking: {
+    position: { x: 0, y: 300 },
+    activeBg: '#ffffff',
+    inactiveBg: '#d3d3d3',
+    activeText: '#000000',
+    inactiveText: '#000000',
+  },
+};
+describe(TrackingWidgetSettingsComponent.name, () => {
+  it('renders', () => {
+    cy.mount(TrackingWidgetSettingsComponent, {
+      imports: testingSharedMountConfig.imports,
+      providers: [
+        ...testingSharedMountConfig.providers,
+        provideMockStore({
+          initialState: { 'settings.instruments': initialState },
+        }),
+      ],
+    });
+    cy.get('#mat-expansion-panel-header-0').click();
+    cy.get('#mat-input-2').should('have.value', '#d3d3d3');
+  });
+});
