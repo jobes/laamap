@@ -31,7 +31,7 @@ mat-panel-description {
   display: none;
 }
 
-@media screen and (min-width: 500px) {
+@media screen and (width > 500px) {
   .info {
     .label {
       display: inline;

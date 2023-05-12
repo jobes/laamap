@@ -39,7 +39,7 @@ export class AltitudeWidgetSettingsComponent {
 
   setGndAltitude(gndAltitude: number): void {
     this.store.dispatch(
-      instrumentAltimeterSettingsActions.manualGndAltitudeChanged({
+      instrumentAltimeterSettingsActions.manualGNDAltitudeChanged({
         gndAltitude,
       })
     );

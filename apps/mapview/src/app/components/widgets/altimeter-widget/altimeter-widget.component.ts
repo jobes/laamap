@@ -69,7 +69,7 @@ export class AltimeterWidgetComponent {
     }
 
     this.store.dispatch(
-      altimeterWidgetActions.manualGndAltitudeChanged({
+      altimeterWidgetActions.manualGNDAltitudeChanged({
         gndAltitude,
       })
     );
