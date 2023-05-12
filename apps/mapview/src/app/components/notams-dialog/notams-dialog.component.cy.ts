@@ -2,7 +2,6 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../cypress-helpers';
 import { NotamsDialogComponent } from './notams-dialog.component';
 
 @Component({
@@ -30,9 +29,7 @@ describe(NotamsDialogComponent.name, () => {
   });
   it('creates dialog', () => {
     cy.mount(WrapperComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           initialState: { 'settings.notam': { hiddenList: [] } },
         }),

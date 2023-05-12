@@ -1,5 +1,7 @@
 /* eslint-disable max-statements */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslocoTestingModule } from '@ngneat/transloco';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Subject, of, takeUntil, toArray } from 'rxjs';
 
@@ -12,7 +14,7 @@ describe('VariometerWidgetComponent', () => {
   let fixture: ComponentFixture<VariometerWidgetComponent>;
   const initialState = {
     'settings.instruments': {
-      varioMeter: { diffTime: 1000 },
+      varioMeter: { diffTime: 1000, colorsByClimbing: [] },
     },
   };
 
@@ -35,7 +37,7 @@ describe('VariometerWidgetComponent', () => {
     const store = TestBed.inject(MockStore);
     const stop = new Subject<void>();
 
-    component.climbingSpeedMs$
+    component['climbingSpeedMs$']
       .pipe(takeUntil(stop), toArray())
       .subscribe((lastValue) => {
         expect(
@@ -63,7 +65,11 @@ describe('VariometerWidgetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [VariometerWidgetComponent],
+      imports: [
+        VariometerWidgetComponent,
+        TranslocoTestingModule.forRoot({ langs: {} }),
+        TranslocoLocaleModule.forRoot(),
+      ],
       providers: [
         provideMockStore({
           initialState,

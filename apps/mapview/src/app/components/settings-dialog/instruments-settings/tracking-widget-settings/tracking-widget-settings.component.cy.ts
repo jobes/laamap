@@ -1,6 +1,5 @@
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../../../cypress-helpers';
 import { TrackingWidgetSettingsComponent } from './tracking-widget-settings.component';
 
 const initialState = {
@@ -15,9 +14,7 @@ const initialState = {
 describe(TrackingWidgetSettingsComponent.name, () => {
   it('renders', () => {
     cy.mount(TrackingWidgetSettingsComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           initialState: { 'settings.instruments': initialState },
         }),

@@ -1,6 +1,5 @@
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../../cypress-helpers';
 import {
   EHeightUnit,
   EReferenceDatum,
@@ -12,9 +11,7 @@ import { AltimeterWidgetComponent } from './altimeter-widget.component';
 describe(AltimeterWidgetComponent.name, () => {
   it('renders', () => {
     cy.mount(AltimeterWidgetComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           selectors: [
             { selector: mapFeature.selectShowInstruments, value: true },

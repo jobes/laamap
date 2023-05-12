@@ -1,6 +1,5 @@
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../../../cypress-helpers';
 import { VarioWidgetSettingsComponent } from './vario-widget-settings.component';
 
 const initialState = {
@@ -29,9 +28,7 @@ const initialState = {
 describe(VarioWidgetSettingsComponent.name, () => {
   it('renders', () => {
     cy.mount(VarioWidgetSettingsComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           initialState: { 'settings.instruments': initialState },
         }),

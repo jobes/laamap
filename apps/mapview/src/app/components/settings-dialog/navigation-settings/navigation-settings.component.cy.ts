@@ -1,6 +1,5 @@
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../../cypress-helpers';
 import { NavigationSettingsComponent } from './navigation-settings.component';
 
 const initialState = {
@@ -30,9 +29,7 @@ const initialState = {
 describe(NavigationSettingsComponent.name, () => {
   it('renders', () => {
     cy.mount(NavigationSettingsComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           initialState: { 'settings.navigation': initialState },
         }),

@@ -1,6 +1,5 @@
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../../../cypress-helpers';
 import { AltitudeWidgetSettingsComponent } from './altitude-widget-settings.component';
 
 const initialState = {
@@ -22,9 +21,7 @@ const initialState = {
 describe(AltitudeWidgetSettingsComponent.name, () => {
   it('renders', () => {
     cy.mount(AltitudeWidgetSettingsComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           initialState: { 'settings.instruments': initialState },
         }),
