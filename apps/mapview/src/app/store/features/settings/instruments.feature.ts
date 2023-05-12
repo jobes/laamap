@@ -144,8 +144,8 @@ export const instrumentsFeature = createFeature({
     //   })
     // ),
     on(
-      altimeterWidgetActions.manualGndAltitudeChanged,
-      instrumentAltimeterSettingsActions.manualGndAltitudeChanged,
+      altimeterWidgetActions.manualGNDAltitudeChanged,
+      instrumentAltimeterSettingsActions.manualGNDAltitudeChanged,
       (state, { gndAltitude }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, gndAltitude },

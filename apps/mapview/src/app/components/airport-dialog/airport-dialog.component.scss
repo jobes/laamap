@@ -30,7 +30,7 @@ mat-accordion {
   font-weight: 500;
 }
 
-@media screen and (min-width: 500px) {
+@media screen and (width > 500px) {
   .info {
     .mat-caption {
       display: inline;

@@ -113,8 +113,8 @@ export const navigationSettingsActions = createActionGroup({
     }>(),
     'Direction line segment seconds changed': props<{ seconds: number }>(),
     'Direction line segment count changed': props<{ count: number }>(),
-    'GPS tracking initial zoom changed': props<{ zoom: number }>(),
-    'GPS tracking initial pitch changed': props<{ pitch: number }>(),
+    'gps tracking initial zoom changed': props<{ zoom: number }>(),
+    'gps tracking initial pitch changed': props<{ pitch: number }>(),
     'Widget Bg Color Changed': props<{ color: string }>(),
     'Widget Text Color Changed': props<{ color: string }>(),
     'Widget allowed rows changed': props<{
