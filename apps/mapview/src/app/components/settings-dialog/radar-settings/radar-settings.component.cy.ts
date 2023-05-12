@@ -1,6 +1,5 @@
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../../cypress-helpers';
 import { RadarSettingsComponent } from './radar-settings.component';
 
 const initialState = {
@@ -26,9 +25,7 @@ const initialState = {
 describe(RadarSettingsComponent.name, () => {
   it('renders', () => {
     cy.mount(RadarSettingsComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           initialState: { 'settings.radar': initialState },
         }),

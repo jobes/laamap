@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TranslocoTestingModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 import maplibregl from 'maplibre-gl';
 
-import { getTranslocoModule } from '../../transloco-testing.module';
 import { MapService } from './map.service';
 
 describe('MapService', () => {
@@ -11,7 +11,7 @@ describe('MapService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [getTranslocoModule(), MatDialogModule],
+      imports: [MatDialogModule, TranslocoTestingModule.forRoot({ langs: {} })],
       providers: [provideMockStore({})],
     });
     const mockMapOn = jest.fn();

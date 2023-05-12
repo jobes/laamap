@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../cypress-helpers';
 import { SettingsDialogComponent } from './settings-dialog.component';
 
 @Component({
@@ -28,9 +27,7 @@ describe(SettingsDialogComponent.name, () => {
 
   it('renders', () => {
     cy.mount(WrapperComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           initialState: initialState,
         }),

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
-import { testingSharedMountConfig } from '../../cypress-helpers';
 import { AirportDialogComponent } from './airport-dialog.component';
 
 @Component({
@@ -28,8 +27,6 @@ describe(AirportDialogComponent.name, () => {
   });
   it('creates dialog', () => {
     cy.mount(WrapperComponent, {
-      imports: testingSharedMountConfig.imports,
-      providers: testingSharedMountConfig.providers,
       componentProperties: {
         data: airportsFixture,
       },

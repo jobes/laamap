@@ -1,7 +1,6 @@
 import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
 
-import { testingSharedMountConfig } from '../../../cypress-helpers';
 import { RainViewerService } from '../../../services/rain-viewer/rain-viewer.service';
 import { radarFeature } from '../../../store/features/settings/radar.feature';
 import { RadarWidgetComponent } from './radar-widget.component';
@@ -9,9 +8,7 @@ import { RadarWidgetComponent } from './radar-widget.component';
 describe(RadarWidgetComponent.name, () => {
   it('renders', () => {
     cy.mount(RadarWidgetComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         {
           provide: RainViewerService,
           useValue: {

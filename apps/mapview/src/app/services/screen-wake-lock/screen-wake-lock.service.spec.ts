@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslocoTestingModule } from '@ngneat/transloco';
 
-import { getTranslocoModule } from '../../transloco-testing.module';
 import { ScreenWakeLockService } from './screen-wake-lock.service';
 
 describe('ScreenWakeLockService', () => {
@@ -9,7 +9,7 @@ describe('ScreenWakeLockService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatSnackBarModule, getTranslocoModule()],
+      imports: [MatSnackBarModule, TranslocoTestingModule],
     });
     service = TestBed.inject(ScreenWakeLockService);
   });

@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../cypress-helpers';
 import { navigationFeature } from '../../store/features/navigation.feature';
 import { NavigationDialogComponent } from './navigation-dialog.component';
 
@@ -24,9 +23,7 @@ class WrapperComponent {
 describe(NavigationDialogComponent.name, () => {
   it('creates dialog', () => {
     cy.mount(WrapperComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           selectors: [{ selector: navigationFeature.selectRoute, value: [] }],
         }),

@@ -1,16 +1,13 @@
 import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
 
-import { testingSharedMountConfig } from '../../../cypress-helpers';
 import { mapFeature } from '../../../store/features/map.feature';
 import { VariometerWidgetComponent } from './variometer-widget.component';
 
 describe(VariometerWidgetComponent.name, () => {
   it('renders', () => {
     cy.mount(VariometerWidgetComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           selectors: [
             { selector: mapFeature.selectShowInstruments, value: true },

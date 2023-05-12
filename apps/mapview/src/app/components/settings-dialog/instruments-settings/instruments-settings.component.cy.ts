@@ -1,6 +1,5 @@
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../../cypress-helpers';
 import { InstrumentsSettingsComponent } from './instruments-settings.component';
 
 const initialState = {
@@ -76,9 +75,7 @@ const initialState = {
 describe(InstrumentsSettingsComponent.name, () => {
   it('renders', () => {
     cy.mount(InstrumentsSettingsComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           initialState: { 'settings.instruments': initialState },
         }),

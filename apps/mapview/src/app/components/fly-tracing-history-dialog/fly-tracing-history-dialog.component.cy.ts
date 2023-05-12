@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../cypress-helpers';
 import { TracingService } from '../../services/tracing/tracing.service';
 import { FlyTracingHistoryDialogComponent } from './fly-tracing-history-dialog.component';
 
@@ -58,9 +57,7 @@ describe(FlyTracingHistoryDialogComponent.name, () => {
   it('creates dialog', () => {
     cy.clock(new Date('2023-05-05T15:00:00Z'));
     cy.mount(WrapperComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           initialState: { 'settings.general': { airplaneName } },
         }),

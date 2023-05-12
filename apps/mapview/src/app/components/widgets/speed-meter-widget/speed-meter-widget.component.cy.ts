@@ -1,6 +1,5 @@
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../../cypress-helpers';
 import { selectColorsBySpeed } from '../../../store/advanced-selectors';
 import { mapFeature } from '../../../store/features/map.feature';
 import { SpeedMeterWidgetComponent } from './speed-meter-widget.component';
@@ -8,9 +7,7 @@ import { SpeedMeterWidgetComponent } from './speed-meter-widget.component';
 describe(SpeedMeterWidgetComponent.name, () => {
   it('renders', () => {
     cy.mount(SpeedMeterWidgetComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           selectors: [
             { selector: mapFeature.selectShowInstruments, value: true },

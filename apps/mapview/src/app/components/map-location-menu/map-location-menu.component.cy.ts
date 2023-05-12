@@ -5,7 +5,6 @@ import {
 } from '@angular/material/bottom-sheet';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../cypress-helpers';
 import { MapHelperFunctionsService } from '../../services/map-helper-functions/map-helper-functions.service';
 import { MapLocationMenuComponent } from './map-location-menu.component';
 
@@ -33,6 +32,6 @@ describe(MapLocationMenuComponent.name, () => {
   });
 
   it('renders', () => {
-    cy.mount(MapLocationMenuComponent, testingSharedMountConfig);
+    cy.mount(MapLocationMenuComponent);
   });
 });

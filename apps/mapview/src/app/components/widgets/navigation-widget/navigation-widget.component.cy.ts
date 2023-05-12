@@ -1,6 +1,5 @@
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../../cypress-helpers';
 import { selectNavigationStats } from '../../../store/advanced-selectors';
 import { mapFeature } from '../../../store/features/map.feature';
 import { navigationFeature } from '../../../store/features/navigation.feature';
@@ -13,9 +12,7 @@ import { NavigationWidgetComponent } from './navigation-widget.component';
 describe(NavigationWidgetComponent.name, () => {
   it('renders', () => {
     cy.mount(NavigationWidgetComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           selectors: [
             { selector: navigationFeature.selectRunning, value: true },

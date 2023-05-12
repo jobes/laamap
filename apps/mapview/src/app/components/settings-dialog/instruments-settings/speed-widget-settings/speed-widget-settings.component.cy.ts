@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { testingSharedMountConfig } from '../../../../cypress-helpers';
 import { SpeedWidgetSettingsComponent } from './speed-widget-settings.component';
 
 const initialState = {
@@ -44,9 +43,7 @@ describe(SpeedWidgetSettingsComponent.name, () => {
 
   it('renders', () => {
     cy.mount(SpeedWidgetSettingsComponent, {
-      imports: testingSharedMountConfig.imports,
       providers: [
-        ...testingSharedMountConfig.providers,
         provideMockStore({
           initialState: { 'settings.instruments': initialState },
         }),
