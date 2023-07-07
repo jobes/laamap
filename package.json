@@ -88,7 +88,7 @@
     "nx-stylelint": "^15.0.0",
     "postcss-scss": "^4.0.6",
     "prettier": "^2.8.4",
-    "stylelint": "^15.3.0",
+    "stylelint": "^15.10.1",
     "stylelint-color-no-non-variables": "^0.0.2",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^31.0.0",
