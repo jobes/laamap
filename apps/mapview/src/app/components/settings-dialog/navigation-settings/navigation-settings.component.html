@@ -76,7 +76,7 @@
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>{{ t('widget') }}</mat-panel-title>
+          <mat-panel-title>{{ t('widgetGoal') }}</mat-panel-title>
         </mat-expansion-panel-header>
         <div class="fields">
           <mat-form-field>
@@ -84,8 +84,8 @@
             <input
               matInput
               type="color"
-              [ngModel]="(widget$ | async)?.bgColor"
-              (ngModelChange)="widgetBgColorChanged($event)"
+              [ngModel]="(widgetGoal$ | async)?.bgColor"
+              (ngModelChange)="widgetGoalBgColorChanged($event)"
             />
           </mat-form-field>
           <mat-form-field>
@@ -93,15 +93,58 @@
             <input
               matInput
               type="color"
-              [ngModel]="(widget$ | async)?.textColor"
-              (ngModelChange)="widgetTextColorChanged($event)"
+              [ngModel]="(widgetGoal$ | async)?.textColor"
+              (ngModelChange)="widgetGoalTextColorChanged($event)"
             />
           </mat-form-field>
           <mat-form-field>
             <mat-label>{{ t('allowedRows') }}</mat-label>
             <mat-select
-              [ngModel]="(widget$ | async)?.allowedRow"
-              (ngModelChange)="widgetAllowedRowsChanged($event)"
+              [ngModel]="(widgetGoal$ | async)?.allowedRow"
+              (ngModelChange)="widgetGoalAllowedRowsChanged($event)"
+              multiple
+            >
+              <mat-option [value]="'GOAL_DISTANCE'">{{
+                t('allowedRowList.GOAL_DISTANCE')
+              }}</mat-option>
+              <mat-option [value]="'GOAL_DURATION_LEFT'">{{
+                t('allowedRowList.GOAL_DURATION_LEFT')
+              }}</mat-option>
+              <mat-option [value]="'GOAL_ARRIVE_TIME'">{{
+                t('allowedRowList.GOAL_ARRIVE_TIME')
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ t('widgetNextPoint') }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="fields">
+          <mat-form-field>
+            <mat-label>{{ t('widgetBgColor') }}</mat-label>
+            <input
+              matInput
+              type="color"
+              [ngModel]="(widgetNextPoint$ | async)?.bgColor"
+              (ngModelChange)="widgetNextPointBgColorChanged($event)"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t('widgetTextColor') }}</mat-label>
+            <input
+              matInput
+              type="color"
+              [ngModel]="(widgetNextPoint$ | async)?.textColor"
+              (ngModelChange)="widgetNextPointTextColorChanged($event)"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t('allowedRows') }}</mat-label>
+            <mat-select
+              [ngModel]="(widgetNextPoint$ | async)?.allowedRow"
+              (ngModelChange)="widgetNextPointAllowedRowsChanged($event)"
               multiple
             >
               <mat-option [value]="'NEXT_POINT_DISTANCE'">{{
@@ -112,15 +155,6 @@
               }}</mat-option>
               <mat-option [value]="'NEXT_POINT_ARRIVE_TIME'">{{
                 t('allowedRowList.NEXT_POINT_ARRIVE_TIME')
-              }}</mat-option>
-              <mat-option [value]="'GOAL_DISTANCE'">{{
-                t('allowedRowList.GOAL_DISTANCE')
-              }}</mat-option>
-              <mat-option [value]="'GOAL_DURATION_LEFT'">{{
-                t('allowedRowList.GOAL_DURATION_LEFT')
-              }}</mat-option>
-              <mat-option [value]="'GOAL_ARRIVE_TIME'">{{
-                t('allowedRowList.GOAL_ARRIVE_TIME')
               }}</mat-option>
             </mat-select>
           </mat-form-field>

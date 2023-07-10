@@ -12,8 +12,17 @@ export const altimeterWidgetActions = createActionGroup({
   },
 });
 
-export const navigationWidgetActions = createActionGroup({
-  source: 'Navigation widget',
+export const navigationGoalWidgetActions = createActionGroup({
+  source: 'Navigation goal widget',
+  events: {
+    'Position moved': props<{
+      position: { x: number; y: number };
+    }>(),
+  },
+});
+
+export const navigationNextPointWidgetActions = createActionGroup({
+  source: 'Navigation next point widget',
   events: {
     'Position moved': props<{
       position: { x: number; y: number };
