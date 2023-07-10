@@ -61,7 +61,8 @@
       "directionLineSegmentCount": "Počet segmentov",
       "gpsTrackingInitialZoom": "Priblíženie mapy",
       "gpsTrackingInitialPitch": "Náklon mapy",
-      "widget": "Widget",
+      "widgetGoal": "Widget cieľ",
+      "widgetNextPoint": "Widget Nasledujúci bod",
       "widgetBgColor": "Farba pozadia",
       "widgetTextColor": "Farba textu",
       "allowedRows": "Zobrazené informácie",
@@ -625,12 +626,14 @@
       "header": "Čas letu"
     },
     "navigation": {
-      "distanceToNextPoint": "Vzdialenosť do ďašieho bodu",
-      "timeToNextPoint": "Trvanie letu k ďalšiemu bodu",
-      "arriveTimeToNextPoint": "Čas príletu k ďalšiemu bodu",
-      "distanceToGoal": "Vzdialenosť do ciela",
-      "timeToGoal": "Trvanie letu k cielu",
-      "arriveTimeToGoal": "Čas príletu k cielu"
+      "goal": "Konečný cieľ",
+      "nextPoint": "Nasledujúci bod",
+      "distanceToNextPoint": "Vzdialenosť",
+      "timeToNextPoint": "Trvanie do príletu",
+      "arriveTimeToNextPoint": "Čas príletu",
+      "distanceToGoal": "Vzdialenosť",
+      "timeToGoal": "Trvanie do príletu",
+      "arriveTimeToGoal": "Čas príletu"
     }
   },
   "mapLocationMenu": {

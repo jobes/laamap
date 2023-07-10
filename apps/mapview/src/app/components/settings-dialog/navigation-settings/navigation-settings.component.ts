@@ -12,7 +12,8 @@ import { Store } from '@ngrx/store';
 
 import { navigationSettingsActions } from '../../../store/actions/settings.actions';
 import {
-  AllowedNavigationWidgetRowType,
+  AllowedNavigationGoalWidgetRowType,
+  AllowedNavigationNextPointWidgetRowType,
   navigationSettingsFeature,
 } from '../../../store/features/settings/navigation.feature';
 
@@ -50,7 +51,10 @@ export class NavigationSettingsComponent {
     navigationSettingsFeature.selectGpsTrackingInitPitch
   );
 
-  widget$ = this.store.select(navigationSettingsFeature.selectWidget);
+  widgetGoal$ = this.store.select(navigationSettingsFeature.selectWidgetGoal);
+  widgetNextPoint$ = this.store.select(
+    navigationSettingsFeature.selectWidgetNextPoint
+  );
 
   constructor(private readonly store: Store) {}
 
@@ -94,25 +98,51 @@ export class NavigationSettingsComponent {
     );
   }
 
-  widgetBgColorChanged(color: string): void {
+  widgetGoalBgColorChanged(color: string): void {
     this.store.dispatch(
-      navigationSettingsActions.widgetBgColorChanged({
+      navigationSettingsActions.widgetGoalBgColorChanged({
         color,
       })
     );
   }
 
-  widgetTextColorChanged(color: string): void {
+  widgetGoalTextColorChanged(color: string): void {
     this.store.dispatch(
-      navigationSettingsActions.widgetTextColorChanged({
+      navigationSettingsActions.widgetGoalTextColorChanged({
         color,
       })
     );
   }
 
-  widgetAllowedRowsChanged(list: AllowedNavigationWidgetRowType): void {
+  widgetGoalAllowedRowsChanged(list: AllowedNavigationGoalWidgetRowType): void {
     this.store.dispatch(
-      navigationSettingsActions.widgetAllowedRowsChanged({
+      navigationSettingsActions.widgetGoalAllowedRowsChanged({
+        list,
+      })
+    );
+  }
+
+  widgetNextPointBgColorChanged(color: string): void {
+    this.store.dispatch(
+      navigationSettingsActions.widgetNextPointBgColorChanged({
+        color,
+      })
+    );
+  }
+
+  widgetNextPointTextColorChanged(color: string): void {
+    this.store.dispatch(
+      navigationSettingsActions.widgetNextPointTextColorChanged({
+        color,
+      })
+    );
+  }
+
+  widgetNextPointAllowedRowsChanged(
+    list: AllowedNavigationNextPointWidgetRowType
+  ): void {
+    this.store.dispatch(
+      navigationSettingsActions.widgetNextPointAllowedRowsChanged({
         list,
       })
     );

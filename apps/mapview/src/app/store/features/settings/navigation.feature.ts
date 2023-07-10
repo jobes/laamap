@@ -1,15 +1,21 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 
 import { navigationSettingsActions } from '../../actions/settings.actions';
-import { navigationWidgetActions } from '../../actions/widgets.actions';
+import {
+  navigationGoalWidgetActions,
+  navigationNextPointWidgetActions,
+} from '../../actions/widgets.actions';
 
-export type AllowedNavigationWidgetRowType = (
-  | 'NEXT_POINT_DISTANCE'
-  | 'NEXT_POINT_DURATION_LEFT'
-  | 'NEXT_POINT_ARRIVE_TIME'
+export type AllowedNavigationGoalWidgetRowType = (
   | 'GOAL_DISTANCE'
   | 'GOAL_DURATION_LEFT'
   | 'GOAL_ARRIVE_TIME'
+)[];
+
+export type AllowedNavigationNextPointWidgetRowType = (
+  | 'NEXT_POINT_DISTANCE'
+  | 'NEXT_POINT_DURATION_LEFT'
+  | 'NEXT_POINT_ARRIVE_TIME'
 )[];
 
 const initialState = {
@@ -18,7 +24,7 @@ const initialState = {
   directionLineSegmentCount: 5,
   gpsTrackingInitZoom: 13,
   gpsTrackingInitPitch: 60,
-  widget: {
+  widgetGoal: {
     position: {
       x: 200,
       y: 200,
@@ -26,13 +32,23 @@ const initialState = {
     bgColor: '#ffffff',
     textColor: '#000000',
     allowedRow: [
-      'NEXT_POINT_DISTANCE',
-      'NEXT_POINT_DURATION_LEFT',
-      'NEXT_POINT_ARRIVE_TIME',
       'GOAL_DISTANCE',
       'GOAL_DURATION_LEFT',
       'GOAL_ARRIVE_TIME',
-    ] as AllowedNavigationWidgetRowType,
+    ] as AllowedNavigationGoalWidgetRowType,
+  },
+  widgetNextPoint: {
+    position: {
+      x: 300,
+      y: 300,
+    },
+    bgColor: '#ffffff',
+    textColor: '#000000',
+    allowedRow: [
+      'NEXT_POINT_DISTANCE',
+      'NEXT_POINT_DURATION_LEFT',
+      'NEXT_POINT_ARRIVE_TIME',
+    ] as AllowedNavigationNextPointWidgetRowType,
   },
 };
 
@@ -76,31 +92,59 @@ export const navigationSettingsFeature = createFeature({
       })
     ),
     on(
-      navigationWidgetActions.positionMoved,
+      navigationGoalWidgetActions.positionMoved,
       (state, { position }): typeof initialState => ({
         ...state,
-        widget: { ...state.widget, position },
+        widgetGoal: { ...state.widgetGoal, position },
       })
     ),
     on(
-      navigationSettingsActions.widgetAllowedRowsChanged,
+      navigationNextPointWidgetActions.positionMoved,
+      (state, { position }): typeof initialState => ({
+        ...state,
+        widgetNextPoint: { ...state.widgetNextPoint, position },
+      })
+    ),
+    on(
+      navigationSettingsActions.widgetGoalAllowedRowsChanged,
       (state, { list }): typeof initialState => ({
         ...state,
-        widget: { ...state.widget, allowedRow: list },
+        widgetGoal: { ...state.widgetGoal, allowedRow: list },
       })
     ),
     on(
-      navigationSettingsActions.widgetBgColorChanged,
+      navigationSettingsActions.widgetGoalBgColorChanged,
       (state, { color }): typeof initialState => ({
         ...state,
-        widget: { ...state.widget, bgColor: color },
+        widgetGoal: { ...state.widgetGoal, bgColor: color },
       })
     ),
     on(
-      navigationSettingsActions.widgetTextColorChanged,
+      navigationSettingsActions.widgetGoalTextColorChanged,
       (state, { color }): typeof initialState => ({
         ...state,
-        widget: { ...state.widget, textColor: color },
+        widgetGoal: { ...state.widgetGoal, textColor: color },
+      })
+    ),
+    on(
+      navigationSettingsActions.widgetNextPointAllowedRowsChanged,
+      (state, { list }): typeof initialState => ({
+        ...state,
+        widgetNextPoint: { ...state.widgetNextPoint, allowedRow: list },
+      })
+    ),
+    on(
+      navigationSettingsActions.widgetNextPointBgColorChanged,
+      (state, { color }): typeof initialState => ({
+        ...state,
+        widgetNextPoint: { ...state.widgetNextPoint, bgColor: color },
+      })
+    ),
+    on(
+      navigationSettingsActions.widgetNextPointTextColorChanged,
+      (state, { color }): typeof initialState => ({
+        ...state,
+        widgetNextPoint: { ...state.widgetNextPoint, textColor: color },
       })
     )
   ),

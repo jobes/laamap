@@ -77,10 +77,6 @@ export const mapFeature = createFeature({
     on(mapEffectsActions.trackSavingEnded, (state): typeof initialState => ({
       ...state,
       trackSaving: false,
-    })),
-    on(mapEffectsActions.gpsTimedOut, (state): typeof initialState => ({
-      ...state,
-      geoLocation: null,
     }))
   ),
   extraSelectors: ({ selectGeoLocation, selectGeoLocationTrackingActive }) => ({

@@ -1,7 +1,10 @@
 import { createActionGroup, props } from '@ngrx/store';
 
 import { EAirSpaceType } from '../../services/open-aip/airspaces.interfaces';
-import { AllowedNavigationWidgetRowType } from '../features/settings/navigation.feature';
+import {
+  AllowedNavigationGoalWidgetRowType,
+  AllowedNavigationNextPointWidgetRowType,
+} from '../features/settings/navigation.feature';
 
 export const airspacesSettingsActions = createActionGroup({
   source: 'Airspaces settings',
@@ -115,10 +118,15 @@ export const navigationSettingsActions = createActionGroup({
     'Direction line segment count changed': props<{ count: number }>(),
     'gps tracking initial zoom changed': props<{ zoom: number }>(),
     'gps tracking initial pitch changed': props<{ pitch: number }>(),
-    'Widget Bg Color Changed': props<{ color: string }>(),
-    'Widget Text Color Changed': props<{ color: string }>(),
-    'Widget allowed rows changed': props<{
-      list: AllowedNavigationWidgetRowType;
+    'Widget Goal Bg Color Changed': props<{ color: string }>(),
+    'Widget Goal Text Color Changed': props<{ color: string }>(),
+    'Widget Goal allowed rows changed': props<{
+      list: AllowedNavigationGoalWidgetRowType;
+    }>(),
+    'Widget Next Point Bg Color Changed': props<{ color: string }>(),
+    'Widget Next Point Text Color Changed': props<{ color: string }>(),
+    'Widget Next Point allowed rows changed': props<{
+      list: AllowedNavigationNextPointWidgetRowType;
     }>(),
   },
 });

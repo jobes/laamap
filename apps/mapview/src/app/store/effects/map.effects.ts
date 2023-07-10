@@ -5,9 +5,7 @@ import { Store } from '@ngrx/store';
 import maplibreGl from 'maplibre-gl';
 import {
   combineLatest,
-  delay,
   filter,
-  iif,
   map,
   of,
   sampleTime,
@@ -71,17 +69,6 @@ export class MapEffects {
       ofType(mapActions.geolocationTrackingStarted),
       tap(() => (this.startGpsTracking = true)),
       map(() => mapEffectsActions.geolocationTrackingRunning())
-    );
-  });
-
-  gpsTimeOut$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(mapActions.geolocationChanged),
-      switchMap(({ geoLocation }) =>
-        iif(() => !geoLocation, of(false), of(true).pipe(delay(5000)))
-      ),
-      filter((timedOut) => timedOut),
-      map(() => mapEffectsActions.gpsTimedOut())
     );
   });
 

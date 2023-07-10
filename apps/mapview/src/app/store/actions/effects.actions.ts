@@ -4,7 +4,6 @@ export const mapEffectsActions = createActionGroup({
   source: 'Map effects',
   events: {
     'geolocation tracking running': emptyProps(),
-    'gps timed out': emptyProps(),
     'track saving started': emptyProps(),
     'track saving ended': emptyProps(),
   },
