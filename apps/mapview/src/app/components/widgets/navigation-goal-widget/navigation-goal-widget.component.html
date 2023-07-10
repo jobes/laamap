@@ -23,7 +23,7 @@
           *ngIf="navigationSettings.allowedRow.includes('GOAL_DISTANCE')"
         >
           <h6>{{ t('distanceToGoal') }}</h6>
-          <div class="value">
+          <div class="value" data-cy="goalDistance">
             <ng-container *ngIf="navStats?.distanceToGoal">{{
               navStats?.distanceToGoal ?? 0
                 | translocoDecimal
@@ -38,9 +38,9 @@
           *ngIf="navigationSettings.allowedRow.includes('GOAL_DURATION_LEFT')"
         >
           <h6>{{ t('timeToGoal') }}</h6>
-          <div class="value">
+          <div class="value" data-cy="goalTimeLeft">
             <ng-container *ngIf="navStats?.timeToGoal">
-              {{ navStats?.timeToGoal | digitalTime : true }}
+              {{ navStats?.timeToGoal | digitalTime : false }}
             </ng-container>
             <ng-container *ngIf="!navStats?.timeToGoal"> -- </ng-container>
           </div>
@@ -50,7 +50,7 @@
           *ngIf="navigationSettings.allowedRow.includes('GOAL_ARRIVE_TIME')"
         >
           <h6>{{ t('arriveTimeToGoal') }}</h6>
-          <div class="value">
+          <div class="value" data-cy="goalTimeArrive">
             <ng-container *ngIf="navStats?.timeToGoal">
               {{
                 $any(navStats?.arriveTimeToGoal)

@@ -14,7 +14,7 @@ export class DigitalTimePipe implements PipeTransform {
     ).slice(-2)}`;
 
     if (showSeconds) {
-      `${hoursMinutes}:${('00' + seconds.toString()).slice(-2)}`;
+      return `${hoursMinutes}:${('00' + seconds.toString()).slice(-2)}`;
     }
     return hoursMinutes;
   }
