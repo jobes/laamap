@@ -15,7 +15,7 @@ export class MapFontSizeService {
   }
 
   private setTownFontSizeRatio(ratio: number, map: Map) {
-    map.setLayoutProperty('place_town', 'text-field', [
+    map.setLayoutProperty('Town labels', 'text-field', [
       'format',
       ['get', 'name'],
       {
@@ -25,7 +25,7 @@ export class MapFontSizeService {
   }
 
   private setCityFontSizeRatio(ratio: number, map: Map) {
-    map.setLayoutProperty('place_city', 'text-field', [
+    map.setLayoutProperty('City labels', 'text-field', [
       'format',
       ['get', 'name'],
       {
@@ -35,7 +35,7 @@ export class MapFontSizeService {
   }
 
   private setVillageFontSizeRatio(ratio: number, map: Map) {
-    map.setLayoutProperty('place_village', 'text-field', [
+    map.setLayoutProperty('Village labels', 'text-field', [
       'format',
       ['get', 'name'],
       {
@@ -45,7 +45,7 @@ export class MapFontSizeService {
   }
 
   private setPlaceOtherFontSizeRatio(ratio: number, map: Map) {
-    map.setLayoutProperty('place_other', 'text-field', [
+    map.setLayoutProperty('Other labels', 'text-field', [
       'format',
       ['get', 'name'],
       {
@@ -55,7 +55,7 @@ export class MapFontSizeService {
   }
 
   private setCapitalFontSizeRatio(ratio: number, map: Map) {
-    map.setLayoutProperty('place_capital', 'text-field', [
+    map.setLayoutProperty('Capital city labels', 'text-field', [
       'format',
       ['get', 'name'],
       {
@@ -65,7 +65,7 @@ export class MapFontSizeService {
   }
 
   private setWaterFontSizeRatio(ratio: number, map: Map) {
-    map.setLayoutProperty('water_way_name', 'text-field', [
+    map.setLayoutProperty('Ocean labels', 'text-field', [
       'format',
       ['get', 'name'],
       {
@@ -73,7 +73,7 @@ export class MapFontSizeService {
       },
     ]);
 
-    map.setLayoutProperty('water_name_line', 'text-field', [
+    map.setLayoutProperty('River labels', 'text-field', [
       'format',
       ['get', 'name'],
       {
@@ -81,7 +81,7 @@ export class MapFontSizeService {
       },
     ]);
 
-    map.setLayoutProperty('water_name_point', 'text-field', [
+    map.setLayoutProperty('Lakeline labels', 'text-field', [
       'format',
       ['get', 'name'],
       {

@@ -1,9 +1,9 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
@@ -17,11 +17,11 @@ import {
 } from 'rxjs';
 
 import { DigitalTimePipe } from '../../../pipes/digital-time/digital-time.pipe';
-import { mapActions } from '../../../store/actions/map.actions';
 import { trackingWidgetActions } from '../../../store/actions/widgets.actions';
 import { mapFeature } from '../../../store/features/map.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 import { FlyTracingHistoryDialogComponent } from '../../fly-tracing-history-dialog/fly-tracing-history-dialog.component';
+import { mapEffectsActions } from '../../../store/actions/effects.actions';
 
 @Component({
   selector: 'laamap-tracking-widget',
@@ -30,19 +30,20 @@ import { FlyTracingHistoryDialogComponent } from '../../fly-tracing-history-dial
   standalone: true,
   imports: [
     TranslocoModule,
-    LetModule,
+    LetDirective,
     NgIf,
     CdkDrag,
     AsyncPipe,
     DigitalTimePipe,
     MatDialogModule,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrackingWidgetComponent {
   show$ = this.store.select(mapFeature.selectShowInstruments);
   tracking$ = this.store.select(instrumentsFeature.selectTracking);
   currentFlyTime$ = this.actions$.pipe(
-    ofType(mapActions.geolocationTrackingStarted),
+    ofType(mapEffectsActions.trackSavingStarted),
     switchMap(() =>
       timer(0, 1000).pipe(
         startWith(0),
@@ -52,27 +53,27 @@ export class TrackingWidgetComponent {
         })),
         // eslint-disable-next-line rxjs/no-unsafe-takeuntil
         takeUntil(
-          this.actions$.pipe(ofType(mapActions.geolocationTrackingEnded))
+          this.actions$.pipe(ofType(mapEffectsActions.trackSavingEnded)),
         ),
         endWith({ seconds: 0, active: false }),
         pairwise(),
         map(([first, second]) =>
-          !second.active ? { ...first, active: false } : second
-        )
-      )
+          !second.active ? { ...first, active: false } : second,
+        ),
+      ),
     ),
-    startWith({ seconds: 0, active: false })
+    startWith({ seconds: 0, active: false }),
   );
 
   private dragging = false;
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
   ) {}
   dragEnded(
     originalPosition: { x: number; y: number },
-    event: CdkDragEnd
+    event: CdkDragEnd,
   ): void {
     setTimeout(() => {
       this.dragging = false;
@@ -83,7 +84,7 @@ export class TrackingWidgetComponent {
           x: originalPosition.x + event.distance.x,
           y: originalPosition.y + event.distance.y,
         },
-      })
+      }),
     );
   }
 
