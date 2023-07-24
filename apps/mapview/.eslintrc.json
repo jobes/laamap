@@ -168,7 +168,6 @@
         "rxjs/no-explicit-generics": "warn",
         "rxjs/no-exposed-subjects": "warn",
         "rxjs/no-ignored-error": "warn",
-
         "rxjs/no-unsafe-switchmap": [
           "error",
           {
@@ -195,6 +194,11 @@
         "arrow-body-style": "off"
       }
     },
-    { "files": ["*spec.ts"], "rules": { "max-lines-per-function": "off" } }
+    {
+      "files": ["*spec.ts"],
+      "rules": {
+        "max-lines-per-function": "off"
+      }
+    }
   ]
 }
