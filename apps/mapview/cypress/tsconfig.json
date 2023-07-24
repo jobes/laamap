@@ -4,7 +4,8 @@
     "outDir": "../../dist/out-tsc",
     "target": "ES2022",
     "useDefineForClassFields": false,
-    "types": ["node"]
+    "types": ["node"],
+    "sourceMap": false
   },
   "include": [
     "support/**/*.ts",
