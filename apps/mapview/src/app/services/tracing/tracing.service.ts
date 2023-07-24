@@ -32,13 +32,17 @@ export class TracingService {
     this.traceDb = new PouchDb(dbName);
   }
 
+  endFlyTrace(): void {
+    this.traceDb = undefined;
+  }
+
   addTraceItem(timestamp: number, item: object): void {
     const isoTime = new Date(timestamp).toISOString();
     void this.traceDb?.put({ _id: isoTime, ...item });
   }
 
   async createGeoJson(
-    dbName: string
+    dbName: string,
   ): Promise<
     turf.FeatureCollection<
       turf.Point,
@@ -59,15 +63,15 @@ export class TracingService {
         turf.point([geoCoords.longitude, geoCoords.latitude], {
           altitude: geoCoords.altitude,
           speed: geoCoords.speed,
-        })
-      )
+        }),
+      ),
     );
   }
 
   async getFlyHistoryListWithTime(
     airplaneId: string,
     offset = 0,
-    limit = 10
+    limit = 10,
   ): Promise<{
     list: (IIndexDb & { duration: number })[];
     totalItems: number;
@@ -75,7 +79,7 @@ export class TracingService {
     const flyHistoryList = await this.getFlyHistoryList(
       airplaneId,
       offset,
-      limit
+      limit,
     );
     return {
       totalItems: flyHistoryList.totalItems,
@@ -83,7 +87,7 @@ export class TracingService {
         flyHistoryList.list.map(async (doc) => ({
           duration: await this.getSecondsForDbs([doc]),
           ...doc,
-        }))
+        })),
       ),
     };
   }
@@ -91,7 +95,7 @@ export class TracingService {
   async getFlyHistoryList(
     airplaneId: string,
     offset = 0,
-    limit = 10
+    limit = 10,
   ): Promise<{ list: IIndexDb[]; totalItems: number }> {
     const allFlyTraces = new PouchDb(this.indexDbName(airplaneId));
     const documents = await allFlyTraces.allDocs<IIndexDb>({
@@ -112,7 +116,7 @@ export class TracingService {
 
   async getFlyTime(
     airplaneId: string,
-    type: 'today' | 'month' | 'year' | 'all'
+    type: 'today' | 'month' | 'year' | 'all',
   ): Promise<number> {
     const sliceCount = this.timeTimeToSliceCount[type];
     const allFlyTraces = new PouchDb(this.indexDbName(airplaneId));
@@ -127,7 +131,7 @@ export class TracingService {
   }
 
   private async getSecondsForDbs(
-    docs: (IIndexDb | undefined)[]
+    docs: (IIndexDb | undefined)[],
   ): Promise<number> {
     return docs
       .map((doc) => doc?.dbName)
@@ -143,12 +147,12 @@ export class TracingService {
         return Math.round(
           (new Date(x[1].rows[0].id).getTime() -
             new Date(x[0].rows[0].id).getTime()) /
-            1000
+            1000,
         );
       })
       .reduce(
         async (acc, seconds) => (await seconds) + (await acc),
-        Promise.resolve(0)
+        Promise.resolve(0),
       );
   }
 
