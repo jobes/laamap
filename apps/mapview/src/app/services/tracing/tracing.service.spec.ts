@@ -1,18 +1,19 @@
-import 'fake-indexeddb/auto';
+import { importProvidersFrom } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { TracingService } from './tracing.service';
-import { Store, StoreModule } from '@ngrx/store';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { TranslocoTestingModule } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
+import { Store, StoreModule } from '@ngrx/store';
+import 'fake-indexeddb/auto';
+
+import { mapActions } from '../../store/actions/map.actions';
 import { MapEffects } from '../../store/effects/map.effects';
 import { mapFeature } from '../../store/features/map.feature';
-import { importProvidersFrom } from '@angular/core';
-import { TranslocoTestingModule } from '@ngneat/transloco';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { OnMapDirectionLineService } from '../map/on-map-direction-line/on-map-direction-line.service';
-import { MapService } from '../map/map.service';
-import { navigationSettingsFeature } from '../../store/features/settings/navigation.feature';
-import { mapActions } from '../../store/actions/map.actions';
 import { generalFeature } from '../../store/features/settings/general.feature';
+import { navigationSettingsFeature } from '../../store/features/settings/navigation.feature';
+import { MapService } from '../map/map.service';
+import { OnMapDirectionLineService } from '../map/on-map-direction-line/on-map-direction-line.service';
+import { TracingService } from './tracing.service';
 
 function geoLocationBySpeed(speed: number): GeolocationPosition {
   return {
@@ -39,7 +40,7 @@ describe('TracingService', () => {
     store.dispatch(
       mapActions.geolocationChanged({
         geoLocation: geoLocationBySpeed(speed),
-      }),
+      })
     );
   };
 
@@ -55,7 +56,7 @@ describe('TracingService', () => {
             [navigationSettingsFeature.name]: navigationSettingsFeature.reducer,
             [generalFeature.name]: generalFeature.reducer,
           }),
-          EffectsModule.forRoot([MapEffects]),
+          EffectsModule.forRoot([MapEffects])
         ),
         { provide: MatBottomSheet, useValue: {} },
         { provide: OnMapDirectionLineService, useValue: {} },

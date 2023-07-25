@@ -41,11 +41,11 @@ export class MapEffects {
       return this.actions$.pipe(
         ofType(mapActions.rotated),
         tap(({ bearing }) =>
-          document.documentElement.style.setProperty('--bearing', `${bearing}`),
-        ),
+          document.documentElement.style.setProperty('--bearing', `${bearing}`)
+        )
       );
     },
-    { dispatch: false },
+    { dispatch: false }
   );
 
   headingChanged$ = createEffect(
@@ -56,19 +56,19 @@ export class MapEffects {
           tap((heading) =>
             document.documentElement.style.setProperty(
               '--heading',
-              `${heading ?? 0}`,
-            ),
-          ),
+              `${heading ?? 0}`
+            )
+          )
         );
     },
-    { dispatch: false },
+    { dispatch: false }
   );
 
   gpsTrackingStarted$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(mapActions.geolocationTrackingStarted),
       tap(() => (this.startGpsTracking = true)),
-      map(() => mapEffectsActions.geolocationTrackingRunning()),
+      map(() => mapEffectsActions.geolocationTrackingRunning())
     );
   });
 
@@ -76,9 +76,9 @@ export class MapEffects {
     return this.store.select(selectTrackInProgressWithMinSpeed).pipe(
       filter(
         ({ hitMinSpeed, trackSavingInProgress }) =>
-          hitMinSpeed && !trackSavingInProgress,
+          hitMinSpeed && !trackSavingInProgress
       ),
-      map(() => mapEffectsActions.trackSavingStarted()),
+      map(() => mapEffectsActions.trackSavingStarted())
     );
   });
 
@@ -86,9 +86,9 @@ export class MapEffects {
     return this.store.select(selectTrackInProgressWithMinSpeed).pipe(
       filter(
         ({ hitMinSpeed, trackSavingInProgress }) =>
-          trackSavingInProgress && !hitMinSpeed,
+          trackSavingInProgress && !hitMinSpeed
       ),
-      map(() => mapEffectsActions.trackSavingEnded()),
+      map(() => mapEffectsActions.trackSavingEnded())
     );
   });
 
@@ -97,15 +97,15 @@ export class MapEffects {
       return this.store.select(selectOnMapTrackingState).pipe(
         filter(
           (
-            params,
+            params
           ): params is Omit<typeof params, 'geoLocation'> & {
             geoLocation: NonNullable<(typeof params)['geoLocation']>;
-          } => this.trackingActive(params),
+          } => this.trackingActive(params)
         ),
         tap(({ geoLocation, heading, zoom, pitch }) => {
           const center = new maplibreGl.LngLat(
             geoLocation.coords.longitude,
-            geoLocation.coords.latitude,
+            geoLocation.coords.latitude
           );
 
           this.mapService.instance.flyTo(
@@ -115,15 +115,15 @@ export class MapEffects {
             },
             {
               geolocateSource: true,
-            },
+            }
           );
           setTimeout(() => {
             this.startGpsTracking = false; // wait until initial animation ends
           }, 5000);
-        }),
+        })
       );
     },
-    { dispatch: false },
+    { dispatch: false }
   );
 
   startTraceSavingToDb$ = createEffect(
@@ -132,21 +132,21 @@ export class MapEffects {
         ofType(mapEffectsActions.trackSavingStarted),
         switchMap(() => this.store.select(generalFeature.selectAirplaneName)),
         tap((airPlaneName) =>
-          this.tracing.createFlyTrace(airPlaneName, new Date().toISOString()),
-        ),
+          this.tracing.createFlyTrace(airPlaneName, new Date().toISOString())
+        )
       );
     },
-    { dispatch: false },
+    { dispatch: false }
   );
 
   endTraceSavingToDb$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(mapEffectsActions.trackSavingEnded),
-        tap(() => this.tracing.endFlyTrace()),
+        tap(() => this.tracing.endFlyTrace())
       );
     },
-    { dispatch: false },
+    { dispatch: false }
   );
 
   traceGeolocationToDb$ = createEffect(
@@ -156,17 +156,17 @@ export class MapEffects {
         map((action) => action.geoLocation),
         filter(
           (geoLocation): geoLocation is NonNullable<typeof geoLocation> =>
-            !!geoLocation,
+            !!geoLocation
         ),
         tap((geoLocation) =>
           this.tracing.addTraceItem(
             geoLocation?.timestamp ?? 0,
-            geoLocation?.coords,
-          ),
-        ),
+            geoLocation?.coords
+          )
+        )
       );
     },
-    { dispatch: false },
+    { dispatch: false }
   );
 
   setDirectionLine$ = createEffect(
@@ -176,14 +176,14 @@ export class MapEffects {
         tap(() => this.onMapDirectionLine.createLayers()),
         switchMap(() => this.store.select(selectLineDefinitionSegmentGeoJson)),
         concatLatestFrom(() =>
-          this.store.select(selectLineDefinitionBorderGeoJson),
+          this.store.select(selectLineDefinitionBorderGeoJson)
         ),
         tap(([segmentGeoJson, borderGeoJson]) =>
-          this.onMapDirectionLine.setSource(segmentGeoJson, borderGeoJson),
-        ),
+          this.onMapDirectionLine.setSource(segmentGeoJson, borderGeoJson)
+        )
       );
     },
-    { dispatch: false },
+    { dispatch: false }
   );
 
   mapClicked$ = createEffect(
@@ -196,30 +196,28 @@ export class MapEffects {
             lngLat: of(click.lngLat),
             airport: this.actions$.pipe(
               ofType(layerAirportActions.clicked),
-              startWith(null),
+              startWith(null)
             ),
             airspace: this.actions$.pipe(
               ofType(layerAirSpacesActions.clicked),
-              startWith(null),
+              startWith(null)
             ),
             notams: this.actions$.pipe(
               ofType(layerNotamsActions.clicked),
-              startWith(null),
+              startWith(null)
             ),
             doubleClick: this.actions$.pipe(
               ofType(mapActions.doubleClicked),
-              startWith(null),
+              startWith(null)
             ),
             /* eslint-enable rxjs/finnish */
-          }).pipe(sampleTime(500)),
+          }).pipe(sampleTime(500))
         ),
         filter(({ doubleClick }) => doubleClick === null),
-        tap((data) =>
-          this.bottomSheet.open(MapLocationMenuComponent, { data }),
-        ),
+        tap((data) => this.bottomSheet.open(MapLocationMenuComponent, { data }))
       );
     },
-    { dispatch: false },
+    { dispatch: false }
   );
 
   private startGpsTracking = false;
@@ -230,7 +228,7 @@ export class MapEffects {
     private readonly mapService: MapService,
     private readonly tracing: TracingService,
     private readonly onMapDirectionLine: OnMapDirectionLineService,
-    private readonly bottomSheet: MatBottomSheet,
+    private readonly bottomSheet: MatBottomSheet
   ) {}
 
   private trackingActive(params: {
@@ -238,7 +236,7 @@ export class MapEffects {
   }): boolean {
     const state = (
       this.mapService.instance._controls.find(
-        (control) => control instanceof maplibreGl.GeolocateControl,
+        (control) => control instanceof maplibreGl.GeolocateControl
       ) as maplibregl.GeolocateControl
     )?._watchState;
     return state === 'ACTIVE_LOCK' && !!params.geoLocation;

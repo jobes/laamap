@@ -17,11 +17,11 @@ import {
 } from 'rxjs';
 
 import { DigitalTimePipe } from '../../../pipes/digital-time/digital-time.pipe';
+import { mapEffectsActions } from '../../../store/actions/effects.actions';
 import { trackingWidgetActions } from '../../../store/actions/widgets.actions';
 import { mapFeature } from '../../../store/features/map.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 import { FlyTracingHistoryDialogComponent } from '../../fly-tracing-history-dialog/fly-tracing-history-dialog.component';
-import { mapEffectsActions } from '../../../store/actions/effects.actions';
 
 @Component({
   selector: 'laamap-tracking-widget',
@@ -53,27 +53,27 @@ export class TrackingWidgetComponent {
         })),
         // eslint-disable-next-line rxjs/no-unsafe-takeuntil
         takeUntil(
-          this.actions$.pipe(ofType(mapEffectsActions.trackSavingEnded)),
+          this.actions$.pipe(ofType(mapEffectsActions.trackSavingEnded))
         ),
         endWith({ seconds: 0, active: false }),
         pairwise(),
         map(([first, second]) =>
-          !second.active ? { ...first, active: false } : second,
-        ),
-      ),
+          !second.active ? { ...first, active: false } : second
+        )
+      )
     ),
-    startWith({ seconds: 0, active: false }),
+    startWith({ seconds: 0, active: false })
   );
 
   private dragging = false;
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions,
-    private readonly dialog: MatDialog,
+    private readonly dialog: MatDialog
   ) {}
   dragEnded(
     originalPosition: { x: number; y: number },
-    event: CdkDragEnd,
+    event: CdkDragEnd
   ): void {
     setTimeout(() => {
       this.dragging = false;
@@ -84,7 +84,7 @@ export class TrackingWidgetComponent {
           x: originalPosition.x + event.distance.x,
           y: originalPosition.y + event.distance.y,
         },
-      }),
+      })
     );
   }
 
