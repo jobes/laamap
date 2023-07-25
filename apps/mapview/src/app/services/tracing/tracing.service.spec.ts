@@ -4,7 +4,6 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
-import 'fake-indexeddb/auto';
 
 import { mapActions } from '../../store/actions/map.actions';
 import { MapEffects } from '../../store/effects/map.effects';
