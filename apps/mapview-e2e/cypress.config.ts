@@ -4,7 +4,7 @@ import { defineConfig } from 'cypress';
 export default defineConfig({
   e2e: {
     ...nxE2EPreset(__dirname),
-    setupNodeEvents(on, config) {
+    setupNodeEvents(on) {
       on('before:browser:launch', (browser, launchOptions) => {
         console.log('XXXXXXXXXXX', launchOptions);
         if (browser.name === 'chromium') {
