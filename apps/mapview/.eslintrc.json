@@ -197,7 +197,8 @@
     {
       "files": ["*spec.ts"],
       "rules": {
-        "max-lines-per-function": "off"
+        "max-lines-per-function": "off",
+        "max-statements": "off"
       }
     }
   ]
