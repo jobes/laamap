@@ -90,7 +90,7 @@
     "nx-cloud": "16.1.1",
     "nx-stylelint": "^15.0.0",
     "postcss-scss": "^4.0.6",
-    "prettier": "^3.0.0",
+    "prettier": "2.8.8",
     "stylelint": "^15.10.2",
     "stylelint-color-no-non-variables": "^0.0.2",
     "stylelint-config-prettier": "^9.0.5",
