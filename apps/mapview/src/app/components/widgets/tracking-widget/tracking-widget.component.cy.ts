@@ -1,3 +1,4 @@
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { Actions } from '@ngrx/effects';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Subject } from 'rxjs';
@@ -6,7 +7,6 @@ import { mapEffectsActions } from '../../../store/actions/effects.actions';
 import { mapFeature } from '../../../store/features/map.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 import { TrackingWidgetComponent } from './tracking-widget.component';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 describe(TrackingWidgetComponent.name, () => {
   const detectChanges = () => {
@@ -46,7 +46,7 @@ describe(TrackingWidgetComponent.name, () => {
     detectChanges();
     cy.get('.cdk-drag .value').contains('0:00:00');
     cy.tick(0).then(() =>
-      actions$.next(mapEffectsActions.trackSavingStarted()),
+      actions$.next(mapEffectsActions.trackSavingStarted())
     );
     detectChanges();
     cy.get('.cdk-drag .value').contains('0:00:00');
@@ -82,7 +82,7 @@ describe(TrackingWidgetComponent.name, () => {
     cy.tick(1000);
     detectChanges();
     cy.tick(0).then(() =>
-      actions$.next(mapEffectsActions.trackSavingStarted()),
+      actions$.next(mapEffectsActions.trackSavingStarted())
     );
     detectChanges();
     cy.tick(10);

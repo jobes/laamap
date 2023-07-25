@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { TracingService } from '../../services/tracing/tracing.service';
 import { FlyTracingHistoryDialogComponent } from './fly-tracing-history-dialog.component';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 const airplaneName = 'OMH-000';
 @Component({
@@ -49,13 +49,13 @@ describe(FlyTracingHistoryDialogComponent.name, () => {
   beforeEach(() => {
     cy.clearIndexedDb(`_pouch_${airplaneName}/flyTraces`);
     cy.clearIndexedDb(
-      `_pouch_${airplaneName}/flyTrace/2023-05-04T19:14:07.577Z`,
+      `_pouch_${airplaneName}/flyTrace/2023-05-04T19:14:07.577Z`
     );
     cy.clearIndexedDb(
-      `_pouch_${airplaneName}/flyTrace/2023-04-16T13:22:14.288Z`,
+      `_pouch_${airplaneName}/flyTrace/2023-04-16T13:22:14.288Z`
     );
     cy.clearIndexedDb(
-      `_pouch_${airplaneName}/flyTrace/2023-05-05T03:22:14.288Z`,
+      `_pouch_${airplaneName}/flyTrace/2023-05-05T03:22:14.288Z`
     );
   });
   it('creates dialog', () => {
@@ -74,7 +74,7 @@ describe(FlyTracingHistoryDialogComponent.name, () => {
     cy.get(':nth-child(3) > .value').contains('0:00:21');
     cy.get(':nth-child(4) > .value').contains('0:00:21');
     cy.get(
-      '.mdc-data-table__content > :nth-child(1) > .cdk-column-duration',
+      '.mdc-data-table__content > :nth-child(1) > .cdk-column-duration'
     ).contains('0:00:08');
     cy.get(':nth-child(2) > .cdk-column-duration').contains('0:00:05');
     cy.get(':nth-child(3) > .cdk-column-duration').contains('0:00:08');
