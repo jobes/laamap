@@ -1,16 +1,118 @@
+import 'fake-indexeddb/auto';
 import { TestBed } from '@angular/core/testing';
-
 import { TracingService } from './tracing.service';
+import { Store, StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { MapEffects } from '../../store/effects/map.effects';
+import { mapFeature } from '../../store/features/map.feature';
+import { importProvidersFrom } from '@angular/core';
+import { TranslocoTestingModule } from '@ngneat/transloco';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { OnMapDirectionLineService } from '../map/on-map-direction-line/on-map-direction-line.service';
+import { MapService } from '../map/map.service';
+import { navigationSettingsFeature } from '../../store/features/settings/navigation.feature';
+import { mapActions } from '../../store/actions/map.actions';
+import { generalFeature } from '../../store/features/settings/general.feature';
+
+function geoLocationBySpeed(speed: number): GeolocationPosition {
+  return {
+    timestamp: new Date().getTime(),
+    coords: {
+      accuracy: 10,
+      altitude: 300,
+      altitudeAccuracy: null,
+      heading: 45,
+      latitude: 12,
+      longitude: 14,
+      speed: speed / 3.6,
+    },
+  };
+}
 
 describe('TracingService', () => {
-  let service: TracingService;
+  let tracingService: TracingService;
+  let store: Store;
+  let tracedItems: object[] = [];
+
+  const dispatchGeolocationBySpeedEverySecond = (speed: number): void => {
+    jest.advanceTimersByTime(1000);
+    store.dispatch(
+      mapActions.geolocationChanged({
+        geoLocation: geoLocationBySpeed(speed),
+      }),
+    );
+  };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(TracingService);
+    let tracing = false;
+    tracedItems = [];
+    TestBed.configureTestingModule({
+      imports: [TranslocoTestingModule],
+      providers: [
+        importProvidersFrom(
+          StoreModule.forRoot({
+            [mapFeature.name]: mapFeature.reducer,
+            [navigationSettingsFeature.name]: navigationSettingsFeature.reducer,
+            [generalFeature.name]: generalFeature.reducer,
+          }),
+          EffectsModule.forRoot([MapEffects]),
+        ),
+        { provide: MatBottomSheet, useValue: {} },
+        { provide: OnMapDirectionLineService, useValue: {} },
+        { provide: MapService, useValue: { instance: { _controls: [] } } },
+        {
+          provide: TracingService,
+          useValue: {
+            createFlyTrace: jest
+              .fn()
+              .mockImplementation(() => (tracing = true)),
+            endFlyTrace: jest.fn().mockImplementation(() => (tracing = false)),
+            addTraceItem: jest.fn().mockImplementation((args) => {
+              if (tracing) {
+                tracedItems.push(args);
+              }
+            }),
+          },
+        },
+      ],
+    });
+    tracingService = TestBed.inject(TracingService);
+    store = TestBed.inject(Store);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(tracingService).toBeTruthy();
+    expect(store).toBeTruthy();
+  });
+
+  it('should not save route because of low speed', async () => {
+    jest.useFakeTimers().setSystemTime(new Date('2020-01-01'));
+    dispatchGeolocationBySpeedEverySecond(0);
+    dispatchGeolocationBySpeedEverySecond(10);
+    dispatchGeolocationBySpeedEverySecond(0);
+
+    expect(tracedItems).toEqual([]);
+  });
+
+  it('should save two routes', async () => {
+    jest.useFakeTimers().setSystemTime(new Date('2020-01-01'));
+    const initTime = new Date().getTime();
+    dispatchGeolocationBySpeedEverySecond(0);
+    dispatchGeolocationBySpeedEverySecond(10);
+    dispatchGeolocationBySpeedEverySecond(20);
+    dispatchGeolocationBySpeedEverySecond(100);
+    dispatchGeolocationBySpeedEverySecond(120);
+    dispatchGeolocationBySpeedEverySecond(100);
+    dispatchGeolocationBySpeedEverySecond(120);
+    dispatchGeolocationBySpeedEverySecond(100);
+    dispatchGeolocationBySpeedEverySecond(20);
+
+    expect(tracedItems).toEqual([
+      initTime + 5000,
+      initTime + 6000,
+      initTime + 7000,
+      initTime + 8000,
+      initTime + 9000,
+    ]);
   });
 });
