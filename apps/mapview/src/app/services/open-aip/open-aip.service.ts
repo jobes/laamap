@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
 import {
   EHeightUnit,
   EReferenceDatum,
@@ -31,7 +32,7 @@ export class OpenAipService {
           import('geojson').Geometry,
           IAirspaceResponse
         >
-      >('assets/open-aip-db/sk_asp.geojson')
+      >(`${environment.openAipDbUrl}/sk_asp.geojson`)
       .pipe(
         map((json) => ({
           ...json,
@@ -58,7 +59,7 @@ export class OpenAipService {
           import('geojson').Geometry,
           IAirportResponse
         >
-      >('assets/open-aip-db/sk_apt.geojson')
+      >(`${environment.openAipDbUrl}/sk_apt.geojson`)
       .pipe(
         map((json) => ({
           ...json,

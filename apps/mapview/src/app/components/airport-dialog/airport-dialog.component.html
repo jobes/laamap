@@ -113,15 +113,15 @@
           [onInit]="onInit"
         >
           <a
-            href="https://www.openaip.net/api/core/airports/{{
-              data._id
-            }}/images/{{ image._id }}"
+            href="https://www.openaip.net/api/core/files/images/{{
+              image.filename
+            }}"
             *ngFor="let image of data.images; trackBy: trackByImages"
           >
             <img
-              src="https://www.openaip.net/api/core/airports/{{
-                data._id
-              }}/images/{{ image._id }}?loadRfc=false&width=200&height=200"
+              src="https://www.openaip.net/api/core/files/images/{{
+                image.filename
+              }}?width=200&height=200"
               title="{{ image.description }}"
               alt="{{ image.description }}"
             />
