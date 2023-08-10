@@ -11,8 +11,8 @@ import { OnMapNavigationService } from '../../services/map/on-map-navigation/on-
 import { navigationEffectsActions } from '../actions/effects.actions';
 import { mapActions, mapLocationMenuActions } from '../actions/map.actions';
 import { navigationDialogActions } from '../actions/navigation.actions';
-import { mapFeature } from './map.feature';
-import { navigationFeature } from './navigation.feature';
+import { mapFeature } from '../features/map.feature';
+import { navigationFeature } from '../features/navigation.feature';
 
 @Injectable()
 export class NavigationEffects {
