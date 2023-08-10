@@ -35,12 +35,12 @@ import { LightgalleryModule } from 'lightgallery/angular';
 
 import { environment } from '../environments/environment';
 import { MapEffects } from './store/effects/map.effects';
+import { NavigationEffects } from './store/effects/navigation.effects';
 import { AirSpacesEffects } from './store/effects/settings/air-spaces.effects';
 import { GeneralEffects } from './store/effects/settings/general.effects';
 import { NotamsSettingsEffects } from './store/effects/settings/notams.effects';
 import { RadarSettingsEffects } from './store/effects/settings/radar.effects';
 import { mapFeature } from './store/features/map.feature';
-import { NavigationEffects } from './store/features/navigation.effects';
 import { navigationFeature } from './store/features/navigation.feature';
 import { airSpacesFeature } from './store/features/settings/air-spaces.feature';
 import { generalFeature } from './store/features/settings/general.feature';
