@@ -94,7 +94,7 @@ describe('TracingService', () => {
     expect(tracedItems).toEqual([]);
   });
 
-  it('should save two routes', async () => {
+  it('should save one route', async () => {
     jest.useFakeTimers().setSystemTime(new Date('2020-01-01'));
     const initTime = new Date().getTime();
     dispatchGeolocationBySpeedEverySecond(0);
