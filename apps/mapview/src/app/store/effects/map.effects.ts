@@ -207,7 +207,7 @@ export class MapEffects {
               startWith(null)
             ),
             doubleClick: this.actions$.pipe(
-              ofType(mapActions.doubleClicked),
+              ofType(mapActions.zoom),
               startWith(null)
             ),
             /* eslint-enable rxjs/finnish */

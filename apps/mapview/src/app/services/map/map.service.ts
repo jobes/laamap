@@ -75,8 +75,8 @@ export class MapService {
       );
     });
 
-    this.instance.on('dblclick', () => {
-      this.store.dispatch(mapActions.doubleClicked());
+    this.instance.on('zoom', () => {
+      this.store.dispatch(mapActions.zoom());
     });
   }
 
