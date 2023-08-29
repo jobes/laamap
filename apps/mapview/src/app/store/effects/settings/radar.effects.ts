@@ -33,7 +33,6 @@ export class RadarSettingsEffects {
             () => enabled,
             interval(this.radarReloadTime).pipe(
               startWith(0),
-
               switchMap(() =>
                 combineLatest({
                   // eslint-disable-next-line rxjs/finnish
@@ -48,7 +47,6 @@ export class RadarSettingsEffects {
             of(undefined)
           )
         ),
-
         tap((urlsWithSettings) =>
           this.onMapRainViewerService.createLayers(urlsWithSettings)
         )

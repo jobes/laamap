@@ -13,7 +13,7 @@ interface IIndexDb {
 })
 export class TracingService {
   private traceDb?: PouchDB.Database;
-  private timeTimeToSliceCount = {
+  private timeToSliceCount = {
     today: 10,
     month: 7,
     year: 4,
@@ -92,7 +92,23 @@ export class TracingService {
     };
   }
 
-  async getFlyHistoryList(
+  async getFlyTime(
+    airplaneId: string,
+    type: 'today' | 'month' | 'year' | 'all'
+  ): Promise<number> {
+    const sliceCount = this.timeToSliceCount[type];
+    const allFlyTraces = new PouchDb(this.indexDbName(airplaneId));
+    const indexDbRows = await allFlyTraces.allDocs<IIndexDb>({
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      include_docs: true,
+      startkey: new Date().toISOString().slice(0, sliceCount),
+      endkey: `${new Date().toISOString().slice(0, sliceCount)}\ufff0`,
+    });
+
+    return await this.getSecondsForDbs(indexDbRows.rows.map((row) => row.doc));
+  }
+
+  private async getFlyHistoryList(
     airplaneId: string,
     offset = 0,
     limit = 10
@@ -112,22 +128,6 @@ export class TracingService {
         .filter((doc): doc is NonNullable<typeof doc> => !!doc),
       totalItems: documents.total_rows,
     };
-  }
-
-  async getFlyTime(
-    airplaneId: string,
-    type: 'today' | 'month' | 'year' | 'all'
-  ): Promise<number> {
-    const sliceCount = this.timeTimeToSliceCount[type];
-    const allFlyTraces = new PouchDb(this.indexDbName(airplaneId));
-    const indexDbRows = await allFlyTraces.allDocs<IIndexDb>({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      include_docs: true,
-      startkey: new Date().toISOString().slice(0, sliceCount),
-      endkey: `${new Date().toISOString().slice(0, sliceCount)}\ufff0`,
-    });
-
-    return await this.getSecondsForDbs(indexDbRows.rows.map((row) => row.doc));
   }
 
   private async getSecondsForDbs(

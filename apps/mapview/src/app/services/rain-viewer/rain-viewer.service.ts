@@ -27,7 +27,6 @@ export class RainViewerService {
 
   private animationChangeSubj$ = new BehaviorSubject(
     null as null | {
-      itemCounts: number;
       animationSpeed: number;
       timeArray: { time: number; isPast: boolean }[];
     }
@@ -43,9 +42,11 @@ export class RainViewerService {
                 stepTime: this.animationSpeedStepDuration(def.animationSpeed),
               })),
               switchMap((def) =>
-                timer(0, def.stepTime * (def.itemCounts + 5)).pipe(
-                  switchMap(() =>
-                    timer(0, def.stepTime).pipe(take(def.itemCounts))
+                timer(0, def.stepTime * (def.timeArray.length + 5)).pipe(
+                  // duration of 1 cycle containing all frames
+                  switchMap(
+                    () =>
+                      timer(0, def.stepTime).pipe(take(def.timeArray.length)) // duration of 1 frame for all frame, then stop
                   ),
                   map((frameNum) => ({
                     frameNum,
@@ -76,17 +77,17 @@ export class RainViewerService {
   }
 
   startAnimationTimer(
-    itemCounts: number,
     animationSpeed: number,
     timeArray: { time: number; isPast: boolean }[]
   ): void {
-    this.animationChangeSubj$.next({ itemCounts, animationSpeed, timeArray });
+    this.animationChangeSubj$.next({ animationSpeed, timeArray });
   }
 
   stopAnimationTimer(): void {
     this.animationChangeSubj$.next(null);
   }
 
+  // convert percentage to 2000ms for 0% to 10ms for 99%
   private animationSpeedStepDuration(percentage: number): number {
     const durationMin = 10;
     const durationMax = 2000 - durationMin;

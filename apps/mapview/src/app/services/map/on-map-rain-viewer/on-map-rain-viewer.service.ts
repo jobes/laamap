@@ -63,11 +63,7 @@ export class OnMapRainViewerService {
     settings: RadarSettings,
     timeArray: { time: number; isPast: boolean }[]
   ): void {
-    this.rainViewer.startAnimationTimer(
-      this.itemCounts,
-      settings.animationSpeed,
-      timeArray
-    );
+    this.rainViewer.startAnimationTimer(settings.animationSpeed, timeArray);
   }
 
   private createLayersFromUrls(urls: string[], singleFrame: boolean): void {
