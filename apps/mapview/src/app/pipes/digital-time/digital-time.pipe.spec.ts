@@ -25,4 +25,12 @@ describe('DigitalTimePipe', () => {
   it('show time with seconds with leading zero in seconds', () => {
     expect(pipe.transform(5402, true)).toBe('1:30:02');
   });
+
+  it('show hours with 2 digits', () => {
+    expect(pipe.transform(54915, true)).toBe('15:15:15');
+  });
+
+  it('show hours with 3 digits', () => {
+    expect(pipe.transform(414915, true)).toBe('115:15:15');
+  });
 });
