@@ -11,7 +11,7 @@ export const mapActions = createActionGroup({
     'geolocation tracking started': emptyProps(),
     'geolocation tracking ended': emptyProps(),
     clicked: props<{ lngLat: LngLatLike }>(),
-    'double clicked': emptyProps(),
+    zoom: emptyProps(),
   },
 });
 
