@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
@@ -24,7 +24,7 @@ import { generalFeature } from '../../../store/features/settings/general.feature
     TranslocoModule,
     MatExpansionModule,
     MatIconModule,
-    LetModule,
+    LetDirective,
     MatSlideToggleModule,
     FormsModule,
     NgIf,

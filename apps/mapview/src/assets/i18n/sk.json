@@ -101,6 +101,16 @@
         "altitudeFt": "Nadmorská výška v stopách",
         "gndFt": "Výška nad zemou v stopách"
       }
+    },
+    "gamepad": {
+      "title": "Gamepad",
+      "description": "Ovládanie pomocou gamepadu",
+      "button": "Tlačitko",
+      "axis": "Osa",
+      "coefficient": "Rýchlosť akcie",
+      "axesThreshold": "Začiatok citlivosti osi",
+      "index": "ID gamepadu",
+      "zoomIn": "Priblížiť"
     }
   },
   "navigationDialog": {

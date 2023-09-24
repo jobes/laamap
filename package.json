@@ -34,6 +34,7 @@
     "@ngrx/store-devtools": "16.1.0",
     "@nx/angular": "16.5.5",
     "@turf/turf": "^6.5.0",
+    "emulate-tab": "^1.2.1",
     "lightgallery": "^2.7.1",
     "maplibre-gl": "^3.2.1",
     "messageformat": "^2.3.0",
