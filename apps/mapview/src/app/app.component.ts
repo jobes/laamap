@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { CenterIconComponent } from './components/center-icon/center-icon.component';
 import { AltimeterWidgetComponent } from './components/widgets/altimeter-widget/altimeter-widget.component';
 import { NavigationGoalWidgetComponent } from './components/widgets/navigation-goal-widget/navigation-goal-widget.component';
 import { NavigationNextPointWidgetComponent } from './components/widgets/navigation-next-point-widget/navigation-next-point-widget.component';
@@ -21,6 +22,7 @@ import { VariometerWidgetComponent } from './components/widgets/variometer-widge
     TrackingWidgetComponent,
     NavigationGoalWidgetComponent,
     NavigationNextPointWidgetComponent,
+    CenterIconComponent,
   ],
 })
 export class AppComponent {}

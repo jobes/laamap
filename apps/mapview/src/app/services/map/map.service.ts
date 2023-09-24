@@ -11,6 +11,7 @@ import { NavigationDialogComponent } from '../../components/navigation-dialog/na
 import { SettingsDialogComponent } from '../../components/settings-dialog/settings-dialog.component';
 import { mapActions } from '../../store/actions/map.actions';
 import { CompassService } from '../compass/compass.service';
+import { GamepadHandlerService } from '../gamepad-handler/gamepad-handler.service';
 import { MapFontSizeService } from './map-font-size.service';
 
 @Injectable({
@@ -25,7 +26,8 @@ export class MapService {
     private readonly dialog: MatDialog,
     private readonly compassService: CompassService,
     private readonly store: Store,
-    private readonly mapFontSize: MapFontSizeService
+    private readonly mapFontSize: MapFontSizeService,
+    private readonly gamepadHandlerService: GamepadHandlerService
   ) {
     this.instance = new Map({
       container: 'map',
@@ -38,6 +40,7 @@ export class MapService {
     this.addTranslatedControlsToMap();
     this.setupEvents();
     this.compassService.init();
+    this.gamepadHandlerService.init(this.instance);
   }
 
   setMapFontSizeRatio(ratio: number) {
@@ -208,27 +211,25 @@ export class MapService {
   }
 
   private addSettingsControl(): void {
-    const box = document.createElement('div');
-    const button = document.createElement('button');
-    box.appendChild(button);
-
-    box.classList.add('maplibregl-ctrl', 'maplibregl-ctrl-group');
-    button.style.fontFamily = 'Material Icons';
-    button.style.fontSize = '20px';
+    const button = this.createButton();
     button.textContent = 'settings';
     button.title = this.instance._getUIString(
       'SettingControl.Settings'
     ) as string;
     button.addEventListener('click', () => this.settingsClicked());
-
-    this.instance.addControl({
-      onAdd: () => box,
-      onRemove: () => box.parentNode?.removeChild(box),
-      getDefaultPosition: () => 'top-right',
-    });
   }
 
   private addNavigationControl(): void {
+    const button = this.createButton();
+    button.textContent = 'navigation';
+    button.setAttribute('navigation-dialog', '');
+    button.title = this.instance._getUIString(
+      'NavigationControl.Navigation'
+    ) as string;
+    button.addEventListener('click', () => this.navigationClicked());
+  }
+
+  private createButton(): HTMLButtonElement {
     const box = document.createElement('div');
     const button = document.createElement('button');
     box.appendChild(button);
@@ -236,17 +237,14 @@ export class MapService {
     box.classList.add('maplibregl-ctrl', 'maplibregl-ctrl-group');
     button.style.fontFamily = 'Material Icons';
     button.style.fontSize = '20px';
-    button.textContent = 'navigation';
-    button.title = this.instance._getUIString(
-      'NavigationControl.Navigation'
-    ) as string;
-    button.addEventListener('click', () => this.navigationClicked());
 
     this.instance.addControl({
       onAdd: () => box,
       onRemove: () => box.parentNode?.removeChild(box),
       getDefaultPosition: () => 'top-right',
     });
+
+    return button;
   }
 
   private settingsClicked(): void {

@@ -1,0 +1,9 @@
+mat-panel-description {
+  display: none;
+}
+
+@media screen and (width > 500px) {
+  mat-panel-description {
+    display: flex;
+  }
+}
