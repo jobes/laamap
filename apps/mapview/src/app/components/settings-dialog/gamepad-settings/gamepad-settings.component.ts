@@ -14,13 +14,16 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LetDirective } from '@ngrx/component';
-import { BehaviorSubject, filter } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { filter } from 'rxjs';
 
 import {
   ActiveGamePadButtons,
   GamepadHandlerService,
-  IGamePaDActions,
+  IGamePadActions,
 } from '../../../services/gamepad-handler/gamepad-handler.service';
+import { gamePadSettingsActions } from '../../../store/actions/settings.actions';
+import { gamepadFeature } from '../../../store/features/settings/gamepad.feature';
 
 @UntilDestroy()
 @Component({
@@ -45,19 +48,12 @@ import {
 })
 export class GamepadSettingsComponent implements OnInit {
   private readonly gamepadService = inject(GamepadHandlerService);
+  private readonly store = inject(Store);
   private readonly ref = inject(ElementRef);
-  settings$ = new BehaviorSubject({
-    zoomIn: {
-      index: 0,
-      axes: 0,
-      button: 15,
-      coefficient: -10,
-      axesThreshold: 0.3,
-    },
-  }).asObservable();
+  settings$ = this.store.select(gamepadFeature.selectShortCuts);
 
   valueChanged(): void {
-    const result: { [key: string]: IGamePaDActions } = {};
+    const result: { [key: string]: IGamePadActions } = {};
     (this.ref.nativeElement as HTMLDivElement)
       .querySelectorAll('[block-name]')
       .forEach((block) => {
@@ -71,7 +67,7 @@ export class GamepadSettingsComponent implements OnInit {
         };
         result[name ?? ''] = def;
       });
-    console.log('changed', result);
+    this.store.dispatch(gamePadSettingsActions.setShortCuts({ value: result }));
   }
 
   ngOnInit(): void {
@@ -91,7 +87,7 @@ export class GamepadSettingsComponent implements OnInit {
 
   trackByKey(
     index: number,
-    item: { key: string; value: IGamePaDActions }
+    item: { key: string; value: IGamePadActions }
   ): string {
     return item.key;
   }

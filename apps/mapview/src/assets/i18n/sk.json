@@ -110,7 +110,24 @@
       "coefficient": "Rýchlosť akcie",
       "axesThreshold": "Začiatok citlivosti osi",
       "index": "ID gamepadu",
-      "zoomIn": "Priblížiť"
+      "zoomIn": "Priblížiť",
+      "bearing": "Rotácia",
+      "bearingOpposite": "Opačná rotácia",
+      "closeDialog": "Zavrieť",
+      "dialogDo": "Akcia/klik v dialógu",
+      "followAirplane": "Naleduj polohu",
+      "mapClick": "Klik na mape",
+      "nextField": "Ďalšie pole",
+      "openNavigation": "Otvor navigáciu",
+      "pitch": "Náklon",
+      "pitchBearingReset": "Mapa na sever bez náklonu",
+      "pitchOpposite": "Opačný náklon",
+      "previousField": "Predchodzie pole",
+      "xMoveBottom": "Ponus dole",
+      "xMoveLeft": "Posun do lava",
+      "xMoveRight": "Posun do prava",
+      "xMoveTop": "Posun hore",
+      "zoomOut": "Vzdialiť"
     }
   },
   "navigationDialog": {

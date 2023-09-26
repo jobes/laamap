@@ -43,6 +43,7 @@ import { RadarSettingsEffects } from './store/effects/settings/radar.effects';
 import { mapFeature } from './store/features/map.feature';
 import { navigationFeature } from './store/features/navigation.feature';
 import { airSpacesFeature } from './store/features/settings/air-spaces.feature';
+import { gamepadFeature } from './store/features/settings/gamepad.feature';
 import { generalFeature } from './store/features/settings/general.feature';
 import { instrumentsFeature } from './store/features/settings/instruments.feature';
 import { navigationSettingsFeature } from './store/features/settings/navigation.feature';
@@ -92,6 +93,7 @@ export const appConfig: ApplicationConfig = {
           [airSpacesFeature.name]: airSpacesFeature.reducer,
           [instrumentsFeature.name]: instrumentsFeature.reducer,
           [generalFeature.name]: generalFeature.reducer,
+          [gamepadFeature.name]: gamepadFeature.reducer,
         },
         {
           runtimeChecks: {

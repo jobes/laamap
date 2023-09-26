@@ -21,7 +21,7 @@ export type ActiveGamePadButtons = {
   buttons: { [key: number]: number };
   axes: { [key: number]: number };
 }[];
-export interface IGamePaDActions {
+export interface IGamePadActions {
   index: number;
   axes?: number;
   button?: number;
