@@ -15,6 +15,7 @@
 - widgets for GPS powered instuments - speed meter, altitude meter and vario meter
 - widget for current flight duration and on clicking on this widget flight history is displayed
 - navigation to multiple points on map, widget with current navigation statistics
+- map control using gamepad with basic dialog control support
 
 Map icon [Plane icons created by Good Ware - Flaticon](https://www.flaticon.com/free-icons/plane).
 
