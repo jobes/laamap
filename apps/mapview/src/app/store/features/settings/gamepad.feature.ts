@@ -1,11 +1,14 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 
-import { IGamePadActions } from '../../../services/gamepad-handler/gamepad-handler.service';
+import {
+  GamePadShortCutName,
+  IGamePadActions,
+} from '../../../services/gamepad-handler/gamepad-handler.types';
 import { gamePadSettingsActions } from '../../actions/settings.actions';
 
 const initialState: {
   shortCuts: {
-    [key: string]: IGamePadActions;
+    [key in GamePadShortCutName]: IGamePadActions;
   };
 } = {
   shortCuts: {

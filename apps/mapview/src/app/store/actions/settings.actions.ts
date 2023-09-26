@@ -1,6 +1,9 @@
 import { createActionGroup, props } from '@ngrx/store';
 
-import { IGamePadActions } from '../../services/gamepad-handler/gamepad-handler.service';
+import {
+  GamePadShortCutName,
+  IGamePadActions,
+} from '../../services/gamepad-handler/gamepad-handler.types';
 import { EAirSpaceType } from '../../services/open-aip/airspaces.interfaces';
 import {
   AllowedNavigationGoalWidgetRowType,
@@ -154,6 +157,8 @@ export const radarSettingsActions = createActionGroup({
 export const gamePadSettingsActions = createActionGroup({
   source: 'GamePad Settings',
   events: {
-    'set short cuts': props<{ value: { [key: string]: IGamePadActions } }>(),
+    'set short cuts': props<{
+      value: { [key in GamePadShortCutName]: IGamePadActions };
+    }>(),
   },
 });
