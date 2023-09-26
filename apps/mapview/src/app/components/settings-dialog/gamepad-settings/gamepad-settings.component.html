@@ -7,78 +7,80 @@
       <mat-panel-description> {{ t('description') }}</mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-expansion-panel
-      *ngFor="let item of settings$ | async | keyvalue; trackBy: trackByKey"
-      [attr.block-name]="item.key"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title>{{ t(item.key) }}</mat-panel-title>
-      </mat-expansion-panel-header>
-      <mat-form-field>
-        <mat-label>{{ t('index') }}</mat-label>
-        <input
-          name="gamepad-index"
-          matInput
-          type="number"
-          [ngModel]="item.value.index"
-          min="0"
-          max="100"
-          step="1"
-          (ngModelChange)="valueChanged()"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t('button') }}</mat-label>
-        <input
-          name="button"
-          matInput
-          type="number"
-          [ngModel]="item.value.button"
-          min="0"
-          max="100"
-          step="1"
-          (ngModelChange)="valueChanged()"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t('axis') }}</mat-label>
-        <input
-          name="axis"
-          matInput
-          type="number"
-          [ngModel]="item.value.axes"
-          min="0"
-          max="100"
-          step="1"
-          (ngModelChange)="valueChanged()"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t('coefficient') }}</mat-label>
-        <input
-          name="coefficient"
-          matInput
-          type="number"
-          [ngModel]="item.value.coefficient"
-          min="-100"
-          max="100"
-          step="1"
-          (ngModelChange)="valueChanged()"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t('axesThreshold') }}</mat-label>
-        <input
-          name="axes-threshold"
-          matInput
-          type="number"
-          [ngModel]="item.value.axesThreshold"
-          min="0"
-          max="1"
-          step="0.1"
-          (ngModelChange)="valueChanged()"
-        />
-      </mat-form-field>
-    </mat-expansion-panel>
+    <mat-accordion>
+      <mat-expansion-panel
+        *ngFor="let item of settings$ | async | keyvalue; trackBy: trackByKey"
+        [attr.block-name]="item.key"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ t(item.key) }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field>
+          <mat-label>{{ t('index') }}</mat-label>
+          <input
+            name="gamepad-index"
+            matInput
+            type="number"
+            [ngModel]="item.value.index"
+            min="0"
+            max="100"
+            step="1"
+            (ngModelChange)="valueChanged()"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ t('button') }}</mat-label>
+          <input
+            name="button"
+            matInput
+            type="number"
+            [ngModel]="item.value.button"
+            min="0"
+            max="100"
+            step="1"
+            (ngModelChange)="valueChanged()"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ t('axis') }}</mat-label>
+          <input
+            name="axis"
+            matInput
+            type="number"
+            [ngModel]="item.value.axes"
+            min="0"
+            max="100"
+            step="1"
+            (ngModelChange)="valueChanged()"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ t('coefficient') }}</mat-label>
+          <input
+            name="coefficient"
+            matInput
+            type="number"
+            [ngModel]="item.value.coefficient"
+            min="-100"
+            max="100"
+            step="0.01"
+            (ngModelChange)="valueChanged()"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ t('axesThreshold') }}</mat-label>
+          <input
+            name="axes-threshold"
+            matInput
+            type="number"
+            [ngModel]="item.value.axesThreshold"
+            min="0"
+            max="1"
+            step="0.1"
+            (ngModelChange)="valueChanged()"
+          />
+        </mat-form-field>
+      </mat-expansion-panel>
+    </mat-accordion>
   </mat-expansion-panel>
 </ng-template>

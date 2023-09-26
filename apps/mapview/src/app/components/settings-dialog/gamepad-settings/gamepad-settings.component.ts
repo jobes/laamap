@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   inject,
 } from '@angular/core';
@@ -17,11 +18,12 @@ import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { filter } from 'rxjs';
 
+import { GamepadHandlerService } from '../../../services/gamepad-handler/gamepad-handler.service';
 import {
   ActiveGamePadButtons,
-  GamepadHandlerService,
+  GamePadShortCutName,
   IGamePadActions,
-} from '../../../services/gamepad-handler/gamepad-handler.service';
+} from '../../../services/gamepad-handler/gamepad-handler.types';
 import { gamePadSettingsActions } from '../../../store/actions/settings.actions';
 import { gamepadFeature } from '../../../store/features/settings/gamepad.feature';
 
@@ -46,18 +48,18 @@ import { gamepadFeature } from '../../../store/features/settings/gamepad.feature
   styleUrls: ['./gamepad-settings.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GamepadSettingsComponent implements OnInit {
+export class GamepadSettingsComponent implements OnInit, OnDestroy {
   private readonly gamepadService = inject(GamepadHandlerService);
   private readonly store = inject(Store);
   private readonly ref = inject(ElementRef);
   settings$ = this.store.select(gamepadFeature.selectShortCuts);
 
   valueChanged(): void {
-    const result: { [key: string]: IGamePadActions } = {};
+    const result = {} as { [key in GamePadShortCutName]: IGamePadActions };
     (this.ref.nativeElement as HTMLDivElement)
       .querySelectorAll('[block-name]')
       .forEach((block) => {
-        const name = block.getAttribute('block-name');
+        const name = block.getAttribute('block-name') as GamePadShortCutName;
         const def = {
           index: this.getAttributeValue(block, 'gamepad-index') || 0,
           axes: this.getAttributeValue(block, 'axis'),
@@ -79,6 +81,10 @@ export class GamepadSettingsComponent implements OnInit {
       .subscribe({
         next: (input) => this.processGamePadInput(input),
       });
+  }
+
+  ngOnDestroy(): void {
+    this.gamepadService.settingMode = false;
   }
 
   expandedChange(value: boolean) {
@@ -116,9 +122,8 @@ export class GamepadSettingsComponent implements OnInit {
   }
 
   private getAttributeValue(block: Element, name: string): number | undefined {
-    const num = Number.parseInt(
-      (block.querySelector(`[name="${name}"]`) as HTMLInputElement)?.value,
-      10
+    const num = Number.parseFloat(
+      (block.querySelector(`[name="${name}"]`) as HTMLInputElement)?.value
     );
     return isNaN(num) ? undefined : num;
   }

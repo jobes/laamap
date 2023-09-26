@@ -1,8 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
+import { concatLatestFrom } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { emulateTab } from 'emulate-tab';
-import maplibregl, { Map } from 'maplibre-gl';
+import maplibregl, { Map, PointLike } from 'maplibre-gl';
 import {
   Subject,
   animationFrameScheduler,
@@ -16,18 +18,16 @@ import {
   switchMap,
 } from 'rxjs';
 
-export type ActiveGamePadButtons = {
-  index: number;
-  buttons: { [key: number]: number };
-  axes: { [key: number]: number };
-}[];
-export interface IGamePadActions {
-  index: number;
-  axes?: number;
-  button?: number;
-  coefficient?: number;
-  axesThreshold?: number;
-}
+import { gamepadFeature } from '../../store/features/settings/gamepad.feature';
+import {
+  actionDefToNumber,
+  actionFirstTime,
+} from './gamepad-handler.functions';
+import {
+  ActiveGamePadButtons,
+  GamePadShortCutName,
+  IGamePadActions,
+} from './gamepad-handler.types';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +35,9 @@ export interface IGamePadActions {
 export class GamepadHandlerService {
   private readonly dialog = inject(MatDialog);
   private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly store = inject(Store);
   private readonly gamePadSubj$ = new Subject<Gamepad[]>();
+
   settingMode = false;
   gamePadChangingView = false;
   gamePadFrame$ = this.gamePadSubj$.asObservable();
@@ -70,6 +72,7 @@ export class GamepadHandlerService {
       return gps.length === 0 ? null : gps;
     })
   );
+
   gamePadDoAnimationAction$ = this.gamePadActive$.pipe(
     switchMap((active) =>
       active
@@ -89,17 +92,22 @@ export class GamepadHandlerService {
     this.gamePadDoAnimationAction$
       .pipe(
         pairwise(),
-        filter(([, active]) => !!active && !this.settingMode)
+        filter(([, active]) => !!active && !this.settingMode),
+        concatLatestFrom(() =>
+          this.store.select(gamepadFeature.selectShortCuts)
+        )
       )
-      .subscribe(([old, active]) => {
-        if (
-          this.dialog.openDialogs.length === 0 &&
-          !this.bottomSheet._openedBottomSheetRef
-        ) {
-          this.reactOnMapEvents(old, active);
-        } else {
-          this.reactOnBottomSheetEvents(old, active);
-        }
+      .subscribe({
+        next: ([[old, active], definition]) => {
+          if (
+            this.dialog.openDialogs.length === 0 &&
+            !this.bottomSheet._openedBottomSheetRef
+          ) {
+            this.reactOnMapEvents(old, active, definition);
+          } else {
+            this.reactOnDialogEvents(old, active, definition);
+          }
+        },
       });
   }
 
@@ -111,103 +119,17 @@ export class GamepadHandlerService {
     requestAnimationFrame(() => this.catchGamepadEvents());
   }
 
-  // eslint-disable-next-line max-lines-per-function, max-statements
   private reactOnMapEvents(
     old: ActiveGamePadButtons | null,
-    active: ActiveGamePadButtons | null
+    active: ActiveGamePadButtons | null,
+    definition: { [key in GamePadShortCutName]: IGamePadActions }
   ): void {
-    const xMoveRightDef = {
-      index: 0,
-      axes: 0,
-      button: 15,
-      coefficient: -10,
-      axesThreshold: 0.3,
-    };
-    const xMoveLeftDef = {
-      index: 0,
-      button: 14,
-      coefficient: -10,
-    };
-    const xMoveTopDef = {
-      index: 0,
-      axes: 1,
-      button: 13,
-      coefficient: -10,
-      axesThreshold: 0.3,
-    };
-    const xMoveBottomDef = {
-      index: 0,
-      button: 12,
-      coefficient: -10,
-    };
-    const bearingDef = {
-      index: 0,
-      axes: 2,
-      coefficient: 1,
-      axesThreshold: 0.3,
-    };
-    const bearingOppositeDef = {
-      index: 0,
-    };
-    const pitchDef = {
-      index: 0,
-      axes: 3,
-      coefficient: -1,
-      axesThreshold: 0.3,
-    };
-    const pitchOppositeDef = {
-      index: 0,
-      axes: 3,
-      coefficient: 1,
-      axesThreshold: 0.3,
-    };
-    const pitchBearingResetDef = {
-      index: 0,
-      button: 11,
-    };
-    const zoomInDef = {
-      index: 0,
-      button: 7,
-      coefficient: 0.05,
-    };
-    const zoomOutDef = {
-      index: 0,
-      button: 6,
-      coefficient: 0.05,
-    };
-
-    const followAirplane = {
-      index: 0,
-      button: 10,
-    };
-
-    const openNavigation = {
-      index: 0,
-      button: 9,
-    };
-
-    const mapClick = {
-      index: 0,
-      button: 0,
-    };
-
-    if (
-      this.actionFirstTime(followAirplane, active, old, () => {
-        const control = this.map._controls.find(
-          (c) => c instanceof maplibregl.GeolocateControl
-        ) as maplibregl.GeolocateControl;
-        if (control._watchState !== 'ACTIVE_LOCK') {
-          // only when not following airplane
-          control.trigger();
-          this.gamePadChangingView = false;
-        }
-      })
-    ) {
+    if (this.processFollowAirplane(old, active, definition)) {
       return;
     }
 
     if (
-      this.actionFirstTime(openNavigation, active, old, () => {
+      actionFirstTime(definition.openNavigation, active, old, () => {
         (
           document.querySelectorAll(
             '[navigation-dialog]'
@@ -218,8 +140,42 @@ export class GamepadHandlerService {
       return;
     }
 
+    if (this.processMapClick(old, active, definition)) {
+      return;
+    }
+
+    this.mapManipulation(active, definition);
+  }
+
+  private processFollowAirplane(
+    old: ActiveGamePadButtons | null,
+    active: ActiveGamePadButtons | null,
+    definition: { [key in GamePadShortCutName]: IGamePadActions }
+  ): boolean {
     if (
-      this.actionFirstTime(mapClick, active, old, () => {
+      actionFirstTime(definition.followAirplane, active, old, () => {
+        const control = this.map._controls.find(
+          (c) => c instanceof maplibregl.GeolocateControl
+        ) as maplibregl.GeolocateControl;
+        if (control._watchState !== 'ACTIVE_LOCK') {
+          // only when not following airplane
+          control.trigger();
+          this.gamePadChangingView = false;
+        }
+      })
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  private processMapClick(
+    old: ActiveGamePadButtons | null,
+    active: ActiveGamePadButtons | null,
+    definition: { [key in GamePadShortCutName]: IGamePadActions }
+  ): boolean {
+    if (
+      actionFirstTime(definition.mapClick, active, old, () => {
         this.map._canvas.dispatchEvent(
           new MouseEvent('click', {
             view: window,
@@ -234,65 +190,58 @@ export class GamepadHandlerService {
         }, 1000);
       })
     ) {
-      return;
+      return true;
     }
+    return false;
+  }
 
+  private mapManipulation(
+    active: ActiveGamePadButtons | null,
+    definition: { [key in GamePadShortCutName]: IGamePadActions }
+  ): void {
     this.gamePadChangingView = true;
     this.map.easeTo({
       duration: 0,
       easeId: 'gamepadHandler',
       easing: (t) => t * (2 - t),
-      offset: [
-        this.actionDefToNumber(xMoveRightDef, active) -
-          this.actionDefToNumber(xMoveLeftDef, active),
-        this.actionDefToNumber(xMoveTopDef, active) -
-          this.actionDefToNumber(xMoveBottomDef, active),
-      ],
-      bearing: this.actionDefToNumber(pitchBearingResetDef, active)
+      offset: this.mapManipulationOffset(active, definition),
+      bearing: actionDefToNumber(definition.pitchBearingReset, active)
         ? 0
         : this.map.getBearing() +
-          this.actionDefToNumber(bearingDef, active) -
-          this.actionDefToNumber(bearingOppositeDef, active),
-      pitch: this.actionDefToNumber(pitchBearingResetDef, active)
+          actionDefToNumber(definition.bearing, active) -
+          actionDefToNumber(definition.bearingOpposite, active),
+      pitch: actionDefToNumber(definition.pitchBearingReset, active)
         ? 0
         : this.map.getPitch() +
-          this.actionDefToNumber(pitchDef, active) -
-          this.actionDefToNumber(pitchOppositeDef, active),
+          actionDefToNumber(definition.pitch, active) -
+          actionDefToNumber(definition.pitchOpposite, active),
       zoom:
         this.map.getZoom() +
-        this.actionDefToNumber(zoomInDef, active) -
-        this.actionDefToNumber(zoomOutDef, active),
+        actionDefToNumber(definition.zoomIn, active) -
+        actionDefToNumber(definition.zoomOut, active),
       center: this.map.getCenter(),
     });
   }
 
-  // eslint-disable-next-line max-lines-per-function, max-statements
-  private reactOnBottomSheetEvents(
+  private mapManipulationOffset(
+    active: ActiveGamePadButtons | null,
+    definition: { [key in GamePadShortCutName]: IGamePadActions }
+  ): PointLike {
+    return [
+      actionDefToNumber(definition.xMoveRight, active) -
+        actionDefToNumber(definition.xMoveLeft, active),
+      actionDefToNumber(definition.xMoveTop, active) -
+        actionDefToNumber(definition.xMoveBottom, active),
+    ];
+  }
+
+  private reactOnDialogEvents(
     old: ActiveGamePadButtons | null,
-    active: ActiveGamePadButtons | null
+    active: ActiveGamePadButtons | null,
+    definition: { [key in GamePadShortCutName]: IGamePadActions }
   ): void {
-    const close = {
-      index: 0,
-      button: 3,
-    };
-
-    const enter = {
-      index: 0,
-      button: 0,
-    };
-
-    const next = {
-      index: 0,
-      button: 13,
-    };
-
-    const previous = {
-      index: 0,
-      button: 12,
-    };
-
     if (
-      this.actionFirstTime(close, active, old, () => {
+      actionFirstTime(definition.closeDialog, active, old, () => {
         this.bottomSheet.dismiss();
         this.dialog.closeAll();
       })
@@ -301,7 +250,7 @@ export class GamepadHandlerService {
     }
 
     if (
-      this.actionFirstTime(enter, active, old, () => {
+      actionFirstTime(definition.dialogDo, active, old, () => {
         if ((document.activeElement as HTMLDivElement)?.click) {
           (document.activeElement as HTMLDivElement).click();
         }
@@ -310,8 +259,16 @@ export class GamepadHandlerService {
       return;
     }
 
+    this.reactOnDialogFieldFocusEvents(old, active, definition);
+  }
+
+  private reactOnDialogFieldFocusEvents(
+    old: ActiveGamePadButtons | null,
+    active: ActiveGamePadButtons | null,
+    definition: { [key in GamePadShortCutName]: IGamePadActions }
+  ): void {
     if (
-      this.actionFirstTime(next, active, old, () => {
+      actionFirstTime(definition.nextField, active, old, () => {
         emulateTab();
       })
     ) {
@@ -319,73 +276,12 @@ export class GamepadHandlerService {
     }
 
     if (
-      this.actionFirstTime(previous, active, old, () => {
+      actionFirstTime(definition.previousField, active, old, () => {
         emulateTab.backwards();
       })
     ) {
       return;
     }
-  }
-
-  private actionDefToNumber(
-    def: {
-      index: number;
-      axes?: number;
-      button?: number;
-      coefficient?: number;
-      axesThreshold?: number;
-    },
-    active: ActiveGamePadButtons | null
-  ): number {
-    if (!active) {
-      return 0;
-    }
-    const axesVal =
-      def.axes !== undefined &&
-      Math.abs(active[def.index].axes[def.axes]) > (def.axesThreshold ?? 0.01)
-        ? active[def.index].axes[def.axes] ?? 0
-        : 0;
-    const buttonVal =
-      def.button !== undefined ? active[def.index].buttons[def.button] ?? 0 : 0;
-    return (def.coefficient ?? 1) * (buttonVal + axesVal);
-  }
-
-  private actionActive(
-    def: {
-      index: number;
-      axes?: number;
-      button?: number;
-      coefficient?: number;
-      axesThreshold?: number;
-    },
-    active: ActiveGamePadButtons | null
-  ): boolean {
-    if (!active) {
-      return false;
-    }
-    return def.button !== undefined && !!active[def.index].buttons[def.button];
-  }
-
-  private actionFirstTime(
-    def: {
-      index: number;
-      axes?: number;
-      button?: number;
-      coefficient?: number;
-      axesThreshold?: number;
-    },
-    active: ActiveGamePadButtons | null,
-    old: ActiveGamePadButtons | null,
-    fn: () => void
-  ): boolean {
-    if (this.actionActive(def, active)) {
-      // while button active, return true to do not do other actions
-      if (!this.actionActive(def, old)) {
-        // only once do action
-        fn();
-      }
-      return true;
-    }
-    return false;
+    false;
   }
 }
