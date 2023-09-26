@@ -3,6 +3,7 @@ import { ActionReducer } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
 
 import { airSpacesFeature } from '../features/settings/air-spaces.feature';
+import { gamepadFeature } from '../features/settings/gamepad.feature';
 import { generalFeature } from '../features/settings/general.feature';
 import { instrumentsFeature } from '../features/settings/instruments.feature';
 import { navigationSettingsFeature } from '../features/settings/navigation.feature';
@@ -21,6 +22,7 @@ export function localStorageSyncReducer(
       airSpacesFeature.name,
       instrumentsFeature.name,
       generalFeature.name,
+      gamepadFeature.name,
     ],
     rehydrate: true,
   })(reducer);
