@@ -6,7 +6,7 @@ import {
 } from '../../../services/gamepad-handler/gamepad-handler.types';
 import { gamePadSettingsActions } from '../../actions/settings.actions';
 
-const initialState: {
+export const gamepadInitialState: {
   shortCuts: {
     [key in GamePadShortCutName]: IGamePadActions;
   };
@@ -111,10 +111,10 @@ const initialState: {
 export const gamepadFeature = createFeature({
   name: 'settings.gamepad',
   reducer: createReducer(
-    initialState,
+    gamepadInitialState,
     on(
       gamePadSettingsActions.setShortCuts,
-      (state, { value }): typeof initialState => ({
+      (state, { value }): typeof gamepadInitialState => ({
         ...state,
         shortCuts: value,
       })
