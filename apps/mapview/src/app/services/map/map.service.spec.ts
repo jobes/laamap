@@ -4,6 +4,7 @@ import { TranslocoTestingModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 import maplibregl from 'maplibre-gl';
 
+import { GamepadHandlerService } from '../gamepad-handler/gamepad-handler.service';
 import { MapService } from './map.service';
 
 describe('MapService', () => {
@@ -12,7 +13,10 @@ describe('MapService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [MatDialogModule, TranslocoTestingModule.forRoot({ langs: {} })],
-      providers: [provideMockStore({})],
+      providers: [
+        provideMockStore({}),
+        { provide: GamepadHandlerService, useValue: { init: jest.fn() } },
+      ],
     });
     const mockMapOn = jest.fn();
     jest
