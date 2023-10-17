@@ -26,14 +26,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
-import { TranslocoMessageFormatModule } from '@ngneat/transloco-messageformat';
+import { provideTransloco } from '@ngneat/transloco';
+import { provideTranslocoLocale } from '@ngneat/transloco-locale';
+import { provideTranslocoMessageformat } from '@ngneat/transloco-messageformat';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LightgalleryModule } from 'lightgallery/angular';
+import { provideQuillConfig } from 'ngx-quill/config';
 
 import { environment } from '../environments/environment';
+import { TranslocoHttpLoader } from './services/transloco-loaser.service';
 import { MapEffects } from './store/effects/map.effects';
 import { NavigationEffects } from './store/effects/navigation.effects';
 import { AirSpacesEffects } from './store/effects/settings/air-spaces.effects';
@@ -50,7 +53,6 @@ import { navigationSettingsFeature } from './store/features/settings/navigation.
 import { notamsFeature } from './store/features/settings/notams.feature';
 import { radarFeature } from './store/features/settings/radar.feature';
 import { metaReducers } from './store/metareducers/hydration';
-import { TranslocoRootModule } from './transloco-root.module';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -60,14 +62,6 @@ export const appConfig: ApplicationConfig = {
       ReactiveFormsModule,
       MatBottomSheetModule,
       MatListModule,
-      TranslocoRootModule,
-      TranslocoLocaleModule.forRoot({
-        langToLocaleMapping: {
-          en: 'en-US',
-          sk: 'sk-SK',
-        },
-      }),
-      TranslocoMessageFormatModule.forRoot({ locales: ['en-US', 'sk-SK'] }),
       MatCardModule,
       MatIconModule,
       MatDialogModule,
@@ -127,8 +121,24 @@ export const appConfig: ApplicationConfig = {
         platformLocation.getBaseHrefFromDOM(),
       deps: [PlatformLocation],
     },
+    provideTranslocoLocale({
+      langToLocaleMapping: {
+        en: 'en-US',
+        sk: 'sk-SK',
+      },
+    }),
+    provideTransloco({
+      config: {
+        availableLangs: ['sk', 'en'],
+        defaultLang: 'sk',
+        prodMode: environment.production,
+      },
+      loader: TranslocoHttpLoader,
+    }),
+    provideTranslocoMessageformat({ locales: ['en-US', 'sk-SK'] }),
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
     provideRouter([]),
+    provideQuillConfig({}),
   ],
 };

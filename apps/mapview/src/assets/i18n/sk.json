@@ -134,7 +134,8 @@
     "title": "Navigácia",
     "close": "Zavrieť",
     "noItemInList": "Žiadne body v navigácii",
-    "trackingHistory": "Záznamy letov"
+    "trackingHistory": "Záznamy letov",
+    "POIList": "Body záujmu"
   },
   "airportDialog": {
     "close": "Zavrieť",
@@ -597,6 +598,21 @@
     "name": "Názov",
     "duration": "Trvanie"
   },
+  "interestPointDialog": {
+    "title": "Pridať bod záujmu",
+    "editTitle": "Upraviť bod záujmu",
+    "readTitle": "Bod záujmu",
+    "save": "Uložiť",
+    "close": "Zavrieť",
+    "name": "Názov",
+    "icon": "Obrázok bodu",
+    "edit": "Upraviť",
+    "delete": "Zmazať"
+  },
+  "listInterestPointDialog": {
+    "title": "Body záujmu",
+    "close": "Zavrieť"
+  },
   "shared": {
     "altitude": {
       "heighUnit": {
@@ -670,6 +686,8 @@
     "newNavigation": "Nová navigácia",
     "addToNavigation": "Pridať bod do navigácie",
     "latitude": "Zemepisná šírka",
-    "longitude": "Zemepisná dĺžka"
+    "longitude": "Zemepisná dĺžka",
+    "addToInterestPoints": "Pridať bod záujmu",
+    "showInterestPoints": "Zobraz bod záujmu"
   }
 }

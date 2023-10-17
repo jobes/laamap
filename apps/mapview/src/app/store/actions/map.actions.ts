@@ -36,6 +36,13 @@ export const layerNotamsActions = createActionGroup({
   },
 });
 
+export const layerInterestPointsActions = createActionGroup({
+  source: 'Layer interest points',
+  events: {
+    clicked: props<{ features: GeoJSON.Feature[] }>(),
+  },
+});
+
 export const compassActions = createActionGroup({
   source: 'Compass',
   events: {

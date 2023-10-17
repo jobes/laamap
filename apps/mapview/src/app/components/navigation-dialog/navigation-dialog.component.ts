@@ -19,6 +19,7 @@ import { LngLat } from 'maplibre-gl';
 import { navigationDialogActions } from '../../store/actions/navigation.actions';
 import { navigationFeature } from '../../store/features/navigation.feature';
 import { FlyTracingHistoryDialogComponent } from '../fly-tracing-history-dialog/fly-tracing-history-dialog.component';
+import { ListInterestPointsDialogComponent } from '../list-interest-points-dialog/list-interest-points-dialog.component';
 
 @Component({
   selector: 'laamap-navigation-dialog',
@@ -76,6 +77,15 @@ export class NavigationDialogComponent {
       .open(FlyTracingHistoryDialogComponent, {
         width: '100%',
         id: 'flyHistory',
+      })
+      .afterClosed();
+  }
+
+  showPoiList(): void {
+    this.dialog
+      .open(ListInterestPointsDialogComponent, {
+        width: '100%',
+        id: 'poiList',
       })
       .afterClosed();
   }

@@ -1,8 +1,6 @@
 <mat-nav-list *transloco="let t; read: 'mapLocationMenu'">
   <a mat-list-item tabindex="0" (click)="newNavigation(data.lngLat)">
     <span matListItemTitle>{{ t('newNavigation') }}</span>
-    <span matListItemLine>{{ t('latitude') }}: {{ data.lngLat.lat }}</span>
-    <span matListItemLine>{{ t('longitude') }}: {{ data.lngLat.lng }}</span>
   </a>
 
   <a mat-list-item tabindex="0" (click)="addToNavigation(data.lngLat)">
@@ -22,6 +20,29 @@
         ({{ data.airport.features[0].properties['icaoCode'] }})</ng-container
       >
     </span>
+  </a>
+
+  <a
+    mat-list-item
+    *ngIf="!data.airport && !data.interestPoint"
+    tabindex="0"
+    (click)="newInterestPoint(data.lngLat)"
+  >
+    <span matListItemTitle>{{ t('addToInterestPoints') }}</span>
+    <span matListItemLine>{{ t('latitude') }}: {{ data.lngLat.lat }}</span>
+    <span matListItemLine>{{ t('longitude') }}: {{ data.lngLat.lng }}</span>
+  </a>
+
+  <a
+    mat-list-item
+    *ngIf="data.interestPoint"
+    tabindex="0"
+    (click)="editInterestPoint(data.interestPoint.features[0])"
+  >
+    <span matListItemTitle>{{ t('showInterestPoints') }}</span>
+    <span matListItemLine>{{
+      data.interestPoint.features[0].properties.name
+    }}</span>
   </a>
 
   <a

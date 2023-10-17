@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { forkJoin, switchMap, tap } from 'rxjs';
 
+import { InterestPointsService } from '../../../services/interest-points/interest-points.service';
 import { MapService } from '../../../services/map/map.service';
 import { OnMapAirSpacesService } from '../../../services/map/on-map-air-spaces/on-map-air-spaces.service';
 import { OnMapAirportsService } from '../../../services/map/on-map-airports/on-map-airports.service';
@@ -54,12 +55,34 @@ export class AirSpacesEffects {
     { dispatch: false }
   );
 
+  loadInterestPoints$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(mapActions.loaded),
+        switchMap(() => this.interestPointsService.addRequiredImages$()),
+        switchMap(() => this.interestPointsService.createLayers()),
+        switchMap(() =>
+          this.store.select(generalFeature.selectMapFontSizeRatio)
+        ),
+        tap((ratio) =>
+          this.mapService.instance.setLayoutProperty(
+            'interestPointsLayer',
+            'text-size',
+            ratio * this.onMapAirportsService.fontSize
+          )
+        )
+      );
+    },
+    { dispatch: false }
+  );
+
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions,
     private readonly openAip: OpenAipService,
     private readonly mapService: MapService,
     private readonly onMapAirSpacesService: OnMapAirSpacesService,
-    private readonly onMapAirportsService: OnMapAirportsService
+    private readonly onMapAirportsService: OnMapAirportsService,
+    private readonly interestPointsService: InterestPointsService
   ) {}
 }

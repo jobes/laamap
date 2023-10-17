@@ -3,7 +3,10 @@ import { LngLat } from 'maplibre-gl';
 
 import { navigationEffectsActions } from '../actions/effects.actions';
 import { mapLocationMenuActions } from '../actions/map.actions';
-import { navigationDialogActions } from '../actions/navigation.actions';
+import {
+  navigationDialogActions,
+  poiListDialogActions,
+} from '../actions/navigation.actions';
 
 const initialState = {
   running: false,
@@ -24,6 +27,7 @@ export const navigationFeature = createFeature({
     ),
     on(
       mapLocationMenuActions.addedPointToNavigation,
+      poiListDialogActions.addedPointToNavigation,
       (state, { name, point }): typeof initialState => ({
         ...state,
         route: [...state.route, { name, point }],

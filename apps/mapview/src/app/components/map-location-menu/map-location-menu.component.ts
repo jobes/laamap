@@ -8,9 +8,10 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { Point } from '@turf/turf';
+import { Feature, Point } from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
 
+import { IInterestPoint } from '../../services/interest-points/interest-points.service';
 import { MapHelperFunctionsService } from '../../services/map-helper-functions/map-helper-functions.service';
 import { INotamDecodedResponse } from '../../services/notams/notams.interface';
 import { IAirportResponse } from '../../services/open-aip/airport.interfaces';
@@ -18,6 +19,10 @@ import { IAirspace } from '../../services/open-aip/airspaces.interfaces';
 import { mapLocationMenuActions } from '../../store/actions/map.actions';
 import { AirportDialogComponent } from '../airport-dialog/airport-dialog.component';
 import { AirspacesDialogComponent } from '../airspaces-dialog/airspaces-dialog.component';
+import {
+  CreateInterestPointDialogComponent,
+  CreateInterestPointDialogInput,
+} from '../create-interest-point-dialog/create-interest-point-dialog.component';
 import { NotamsDialogComponent } from '../notams-dialog/notams-dialog.component';
 
 @Component({
@@ -38,6 +43,9 @@ export class MapLocationMenuComponent {
       airspace?: { features: GeoJSON.Feature[] };
       lngLat: LngLat;
       notams?: { features: GeoJSON.Feature[] };
+      interestPoint?: {
+        features: GeoJSON.Feature<Point, IInterestPoint>[];
+      };
     },
     private readonly mapHelper: MapHelperFunctionsService,
     private readonly dialog: MatDialog,
@@ -89,7 +97,7 @@ export class MapLocationMenuComponent {
     this.bottomSheetRef.dismiss();
     this.store.dispatch(
       mapLocationMenuActions.startedNewRouteNavigation({
-        point,
+        point: this.getPointLocation(point),
         name: this.getPointName(point),
       })
     );
@@ -99,18 +107,58 @@ export class MapLocationMenuComponent {
     this.bottomSheetRef.dismiss();
     this.store.dispatch(
       mapLocationMenuActions.addedPointToNavigation({
-        point,
+        point: this.getPointLocation(point),
         name: this.getPointName(point),
       })
     );
   }
 
+  newInterestPoint(point: LngLat): void {
+    this.bottomSheetRef.dismiss();
+    this.dialog.open(CreateInterestPointDialogComponent, {
+      width: '100%',
+      data: { mode: 'create', point } as CreateInterestPointDialogInput,
+    });
+  }
+
+  editInterestPoint(feature: Feature<Point, IInterestPoint>): void {
+    this.bottomSheetRef.dismiss();
+    this.dialog.open(CreateInterestPointDialogComponent, {
+      width: '100%',
+      data: {
+        mode: 'edit',
+        value: { id: feature.id, properties: feature.properties },
+      } as CreateInterestPointDialogInput,
+    });
+  }
+
+  private getPointLocation(point: LngLat): LngLat {
+    if (this.data.airport) {
+      return {
+        lat: this.data.airport.features[0].geometry.coordinates[1],
+        lng: this.data.airport.features[0].geometry.coordinates[0],
+      } as LngLat;
+    } else if (this.data.interestPoint) {
+      return {
+        lat: this.data.interestPoint.features[0].geometry.coordinates[1],
+        lng: this.data.interestPoint.features[0].geometry.coordinates[0],
+      } as LngLat;
+    }
+    return point;
+  }
+
   private getPointName(point: LngLat): string {
-    return this.data.airport
-      ? `${this.data.airport.features[0].properties?.['name']}` +
-          (this.data.airport.features[0].properties?.['icaoCode']
-            ? `(${this.data.airport.features[0].properties?.['icaoCode']})`
-            : '')
-      : `${point.lat.toFixed(4)} ${point.lng.toFixed(4)}`;
+    if (this.data.airport) {
+      return (
+        `${this.data.airport.features[0].properties?.['name']}` +
+        (this.data.airport.features[0].properties?.['icaoCode']
+          ? `(${this.data.airport.features[0].properties?.['icaoCode']})`
+          : '')
+      );
+    }
+    if (this.data.interestPoint) {
+      return this.data.interestPoint.features[0].properties.name;
+    }
+    return `${point.lat.toFixed(4)} ${point.lng.toFixed(4)}`;
   }
 }

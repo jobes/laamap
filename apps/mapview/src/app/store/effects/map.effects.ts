@@ -22,6 +22,7 @@ import { mapEffectsActions } from '../actions/effects.actions';
 import {
   layerAirSpacesActions,
   layerAirportActions,
+  layerInterestPointsActions,
   layerNotamsActions,
   mapActions,
 } from '../actions/map.actions';
@@ -187,30 +188,15 @@ export class MapEffects {
   );
 
   mapClicked$ = createEffect(
+    // eslint-disable-next-line max-lines-per-function
     () => {
       return this.actions$.pipe(
         ofType(mapActions.clicked),
         switchMap((click) =>
           combineLatest({
-            /* eslint-disable rxjs/finnish */
+            // eslint-disable-next-line rxjs/finnish
             lngLat: of(click.lngLat),
-            airport: this.actions$.pipe(
-              ofType(layerAirportActions.clicked),
-              startWith(null)
-            ),
-            airspace: this.actions$.pipe(
-              ofType(layerAirSpacesActions.clicked),
-              startWith(null)
-            ),
-            notams: this.actions$.pipe(
-              ofType(layerNotamsActions.clicked),
-              startWith(null)
-            ),
-            doubleClick: this.actions$.pipe(
-              ofType(mapActions.zoom),
-              startWith(null)
-            ),
-            /* eslint-enable rxjs/finnish */
+            ...this.layerClicks,
           }).pipe(sampleTime(500))
         ),
         filter(({ doubleClick }) => doubleClick === null),
@@ -221,6 +207,28 @@ export class MapEffects {
   );
 
   private startGpsTracking = false;
+
+  /* eslint-disable rxjs/finnish */
+  private layerClicks = {
+    airport: this.actions$.pipe(
+      ofType(layerAirportActions.clicked),
+      startWith(null)
+    ),
+    airspace: this.actions$.pipe(
+      ofType(layerAirSpacesActions.clicked),
+      startWith(null)
+    ),
+    notams: this.actions$.pipe(
+      ofType(layerNotamsActions.clicked),
+      startWith(null)
+    ),
+    doubleClick: this.actions$.pipe(ofType(mapActions.zoom), startWith(null)),
+    interestPoint: this.actions$.pipe(
+      ofType(layerInterestPointsActions.clicked),
+      startWith(null)
+    ),
+  };
+  /* eslint-enable rxjs/finnish */
 
   constructor(
     private readonly actions$: Actions,
