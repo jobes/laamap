@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import maplibreGl from 'maplibre-gl';
@@ -15,6 +16,8 @@ import {
 } from 'rxjs';
 
 import { MapLocationMenuComponent } from '../../components/map-location-menu/map-location-menu.component';
+import { NavigationDialogComponent } from '../../components/navigation-dialog/navigation-dialog.component';
+import { SettingsDialogComponent } from '../../components/settings-dialog/settings-dialog.component';
 import { MapService } from '../../services/map/map.service';
 import { OnMapDirectionLineService } from '../../services/map/on-map-direction-line/on-map-direction-line.service';
 import { TracingService } from '../../services/tracing/tracing.service';
@@ -206,6 +209,36 @@ export class MapEffects {
     { dispatch: false }
   );
 
+  settingsClicked$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(mapActions.settingsClicked),
+        tap(() => {
+          this.dialog.open(SettingsDialogComponent, {
+            width: '100%',
+            id: 'settingDialog',
+          });
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  navigationClicked$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(mapActions.navigationClicked),
+        tap(() => {
+          this.dialog.open(NavigationDialogComponent, {
+            width: '100%',
+            id: 'settingDialog',
+          });
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
   private startGpsTracking = false;
 
   /* eslint-disable rxjs/finnish */
@@ -236,7 +269,8 @@ export class MapEffects {
     private readonly mapService: MapService,
     private readonly tracing: TracingService,
     private readonly onMapDirectionLine: OnMapDirectionLineService,
-    private readonly bottomSheet: MatBottomSheet
+    private readonly bottomSheet: MatBottomSheet,
+    private readonly dialog: MatDialog
   ) {}
 
   private trackingActive(params: {

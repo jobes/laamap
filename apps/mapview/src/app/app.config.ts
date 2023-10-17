@@ -36,7 +36,7 @@ import { LightgalleryModule } from 'lightgallery/angular';
 import { provideQuillConfig } from 'ngx-quill/config';
 
 import { environment } from '../environments/environment';
-import { TranslocoHttpLoader } from './services/transloco-loaser.service';
+import { TranslocoHttpLoader } from './services/transloco-loader.service';
 import { MapEffects } from './store/effects/map.effects';
 import { NavigationEffects } from './store/effects/navigation.effects';
 import { AirSpacesEffects } from './store/effects/settings/air-spaces.effects';

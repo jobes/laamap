@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import maplibregl from 'maplibre-gl';
@@ -7,8 +6,6 @@ import { Map } from 'maplibre-gl';
 import { take } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { NavigationDialogComponent } from '../../components/navigation-dialog/navigation-dialog.component';
-import { SettingsDialogComponent } from '../../components/settings-dialog/settings-dialog.component';
 import { mapActions } from '../../store/actions/map.actions';
 import { CompassService } from '../compass/compass.service';
 import { GamepadHandlerService } from '../gamepad-handler/gamepad-handler.service';
@@ -23,7 +20,6 @@ export class MapService {
 
   constructor(
     private readonly transloco: TranslocoService,
-    private readonly dialog: MatDialog,
     private readonly compassService: CompassService,
     private readonly store: Store,
     private readonly mapFontSize: MapFontSizeService,
@@ -248,14 +244,10 @@ export class MapService {
   }
 
   private settingsClicked(): void {
-    this.dialog
-      .open(SettingsDialogComponent, { width: '100%', id: 'settingDialog' })
-      .afterClosed();
+    this.store.dispatch(mapActions.settingsClicked());
   }
 
   private navigationClicked(): void {
-    this.dialog
-      .open(NavigationDialogComponent, { width: '100%', id: 'settingDialog' })
-      .afterClosed();
+    this.store.dispatch(mapActions.navigationClicked());
   }
 }
