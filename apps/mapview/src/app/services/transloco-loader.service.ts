@@ -7,12 +7,12 @@ import { Translation, TranslocoLoader } from '@ngneat/transloco';
 export class TranslocoHttpLoader implements TranslocoLoader {
   constructor(
     private http: HttpClient,
-    @Inject(APP_BASE_HREF) private readonly baseHref: string
+    @Inject(APP_BASE_HREF) private readonly baseHref: string,
   ) {}
 
   getTranslation(lang: string) {
     return this.http.get<Translation>(
-      `${this.baseHref}assets/i18n/${lang}.json`
+      `${this.baseHref}assets/i18n/${lang}.json`,
     );
   }
 }

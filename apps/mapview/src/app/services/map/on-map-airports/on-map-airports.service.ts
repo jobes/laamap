@@ -32,11 +32,11 @@ export class OnMapAirportsService {
     private readonly mapService: MapService,
     private readonly store: Store,
     private readonly mapHelper: MapHelperFunctionsService,
-    @Inject(APP_BASE_HREF) private readonly baseHref: string
+    @Inject(APP_BASE_HREF) private readonly baseHref: string,
   ) {}
 
   createLayers(
-    airports: GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirport>
+    airports: GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirport>,
   ): void {
     this.mapService.instance.addSource('airportSource', {
       type: 'geojson',
@@ -54,9 +54,9 @@ export class OnMapAirportsService {
         this.mapHelper.loadImageToMap$(
           this.mapService.instance,
           name,
-          `${this.baseHref}assets/open-aip-images/${src}`
-        )
-      )
+          `${this.baseHref}assets/open-aip-images/${src}`,
+        ),
+      ),
     );
   }
 
@@ -78,9 +78,9 @@ export class OnMapAirportsService {
       this.store.dispatch(
         layerAirportActions.clicked({
           features: JSON.parse(
-            JSON.stringify(event.features ?? [])
+            JSON.stringify(event.features ?? []),
           ) as GeoJSON.Feature[],
-        })
+        }),
       );
     });
   }
@@ -98,9 +98,9 @@ export class OnMapAirportsService {
       this.store.dispatch(
         layerInterestPointsActions.clicked({
           features: JSON.parse(
-            JSON.stringify(event.features ?? [])
+            JSON.stringify(event.features ?? []),
           ) as GeoJSON.Feature[],
-        })
+        }),
       );
     });
   }

@@ -76,7 +76,7 @@ export class GamepadSettingsComponent implements OnInit, OnDestroy {
     this.gamepadService.gamePadActive$
       .pipe(
         filter((val) => !!val && this.gamepadService.settingMode),
-        untilDestroyed(this)
+        untilDestroyed(this),
       )
       .subscribe({
         next: (input) => this.processGamePadInput(input),
@@ -93,7 +93,7 @@ export class GamepadSettingsComponent implements OnInit, OnDestroy {
 
   trackByKey(
     index: number,
-    item: { key: string; value: IGamePadActions }
+    item: { key: string; value: IGamePadActions },
   ): string {
     return item.key;
   }
@@ -101,19 +101,19 @@ export class GamepadSettingsComponent implements OnInit, OnDestroy {
   private processGamePadInput(input: ActiveGamePadButtons | null): void {
     if (document.activeElement?.getAttribute('name') === 'gamepad-index') {
       (document.activeElement as HTMLInputElement).value = Object.keys(
-        input ?? {}
+        input ?? {},
       ).join(', ');
     } else {
       const gamepadIndex = this.getActiveInputGamePadIndex();
       if (gamepadIndex || gamepadIndex === 0) {
         if (document.activeElement?.getAttribute('name') === 'button') {
           (document.activeElement as HTMLInputElement).value = Object.keys(
-            input?.[gamepadIndex]?.buttons ?? {}
+            input?.[gamepadIndex]?.buttons ?? {},
           ).join(', ');
         }
         if (document.activeElement?.getAttribute('name') === 'axis') {
           (document.activeElement as HTMLInputElement).value = Object.keys(
-            input?.[gamepadIndex]?.axes ?? {}
+            input?.[gamepadIndex]?.axes ?? {},
           ).join(', ');
         }
       }
@@ -123,7 +123,7 @@ export class GamepadSettingsComponent implements OnInit, OnDestroy {
 
   private getAttributeValue(block: Element, name: string): number | undefined {
     const num = Number.parseFloat(
-      (block.querySelector(`[name="${name}"]`) as HTMLInputElement)?.value
+      (block.querySelector(`[name="${name}"]`) as HTMLInputElement)?.value,
     );
     return isNaN(num) ? undefined : num;
   }
@@ -135,7 +135,7 @@ export class GamepadSettingsComponent implements OnInit, OnDestroy {
           ?.closest('.mat-expansion-panel-body')
           ?.querySelectorAll('[name="gamepad-index"]')?.[0] as HTMLInputElement
       )?.value,
-      10
+      10,
     );
     return gamepadIndex || gamepadIndex === 0 ? gamepadIndex : undefined;
   }

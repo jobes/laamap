@@ -21,12 +21,12 @@ export class AirSpacesEffects {
         switchMap(() => this.openAip.getAirSpaces$()),
         tap((geojson) => this.onMapAirSpacesService.createLayers(geojson)),
         switchMap(() =>
-          this.store.select(airSpacesFeature['selectSettings.airSpacesState'])
+          this.store.select(airSpacesFeature['selectSettings.airSpacesState']),
         ),
-        tap((settings) => this.onMapAirSpacesService.reloadSettings(settings))
+        tap((settings) => this.onMapAirSpacesService.reloadSettings(settings)),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   loadAirports$ = createEffect(
@@ -37,22 +37,22 @@ export class AirSpacesEffects {
           forkJoin([
             this.openAip.getAirports$(),
             this.onMapAirportsService.addRequiredImages$(),
-          ])
+          ]),
         ),
         tap(([geojson]) => this.onMapAirportsService.createLayers(geojson)),
         switchMap(() =>
-          this.store.select(generalFeature.selectMapFontSizeRatio)
+          this.store.select(generalFeature.selectMapFontSizeRatio),
         ),
         tap((ratio) =>
           this.mapService.instance.setLayoutProperty(
             'airportTypeLayer',
             'text-size',
-            ratio * this.onMapAirportsService.fontSize
-          )
-        )
+            ratio * this.onMapAirportsService.fontSize,
+          ),
+        ),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   loadInterestPoints$ = createEffect(
@@ -62,18 +62,18 @@ export class AirSpacesEffects {
         switchMap(() => this.interestPointsService.addRequiredImages$()),
         switchMap(() => this.interestPointsService.createLayers()),
         switchMap(() =>
-          this.store.select(generalFeature.selectMapFontSizeRatio)
+          this.store.select(generalFeature.selectMapFontSizeRatio),
         ),
         tap((ratio) =>
           this.mapService.instance.setLayoutProperty(
             'interestPointsLayer',
             'text-size',
-            ratio * this.onMapAirportsService.fontSize
-          )
-        )
+            ratio * this.onMapAirportsService.fontSize,
+          ),
+        ),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   constructor(
@@ -83,6 +83,6 @@ export class AirSpacesEffects {
     private readonly mapService: MapService,
     private readonly onMapAirSpacesService: OnMapAirSpacesService,
     private readonly onMapAirportsService: OnMapAirportsService,
-    private readonly interestPointsService: InterestPointsService
+    private readonly interestPointsService: InterestPointsService,
   ) {}
 }

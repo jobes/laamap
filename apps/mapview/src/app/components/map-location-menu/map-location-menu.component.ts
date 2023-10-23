@@ -49,13 +49,13 @@ export class MapLocationMenuComponent {
     },
     private readonly mapHelper: MapHelperFunctionsService,
     private readonly dialog: MatDialog,
-    private readonly store: Store
+    private readonly store: Store,
   ) {}
 
   showAirport(features: GeoJSON.Feature[]): void {
     this.bottomSheetRef.dismiss();
     const airPort = this.mapHelper.decodeGeoJsonProperties(
-      features[0].properties
+      features[0].properties,
     ) as IAirportResponse;
 
     this.dialog.open(AirportDialogComponent, {
@@ -69,7 +69,7 @@ export class MapLocationMenuComponent {
     this.bottomSheetRef.dismiss();
     const airspaces = features?.map(
       (feature) =>
-        this.mapHelper.decodeGeoJsonProperties(feature.properties) as IAirspace
+        this.mapHelper.decodeGeoJsonProperties(feature.properties) as IAirspace,
     );
 
     this.dialog.open(AirspacesDialogComponent, {
@@ -83,8 +83,8 @@ export class MapLocationMenuComponent {
     const notams = features?.map(
       (feature) =>
         this.mapHelper.decodeGeoJsonProperties(
-          feature.properties
-        ) as INotamDecodedResponse['notamList'][0]
+          feature.properties,
+        ) as INotamDecodedResponse['notamList'][0],
     );
 
     this.dialog.open(NotamsDialogComponent, {
@@ -99,7 +99,7 @@ export class MapLocationMenuComponent {
       mapLocationMenuActions.startedNewRouteNavigation({
         point: this.getPointLocation(point),
         name: this.getPointName(point),
-      })
+      }),
     );
   }
 
@@ -109,7 +109,7 @@ export class MapLocationMenuComponent {
       mapLocationMenuActions.addedPointToNavigation({
         point: this.getPointLocation(point),
         name: this.getPointName(point),
-      })
+      }),
     );
   }
 

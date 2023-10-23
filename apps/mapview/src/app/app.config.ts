@@ -99,7 +99,7 @@ export const appConfig: ApplicationConfig = {
             strictActionTypeUniqueness: true,
           },
           metaReducers,
-        }
+        },
       ),
       EffectsModule.forRoot([
         MapEffects,
@@ -113,7 +113,7 @@ export const appConfig: ApplicationConfig = {
         maxAge: 500,
         logOnly: environment.production,
       }),
-      LightgalleryModule
+      LightgalleryModule,
     ),
     {
       provide: APP_BASE_HREF,

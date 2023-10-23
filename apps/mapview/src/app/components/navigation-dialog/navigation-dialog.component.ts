@@ -49,7 +49,7 @@ export class NavigationDialogComponent {
 
   drop(
     event: CdkDragDrop<string[]>,
-    oldRoute: { point: LngLat; name: string }[]
+    oldRoute: { point: LngLat; name: string }[],
   ) {
     const route = [...oldRoute];
     moveItemInArray(route, event.previousIndex, event.currentIndex);

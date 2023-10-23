@@ -36,11 +36,11 @@ import { generalFeature } from '../../../store/features/settings/general.feature
 })
 export class GeneralSettingsComponent {
   screenWakeLockEnabled$ = this.store.select(
-    generalFeature.selectScreenWakeLockEnabled
+    generalFeature.selectScreenWakeLockEnabled,
   );
   screenWakeLockSupported = ScreenWakeLockService.supported;
   widgetFontSizeRatio$ = this.store.select(
-    generalFeature.selectWidgetFontSizeRatio
+    generalFeature.selectWidgetFontSizeRatio,
   );
   mapFontSizeRatio$ = this.store.select(generalFeature.selectMapFontSizeRatio);
   airplaneName$ = this.store.select(generalFeature.selectAirplaneName);
@@ -49,25 +49,25 @@ export class GeneralSettingsComponent {
 
   screenWakeLockEnabledChange(enabled: boolean) {
     this.store.dispatch(
-      generalSettingsActions.screenWakeLockEnableChanged({ enabled })
+      generalSettingsActions.screenWakeLockEnableChanged({ enabled }),
     );
   }
 
   widgetFontSizeRatioChanged(value: number) {
     this.store.dispatch(
-      generalSettingsActions.widgetFontSizeRatioChanged({ value })
+      generalSettingsActions.widgetFontSizeRatioChanged({ value }),
     );
   }
 
   mapFontSizeRatioChanged(value: number) {
     this.store.dispatch(
-      generalSettingsActions.mapFontSizeRatioChanged({ value })
+      generalSettingsActions.mapFontSizeRatioChanged({ value }),
     );
   }
 
   airplaneNameChanged(airplaneName: string) {
     this.store.dispatch(
-      generalSettingsActions.airplaneNameChanged({ airplaneName })
+      generalSettingsActions.airplaneNameChanged({ airplaneName }),
     );
   }
 }

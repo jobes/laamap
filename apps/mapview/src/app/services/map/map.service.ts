@@ -23,7 +23,7 @@ export class MapService {
     private readonly compassService: CompassService,
     private readonly store: Store,
     private readonly mapFontSize: MapFontSizeService,
-    private readonly gamepadHandlerService: GamepadHandlerService
+    private readonly gamepadHandlerService: GamepadHandlerService,
   ) {
     this.instance = new Map({
       container: 'map',
@@ -46,7 +46,7 @@ export class MapService {
   private setupEvents(): void {
     this.instance.on('rotate', (event) => {
       this.store.dispatch(
-        mapActions.rotated({ bearing: event.target.getBearing() })
+        mapActions.rotated({ bearing: event.target.getBearing() }),
       );
     });
 
@@ -57,7 +57,7 @@ export class MapService {
             lng: moved.target.getCenter().lng,
             lat: moved.target.getCenter().lat,
           },
-        })
+        }),
       );
     });
 
@@ -70,7 +70,9 @@ export class MapService {
   private setupClickEvents(): void {
     this.instance.on('click', (e) => {
       this.store.dispatch(
-        mapActions.clicked({ lngLat: { lat: e.lngLat.lat, lng: e.lngLat.lng } })
+        mapActions.clicked({
+          lngLat: { lat: e.lngLat.lat, lng: e.lngLat.lng },
+        }),
       );
     });
 
@@ -122,33 +124,33 @@ export class MapService {
         customAttribution:
           '<a href="https://www.rainviewer.com/"; target="_blank">Rain viewer</a>',
       }),
-      'bottom-right'
+      'bottom-right',
     );
     this.instance.addControl(new maplibregl.ScaleControl({}), 'bottom-right');
   }
 
   private overrideNavigationControl(
-    control: maplibregl.NavigationControl
+    control: maplibregl.NavigationControl,
   ): void {
     // remove listeners
     const clonedZoomIn = control._zoomInButton.cloneNode(
-      true
+      true,
     ) as HTMLButtonElement;
     control._zoomInButton.replaceWith(clonedZoomIn);
     control._zoomInButton = clonedZoomIn;
 
     const clonedZoomOut = control._zoomOutButton.cloneNode(
-      true
+      true,
     ) as HTMLButtonElement;
     control._zoomOutButton.replaceWith(clonedZoomOut);
     control._zoomOutButton = clonedZoomOut;
 
     // add new listener
     control._zoomInButton.addEventListener('click', (e) =>
-      this.instance.zoomIn({}, { originalEvent: e, geolocateSource: true })
+      this.instance.zoomIn({}, { originalEvent: e, geolocateSource: true }),
     );
     control._zoomOutButton.addEventListener('click', (e) =>
-      this.instance.zoomOut({}, { originalEvent: e, geolocateSource: true })
+      this.instance.zoomOut({}, { originalEvent: e, geolocateSource: true }),
     );
   }
 
@@ -164,11 +166,11 @@ export class MapService {
       this.store.dispatch(
         mapActions.geolocationChanged({
           geoLocation: this.deepCopyGeoLocation(geoLocation),
-        })
-      )
+        }),
+      ),
     );
     control.on('trackuserlocationstart', () =>
-      this.store.dispatch(mapActions.geolocationTrackingStarted())
+      this.store.dispatch(mapActions.geolocationTrackingStarted()),
     );
     control.on('trackuserlocationend', () => {
       if (control._watchState === 'OFF') {
@@ -180,14 +182,14 @@ export class MapService {
   }
 
   private overrideGeoLocationControl(
-    control: maplibregl.GeolocateControl
+    control: maplibregl.GeolocateControl,
   ): void {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     control._updateCamera = () => {}; // disable auto updating camera, do it through effects
   }
 
   private deepCopyGeoLocation(
-    geoLocation: GeolocationPosition | null
+    geoLocation: GeolocationPosition | null,
   ): GeolocationPosition | null {
     if (!geoLocation) {
       return null;
@@ -210,7 +212,7 @@ export class MapService {
     const button = this.createButton();
     button.textContent = 'settings';
     button.title = this.instance._getUIString(
-      'SettingControl.Settings'
+      'SettingControl.Settings',
     ) as string;
     button.addEventListener('click', () => this.settingsClicked());
   }
@@ -220,7 +222,7 @@ export class MapService {
     button.textContent = 'navigation';
     button.setAttribute('navigation-dialog', '');
     button.title = this.instance._getUIString(
-      'NavigationControl.Navigation'
+      'NavigationControl.Navigation',
     ) as string;
     button.addEventListener('click', () => this.navigationClicked());
   }

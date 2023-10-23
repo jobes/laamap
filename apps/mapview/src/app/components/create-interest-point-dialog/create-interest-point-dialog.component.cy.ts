@@ -73,7 +73,7 @@ describe(CreateInterestPointDialogComponent.name, () => {
     cy.get('@addPointSpy').should(
       'have.been.calledWith',
       { x: 5, y: 7 },
-      { name: 'test', icon: 'poi3', description: '<p>nice text</p>' }
+      { name: 'test', icon: 'poi3', description: '<p>nice text</p>' },
     );
   });
 });

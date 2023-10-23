@@ -48,7 +48,7 @@ export class CreateInterestPointDialogComponent {
   readonly interestPointsService = inject(InterestPointsService);
   readonly data = inject(MAT_DIALOG_DATA) as CreateInterestPointDialogInput;
   private readonly dialogRef = inject(
-    MatDialogRef<CreateInterestPointDialogComponent>
+    MatDialogRef<CreateInterestPointDialogComponent>,
   );
   readOnlyMode = this.data.mode === 'edit';
 
@@ -57,18 +57,18 @@ export class CreateInterestPointDialogComponent {
     {
       nonNullable: true,
       validators: [Validators.required],
-    }
+    },
   );
   icon = new FormControl(
     this.data.mode === 'edit' ? this.data.value.properties.icon : '',
     {
       nonNullable: true,
       validators: [Validators.required],
-    }
+    },
   );
   description = new FormControl(
     this.data.mode === 'edit' ? this.data.value.properties.description : '',
-    { nonNullable: true }
+    { nonNullable: true },
   );
 
   saveInterestPoint(): void {
@@ -92,7 +92,7 @@ export class CreateInterestPointDialogComponent {
   deletePoint(): void {
     if (this.data.mode === 'edit') {
       void this.interestPointsService.deletePoint(
-        this.data.value.properties.id
+        this.data.value.properties.id,
       );
     }
     this.dialogRef.close();

@@ -45,7 +45,7 @@ export class ListInterestPointsDialogComponent {
   private readonly store = inject(Store);
   private readonly dialog = inject(MatDialog);
   private readonly dialogRef = inject(
-    MatDialogRef<ListInterestPointsDialogComponent>
+    MatDialogRef<ListInterestPointsDialogComponent>,
   );
   private readonly interestPointsSubj$ = new BehaviorSubject<
     Feature<Point, IInterestPoint>[]
@@ -66,7 +66,7 @@ export class ListInterestPointsDialogComponent {
           lng: point.geometry.coordinates[0],
         } as LngLat,
         name: point.properties.name,
-      })
+      }),
     );
     this.dialogRef.close(true);
   }
@@ -83,7 +83,7 @@ export class ListInterestPointsDialogComponent {
       .afterClosed()
       .pipe(
         switchMap(() => this.interestPointsService.getPoints()),
-        take(1)
+        take(1),
       )
       .subscribe({
         next: (poiList) => this.interestPointsSubj$.next(poiList),

@@ -11,7 +11,7 @@ import { notamsFeature } from '../features/settings/notams.feature';
 import { radarFeature } from '../features/settings/radar.feature';
 
 export function localStorageSyncReducer(
-  reducer: ActionReducer<any>
+  reducer: ActionReducer<any>,
 ): ActionReducer<any> {
   return localStorageSync({
     keys: [

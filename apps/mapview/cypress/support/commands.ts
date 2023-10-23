@@ -23,7 +23,7 @@ declare global {
       clearIndexedDb(databaseName: string): void;
       openIndexedDb(
         databaseName: string,
-        version?: number
+        version?: number,
       ): Chainable<IDBDatabase>;
       createObjectStore(storeName: string): Chainable<IDBObjectStore>;
       getStore(storeName: string): Chainable<IDBObjectStore>;
@@ -73,5 +73,5 @@ Cypress.Commands.add(
         ...(config.providers ?? []),
       ],
     });
-  }
+  },
 );
