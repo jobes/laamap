@@ -48,10 +48,16 @@
   </div>
   <div mat-dialog-actions [align]="'end'">
     <div class="left-side">
-      <button *ngIf="readOnlyMode" mat-button (click)="readOnlyMode = false">
+      <button
+        *ngIf="readOnlyMode"
+        mat-button
+        (click)="readOnlyMode = false"
+        data-cy="edit"
+      >
         {{ t('edit') }}
       </button>
       <button
+        data-cy="delete"
         *ngIf="readOnlyMode"
         mat-button
         (click)="deletePoint()"
@@ -61,6 +67,7 @@
       </button>
     </div>
     <button
+      data-cy="save"
       *ngIf="!readOnlyMode"
       mat-button
       (click)="saveInterestPoint()"
@@ -68,7 +75,12 @@
     >
       {{ t('save') }}
     </button>
-    <button mat-button [mat-dialog-close]="false" cdkFocusInitial>
+    <button
+      mat-button
+      [mat-dialog-close]="false"
+      cdkFocusInitial
+      data-cy="close"
+    >
       {{ t('close') }}
     </button>
   </div>
