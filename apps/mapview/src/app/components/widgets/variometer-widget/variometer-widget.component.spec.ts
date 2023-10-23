@@ -1,7 +1,7 @@
 /* eslint-disable max-statements */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslocoTestingModule } from '@ngneat/transloco';
-import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+import { provideTranslocoLocale } from '@ngneat/transloco-locale';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Subject, of, takeUntil, toArray } from 'rxjs';
 
@@ -31,7 +31,7 @@ describe('VariometerWidgetComponent', () => {
     result: (number | null)[],
     done: jest.DoneCallback,
     initAltitude = 1000,
-    initTime = 1234567890
+    initTime = 1234567890,
   ) => {
     initialState['settings.instruments'].varioMeter.diffTime = diffTime;
     const store = TestBed.inject(MockStore);
@@ -42,8 +42,8 @@ describe('VariometerWidgetComponent', () => {
       .subscribe((lastValue) => {
         expect(
           lastValue.map((num) =>
-            num ? Math.round((num + Number.EPSILON) * 100) / 100 : num
-          )
+            num ? Math.round((num + Number.EPSILON) * 100) / 100 : num,
+          ),
         ).toEqual(result);
         done();
       });
@@ -52,8 +52,8 @@ describe('VariometerWidgetComponent', () => {
       store.setState(
         altitudeToStore(
           initAltitude + i * altitudeDiff,
-          initTime + i * stepTime
-        )
+          initTime + i * stepTime,
+        ),
       );
       jest.advanceTimersByTime(stepTime);
     }
@@ -68,9 +68,14 @@ describe('VariometerWidgetComponent', () => {
       imports: [
         VariometerWidgetComponent,
         TranslocoTestingModule.forRoot({ langs: {} }),
-        TranslocoLocaleModule.forRoot(),
       ],
       providers: [
+        provideTranslocoLocale({
+          langToLocaleMapping: {
+            en: 'en-US',
+            sk: 'sk-SK',
+          },
+        }),
         provideMockStore({
           initialState,
         }),
@@ -94,7 +99,7 @@ describe('VariometerWidgetComponent', () => {
       10,
       10,
       [null, null, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-      done
+      done,
     );
   });
 
@@ -105,7 +110,7 @@ describe('VariometerWidgetComponent', () => {
       5,
       20,
       [null, null, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-      done
+      done,
     );
   });
 
@@ -116,7 +121,7 @@ describe('VariometerWidgetComponent', () => {
       0.3,
       350,
       [null, null, 10, 10, 10, 10, 10, 10, 10, 10, 10], // THIS IS WRONG as contains rounding
-      done
+      done,
     );
   });
 
@@ -127,7 +132,7 @@ describe('VariometerWidgetComponent', () => {
       15,
       5,
       [null, null, 10, 10, 10, 10], // THIS IS WRONG
-      done
+      done,
     );
   });
 
@@ -138,7 +143,7 @@ describe('VariometerWidgetComponent', () => {
       20,
       5,
       [null, null, 10, 10, 10, 10], // THIS IS WRONG
-      done
+      done,
     );
   });
 
@@ -149,7 +154,7 @@ describe('VariometerWidgetComponent', () => {
       50,
       5,
       [null, null, 10, 10, 10, 10], // THIS IS WRONG
-      done
+      done,
     );
   });
 });

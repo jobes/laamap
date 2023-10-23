@@ -11,3 +11,10 @@ export const navigationDialogActions = createActionGroup({
     'Navigation ended': emptyProps(),
   },
 });
+
+export const poiListDialogActions = createActionGroup({
+  source: 'POI list dialog',
+  events: {
+    'Added point to navigation': props<{ point: LngLat; name: string }>(),
+  },
+});

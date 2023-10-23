@@ -2,7 +2,7 @@ import { ActiveGamePadButtons, IGamePadActions } from './gamepad-handler.types';
 
 export function actionDefToNumber(
   def: IGamePadActions,
-  active: ActiveGamePadButtons | null
+  active: ActiveGamePadButtons | null,
 ): number {
   if (!active) {
     return 0;
@@ -19,7 +19,7 @@ export function actionDefToNumber(
 
 export function actionActive(
   def: IGamePadActions,
-  active: ActiveGamePadButtons | null
+  active: ActiveGamePadButtons | null,
 ): boolean {
   if (!active) {
     return false;
@@ -31,7 +31,7 @@ export function actionFirstTime(
   def: IGamePadActions,
   active: ActiveGamePadButtons | null,
   old: ActiveGamePadButtons | null,
-  fn: () => void
+  fn: () => void,
 ): boolean {
   if (actionActive(def, active)) {
     // while button active, return true to do not do other actions

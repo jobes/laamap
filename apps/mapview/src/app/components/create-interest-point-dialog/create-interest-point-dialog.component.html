@@ -1,0 +1,87 @@
+<ng-template transloco let-t translocoRead="interestPointDialog">
+  <h1 mat-dialog-title *ngIf="data.mode === 'edit' && readOnlyMode === false">
+    {{ t('editTitle') }}
+  </h1>
+  <h1 mat-dialog-title *ngIf="data.mode === 'edit' && readOnlyMode === true">
+    {{ t('readTitle') }}
+  </h1>
+  <h1 mat-dialog-title *ngIf="data.mode === 'create'">{{ t('title') }}</h1>
+  <div mat-dialog-content>
+    <ng-container *ngIf="!readOnlyMode">
+      <mat-form-field>
+        <mat-label>{{ t('name') }}</mat-label>
+        <input matInput type="text" [formControl]="name" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t('icon') }}</mat-label>
+        <mat-select [formControl]="icon">
+          <mat-select-trigger>
+            <img
+              class="selected-image"
+              [src]="interestPointsService.getSrcFromIconName(icon.value)"
+            />
+          </mat-select-trigger>
+          <mat-option
+            [value]="img.name"
+            *ngFor="
+              let img of interestPointsService.imageList;
+              trackBy: trackBySrcName
+            "
+          >
+            <img class="option-image" [src]="img.src" />
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <quill-editor [formControl]="description"></quill-editor>
+    </ng-container>
+    <ng-container *ngIf="data.mode === 'edit' && readOnlyMode">
+      {{ data.value.properties.name }}
+      <img
+        class="selected-image"
+        [src]="
+          interestPointsService.getSrcFromIconName(data.value.properties.icon)
+        "
+      />
+      <quill-view [content]="data.value.properties.description"></quill-view>
+    </ng-container>
+  </div>
+  <div mat-dialog-actions [align]="'end'">
+    <div class="left-side">
+      <button
+        *ngIf="readOnlyMode"
+        mat-button
+        (click)="readOnlyMode = false"
+        data-cy="edit"
+      >
+        {{ t('edit') }}
+      </button>
+      <button
+        data-cy="delete"
+        *ngIf="readOnlyMode"
+        mat-button
+        (click)="deletePoint()"
+        color="warn"
+      >
+        {{ t('delete') }}
+      </button>
+    </div>
+    <button
+      data-cy="save"
+      *ngIf="!readOnlyMode"
+      mat-button
+      (click)="saveInterestPoint()"
+      [disabled]="name.errors || icon.errors"
+    >
+      {{ t('save') }}
+    </button>
+    <button
+      mat-button
+      [mat-dialog-close]="false"
+      cdkFocusInitial
+      data-cy="close"
+    >
+      {{ t('close') }}
+    </button>
+  </div>
+</ng-template>

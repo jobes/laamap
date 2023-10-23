@@ -4,7 +4,10 @@ import { Store } from '@ngrx/store';
 import { ExpressionFilterSpecification } from 'maplibre-gl';
 import { Observable, forkJoin } from 'rxjs';
 
-import { layerAirportActions } from '../../../store/actions/map.actions';
+import {
+  layerAirportActions,
+  layerInterestPointsActions,
+} from '../../../store/actions/map.actions';
 import { MapHelperFunctionsService } from '../../map-helper-functions/map-helper-functions.service';
 import { EAirportType, IAirport } from '../../open-aip/airport.interfaces';
 import { MapService } from '../map.service';
@@ -29,11 +32,11 @@ export class OnMapAirportsService {
     private readonly mapService: MapService,
     private readonly store: Store,
     private readonly mapHelper: MapHelperFunctionsService,
-    @Inject(APP_BASE_HREF) private readonly baseHref: string
+    @Inject(APP_BASE_HREF) private readonly baseHref: string,
   ) {}
 
   createLayers(
-    airports: GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirport>
+    airports: GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirport>,
   ): void {
     this.mapService.instance.addSource('airportSource', {
       type: 'geojson',
@@ -51,13 +54,18 @@ export class OnMapAirportsService {
         this.mapHelper.loadImageToMap$(
           this.mapService.instance,
           name,
-          `${this.baseHref}assets/open-aip-images/${src}`
-        )
-      )
+          `${this.baseHref}assets/open-aip-images/${src}`,
+        ),
+      ),
     );
   }
 
   private addListeners(): void {
+    this.addAirportListeners();
+    this.addInterestPointsListeners();
+  }
+
+  private addAirportListeners(): void {
     this.mapService.instance.on('mouseenter', 'airportTypeLayer', () => {
       this.mapService.instance.getCanvasContainer().style.cursor = 'pointer';
     });
@@ -70,9 +78,29 @@ export class OnMapAirportsService {
       this.store.dispatch(
         layerAirportActions.clicked({
           features: JSON.parse(
-            JSON.stringify(event.features ?? [])
+            JSON.stringify(event.features ?? []),
           ) as GeoJSON.Feature[],
-        })
+        }),
+      );
+    });
+  }
+
+  private addInterestPointsListeners(): void {
+    this.mapService.instance.on('mouseenter', 'interestPointsLayer', () => {
+      this.mapService.instance.getCanvasContainer().style.cursor = 'pointer';
+    });
+
+    this.mapService.instance.on('mouseleave', 'interestPointsLayer', () => {
+      this.mapService.instance.getCanvasContainer().style.cursor = '';
+    });
+
+    this.mapService.instance.on('click', 'interestPointsLayer', (event) => {
+      this.store.dispatch(
+        layerInterestPointsActions.clicked({
+          features: JSON.parse(
+            JSON.stringify(event.features ?? []),
+          ) as GeoJSON.Feature[],
+        }),
       );
     });
   }
@@ -126,7 +154,17 @@ export class OnMapAirportsService {
           'runwayPaved',
           'runwayUnpaved',
         ],
-        'icon-size': 1,
+        'icon-size': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          // zoom is 13 (or less) value is 1
+          13,
+          1,
+          // zoom is 22 (or greater) value is 9
+          22,
+          10,
+        ],
         'icon-allow-overlap': true,
         'icon-rotate': ['get', 'trueHeading', ['get', 'mainRunway']],
         'icon-rotation-alignment': 'map',
@@ -159,7 +197,17 @@ export class OnMapAirportsService {
           'heliportCivil',
           'airfieldCivil',
         ],
-        'icon-size': 1,
+        'icon-size': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          // zoom is 13 (or less) value is 1
+          13,
+          1,
+          // zoom is 22 (or greater) value is 9
+          22,
+          10,
+        ],
         'icon-allow-overlap': true,
         'text-field': [
           'step',

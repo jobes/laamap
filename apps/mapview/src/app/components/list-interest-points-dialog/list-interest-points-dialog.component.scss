@@ -1,0 +1,24 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.first-button {
+  margin-left: auto;
+}
+
+button[mat-mini-fab] {
+  box-shadow: none;
+  outline-offset: 0.25rem;
+  transform: scale(0.7);
+
+  &:focus {
+    outline: 0.25rem solid var(--label-color);
+  }
+}

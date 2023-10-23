@@ -45,8 +45,8 @@ export class GamepadHandlerService {
     distinctUntilChanged(
       (previous, next) =>
         previous.map((g) => g.timestamp).join(' ') ===
-        next.map((g) => g.timestamp).join(' ')
-    )
+        next.map((g) => g.timestamp).join(' '),
+    ),
   );
   gamePadActive$ = this.gamePadChange$.pipe(
     map((gamepads) => {
@@ -56,29 +56,29 @@ export class GamepadHandlerService {
           buttons: gp.buttons.reduce(
             (acc, val, index) =>
               val.pressed ? { ...acc, [index]: val.value } : acc,
-            {} as { [key: number]: number }
+            {} as { [key: number]: number },
           ),
           axes: gp.axes.reduce(
             (acc, val, index) =>
               Math.abs(val) > 0.09 ? { ...acc, [index]: val } : acc,
-            {} as { [key: number]: number }
+            {} as { [key: number]: number },
           ),
         }))
         .filter(
           (gp) =>
             Object.keys(gp.buttons).length > 0 ||
-            Object.keys(gp.axes).length > 0
+            Object.keys(gp.axes).length > 0,
         );
       return gps.length === 0 ? null : gps;
-    })
+    }),
   );
 
   gamePadDoAnimationAction$ = this.gamePadActive$.pipe(
     switchMap((active) =>
       active
         ? scheduled([active], animationFrameScheduler).pipe(repeat())
-        : of(active)
-    )
+        : of(active),
+    ),
   );
 
   private map!: Map;
@@ -94,8 +94,8 @@ export class GamepadHandlerService {
         pairwise(),
         filter(([, active]) => !!active && !this.settingMode),
         concatLatestFrom(() =>
-          this.store.select(gamepadFeature.selectShortCuts)
-        )
+          this.store.select(gamepadFeature.selectShortCuts),
+        ),
       )
       .subscribe({
         next: ([[old, active], definition]) => {
@@ -122,7 +122,7 @@ export class GamepadHandlerService {
   private reactOnMapEvents(
     old: ActiveGamePadButtons | null,
     active: ActiveGamePadButtons | null,
-    definition: { [key in GamePadShortCutName]: IGamePadActions }
+    definition: { [key in GamePadShortCutName]: IGamePadActions },
   ): void {
     if (this.processFollowAirplane(old, active, definition)) {
       return;
@@ -132,7 +132,7 @@ export class GamepadHandlerService {
       actionFirstTime(definition.openNavigation, active, old, () => {
         (
           document.querySelectorAll(
-            '[navigation-dialog]'
+            '[navigation-dialog]',
           )?.[0] as HTMLButtonElement
         )?.click();
       })
@@ -150,12 +150,12 @@ export class GamepadHandlerService {
   private processFollowAirplane(
     old: ActiveGamePadButtons | null,
     active: ActiveGamePadButtons | null,
-    definition: { [key in GamePadShortCutName]: IGamePadActions }
+    definition: { [key in GamePadShortCutName]: IGamePadActions },
   ): boolean {
     if (
       actionFirstTime(definition.followAirplane, active, old, () => {
         const control = this.map._controls.find(
-          (c) => c instanceof maplibregl.GeolocateControl
+          (c) => c instanceof maplibregl.GeolocateControl,
         ) as maplibregl.GeolocateControl;
         if (control._watchState !== 'ACTIVE_LOCK') {
           // only when not following airplane
@@ -172,7 +172,7 @@ export class GamepadHandlerService {
   private processMapClick(
     old: ActiveGamePadButtons | null,
     active: ActiveGamePadButtons | null,
-    definition: { [key in GamePadShortCutName]: IGamePadActions }
+    definition: { [key in GamePadShortCutName]: IGamePadActions },
   ): boolean {
     if (
       actionFirstTime(definition.mapClick, active, old, () => {
@@ -183,7 +183,7 @@ export class GamepadHandlerService {
             cancelable: true,
             clientX: this.map._canvas.offsetWidth / 2,
             clientY: this.map._canvas.offsetHeight / 2,
-          })
+          }),
         );
         setTimeout(() => {
           emulateTab.backwards();
@@ -197,7 +197,7 @@ export class GamepadHandlerService {
 
   private mapManipulation(
     active: ActiveGamePadButtons | null,
-    definition: { [key in GamePadShortCutName]: IGamePadActions }
+    definition: { [key in GamePadShortCutName]: IGamePadActions },
   ): void {
     this.gamePadChangingView = true;
     this.map.easeTo({
@@ -225,7 +225,7 @@ export class GamepadHandlerService {
 
   private mapManipulationOffset(
     active: ActiveGamePadButtons | null,
-    definition: { [key in GamePadShortCutName]: IGamePadActions }
+    definition: { [key in GamePadShortCutName]: IGamePadActions },
   ): PointLike {
     return [
       actionDefToNumber(definition.xMoveRight, active) -
@@ -238,7 +238,7 @@ export class GamepadHandlerService {
   private reactOnDialogEvents(
     old: ActiveGamePadButtons | null,
     active: ActiveGamePadButtons | null,
-    definition: { [key in GamePadShortCutName]: IGamePadActions }
+    definition: { [key in GamePadShortCutName]: IGamePadActions },
   ): void {
     if (
       actionFirstTime(definition.closeDialog, active, old, () => {
@@ -265,7 +265,7 @@ export class GamepadHandlerService {
   private reactOnDialogFieldFocusEvents(
     old: ActiveGamePadButtons | null,
     active: ActiveGamePadButtons | null,
-    definition: { [key in GamePadShortCutName]: IGamePadActions }
+    definition: { [key in GamePadShortCutName]: IGamePadActions },
   ): void {
     if (
       actionFirstTime(definition.nextField, active, old, () => {

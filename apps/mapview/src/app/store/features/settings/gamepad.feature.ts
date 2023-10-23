@@ -117,7 +117,7 @@ export const gamepadFeature = createFeature({
       (state, { value }): typeof gamepadInitialState => ({
         ...state,
         shortCuts: value,
-      })
-    )
+      }),
+    ),
   ),
 });

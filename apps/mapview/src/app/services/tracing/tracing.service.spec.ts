@@ -13,6 +13,7 @@ import { navigationSettingsFeature } from '../../store/features/settings/navigat
 import { MapService } from '../map/map.service';
 import { OnMapDirectionLineService } from '../map/on-map-direction-line/on-map-direction-line.service';
 import { TracingService } from './tracing.service';
+import { MatDialogModule } from '@angular/material/dialog';
 
 function geoLocationBySpeed(speed: number): GeolocationPosition {
   return {
@@ -39,7 +40,7 @@ describe('TracingService', () => {
     store.dispatch(
       mapActions.geolocationChanged({
         geoLocation: geoLocationBySpeed(speed),
-      })
+      }),
     );
   };
 
@@ -47,7 +48,7 @@ describe('TracingService', () => {
     let tracing = false;
     tracedItems = [];
     TestBed.configureTestingModule({
-      imports: [TranslocoTestingModule],
+      imports: [TranslocoTestingModule, MatDialogModule],
       providers: [
         importProvidersFrom(
           StoreModule.forRoot({
@@ -55,7 +56,7 @@ describe('TracingService', () => {
             [navigationSettingsFeature.name]: navigationSettingsFeature.reducer,
             [generalFeature.name]: generalFeature.reducer,
           }),
-          EffectsModule.forRoot([MapEffects])
+          EffectsModule.forRoot([MapEffects]),
         ),
         { provide: MatBottomSheet, useValue: {} },
         { provide: OnMapDirectionLineService, useValue: {} },

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import maplibreGl from 'maplibre-gl';
@@ -15,6 +16,8 @@ import {
 } from 'rxjs';
 
 import { MapLocationMenuComponent } from '../../components/map-location-menu/map-location-menu.component';
+import { NavigationDialogComponent } from '../../components/navigation-dialog/navigation-dialog.component';
+import { SettingsDialogComponent } from '../../components/settings-dialog/settings-dialog.component';
 import { MapService } from '../../services/map/map.service';
 import { OnMapDirectionLineService } from '../../services/map/on-map-direction-line/on-map-direction-line.service';
 import { TracingService } from '../../services/tracing/tracing.service';
@@ -22,6 +25,7 @@ import { mapEffectsActions } from '../actions/effects.actions';
 import {
   layerAirSpacesActions,
   layerAirportActions,
+  layerInterestPointsActions,
   layerNotamsActions,
   mapActions,
 } from '../actions/map.actions';
@@ -41,11 +45,11 @@ export class MapEffects {
       return this.actions$.pipe(
         ofType(mapActions.rotated),
         tap(({ bearing }) =>
-          document.documentElement.style.setProperty('--bearing', `${bearing}`)
-        )
+          document.documentElement.style.setProperty('--bearing', `${bearing}`),
+        ),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   headingChanged$ = createEffect(
@@ -56,19 +60,19 @@ export class MapEffects {
           tap((heading) =>
             document.documentElement.style.setProperty(
               '--heading',
-              `${heading ?? 0}`
-            )
-          )
+              `${heading ?? 0}`,
+            ),
+          ),
         );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   gpsTrackingStarted$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(mapActions.geolocationTrackingStarted),
       tap(() => (this.startGpsTracking = true)),
-      map(() => mapEffectsActions.geolocationTrackingRunning())
+      map(() => mapEffectsActions.geolocationTrackingRunning()),
     );
   });
 
@@ -76,9 +80,9 @@ export class MapEffects {
     return this.store.select(selectTrackInProgressWithMinSpeed).pipe(
       filter(
         ({ hitMinSpeed, trackSavingInProgress }) =>
-          hitMinSpeed && !trackSavingInProgress
+          hitMinSpeed && !trackSavingInProgress,
       ),
-      map(() => mapEffectsActions.trackSavingStarted())
+      map(() => mapEffectsActions.trackSavingStarted()),
     );
   });
 
@@ -86,9 +90,9 @@ export class MapEffects {
     return this.store.select(selectTrackInProgressWithMinSpeed).pipe(
       filter(
         ({ hitMinSpeed, trackSavingInProgress }) =>
-          trackSavingInProgress && !hitMinSpeed
+          trackSavingInProgress && !hitMinSpeed,
       ),
-      map(() => mapEffectsActions.trackSavingEnded())
+      map(() => mapEffectsActions.trackSavingEnded()),
     );
   });
 
@@ -97,15 +101,15 @@ export class MapEffects {
       return this.store.select(selectOnMapTrackingState).pipe(
         filter(
           (
-            params
+            params,
           ): params is Omit<typeof params, 'geoLocation'> & {
             geoLocation: NonNullable<(typeof params)['geoLocation']>;
-          } => this.trackingActive(params)
+          } => this.trackingActive(params),
         ),
         tap(({ geoLocation, heading, zoom, pitch }) => {
           const center = new maplibreGl.LngLat(
             geoLocation.coords.longitude,
-            geoLocation.coords.latitude
+            geoLocation.coords.latitude,
           );
 
           this.mapService.instance.flyTo(
@@ -115,15 +119,15 @@ export class MapEffects {
             },
             {
               geolocateSource: true,
-            }
+            },
           );
           setTimeout(() => {
             this.startGpsTracking = false; // wait until initial animation ends
           }, 5000);
-        })
+        }),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   startTraceSavingToDb$ = createEffect(
@@ -132,21 +136,21 @@ export class MapEffects {
         ofType(mapEffectsActions.trackSavingStarted),
         switchMap(() => this.store.select(generalFeature.selectAirplaneName)),
         tap((airPlaneName) =>
-          this.tracing.createFlyTrace(airPlaneName, new Date().toISOString())
-        )
+          this.tracing.createFlyTrace(airPlaneName, new Date().toISOString()),
+        ),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   endTraceSavingToDb$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(mapEffectsActions.trackSavingEnded),
-        tap(() => this.tracing.endFlyTrace())
+        tap(() => this.tracing.endFlyTrace()),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   traceGeolocationToDb$ = createEffect(
@@ -156,17 +160,17 @@ export class MapEffects {
         map((action) => action.geoLocation),
         filter(
           (geoLocation): geoLocation is NonNullable<typeof geoLocation> =>
-            !!geoLocation
+            !!geoLocation,
         ),
         tap((geoLocation) =>
           this.tracing.addTraceItem(
             geoLocation?.timestamp ?? 0,
-            geoLocation?.coords
-          )
-        )
+            geoLocation?.coords,
+          ),
+        ),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   setDirectionLine$ = createEffect(
@@ -176,51 +180,90 @@ export class MapEffects {
         tap(() => this.onMapDirectionLine.createLayers()),
         switchMap(() => this.store.select(selectLineDefinitionSegmentGeoJson)),
         concatLatestFrom(() =>
-          this.store.select(selectLineDefinitionBorderGeoJson)
+          this.store.select(selectLineDefinitionBorderGeoJson),
         ),
         tap(([segmentGeoJson, borderGeoJson]) =>
-          this.onMapDirectionLine.setSource(segmentGeoJson, borderGeoJson)
-        )
+          this.onMapDirectionLine.setSource(segmentGeoJson, borderGeoJson),
+        ),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   mapClicked$ = createEffect(
+    // eslint-disable-next-line max-lines-per-function
     () => {
       return this.actions$.pipe(
         ofType(mapActions.clicked),
         switchMap((click) =>
           combineLatest({
-            /* eslint-disable rxjs/finnish */
+            // eslint-disable-next-line rxjs/finnish
             lngLat: of(click.lngLat),
-            airport: this.actions$.pipe(
-              ofType(layerAirportActions.clicked),
-              startWith(null)
-            ),
-            airspace: this.actions$.pipe(
-              ofType(layerAirSpacesActions.clicked),
-              startWith(null)
-            ),
-            notams: this.actions$.pipe(
-              ofType(layerNotamsActions.clicked),
-              startWith(null)
-            ),
-            doubleClick: this.actions$.pipe(
-              ofType(mapActions.zoom),
-              startWith(null)
-            ),
-            /* eslint-enable rxjs/finnish */
-          }).pipe(sampleTime(500))
+            ...this.layerClicks,
+          }).pipe(sampleTime(500)),
         ),
         filter(({ doubleClick }) => doubleClick === null),
-        tap((data) => this.bottomSheet.open(MapLocationMenuComponent, { data }))
+        tap((data) =>
+          this.bottomSheet.open(MapLocationMenuComponent, { data }),
+        ),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
+  );
+
+  settingsClicked$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(mapActions.settingsClicked),
+        tap(() => {
+          this.dialog.open(SettingsDialogComponent, {
+            width: '100%',
+            id: 'settingDialog',
+          });
+        }),
+      );
+    },
+    { dispatch: false },
+  );
+
+  navigationClicked$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(mapActions.navigationClicked),
+        tap(() => {
+          this.dialog.open(NavigationDialogComponent, {
+            width: '100%',
+            id: 'settingDialog',
+          });
+        }),
+      );
+    },
+    { dispatch: false },
   );
 
   private startGpsTracking = false;
+
+  /* eslint-disable rxjs/finnish */
+  private layerClicks = {
+    airport: this.actions$.pipe(
+      ofType(layerAirportActions.clicked),
+      startWith(null),
+    ),
+    airspace: this.actions$.pipe(
+      ofType(layerAirSpacesActions.clicked),
+      startWith(null),
+    ),
+    notams: this.actions$.pipe(
+      ofType(layerNotamsActions.clicked),
+      startWith(null),
+    ),
+    doubleClick: this.actions$.pipe(ofType(mapActions.zoom), startWith(null)),
+    interestPoint: this.actions$.pipe(
+      ofType(layerInterestPointsActions.clicked),
+      startWith(null),
+    ),
+  };
+  /* eslint-enable rxjs/finnish */
 
   constructor(
     private readonly actions$: Actions,
@@ -228,7 +271,8 @@ export class MapEffects {
     private readonly mapService: MapService,
     private readonly tracing: TracingService,
     private readonly onMapDirectionLine: OnMapDirectionLineService,
-    private readonly bottomSheet: MatBottomSheet
+    private readonly bottomSheet: MatBottomSheet,
+    private readonly dialog: MatDialog,
   ) {}
 
   private trackingActive(params: {
@@ -236,7 +280,7 @@ export class MapEffects {
   }): boolean {
     const state = (
       this.mapService.instance._controls.find(
-        (control) => control instanceof maplibreGl.GeolocateControl
+        (control) => control instanceof maplibreGl.GeolocateControl,
       ) as maplibregl.GeolocateControl
     )?._watchState;
     return state === 'ACTIVE_LOCK' && !!params.geoLocation;

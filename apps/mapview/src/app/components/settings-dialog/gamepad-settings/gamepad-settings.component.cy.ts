@@ -38,10 +38,10 @@ describe(GamepadSettingsComponent.name, () => {
 
     cy.get('html').invoke('attr', 'style', 'overflow: auto');
     cy.get(
-      '#mat-expansion-panel-header-0 > .mat-content > .mat-expansion-panel-header-title'
+      '#mat-expansion-panel-header-0 > .mat-content > .mat-expansion-panel-header-title',
     ).click();
     cy.get(
-      '#mat-expansion-panel-header-6 > .mat-content > .mat-expansion-panel-header-title'
+      '#mat-expansion-panel-header-6 > .mat-content > .mat-expansion-panel-header-title',
     ).click();
     cy.get('#mat-input-26').should('have.value', 0); // init value
     cy.get('#mat-input-26').click();
@@ -58,13 +58,13 @@ describe(GamepadSettingsComponent.name, () => {
           axesThreshold: val[1].axesThreshold,
         },
       }),
-      {} as { [key in GamePadShortCutName]: IGamePadActions }
+      {} as { [key in GamePadShortCutName]: IGamePadActions },
     );
     dispatchValue.mapClick.button = 10;
 
     cy.get('@storeDispatch').should(
       'have.been.calledWith',
-      gamePadSettingsActions.setShortCuts({ value: dispatchValue })
+      gamePadSettingsActions.setShortCuts({ value: dispatchValue }),
     );
   });
 });
