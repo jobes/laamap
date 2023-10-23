@@ -8,6 +8,7 @@ import {
   point,
 } from '@turf/turf';
 import { GeoJSONSource, LngLat } from 'maplibre-gl';
+// eslint-disable-next-line @typescript-eslint/naming-convention
 import PouchDb from 'pouchdb';
 import { Observable, forkJoin } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -36,7 +37,7 @@ export class InterestPointsService {
   constructor(
     private readonly mapService: MapService,
     private readonly mapHelper: MapHelperFunctionsService,
-    @Inject(APP_BASE_HREF) private readonly baseHref: string
+    @Inject(APP_BASE_HREF) private readonly baseHref: string,
   ) {}
 
   async getPoints(): Promise<GeoJSON.Feature<Point, IInterestPoint>[]> {
@@ -55,7 +56,7 @@ export class InterestPointsService {
 
   async addPoint(
     poi: LngLat,
-    value: Omit<IInterestPoint, 'id'>
+    value: Omit<IInterestPoint, 'id'>,
   ): Promise<void> {
     const id = uuidv4();
     const feat = feature(point([poi.lng, poi.lat]).geometry, { ...value, id });
@@ -122,9 +123,9 @@ export class InterestPointsService {
         this.mapHelper.loadImageToMap$(
           this.mapService.instance,
           item.name,
-          item.src
-        )
-      )
+          item.src,
+        ),
+      ),
     );
   }
 
@@ -134,7 +135,7 @@ export class InterestPointsService {
 
   private getDb() {
     return new PouchDb<GeoJSON.Feature<Point, IInterestPoint>>(
-      'interestPoints'
+      'interestPoints',
     );
   }
 
@@ -142,7 +143,7 @@ export class InterestPointsService {
     const interestGeoJson = await this.getGeoJson();
     (
       this.mapService.instance.getSource(
-        'interestPointsSource'
+        'interestPointsSource',
       ) as GeoJSONSource
     ).setData(interestGeoJson);
   }

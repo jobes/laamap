@@ -9,7 +9,10 @@ describe('ScreenWakeLockService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatSnackBarModule, TranslocoTestingModule],
+      imports: [
+        MatSnackBarModule,
+        TranslocoTestingModule.forRoot({ langs: {} }),
+      ],
     });
     service = TestBed.inject(ScreenWakeLockService);
   });

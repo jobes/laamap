@@ -12,7 +12,11 @@ describe('OnMapNotamsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule, MatSnackBarModule, TranslocoTestingModule],
+      imports: [
+        MatDialogModule,
+        MatSnackBarModule,
+        TranslocoTestingModule.forRoot({ langs: {} }),
+      ],
       providers: [provideMockStore({}), { provide: MapService, useValue: {} }],
     });
     service = TestBed.inject(OnMapNotamsService);
