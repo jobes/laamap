@@ -26,7 +26,7 @@ export interface IInterestPoint {
   providedIn: 'root',
 })
 export class InterestPointsService {
-  imageList = Array(22)
+  imageList = Array(26)
     .fill({})
     .map((_, index) => ({
       name: `poi${index + 1}`,
