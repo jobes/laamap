@@ -49,6 +49,7 @@ export const navigationFeature = createFeature({
     ),
     on(navigationDialogActions.routeCleared, (state): typeof initialState => ({
       ...state,
+      running: false,
       route: [],
     })),
     on(
@@ -66,10 +67,14 @@ export const navigationFeature = createFeature({
     ),
     on(
       navigationDialogActions.routeItemDeleted,
-      (state, { index }): typeof initialState => ({
-        ...state,
-        route: state.route.filter((_, i) => i !== index),
-      }),
+      (state, { index }): typeof initialState => {
+        const route = state.route.filter((_, i) => i !== index);
+        return {
+          ...state,
+          route,
+          running: state.running && route.length > 0,
+        };
+      },
     ),
     on(
       navigationEffectsActions.nextPointReached,
