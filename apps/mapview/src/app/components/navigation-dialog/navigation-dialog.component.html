@@ -2,14 +2,24 @@
   <h1 mat-dialog-title>{{ t('title') }}</h1>
   <ng-container *ngIf="currentRoute$ | ngrxPush as currentRoute">
     <div mat-dialog-content>
-      <mat-list cdkDropList (cdkDropListDropped)="drop($event, currentRoute)">
+      <mat-list
+        cdkDropList
+        (cdkDropListDropped)="drop($event, currentRoute)"
+        [class.dragging]="dragging"
+      >
         <ng-container
           *ngFor="let point of currentRoute; trackBy: routeTrack; let i = index"
         >
-          <mat-list-item cdkDrag>
+          <mat-list-item
+            cdkDrag
+            (cdkDragStarted)="dragging = true"
+            (cdkDragEnded)="dragging = false"
+          >
             <div class="route-line">
               <div>{{ point.name }}</div>
-              <mat-icon (click)="deleteRoutePoint(i)">delete</mat-icon>
+              <mat-icon class="pointer" (click)="deleteRoutePoint(i)"
+                >delete</mat-icon
+              >
             </div>
           </mat-list-item>
           <mat-divider></mat-divider>
