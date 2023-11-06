@@ -112,7 +112,6 @@ export class InterestPointsService {
         'text-anchor': 'bottom',
         'text-offset': [0, -1.2],
         'text-size': 12,
-        'icon-rotation-alignment': 'map',
       },
     });
   }
