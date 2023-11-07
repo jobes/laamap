@@ -137,6 +137,13 @@
     "trackingHistory": "Záznamy letov",
     "POIList": "Body záujmu"
   },
+  "customFlyRouteDialog": {
+    "title": "Názov cesty",
+    "name": "Názov",
+    "save": "Uložiť",
+    "overwrite": "Prepísať existujúce",
+    "close": "Zavrieť"
+  },
   "airportDialog": {
     "close": "Zavrieť",
     "title": "Letisko {name} {icaoCode, select, undefined {} other {({icaoCode})}}",

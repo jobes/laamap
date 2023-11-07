@@ -20,6 +20,8 @@ import { navigationDialogActions } from '../../../store/actions/navigation.actio
 import { navigationFeature } from '../../../store/features/navigation.feature';
 import { FlyTracingHistoryDialogComponent } from '../fly-tracing-history-dialog/fly-tracing-history-dialog.component';
 import { ListInterestPointsDialogComponent } from '../list-interest-points-dialog/list-interest-points-dialog.component';
+import { CustomFlyRouteCreateComponent } from '../custom-fly-route-create/custom-fly-route-create.component';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'laamap-navigation-dialog',
@@ -91,7 +93,24 @@ export class NavigationDialogComponent {
       .afterClosed();
   }
 
-  saveRoute(): void {}
+  saveRoute(): void {
+    this.dialog
+      .open(CustomFlyRouteCreateComponent, {
+        width: '100%',
+        id: CustomFlyRouteCreateComponent.name,
+      })
+      .afterClosed()
+      .pipe(
+        take(1),
+        filter((val) => !!val),
+      )
+      .subscribe({
+        next: (result: string) =>
+          this.store.dispatch(
+            navigationDialogActions.routeSaved({ name: result }),
+          ),
+      });
+  }
 
   routeTrack(index: number, item: { name: string; point: LngLat }): string {
     return `${index}${item.point.lat};${item.point.lng}`;

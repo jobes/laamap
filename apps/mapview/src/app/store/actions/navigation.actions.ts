@@ -7,6 +7,7 @@ export const navigationDialogActions = createActionGroup({
     'Route reordered': props<{ route: { point: LngLat; name: string }[] }>(),
     'Route item deleted': props<{ index: number }>(),
     'Route cleared': emptyProps(),
+    'Route saved': props<{ name: string }>(),
     'Navigation started': emptyProps(),
     'Navigation ended': emptyProps(),
   },
