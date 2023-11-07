@@ -17,13 +17,13 @@ import { INotamDecodedResponse } from '../../services/notams/notams.interface';
 import { IAirportResponse } from '../../services/open-aip/airport.interfaces';
 import { IAirspace } from '../../services/open-aip/airspaces.interfaces';
 import { mapLocationMenuActions } from '../../store/actions/map.actions';
-import { AirportDialogComponent } from '../airport-dialog/airport-dialog.component';
-import { AirspacesDialogComponent } from '../airspaces-dialog/airspaces-dialog.component';
+import { AirportDialogComponent } from '../dialogs/airport-dialog/airport-dialog.component';
+import { AirspacesDialogComponent } from '../dialogs/airspaces-dialog/airspaces-dialog.component';
 import {
   CreateInterestPointDialogComponent,
   CreateInterestPointDialogInput,
-} from '../create-interest-point-dialog/create-interest-point-dialog.component';
-import { NotamsDialogComponent } from '../notams-dialog/notams-dialog.component';
+} from '../dialogs/create-interest-point-dialog/create-interest-point-dialog.component';
+import { NotamsDialogComponent } from '../dialogs/notams-dialog/notams-dialog.component';
 
 @Component({
   selector: 'laamap-map-location-menu',

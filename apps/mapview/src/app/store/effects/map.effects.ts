@@ -16,8 +16,8 @@ import {
 } from 'rxjs';
 
 import { MapLocationMenuComponent } from '../../components/map-location-menu/map-location-menu.component';
-import { NavigationDialogComponent } from '../../components/navigation-dialog/navigation-dialog.component';
-import { SettingsDialogComponent } from '../../components/settings-dialog/settings-dialog.component';
+import { NavigationDialogComponent } from '../../components/dialogs/navigation-dialog/navigation-dialog.component';
+import { SettingsDialogComponent } from '../../components/dialogs/settings-dialog/settings-dialog.component';
 import { MapService } from '../../services/map/map.service';
 import { OnMapDirectionLineService } from '../../services/map/on-map-direction-line/on-map-direction-line.service';
 import { TracingService } from '../../services/tracing/tracing.service';
