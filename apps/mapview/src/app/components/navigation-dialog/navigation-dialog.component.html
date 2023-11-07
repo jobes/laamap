@@ -32,6 +32,14 @@
     <div mat-dialog-actions [align]="'end'" *ngrxLet="running$ as running">
       <button
         mat-mini-fab
+        [disabled]="currentRoute.length < 1"
+        (click)="saveRoute()"
+        class="margin-right"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+      <button
+        mat-mini-fab
         color="primary"
         *ngIf="!running"
         [disabled]="currentRoute.length < 1"

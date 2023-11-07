@@ -46,6 +46,7 @@ export class NavigationDialogComponent {
   private readonly dialog = inject(MatDialog);
   currentRoute$ = this.store.select(navigationFeature.selectRoute);
   running$ = this.store.select(navigationFeature.selectRunning);
+  dragging = false;
 
   drop(
     event: CdkDragDrop<string[]>,
@@ -89,6 +90,8 @@ export class NavigationDialogComponent {
       })
       .afterClosed();
   }
+
+  saveRoute(): void {}
 
   routeTrack(index: number, item: { name: string; point: LngLat }): string {
     return `${index}${item.point.lat};${item.point.lng}`;
