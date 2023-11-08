@@ -1,4 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { LngLat } from 'maplibre-gl';
 
 export const mapEffectsActions = createActionGroup({
   source: 'Map effects',
@@ -14,5 +15,11 @@ export const navigationEffectsActions = createActionGroup({
   events: {
     'Navigation failed': props<{ reason: 'NO_GPS' | 'NO_ROUTE' }>(),
     'Next point reached': emptyProps(),
+    'Route initial loaded': props<{
+      route: {
+        point: LngLat;
+        name: string;
+      }[];
+    }>(),
   },
 });

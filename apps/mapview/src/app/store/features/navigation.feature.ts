@@ -92,5 +92,12 @@ export const navigationFeature = createFeature({
         route: route.points,
       }),
     ),
+    on(
+      navigationEffectsActions.routeInitialLoaded,
+      (state, { route }): typeof initialState => ({
+        ...state,
+        route: route,
+      }),
+    ),
   ),
 });

@@ -5,7 +5,7 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as turf from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
-import { combineLatest, filter, map, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, map, skip, switchMap, tap } from 'rxjs';
 
 import { OnMapNavigationService } from '../../services/map/on-map-navigation/on-map-navigation.service';
 import { navigationEffectsActions } from '../actions/effects.actions';
@@ -136,6 +136,24 @@ export class NavigationEffects {
     },
     { dispatch: false },
   );
+
+  saveCurrentRoute$ = createEffect(
+    () => {
+      return this.store.select(navigationFeature.selectRoute).pipe(
+        skip(2), // initial set does not need save
+        switchMap((route) => this.customFlyRoutes.saveCurrentRoute(route)),
+      );
+    },
+    { dispatch: false },
+  );
+
+  loadCurrentRoute$ = createEffect(() => {
+    return this.store.select(mapFeature.selectLoaded).pipe(
+      filter((loaded) => loaded),
+      switchMap(() => this.customFlyRoutes.getCurrentRoute()),
+      map((route) => navigationEffectsActions.routeInitialLoaded({ route })),
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
