@@ -19,6 +19,7 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track main origin/main
-
+      - run: npx nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
       - run: npx nx-cloud record -- npx nx format:check
       - run: npx nx affected -t lint,stylelint,test,build,component-test --parallel=3
+      - run: npx nx-cloud stop-all-agents
