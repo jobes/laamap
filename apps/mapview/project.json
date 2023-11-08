@@ -159,11 +159,14 @@
         "testingType": "component",
         "skipServe": true,
         "devServerTarget": "mapview:build:cypress",
-        "watch": true
+        "watch": false
       },
       "configurations": {
         "production": {
           "watch": false
+        },
+        "development": {
+          "watch": true
         }
       }
     }
