@@ -4,6 +4,7 @@ import { LngLat } from 'maplibre-gl';
 import { navigationEffectsActions } from '../actions/effects.actions';
 import { mapLocationMenuActions } from '../actions/map.actions';
 import {
+  customFlyRouteListDialogActions,
   navigationDialogActions,
   poiListDialogActions,
 } from '../actions/navigation.actions';
@@ -49,6 +50,7 @@ export const navigationFeature = createFeature({
     ),
     on(navigationDialogActions.routeCleared, (state): typeof initialState => ({
       ...state,
+      running: false,
       route: [],
     })),
     on(
@@ -66,10 +68,14 @@ export const navigationFeature = createFeature({
     ),
     on(
       navigationDialogActions.routeItemDeleted,
-      (state, { index }): typeof initialState => ({
-        ...state,
-        route: state.route.filter((_, i) => i !== index),
-      }),
+      (state, { index }): typeof initialState => {
+        const route = state.route.filter((_, i) => i !== index);
+        return {
+          ...state,
+          route,
+          running: state.running && route.length > 0,
+        };
+      },
     ),
     on(
       navigationEffectsActions.nextPointReached,
@@ -77,6 +83,20 @@ export const navigationFeature = createFeature({
         ...state,
         route: state.route.slice(1),
         running: state.route.length > 1,
+      }),
+    ),
+    on(
+      customFlyRouteListDialogActions.routeUsed,
+      (state, { route }): typeof initialState => ({
+        ...state,
+        route: route.points,
+      }),
+    ),
+    on(
+      navigationEffectsActions.routeInitialLoaded,
+      (state, { route }): typeof initialState => ({
+        ...state,
+        route: route,
       }),
     ),
   ),

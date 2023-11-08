@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoService } from '@ngneat/transloco';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as turf from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
-import { combineLatest, filter, map, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, map, skip, switchMap, tap } from 'rxjs';
 
 import { OnMapNavigationService } from '../../services/map/on-map-navigation/on-map-navigation.service';
 import { navigationEffectsActions } from '../actions/effects.actions';
@@ -13,6 +13,7 @@ import { mapActions, mapLocationMenuActions } from '../actions/map.actions';
 import { navigationDialogActions } from '../actions/navigation.actions';
 import { mapFeature } from '../features/map.feature';
 import { navigationFeature } from '../features/navigation.feature';
+import { CustomFlyRoutesService } from '../../services/custom-fly-routes/custom-fly-routes.service';
 
 @Injectable()
 export class NavigationEffects {
@@ -20,23 +21,25 @@ export class NavigationEffects {
     () => {
       return this.store.select(mapFeature.selectLoaded).pipe(
         filter((loaded) => loaded),
-        tap(() => this.onMapNavigation.createLayers())
+        tap(() => this.onMapNavigation.createLayers()),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   validateNavigationStarted$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(
         mapLocationMenuActions.startedNewRouteNavigation,
-        navigationDialogActions.navigationStarted
+        navigationDialogActions.navigationStarted,
       ),
       switchMap(() =>
-        this.store.select(mapFeature.selectGeoLocationTrackingActive)
+        this.store.select(mapFeature.selectGeoLocationTrackingActive),
       ),
       filter((trackingActive) => !trackingActive),
-      map(() => navigationEffectsActions.navigationFailed({ reason: 'NO_GPS' }))
+      map(() =>
+        navigationEffectsActions.navigationFailed({ reason: 'NO_GPS' }),
+      ),
     );
   });
 
@@ -47,16 +50,16 @@ export class NavigationEffects {
         tap(({ reason }) =>
           this.snackBar.open(
             this.translocoService.translate(
-              `shared.errors.navigationFailed_${reason}`
+              `shared.errors.navigationFailed_${reason}`,
             ),
             '',
-            { duration: 5000 }
-          )
+            { duration: 5000 },
+          ),
         ),
-        tap(() => this.onMapNavigation.hideNavigationRoute())
+        tap(() => this.onMapNavigation.hideNavigationRoute()),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   removeReachedPoint$ = createEffect(() => {
@@ -77,11 +80,11 @@ export class NavigationEffects {
             [
               geoLocation.geoLocation.coords.longitude,
               geoLocation.geoLocation.coords.latitude,
-            ]
-          ) < 1
+            ],
+          ) < 1,
       ),
       tap(({ route }) => this.showNavigationPointReachedMessage(route.length)),
-      map(() => navigationEffectsActions.nextPointReached())
+      map(() => navigationEffectsActions.nextPointReached()),
     );
   });
 
@@ -104,7 +107,7 @@ export class NavigationEffects {
               {
                 point: new LngLat(
                   geoLocation.geoLocation.coords.longitude,
-                  geoLocation.geoLocation.coords.latitude
+                  geoLocation.geoLocation.coords.latitude,
                 ),
               },
               ...route,
@@ -112,18 +115,53 @@ export class NavigationEffects {
           } else {
             this.onMapNavigation.hideNavigationRoute();
           }
-        })
+        }),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
+
+  routeSaved$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(navigationDialogActions.routeSaved),
+        concatLatestFrom(() =>
+          this.store.select(navigationFeature.selectRoute),
+        ),
+        tap(
+          ([{ name }, points]) =>
+            void this.customFlyRoutes.saveRoute(name, points),
+        ),
+      );
+    },
+    { dispatch: false },
+  );
+
+  saveCurrentRoute$ = createEffect(
+    () => {
+      return this.store.select(navigationFeature.selectRoute).pipe(
+        skip(2), // initial set does not need save
+        switchMap((route) => this.customFlyRoutes.saveCurrentRoute(route)),
+      );
+    },
+    { dispatch: false },
+  );
+
+  loadCurrentRoute$ = createEffect(() => {
+    return this.store.select(mapFeature.selectLoaded).pipe(
+      filter((loaded) => loaded),
+      switchMap(() => this.customFlyRoutes.getCurrentRoute()),
+      map((route) => navigationEffectsActions.routeInitialLoaded({ route })),
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
     private readonly store: Store,
     private readonly snackBar: MatSnackBar,
     private readonly translocoService: TranslocoService,
-    private readonly onMapNavigation: OnMapNavigationService
+    private readonly onMapNavigation: OnMapNavigationService,
+    private readonly customFlyRoutes: CustomFlyRoutesService,
   ) {}
 
   private showNavigationPointReachedMessage(routeLength: number): void {
@@ -131,10 +169,10 @@ export class NavigationEffects {
       this.translocoService.translate(
         routeLength > 1
           ? `shared.messages.navigationReachedNextPoint`
-          : `shared.messages.navigationReachedGoal`
+          : `shared.messages.navigationReachedGoal`,
       ),
       '',
-      { duration: 5000 }
+      { duration: 5000 },
     );
   }
 }

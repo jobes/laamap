@@ -28,7 +28,30 @@
         "customWebpackConfig": {
           "path": "apps/mapview/webpack.config.js"
         },
-        "scripts": []
+        "scripts": [],
+        "allowedCommonJsDependencies": [
+          "turf-jsts",
+          "density-clustering",
+          "skmeans",
+          "rbush",
+          "concaveman",
+          "polygon-clipping",
+          "object-assign",
+          "geojson-rbush",
+          "deep-equal",
+          "quill",
+          "events",
+          "immediate",
+          "spark-md5",
+          "vuvuzela",
+          "emulate-tab",
+          "maplibre-gl",
+          "@messageformat/core",
+          "flat",
+          "geojson-equality",
+          "earcut",
+          "deepmerge"
+        ]
       },
       "configurations": {
         "production": {
@@ -136,11 +159,14 @@
         "testingType": "component",
         "skipServe": true,
         "devServerTarget": "mapview:build:cypress",
-        "watch": true
+        "watch": false
       },
       "configurations": {
         "production": {
           "watch": false
+        },
+        "development": {
+          "watch": true
         }
       }
     }

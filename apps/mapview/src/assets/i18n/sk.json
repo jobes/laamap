@@ -135,7 +135,19 @@
     "close": "Zavrieť",
     "noItemInList": "Žiadne body v navigácii",
     "trackingHistory": "Záznamy letov",
-    "POIList": "Body záujmu"
+    "POIList": "Body záujmu",
+    "customFlyRoutes": "Trasy"
+  },
+  "customFlyRouteDialog": {
+    "title": "Názov trasy",
+    "name": "Názov",
+    "save": "Uložiť",
+    "overwrite": "Prepísať existujúcu trasu",
+    "close": "Zavrieť"
+  },
+  "customFlyRouteListDialog": {
+    "title": "Zoznam trás",
+    "close": "Zavrieť"
   },
   "airportDialog": {
     "close": "Zavrieť",
