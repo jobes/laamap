@@ -22,6 +22,7 @@ import { FlyTracingHistoryDialogComponent } from '../fly-tracing-history-dialog/
 import { ListInterestPointsDialogComponent } from '../list-interest-points-dialog/list-interest-points-dialog.component';
 import { CustomFlyRouteCreateComponent } from '../custom-fly-route-create/custom-fly-route-create.component';
 import { filter, take } from 'rxjs';
+import { CustomFlyRouteListComponent } from '../custom-fly-route-list/custom-fly-route-list.component';
 
 @Component({
   selector: 'laamap-navigation-dialog',
@@ -96,7 +97,6 @@ export class NavigationDialogComponent {
   saveRoute(): void {
     this.dialog
       .open(CustomFlyRouteCreateComponent, {
-        width: '100%',
         id: CustomFlyRouteCreateComponent.name,
       })
       .afterClosed()
@@ -110,6 +110,15 @@ export class NavigationDialogComponent {
             navigationDialogActions.routeSaved({ name: result }),
           ),
       });
+  }
+
+  showRoutes(): void {
+    this.dialog
+      .open(CustomFlyRouteListComponent, {
+        width: '100%',
+        id: CustomFlyRouteListComponent.name,
+      })
+      .afterClosed();
   }
 
   routeTrack(index: number, item: { name: string; point: LngLat }): string {

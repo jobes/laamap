@@ -1,5 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
+import { ICustomFlyRoute } from '../../services/custom-fly-routes/custom-fly-routes.service';
 
 export const navigationDialogActions = createActionGroup({
   source: 'Navigation dialog',
@@ -17,5 +18,12 @@ export const poiListDialogActions = createActionGroup({
   source: 'POI list dialog',
   events: {
     'Added point to navigation': props<{ point: LngLat; name: string }>(),
+  },
+});
+
+export const customFlyRouteListDialogActions = createActionGroup({
+  source: 'custom fly route list dialog',
+  events: {
+    'Route used': props<{ route: ICustomFlyRoute }>(),
   },
 });

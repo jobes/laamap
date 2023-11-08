@@ -3,6 +3,14 @@ import { LngLat } from 'maplibre-gl';
 // eslint-disable-next-line @typescript-eslint/naming-convention
 import PouchDb from 'pouchdb';
 
+export interface ICustomFlyRoute {
+  routeName: string;
+  points: {
+    point: LngLat;
+    name: string;
+  }[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,6 +20,15 @@ export class CustomFlyRoutesService {
     {},
   );
   constructor() {}
+
+  async getAllRoutes(): Promise<ICustomFlyRoute[]> {
+    return (
+      (await this.db.allDocs({ include_docs: true })).rows.map((row) => ({
+        routeName: row.doc?._id ?? '',
+        points: row.doc?.points ?? [],
+      })) ?? []
+    );
+  }
 
   async nameExist(routeName: string): Promise<boolean> {
     try {

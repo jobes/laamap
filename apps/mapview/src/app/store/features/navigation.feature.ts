@@ -4,6 +4,7 @@ import { LngLat } from 'maplibre-gl';
 import { navigationEffectsActions } from '../actions/effects.actions';
 import { mapLocationMenuActions } from '../actions/map.actions';
 import {
+  customFlyRouteListDialogActions,
   navigationDialogActions,
   poiListDialogActions,
 } from '../actions/navigation.actions';
@@ -82,6 +83,13 @@ export const navigationFeature = createFeature({
         ...state,
         route: state.route.slice(1),
         running: state.route.length > 1,
+      }),
+    ),
+    on(
+      customFlyRouteListDialogActions.routeUsed,
+      (state, { route }): typeof initialState => ({
+        ...state,
+        route: route.points,
       }),
     ),
   ),
