@@ -29,6 +29,7 @@ export class CustomFlyRoutesService {
 
   async getAllRoutes(): Promise<ICustomFlyRoute[]> {
     return (
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       (await this.db.allDocs({ include_docs: true })).rows.map((row) => ({
         routeName: row.doc?._id ?? '',
         points: row.doc?.points ?? [],
