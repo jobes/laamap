@@ -8,6 +8,7 @@ import { RadarWidgetComponent } from './components/widgets/radar-widget/radar-wi
 import { SpeedMeterWidgetComponent } from './components/widgets/speed-meter-widget/speed-meter-widget.component';
 import { TrackingWidgetComponent } from './components/widgets/tracking-widget/tracking-widget.component';
 import { VariometerWidgetComponent } from './components/widgets/variometer-widget/variometer-widget.component';
+import { GlobalSearchComponent } from './components/global-search/global-search.component';
 
 @Component({
   selector: 'laamap-root',
@@ -23,6 +24,7 @@ import { VariometerWidgetComponent } from './components/widgets/variometer-widge
     NavigationGoalWidgetComponent,
     NavigationNextPointWidgetComponent,
     CenterIconComponent,
+    GlobalSearchComponent,
   ],
 })
 export class AppComponent {}
