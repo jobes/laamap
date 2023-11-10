@@ -98,13 +98,13 @@
       "executor": "@nx/angular:webpack-dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "mapview:build:production"
+          "buildTarget": "mapview:build:production"
         },
         "development": {
-          "browserTarget": "mapview:build:development",
           "disableHostCheck": true,
           "host": "0.0.0.0",
-          "proxyConfig": "apps/mapview/src/proxy.conf.json"
+          "proxyConfig": "apps/mapview/src/proxy.conf.json",
+          "buildTarget": "mapview:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -112,7 +112,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "mapview:build"
+        "buildTarget": "mapview:build"
       }
     },
     "lint": {
@@ -125,8 +125,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/mapview"],
       "options": {
-        "jestConfig": "apps/mapview/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/mapview/jest.config.ts"
       }
     },
     "deploy": {
