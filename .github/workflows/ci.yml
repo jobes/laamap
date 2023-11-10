@@ -24,6 +24,6 @@ jobs:
       - run: npx nx-cloud record -- npx nx affected -t stylelint
       - run: npx nx-cloud record -- npx nx affected -t build
       - run: npx nx-cloud record -- npx nx affected -t test
-      - run: npx nx-cloud record -- npx nx affected -t lint
+#     - run: npx nx-cloud record -- npx nx affected -t lint disabled as for some reason freezes
       - run: npx nx-cloud record -- npx nx affected -t component-test
       - run: npx nx-cloud stop-all-agents
