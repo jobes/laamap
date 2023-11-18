@@ -158,7 +158,8 @@
     "showOnMap": "Zobraz na mape",
     "navigateTo": "Navigovať",
     "addToNavigation": "Pridať bod do navigácie",
-    "airports": "Letiská"
+    "airports": "Letiská",
+    "address": "Adresa"
   },
   "airportDialog": {
     "close": "Zavrieť",

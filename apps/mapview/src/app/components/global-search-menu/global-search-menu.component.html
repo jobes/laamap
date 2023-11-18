@@ -73,5 +73,23 @@
   >
     <span matListItemTitle>{{ t('addToNavigation') }}</span>
   </a>
+  } @case ('address') {
+  <a mat-list-item tabindex="0" (click)="showOnMap($any(data.center))">
+    <span matListItemTitle>{{ t('showOnMap') }}</span>
+  </a>
+  <a
+    mat-list-item
+    tabindex="0"
+    (click)="startedNewRouteNavigation(data.center, data.text)"
+  >
+    <span matListItemTitle>{{ t('navigateTo') }}</span>
+  </a>
+  <a
+    mat-list-item
+    tabindex="0"
+    (click)="addPointToNavigation(data.center, data.text)"
+  >
+    <span matListItemTitle>{{ t('addToNavigation') }}</span>
+  </a>
   } }
 </mat-nav-list>

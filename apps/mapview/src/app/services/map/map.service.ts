@@ -10,6 +10,9 @@ import { mapActions } from '../../store/actions/map.actions';
 import { CompassService } from '../compass/compass.service';
 import { GamepadHandlerService } from '../gamepad-handler/gamepad-handler.service';
 import { MapFontSizeService } from './map-font-size.service';
+import { config } from '@maptiler/client';
+
+config.apiKey = environment.mapTilesKey;
 
 @Injectable({
   providedIn: 'root',

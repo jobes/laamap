@@ -19,11 +19,13 @@ import { MapService } from '../../services/map/map.service';
 import { LngLat } from 'maplibre-gl';
 import { IAirport } from '../../services/open-aip/airport.interfaces';
 import { AirportDialogComponent } from '../dialogs/airport-dialog/airport-dialog.component';
+import { GeocodingFeature } from '@maptiler/client';
 
 export type GlobalMenuInput =
   | ({ itemType: 'route' } & ICustomFlyRoute)
   | ({ itemType: 'interestPoint' } & GeoJSON.Feature<Point, IInterestPoint>)
-  | ({ itemType: 'airports' } & GeoJSON.Feature<Point, IAirport>);
+  | ({ itemType: 'airports' } & GeoJSON.Feature<Point, IAirport>)
+  | ({ itemType: 'address' } & GeocodingFeature);
 
 @Component({
   selector: 'laamap-global-search-menu',

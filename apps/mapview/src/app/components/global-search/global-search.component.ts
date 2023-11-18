@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CustomFlyRoutesService } from '../../services/custom-fly-routes/custom-fly-routes.service';
-import { Observable, forkJoin, map, switchMap } from 'rxjs';
+import { Observable, debounceTime, forkJoin, map, switchMap } from 'rxjs';
 import { HighlightTextDirective } from '../../directives/highlight-text.directive';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatOption, MatOptionModule } from '@angular/material/core';
@@ -24,6 +24,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { InterestPointsService } from '../../services/interest-points/interest-points.service';
 import { MatListModule } from '@angular/material/list';
 import { OnMapAirportsService } from '../../services/map/on-map-airports/on-map-airports.service';
+import { geocoding } from '@maptiler/client';
 
 @Component({
   selector: 'laamap-global-search',
@@ -54,13 +55,17 @@ export class GlobalSearchComponent {
   searchResults$: Observable<
     { label: string; values: { name: string; data: GlobalMenuInput }[] }[]
   > = this.searchControl.valueChanges.pipe(
-    // TODO move out of component
+    // TODO move out of component; make it work offline, when address not working
     map((val) => ((val?.length ?? 0) >= 2 ? val : '')),
+    debounceTime(500),
     switchMap((val) =>
       forkJoin({
         routes: this.customFlyRoutesService.searchRoute(val),
         points: this.interestPointsService.searchPoints(val),
         airports: Promise.resolve(this.onMapAirportsService.searchAirport(val)),
+        address: val
+          ? geocoding.forward(val, { country: ['SK'], types: ['address'] })
+          : Promise.resolve({ features: [] }),
       }),
     ),
     // eslint-disable-next-line max-lines-per-function
@@ -99,6 +104,17 @@ export class GlobalSearchComponent {
                     ? `(${airport.properties.icaoCode})`
                     : ''),
                 data: { itemType: 'airports' as const, ...airport },
+              })),
+            },
+          ]),
+      ...(values.address.features.length === 0
+        ? []
+        : [
+            {
+              label: 'address',
+              values: values.address.features.map((address) => ({
+                name: address.text,
+                data: { itemType: 'address' as const, ...address },
               })),
             },
           ]),
