@@ -10,11 +10,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  CustomFlyRoutesService,
-  ICustomFlyRoute,
-} from '../../services/custom-fly-routes/custom-fly-routes.service';
-import { forkJoin, map, switchMap } from 'rxjs';
+import { CustomFlyRoutesService } from '../../services/custom-fly-routes/custom-fly-routes.service';
+import { Observable, forkJoin, map, switchMap } from 'rxjs';
 import { HighlightTextDirective } from '../../directives/highlight-text.directive';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatOption, MatOptionModule } from '@angular/material/core';
@@ -24,6 +21,8 @@ import {
 } from '../global-search-menu/global-search-menu.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TranslocoModule } from '@ngneat/transloco';
+import { InterestPointsService } from '../../services/interest-points/interest-points.service';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'laamap-global-search',
@@ -36,6 +35,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     HighlightTextDirective,
     MatOptionModule,
     TranslocoModule,
+    MatListModule,
   ],
   templateUrl: './global-search.component.html',
   styleUrls: ['./global-search.component.scss'],
@@ -43,15 +43,21 @@ import { TranslocoModule } from '@ngneat/transloco';
 })
 export class GlobalSearchComponent {
   @ViewChild('inputElm') inputElm!: ElementRef<HTMLInputElement>;
-  @ViewChildren(MatOption) matOptions!: QueryList<MatOption<ICustomFlyRoute>>;
+  @ViewChildren(MatOption) matOptions!: QueryList<MatOption<GlobalMenuInput>>;
   private readonly customFlyRoutesService = inject(CustomFlyRoutesService);
+  private readonly interestPointsService = inject(InterestPointsService);
   private readonly bottomSheet = inject(MatBottomSheet);
   searchControl = new FormControl('');
   isOpen = false;
-  searchResults$ = this.searchControl.valueChanges.pipe(
+  searchResults$: Observable<
+    { label: string; values: { name: string; data: GlobalMenuInput }[] }[]
+  > = this.searchControl.valueChanges.pipe(
     // TODO move out of component
     switchMap((val) =>
-      forkJoin({ routes: this.customFlyRoutesService.searchRoute(val) }),
+      forkJoin({
+        routes: this.customFlyRoutesService.searchRoute(val),
+        points: this.interestPointsService.searchPoints(val),
+      }),
     ),
     map((values) => [
       ...(values.routes.length === 0
@@ -61,7 +67,18 @@ export class GlobalSearchComponent {
               label: 'routes',
               values: values.routes.map((route) => ({
                 name: route.routeName,
-                data: route,
+                data: { itemType: 'route' as const, ...route },
+              })),
+            },
+          ]),
+      ...(values.points.length === 0
+        ? []
+        : [
+            {
+              label: 'interestPoints',
+              values: values.points.map((point) => ({
+                name: point.properties.name,
+                data: { itemType: 'interestPoint' as const, ...point },
               })),
             },
           ]),
@@ -109,14 +126,9 @@ export class GlobalSearchComponent {
     }
   }
 
-  optionSelected(option: ICustomFlyRoute): void {
+  optionSelected(data: GlobalMenuInput): void {
     this.closeInteraction();
-    this.bottomSheet.open(GlobalSearchMenuComponent, {
-      data: {
-        type: 'route',
-        ...option,
-      } as GlobalMenuInput,
-    });
+    this.bottomSheet.open(GlobalSearchMenuComponent, { data });
   }
 
   private closeInteraction(): void {

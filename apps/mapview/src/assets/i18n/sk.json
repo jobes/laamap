@@ -151,7 +151,12 @@
   },
   "globalSearch": {
     "routes": "Trasy",
-    "activateRoute": "Aktivovať trasu"
+    "activateRoute": "Aktivovať trasu",
+    "interestPoints": "Body záujmu",
+    "showPointDetails": "Detaili bodu",
+    "showOnMap": "Zobraz na mape",
+    "navigateTo": "Navigovať",
+    "addToNavigation": "Pridať bod do navigácie"
   },
   "airportDialog": {
     "close": "Zavrieť",

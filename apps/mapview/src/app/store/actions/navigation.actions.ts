@@ -32,5 +32,7 @@ export const globalSearchMenu = createActionGroup({
   source: 'Global search menu',
   events: {
     'Activate route': props<{ route: ICustomFlyRoute }>(),
+    'Started new route navigation': props<{ point: LngLat; name: string }>(),
+    'Added point to navigation': props<{ point: LngLat; name: string }>(),
   },
 });

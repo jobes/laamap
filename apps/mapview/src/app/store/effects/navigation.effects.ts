@@ -36,6 +36,7 @@ export class NavigationEffects {
         mapLocationMenuActions.startedNewRouteNavigation,
         navigationDialogActions.navigationStarted,
         globalSearchMenu.activateRoute,
+        globalSearchMenu.startedNewRouteNavigation,
       ),
       switchMap(() =>
         this.store.select(mapFeature.selectGeoLocationTrackingActive),

@@ -26,21 +26,19 @@
   >
     @if(searchResults$ | async; as searchResults) { @if(searchResults.length >
     0){
-    <div class="list">
+    <mat-selection-list>
       @for (group of searchResults; track group.label) {
       <mat-optgroup [label]="t(group.label)">
         @for (value of group.values; track value.name) {
-        <mat-option
-          [value]="value.data"
-          [laamapHighlightText]="searchControl.value"
-          (click)="optionSelected(value.data)"
-        >
-          {{ value.name }}
+        <mat-option [value]="value.data" (click)="optionSelected(value.data)">
+          <span [laamapHighlightText]="searchControl.value">{{
+            value.name
+          }}</span>
         </mat-option>
         }
       </mat-optgroup>
       }
-    </div>
+    </mat-selection-list>
     } }
   </ng-template>
 </div>

@@ -21,6 +21,7 @@ export const navigationFeature = createFeature({
     initialState,
     on(
       mapLocationMenuActions.startedNewRouteNavigation,
+      globalSearchMenu.startedNewRouteNavigation,
       (state, { name, point }): typeof initialState => ({
         ...state,
         running: true,
@@ -29,6 +30,7 @@ export const navigationFeature = createFeature({
     ),
     on(
       mapLocationMenuActions.addedPointToNavigation,
+      globalSearchMenu.addedPointToNavigation,
       poiListDialogActions.addedPointToNavigation,
       (state, { name, point }): typeof initialState => ({
         ...state,
