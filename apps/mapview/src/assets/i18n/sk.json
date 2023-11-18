@@ -149,6 +149,10 @@
     "title": "Zoznam trás",
     "close": "Zavrieť"
   },
+  "globalSearch": {
+    "routes": "Trasy",
+    "activateRoute": "Aktivovať trasu"
+  },
   "airportDialog": {
     "close": "Zavrieť",
     "title": "Letisko {name} {icaoCode, select, undefined {} other {({icaoCode})}}",

@@ -1,11 +1,15 @@
 <div class="back-drop" [class.open]="isOpen" (click)="backDropClicked()"></div>
-<div class="search-box" [class.open]="isOpen" (click)="searchBoxClicked()">
+<div
+  class="search-box"
+  [class.open]="isOpen"
+  (click)="searchBoxClicked()"
+  *transloco="let t; read: 'globalSearch'"
+>
   <mat-icon>search</mat-icon>
   <input
     #inputElm
     (keydown)="keyDown($event)"
     type="text"
-    placeholder="Search for a street"
     [formControl]="searchControl"
     class="example-input"
     cdkOverlayOrigin
@@ -24,7 +28,7 @@
     0){
     <div class="list">
       @for (group of searchResults; track group.label) {
-      <mat-optgroup [label]="group.label">
+      <mat-optgroup [label]="t(group.label)">
         @for (value of group.values; track value.name) {
         <mat-option
           [value]="value.data"

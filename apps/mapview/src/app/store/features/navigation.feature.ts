@@ -5,6 +5,7 @@ import { navigationEffectsActions } from '../actions/effects.actions';
 import { mapLocationMenuActions } from '../actions/map.actions';
 import {
   customFlyRouteListDialogActions,
+  globalSearchMenu,
   navigationDialogActions,
   poiListDialogActions,
 } from '../actions/navigation.actions';
@@ -97,6 +98,14 @@ export const navigationFeature = createFeature({
       (state, { route }): typeof initialState => ({
         ...state,
         route: route,
+      }),
+    ),
+    on(
+      globalSearchMenu.activateRoute,
+      (state, { route }): typeof initialState => ({
+        ...state,
+        route: route.points,
+        running: true,
       }),
     ),
   ),

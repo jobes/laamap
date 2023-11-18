@@ -10,7 +10,10 @@ import { combineLatest, filter, map, skip, switchMap, tap } from 'rxjs';
 import { OnMapNavigationService } from '../../services/map/on-map-navigation/on-map-navigation.service';
 import { navigationEffectsActions } from '../actions/effects.actions';
 import { mapActions, mapLocationMenuActions } from '../actions/map.actions';
-import { navigationDialogActions } from '../actions/navigation.actions';
+import {
+  globalSearchMenu,
+  navigationDialogActions,
+} from '../actions/navigation.actions';
 import { mapFeature } from '../features/map.feature';
 import { navigationFeature } from '../features/navigation.feature';
 import { CustomFlyRoutesService } from '../../services/custom-fly-routes/custom-fly-routes.service';
@@ -32,6 +35,7 @@ export class NavigationEffects {
       ofType(
         mapLocationMenuActions.startedNewRouteNavigation,
         navigationDialogActions.navigationStarted,
+        globalSearchMenu.activateRoute,
       ),
       switchMap(() =>
         this.store.select(mapFeature.selectGeoLocationTrackingActive),

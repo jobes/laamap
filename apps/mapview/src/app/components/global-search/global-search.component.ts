@@ -18,6 +18,12 @@ import { forkJoin, map, switchMap } from 'rxjs';
 import { HighlightTextDirective } from '../../directives/highlight-text.directive';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatOption, MatOptionModule } from '@angular/material/core';
+import {
+  GlobalMenuInput,
+  GlobalSearchMenuComponent,
+} from '../global-search-menu/global-search-menu.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'laamap-global-search',
@@ -29,6 +35,7 @@ import { MatOption, MatOptionModule } from '@angular/material/core';
     OverlayModule,
     HighlightTextDirective,
     MatOptionModule,
+    TranslocoModule,
   ],
   templateUrl: './global-search.component.html',
   styleUrls: ['./global-search.component.scss'],
@@ -38,9 +45,11 @@ export class GlobalSearchComponent {
   @ViewChild('inputElm') inputElm!: ElementRef<HTMLInputElement>;
   @ViewChildren(MatOption) matOptions!: QueryList<MatOption<ICustomFlyRoute>>;
   private readonly customFlyRoutesService = inject(CustomFlyRoutesService);
+  private readonly bottomSheet = inject(MatBottomSheet);
   searchControl = new FormControl('');
   isOpen = false;
   searchResults$ = this.searchControl.valueChanges.pipe(
+    // TODO move out of component
     switchMap((val) =>
       forkJoin({ routes: this.customFlyRoutesService.searchRoute(val) }),
     ),
@@ -70,6 +79,7 @@ export class GlobalSearchComponent {
     this.closeInteraction();
   }
 
+  // TODO remove eslint
   // eslint-disable-next-line max-statements
   keyDown(event: KeyboardEvent) {
     if (event.code === 'Escape') {
@@ -100,8 +110,13 @@ export class GlobalSearchComponent {
   }
 
   optionSelected(option: ICustomFlyRoute): void {
-    console.log(option);
     this.closeInteraction();
+    this.bottomSheet.open(GlobalSearchMenuComponent, {
+      data: {
+        type: 'route',
+        ...option,
+      } as GlobalMenuInput,
+    });
   }
 
   private closeInteraction(): void {

@@ -1,0 +1,7 @@
+<mat-nav-list *transloco="let t; read: 'globalSearch'">
+  @if(data.type === 'route'){
+  <a mat-list-item tabindex="0" (click)="activateRoute(data)">
+    <span matListItemTitle>{{ t('activateRoute') }}</span>
+  </a>
+  }
+</mat-nav-list>
