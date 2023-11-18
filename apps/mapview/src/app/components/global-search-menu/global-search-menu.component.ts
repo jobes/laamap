@@ -17,10 +17,13 @@ import {
 } from '../dialogs/create-interest-point-dialog/create-interest-point-dialog.component';
 import { MapService } from '../../services/map/map.service';
 import { LngLat } from 'maplibre-gl';
+import { IAirport } from '../../services/open-aip/airport.interfaces';
+import { AirportDialogComponent } from '../dialogs/airport-dialog/airport-dialog.component';
 
 export type GlobalMenuInput =
   | ({ itemType: 'route' } & ICustomFlyRoute)
-  | ({ itemType: 'interestPoint' } & GeoJSON.Feature<Point, IInterestPoint>);
+  | ({ itemType: 'interestPoint' } & GeoJSON.Feature<Point, IInterestPoint>)
+  | ({ itemType: 'airports' } & GeoJSON.Feature<Point, IAirport>);
 
 @Component({
   selector: 'laamap-global-search-menu',
@@ -53,6 +56,17 @@ export class GlobalSearchMenuComponent {
           mode: 'edit',
           value: { id: point.id, properties: point.properties },
         } as CreateInterestPointDialogInput,
+      })
+      .afterClosed();
+  }
+
+  showAirportDetails(point: GeoJSON.Feature<Point, IAirport>): void {
+    this.bottomSheetRef.dismiss();
+    this.dialog
+      .open(AirportDialogComponent, {
+        width: '100%',
+        data: point.properties,
+        closeOnNavigation: false,
       })
       .afterClosed();
   }

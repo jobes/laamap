@@ -23,6 +23,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TranslocoModule } from '@ngneat/transloco';
 import { InterestPointsService } from '../../services/interest-points/interest-points.service';
 import { MatListModule } from '@angular/material/list';
+import { OnMapAirportsService } from '../../services/map/on-map-airports/on-map-airports.service';
 
 @Component({
   selector: 'laamap-global-search',
@@ -46,6 +47,7 @@ export class GlobalSearchComponent {
   @ViewChildren(MatOption) matOptions!: QueryList<MatOption<GlobalMenuInput>>;
   private readonly customFlyRoutesService = inject(CustomFlyRoutesService);
   private readonly interestPointsService = inject(InterestPointsService);
+  private readonly onMapAirportsService = inject(OnMapAirportsService);
   private readonly bottomSheet = inject(MatBottomSheet);
   searchControl = new FormControl('');
   isOpen = false;
@@ -53,12 +55,15 @@ export class GlobalSearchComponent {
     { label: string; values: { name: string; data: GlobalMenuInput }[] }[]
   > = this.searchControl.valueChanges.pipe(
     // TODO move out of component
+    map((val) => ((val?.length ?? 0) >= 2 ? val : '')),
     switchMap((val) =>
       forkJoin({
         routes: this.customFlyRoutesService.searchRoute(val),
         points: this.interestPointsService.searchPoints(val),
+        airports: Promise.resolve(this.onMapAirportsService.searchAirport(val)),
       }),
     ),
+    // eslint-disable-next-line max-lines-per-function
     map((values) => [
       ...(values.routes.length === 0
         ? []
@@ -79,6 +84,21 @@ export class GlobalSearchComponent {
               values: values.points.map((point) => ({
                 name: point.properties.name,
                 data: { itemType: 'interestPoint' as const, ...point },
+              })),
+            },
+          ]),
+      ...(values.airports.length === 0
+        ? []
+        : [
+            {
+              label: 'airports',
+              values: values.airports.map((airport) => ({
+                name:
+                  airport.properties.name +
+                  (airport.properties.icaoCode
+                    ? `(${airport.properties.icaoCode})`
+                    : ''),
+                data: { itemType: 'airports' as const, ...airport },
               })),
             },
           ]),

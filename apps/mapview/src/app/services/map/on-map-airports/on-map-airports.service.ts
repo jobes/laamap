@@ -28,6 +28,8 @@ export class OnMapAirportsService {
     heliportCivil: 'heli_civil-small.svg',
   };
 
+  private airports?: GeoJSON.FeatureCollection<GeoJSON.Point, IAirport>;
+
   constructor(
     private readonly mapService: MapService,
     private readonly store: Store,
@@ -36,7 +38,7 @@ export class OnMapAirportsService {
   ) {}
 
   createLayers(
-    airports: GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirport>,
+    airports: GeoJSON.FeatureCollection<GeoJSON.Point, IAirport>,
   ): void {
     this.mapService.instance.addSource('airportSource', {
       type: 'geojson',
@@ -46,6 +48,8 @@ export class OnMapAirportsService {
     this.addOrientationLayer();
     this.addAirportTypeLayer();
     this.addListeners();
+
+    this.airports = airports;
   }
 
   addRequiredImages$(): Observable<true[]> {
@@ -58,6 +62,27 @@ export class OnMapAirportsService {
         ),
       ),
     );
+  }
+
+  searchAirport(
+    searchText: string | null,
+    limit = 5,
+  ): GeoJSON.Feature<GeoJSON.Point, IAirport>[] {
+    if (!searchText || !this.airports) {
+      return [];
+    }
+    return this.airports.features
+      .filter(
+        (airport) =>
+          airport.properties.icaoCode
+            ?.toUpperCase()
+            .includes(searchText.toUpperCase()) ||
+          airport.properties.name
+            ?.toUpperCase()
+            .includes(searchText.toUpperCase()),
+      )
+      .sort((a, b) => this.sortByAirportName(searchText, a, b))
+      .slice(0, limit);
   }
 
   private addListeners(): void {
@@ -235,5 +260,27 @@ export class OnMapAirportsService {
         'icon-rotation-alignment': 'map',
       },
     });
+  }
+
+  private sortByAirportName(
+    pointName: string,
+    a: GeoJSON.Feature<GeoJSON.Geometry, IAirport>,
+    b: GeoJSON.Feature<GeoJSON.Geometry, IAirport>,
+  ): number {
+    if (
+      a.properties.name?.toUpperCase().startsWith(pointName.toUpperCase()) &&
+      !b.properties.name?.toUpperCase().startsWith(pointName.toUpperCase())
+    ) {
+      return -1;
+    }
+    if (
+      !a.properties.name?.toUpperCase().startsWith(pointName.toUpperCase()) &&
+      b.properties.name?.toUpperCase().startsWith(pointName.toUpperCase())
+    ) {
+      return 1;
+    }
+    return a.properties.name
+      ?.toUpperCase()
+      .localeCompare(b.properties.name?.toUpperCase());
   }
 }

@@ -39,7 +39,10 @@ export class CustomFlyRoutesService {
     );
   }
 
-  async searchRoute(searchText: string | null): Promise<ICustomFlyRoute[]> {
+  async searchRoute(
+    searchText: string | null,
+    limit = 5,
+  ): Promise<ICustomFlyRoute[]> {
     if (!searchText) {
       return [];
     }
@@ -59,7 +62,8 @@ export class CustomFlyRoutesService {
         routeName: item._id,
         points: item.points,
       }))
-      .sort((a, b) => this.sortByRouteName(searchText, a, b));
+      .sort((a, b) => this.sortByRouteName(searchText, a, b))
+      .slice(0, limit);
   }
 
   async nameExist(routeName: string): Promise<boolean> {

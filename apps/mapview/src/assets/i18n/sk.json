@@ -154,9 +154,11 @@
     "activateRoute": "Aktivovať trasu",
     "interestPoints": "Body záujmu",
     "showPointDetails": "Detaili bodu",
+    "showAirportDetails": "Detaili letiska",
     "showOnMap": "Zobraz na mape",
     "navigateTo": "Navigovať",
-    "addToNavigation": "Pridať bod do navigácie"
+    "addToNavigation": "Pridať bod do navigácie",
+    "airports": "Letiská"
   },
   "airportDialog": {
     "close": "Zavrieť",

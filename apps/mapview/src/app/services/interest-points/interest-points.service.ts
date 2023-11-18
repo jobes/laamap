@@ -135,6 +135,7 @@ export class InterestPointsService {
 
   async searchPoints(
     searchText: string | null,
+    limit = 5,
   ): Promise<GeoJSON.Feature<Point, IInterestPoint>[]> {
     if (!searchText) {
       return [];
@@ -153,7 +154,9 @@ export class InterestPointsService {
           },
         },
       })
-    ).docs.sort((a, b) => this.sortByPointName(searchText, a, b));
+    ).docs
+      .sort((a, b) => this.sortByPointName(searchText, a, b))
+      .slice(0, limit);
   }
 
   private getDb() {
