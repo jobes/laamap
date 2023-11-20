@@ -28,6 +28,7 @@ import {
   GamePadShortCutName,
   IGamePadActions,
 } from './gamepad-handler.types';
+import { GamepadGlobalMenuHandler } from './gamepad-global-menu-handler';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,7 @@ export class GamepadHandlerService {
   private readonly dialog = inject(MatDialog);
   private readonly bottomSheet = inject(MatBottomSheet);
   private readonly store = inject(Store);
+  private readonly globalMenuHandler = inject(GamepadGlobalMenuHandler);
   private readonly gamePadSubj$ = new Subject<Gamepad[]>();
 
   settingMode = false;
@@ -88,7 +90,10 @@ export class GamepadHandlerService {
     window.addEventListener('gamepadconnected', () => {
       this.catchGamepadEvents();
     });
+    this.initAnimationActions();
+  }
 
+  private initAnimationActions(): void {
     this.gamePadDoAnimationAction$
       .pipe(
         pairwise(),
@@ -99,7 +104,13 @@ export class GamepadHandlerService {
       )
       .subscribe({
         next: ([[old, active], definition]) => {
-          if (
+          if (this.globalMenuHandler.searchComponent?.isOpen()) {
+            this.globalMenuHandler.reactOnGlobalSearchEvents(
+              old,
+              active,
+              definition,
+            );
+          } else if (
             this.dialog.openDialogs.length === 0 &&
             !this.bottomSheet._openedBottomSheetRef
           ) {
@@ -127,7 +138,9 @@ export class GamepadHandlerService {
     if (this.processFollowAirplane(old, active, definition)) {
       return;
     }
-
+    if (this.globalMenuHandler.processGlobalSearch(old, active, definition)) {
+      return;
+    }
     if (
       actionFirstTime(definition.openNavigation, active, old, () => {
         (

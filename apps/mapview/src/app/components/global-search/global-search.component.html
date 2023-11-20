@@ -1,7 +1,11 @@
-<div class="back-drop" [class.open]="isOpen" (click)="backDropClicked()"></div>
+<div
+  class="back-drop"
+  [class.open]="isOpen()"
+  (click)="backDropClicked()"
+></div>
 <div
   class="search-box"
-  [class.open]="isOpen"
+  [class.open]="isOpen()"
   (click)="searchBoxClicked()"
   *transloco="let t; read: 'globalSearch'"
 >
@@ -18,7 +22,7 @@
   <ng-template
     cdkConnectedOverlay
     [cdkConnectedOverlayOrigin]="trigger"
-    [cdkConnectedOverlayOpen]="isOpen"
+    [cdkConnectedOverlayOpen]="isOpen()"
     [cdkConnectedOverlayDisableClose]="true"
     [cdkConnectedOverlayOffsetX]="-32"
     [cdkConnectedOverlayOffsetY]="1"

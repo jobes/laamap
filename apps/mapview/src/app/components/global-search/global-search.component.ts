@@ -6,6 +6,7 @@ import {
   ViewChild,
   ViewChildren,
   inject,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +26,7 @@ import { InterestPointsService } from '../../services/interest-points/interest-p
 import { MatListModule } from '@angular/material/list';
 import { OnMapAirportsService } from '../../services/map/on-map-airports/on-map-airports.service';
 import { geocoding } from '@maptiler/client';
+import { GamepadGlobalMenuHandler } from '../../services/gamepad-handler/gamepad-global-menu-handler';
 
 @Component({
   selector: 'laamap-global-search',
@@ -51,7 +53,7 @@ export class GlobalSearchComponent {
   private readonly onMapAirportsService = inject(OnMapAirportsService);
   private readonly bottomSheet = inject(MatBottomSheet);
   searchControl = new FormControl('');
-  isOpen = false;
+  isOpen = signal(false);
   searchResults$: Observable<
     { label: string; values: { name: string; data: GlobalMenuInput }[] }[]
   > = this.searchControl.valueChanges.pipe(
@@ -121,11 +123,13 @@ export class GlobalSearchComponent {
     ]),
   );
 
-  constructor() {}
+  constructor() {
+    inject(GamepadGlobalMenuHandler).searchComponent = this;
+  }
 
   searchBoxClicked(): void {
     this.inputElm.nativeElement.focus();
-    this.isOpen = true;
+    this.isOpen.set(true);
   }
 
   backDropClicked(): void {
@@ -169,7 +173,7 @@ export class GlobalSearchComponent {
 
   private closeInteraction(): void {
     this.inputElm.nativeElement.blur();
-    this.isOpen = false;
+    this.isOpen.set(false);
     this.searchControl.reset();
   }
 }
