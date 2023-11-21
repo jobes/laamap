@@ -17,6 +17,7 @@
 - navigation to multiple points on map, widget with current navigation statistics
 - map control using gamepad with basic dialog control support
 - save own point to map that can be used for the navigation
+- global search on left top with search icon, there can se searched for route, airport, interest point and address
 
 Map icon [Plane icons created by Good Ware - Flaticon](https://www.flaticon.com/free-icons/plane).
 

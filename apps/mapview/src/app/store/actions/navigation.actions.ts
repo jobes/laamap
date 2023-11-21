@@ -22,8 +22,17 @@ export const poiListDialogActions = createActionGroup({
 });
 
 export const customFlyRouteListDialogActions = createActionGroup({
-  source: 'custom fly route list dialog',
+  source: 'Custom fly route list dialog',
   events: {
     'Route used': props<{ route: ICustomFlyRoute }>(),
+  },
+});
+
+export const globalSearchMenu = createActionGroup({
+  source: 'Global search menu',
+  events: {
+    'Activate route': props<{ route: ICustomFlyRoute }>(),
+    'Started new route navigation': props<{ point: LngLat; name: string }>(),
+    'Added point to navigation': props<{ point: LngLat; name: string }>(),
   },
 });

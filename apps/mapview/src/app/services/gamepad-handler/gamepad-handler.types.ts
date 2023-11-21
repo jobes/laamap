@@ -26,6 +26,7 @@ export type GamePadShortCutName =
   | 'zoomOut'
   | 'followAirplane'
   | 'openNavigation'
+  | 'openGlobalSearch'
   | 'closeDialog'
   | 'dialogDo'
   | 'nextField'

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { LngLat } from 'maplibre-gl';
-// eslint-disable-next-line @typescript-eslint/naming-convention
-import PouchDb from 'pouchdb';
+import pouchDb from 'pouchdb';
+import pouchFind from 'pouchdb-find';
+import { escapeStringRegexp } from '../../helper';
+pouchDb.plugin(pouchFind);
 
 export interface ICustomFlyRoute {
   routeName: string;
@@ -15,12 +17,12 @@ export interface ICustomFlyRoute {
   providedIn: 'root',
 })
 export class CustomFlyRoutesService {
-  private db = new PouchDb<{ points: ICustomFlyRoute['points'] }>(
+  private db = new pouchDb<{ points: ICustomFlyRoute['points'] }>(
     'customFlyRoutes',
     {},
   );
 
-  private currentRouteDb = new PouchDb<{ points: ICustomFlyRoute['points'] }>(
+  private currentRouteDb = new pouchDb<{ points: ICustomFlyRoute['points'] }>(
     'currentFlyRoutes',
     {},
   );
@@ -35,6 +37,33 @@ export class CustomFlyRoutesService {
         points: row.doc?.points ?? [],
       })) ?? []
     );
+  }
+
+  async searchRoute(
+    searchText: string | null,
+    limit = 5,
+  ): Promise<ICustomFlyRoute[]> {
+    if (!searchText) {
+      return [];
+    }
+    return (
+      await this.db.find({
+        selector: {
+          _id: {
+            $regex: RegExp(
+              `.*${escapeStringRegexp(searchText)}.*`,
+              'i',
+            ) as unknown as string,
+          },
+        },
+      })
+    ).docs
+      .map((item) => ({
+        routeName: item._id,
+        points: item.points,
+      }))
+      .sort((a, b) => this.sortByRouteName(searchText, a, b))
+      .slice(0, limit);
   }
 
   async nameExist(routeName: string): Promise<boolean> {
@@ -92,5 +121,25 @@ export class CustomFlyRoutesService {
     } catch (err) {
       return undefined;
     }
+  }
+
+  private sortByRouteName(
+    routeName: string,
+    a: ICustomFlyRoute,
+    b: ICustomFlyRoute,
+  ): number {
+    if (
+      a.routeName.startsWith(routeName) &&
+      !b.routeName.startsWith(routeName)
+    ) {
+      return -1;
+    }
+    if (
+      !a.routeName.startsWith(routeName) &&
+      b.routeName.startsWith(routeName)
+    ) {
+      return 1;
+    }
+    return a.routeName.localeCompare(b.routeName);
   }
 }

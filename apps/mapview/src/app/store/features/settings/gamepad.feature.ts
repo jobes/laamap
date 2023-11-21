@@ -82,6 +82,11 @@ export const gamepadInitialState: {
       button: 9,
     },
 
+    openGlobalSearch: {
+      index: 0,
+      button: 16,
+    },
+
     mapClick: {
       index: 0,
       button: 0,

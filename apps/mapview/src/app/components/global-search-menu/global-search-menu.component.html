@@ -1,0 +1,95 @@
+<mat-nav-list *transloco="let t; read: 'globalSearch'">
+  @switch (data.itemType) { @case ('route') {
+  <a mat-list-item tabindex="0" (click)="activateRoute(data)">
+    <span matListItemTitle>{{ t('activateRoute') }}</span>
+  </a>
+  } @case ('interestPoint') {
+  <a mat-list-item tabindex="0" (click)="showPointDetails(data)">
+    <span matListItemTitle>{{ t('showPointDetails') }}</span>
+  </a>
+  <a
+    mat-list-item
+    tabindex="0"
+    (click)="showOnMap($any(data.geometry.coordinates))"
+  >
+    <span matListItemTitle>{{ t('showOnMap') }}</span>
+  </a>
+  <a
+    mat-list-item
+    tabindex="0"
+    (click)="
+      startedNewRouteNavigation(
+        $any(data.geometry.coordinates),
+        data.properties.name
+      )
+    "
+  >
+    <span matListItemTitle>{{ t('navigateTo') }}</span>
+  </a>
+  <a
+    mat-list-item
+    tabindex="0"
+    (click)="
+      addPointToNavigation(
+        $any(data.geometry.coordinates),
+        data.properties.name
+      )
+    "
+  >
+    <span matListItemTitle>{{ t('addToNavigation') }}</span>
+  </a>
+  } @case ('airports') {
+  <a mat-list-item tabindex="0" (click)="showAirportDetails(data)">
+    <span matListItemTitle>{{ t('showAirportDetails') }}</span>
+  </a>
+  <a
+    mat-list-item
+    tabindex="0"
+    (click)="showOnMap($any(data.geometry.coordinates))"
+  >
+    <span matListItemTitle>{{ t('showOnMap') }}</span>
+  </a>
+  <a
+    mat-list-item
+    tabindex="0"
+    (click)="
+      startedNewRouteNavigation(
+        $any(data.geometry.coordinates),
+        data.properties.name
+      )
+    "
+  >
+    <span matListItemTitle>{{ t('navigateTo') }}</span>
+  </a>
+  <a
+    mat-list-item
+    tabindex="0"
+    (click)="
+      addPointToNavigation(
+        $any(data.geometry.coordinates),
+        data.properties.name
+      )
+    "
+  >
+    <span matListItemTitle>{{ t('addToNavigation') }}</span>
+  </a>
+  } @case ('address') {
+  <a mat-list-item tabindex="0" (click)="showOnMap($any(data.center))">
+    <span matListItemTitle>{{ t('showOnMap') }}</span>
+  </a>
+  <a
+    mat-list-item
+    tabindex="0"
+    (click)="startedNewRouteNavigation(data.center, data.text)"
+  >
+    <span matListItemTitle>{{ t('navigateTo') }}</span>
+  </a>
+  <a
+    mat-list-item
+    tabindex="0"
+    (click)="addPointToNavigation(data.center, data.text)"
+  >
+    <span matListItemTitle>{{ t('addToNavigation') }}</span>
+  </a>
+  } }
+</mat-nav-list>

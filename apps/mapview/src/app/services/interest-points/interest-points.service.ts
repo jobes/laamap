@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { MapHelperFunctionsService } from '../map-helper-functions/map-helper-functions.service';
 import { MapService } from '../map/map.service';
+import { escapeStringRegexp } from '../../helper';
 
 export interface IInterestPoint {
   id: string;
@@ -132,6 +133,32 @@ export class InterestPointsService {
     return this.imageList.find((img) => img.name === iconName)?.src;
   }
 
+  async searchPoints(
+    searchText: string | null,
+    limit = 5,
+  ): Promise<GeoJSON.Feature<Point, IInterestPoint>[]> {
+    if (!searchText) {
+      return [];
+    }
+    const pointDb = this.getDb();
+    return (
+      await pointDb.find({
+        selector: {
+          properties: {
+            name: {
+              $regex: RegExp(
+                `.*${escapeStringRegexp(searchText)}.*`,
+                'i',
+              ) as unknown as string,
+            },
+          },
+        },
+      })
+    ).docs
+      .sort((a, b) => this.sortByPointName(searchText, a, b))
+      .slice(0, limit);
+  }
+
   private getDb() {
     return new PouchDb<GeoJSON.Feature<Point, IInterestPoint>>(
       'interestPoints',
@@ -145,5 +172,25 @@ export class InterestPointsService {
         'interestPointsSource',
       ) as GeoJSONSource
     ).setData(interestGeoJson);
+  }
+
+  private sortByPointName(
+    pointName: string,
+    a: GeoJSON.Feature<Point, IInterestPoint>,
+    b: GeoJSON.Feature<Point, IInterestPoint>,
+  ): number {
+    if (
+      a.properties.name.startsWith(pointName) &&
+      !b.properties.name.startsWith(pointName)
+    ) {
+      return -1;
+    }
+    if (
+      !a.properties.name.startsWith(pointName) &&
+      b.properties.name.startsWith(pointName)
+    ) {
+      return 1;
+    }
+    return a.properties.name.localeCompare(b.properties.name);
   }
 }

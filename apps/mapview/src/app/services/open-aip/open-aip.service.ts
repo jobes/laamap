@@ -14,7 +14,7 @@ import {
 import { IAirspace, IAirspaceResponse } from './airspaces.interfaces';
 
 type GetAirportsResponse = Observable<
-  import('geojson').FeatureCollection<import('geojson').Geometry, IAirport>
+  import('geojson').FeatureCollection<import('geojson').Point, IAirport>
 >;
 
 @Injectable({
@@ -41,14 +41,14 @@ export class OpenAipService {
             properties: {
               ...feature.properties,
               lowerLimitMetersMsl: this.toMslMeters(
-                feature.properties.lowerLimit
+                feature.properties.lowerLimit,
               ),
               upperLimitMetersMsl: this.toMslMeters(
-                feature.properties.upperLimit
+                feature.properties.upperLimit,
               ),
             },
           })),
-        }))
+        })),
       );
   }
 
@@ -56,7 +56,7 @@ export class OpenAipService {
     return this.http
       .get<
         import('geojson').FeatureCollection<
-          import('geojson').Geometry,
+          import('geojson').Point,
           IAirportResponse
         >
       >(`${environment.openAipDbUrl}/sk_apt.geojson`)
@@ -67,7 +67,7 @@ export class OpenAipService {
             ...feature,
             properties: this.mapAirportsResponse(feature),
           })),
-        }))
+        })),
       );
   }
 
@@ -75,26 +75,26 @@ export class OpenAipService {
     feature: import('geojson').Feature<
       import('geojson').Geometry,
       IAirportResponse
-    >
+    >,
   ): IAirport {
     return {
       ...feature.properties,
       mainRunway: this.runwayPaved(
-        feature.properties.runways?.find((runway) => runway.mainRunway)
+        feature.properties.runways?.find((runway) => runway.mainRunway),
       ),
       runways: feature.properties.runways?.sort((a, b) =>
-        a.mainRunway === b.mainRunway ? 0 : a.mainRunway ? -1 : 1
+        a.mainRunway === b.mainRunway ? 0 : a.mainRunway ? -1 : 1,
       ),
       mainFrequency:
         feature.properties.frequencies?.find((freq) => freq.primary) ?? {},
       frequencies: feature.properties.frequencies?.sort((a, b) =>
-        a.primary === b.primary ? 0 : a.primary ? -1 : 1
+        a.primary === b.primary ? 0 : a.primary ? -1 : 1,
       ),
     };
   }
 
   private runwayPaved(
-    runway?: IRunway
+    runway?: IRunway,
   ): (IRunway & { paved: boolean }) | Record<string, never> {
     if (!runway) {
       return {};

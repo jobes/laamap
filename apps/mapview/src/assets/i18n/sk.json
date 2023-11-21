@@ -149,6 +149,18 @@
     "title": "Zoznam trás",
     "close": "Zavrieť"
   },
+  "globalSearch": {
+    "routes": "Trasy",
+    "activateRoute": "Aktivovať trasu",
+    "interestPoints": "Body záujmu",
+    "showPointDetails": "Detaili bodu",
+    "showAirportDetails": "Detaili letiska",
+    "showOnMap": "Zobraz na mape",
+    "navigateTo": "Navigovať",
+    "addToNavigation": "Pridať bod do navigácie",
+    "airports": "Letiská",
+    "address": "Adresa"
+  },
   "airportDialog": {
     "close": "Zavrieť",
     "title": "Letisko {name} {icaoCode, select, undefined {} other {({icaoCode})}}",
