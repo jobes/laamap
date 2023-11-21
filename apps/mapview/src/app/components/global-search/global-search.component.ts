@@ -11,32 +11,18 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CustomFlyRoutesService } from '../../services/custom-fly-routes/custom-fly-routes.service';
-import {
-  Observable,
-  catchError,
-  combineLatest,
-  debounceTime,
-  from,
-  map,
-  of,
-  startWith,
-  switchMap,
-} from 'rxjs';
 import { HighlightTextDirective } from '../../directives/highlight-text.directive';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatOption, MatOptionModule } from '@angular/material/core';
-import {
-  GlobalMenuInput,
-  GlobalSearchMenuComponent,
-} from '../global-search-menu/global-search-menu.component';
+import { GlobalSearchMenuComponent } from '../global-search-menu/global-search-menu.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TranslocoModule } from '@ngneat/transloco';
-import { InterestPointsService } from '../../services/interest-points/interest-points.service';
 import { MatListModule } from '@angular/material/list';
-import { OnMapAirportsService } from '../../services/map/on-map-airports/on-map-airports.service';
-import { geocoding } from '@maptiler/client';
 import { GamepadGlobalMenuHandler } from '../../services/gamepad-handler/gamepad-global-menu-handler';
+import {
+  GlobalMenuInput,
+  GlobalSearchService,
+} from '../../services/global-search/global-search.service';
 
 @Component({
   selector: 'laamap-global-search',
@@ -58,84 +44,12 @@ import { GamepadGlobalMenuHandler } from '../../services/gamepad-handler/gamepad
 export class GlobalSearchComponent {
   @ViewChild('inputElm') inputElm!: ElementRef<HTMLInputElement>;
   @ViewChildren(MatOption) matOptions!: QueryList<MatOption<GlobalMenuInput>>;
-  private readonly customFlyRoutesService = inject(CustomFlyRoutesService);
-  private readonly interestPointsService = inject(InterestPointsService);
-  private readonly onMapAirportsService = inject(OnMapAirportsService);
+  private readonly globalSearchService = inject(GlobalSearchService);
   private readonly bottomSheet = inject(MatBottomSheet);
   searchControl = new FormControl('');
   isOpen = signal(false);
-  searchResults$: Observable<
-    { label: string; values: { name: string; data: GlobalMenuInput }[] }[]
-  > = this.searchControl.valueChanges.pipe(
-    map((val) => ((val?.length ?? 0) >= 2 ? val : '')),
-    debounceTime(500),
-    switchMap((val) =>
-      combineLatest({
-        routes: this.customFlyRoutesService.searchRoute(val),
-        points: this.interestPointsService.searchPoints(val),
-        airports: Promise.resolve(this.onMapAirportsService.searchAirport(val)),
-        // eslint-disable-next-line rxjs/finnish
-        address: val
-          ? from(
-              geocoding.forward(val, { country: ['SK'], types: ['address'] }),
-            ).pipe(
-              startWith({ features: [] }),
-              catchError(() => of({ features: [] })),
-            )
-          : Promise.resolve({ features: [] }),
-      }),
-    ),
-    // eslint-disable-next-line max-lines-per-function
-    map((values) => [
-      ...(values.routes.length === 0
-        ? []
-        : [
-            {
-              label: 'routes',
-              values: values.routes.map((route) => ({
-                name: route.routeName,
-                data: { itemType: 'route' as const, ...route },
-              })),
-            },
-          ]),
-      ...(values.points.length === 0
-        ? []
-        : [
-            {
-              label: 'interestPoints',
-              values: values.points.map((point) => ({
-                name: point.properties.name,
-                data: { itemType: 'interestPoint' as const, ...point },
-              })),
-            },
-          ]),
-      ...(values.airports.length === 0
-        ? []
-        : [
-            {
-              label: 'airports',
-              values: values.airports.map((airport) => ({
-                name:
-                  airport.properties.name +
-                  (airport.properties.icaoCode
-                    ? `(${airport.properties.icaoCode})`
-                    : ''),
-                data: { itemType: 'airports' as const, ...airport },
-              })),
-            },
-          ]),
-      ...(values.address.features.length === 0
-        ? []
-        : [
-            {
-              label: 'address',
-              values: values.address.features.map((address) => ({
-                name: address.text,
-                data: { itemType: 'address' as const, ...address },
-              })),
-            },
-          ]),
-    ]),
+  searchResults$ = this.globalSearchService.searchResults$(
+    this.searchControl.valueChanges,
   );
 
   constructor() {
