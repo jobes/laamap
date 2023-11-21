@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LngLat } from 'maplibre-gl';
-import escapeStringRegexp from 'escape-string-regexp';
 import pouchDb from 'pouchdb';
 import pouchFind from 'pouchdb-find';
+import { escapeStringRegexp } from '../../helper';
 pouchDb.plugin(pouchFind);
 
 export interface ICustomFlyRoute {

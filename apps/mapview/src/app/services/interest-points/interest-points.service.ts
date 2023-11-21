@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { MapHelperFunctionsService } from '../map-helper-functions/map-helper-functions.service';
 import { MapService } from '../map/map.service';
-import escapeStringRegexp from 'escape-string-regexp';
+import { escapeStringRegexp } from '../../helper';
 
 export interface IInterestPoint {
   id: string;

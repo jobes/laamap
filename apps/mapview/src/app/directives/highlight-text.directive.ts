@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input, OnChanges } from '@angular/core';
-import escapeStringRegexp from 'escape-string-regexp';
+import { escapeStringRegexp } from '../helper';
 
 @Directive({
   selector: '[laamapHighlightText]',

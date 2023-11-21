@@ -17,6 +17,7 @@ import {
 import {
   GeocodingFeature,
   GeocodingSearchResult,
+  config,
   geocoding,
 } from '@maptiler/client';
 import { Feature, Point } from '@turf/turf';
@@ -26,6 +27,9 @@ import {
 } from '../interest-points/interest-points.service';
 import { IAirport } from '../open-aip/airport.interfaces';
 import { OnMapAirportsService } from '../map/on-map-airports/on-map-airports.service';
+import { environment } from '../../../environments/environment';
+
+config.apiKey = environment.mapTilesKey;
 
 export type GlobalMenuInput =
   | ({ itemType: 'route' } & ICustomFlyRoute)
