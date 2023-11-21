@@ -65,27 +65,12 @@ export class GlobalSearchComponent {
     this.closeInteraction();
   }
 
-  // TODO remove eslint
-  // eslint-disable-next-line max-statements
   keyDown(event: KeyboardEvent) {
     if (event.code === 'Escape') {
       this.closeInteraction();
       event.preventDefault();
     }
-    if (event.code === 'ArrowDown') {
-      let index = this.matOptions.toArray().findIndex((opt) => opt.selected);
-      if (index === this.matOptions.length - 1) index = -1;
-      this.matOptions.forEach((opt) => opt.deselect());
-      this.matOptions.get(index + 1)?.select();
-      event.preventDefault();
-    }
-    if (event.code === 'ArrowUp') {
-      let index = this.matOptions.toArray().findIndex((opt) => opt.selected);
-      if (index <= 0) index = this.matOptions.length;
-      this.matOptions.forEach((opt) => opt.deselect());
-      this.matOptions.get(index - 1)?.select();
-      event.preventDefault();
-    }
+
     if (event.code === 'Enter') {
       const selected = this.matOptions.find((opt) => opt.selected);
       if (selected) {
@@ -93,11 +78,28 @@ export class GlobalSearchComponent {
       }
       event.preventDefault();
     }
+    this.processKeyForArrows(event);
   }
 
   optionSelected(data: GlobalMenuInput): void {
     this.closeInteraction();
     this.bottomSheet.open(GlobalSearchMenuComponent, { data });
+  }
+
+  private processKeyForArrows(event: KeyboardEvent): void {
+    if (event.code === 'ArrowDown' || event.code === 'ArrowUp') {
+      event.preventDefault();
+      let index = this.matOptions.toArray().findIndex((opt) => opt.selected);
+      this.matOptions.forEach((opt) => opt.deselect());
+
+      if (event.code === 'ArrowDown') {
+        if (index === this.matOptions.length - 1) index = -1;
+        this.matOptions.get(index + 1)?.select();
+      } else {
+        if (index <= 0) index = this.matOptions.length;
+        this.matOptions.get(index - 1)?.select();
+      }
+    }
   }
 
   private closeInteraction(): void {
