@@ -12,7 +12,17 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CustomFlyRoutesService } from '../../services/custom-fly-routes/custom-fly-routes.service';
-import { Observable, debounceTime, forkJoin, map, switchMap } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  combineLatest,
+  debounceTime,
+  from,
+  map,
+  of,
+  startWith,
+  switchMap,
+} from 'rxjs';
 import { HighlightTextDirective } from '../../directives/highlight-text.directive';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatOption, MatOptionModule } from '@angular/material/core';
@@ -57,16 +67,21 @@ export class GlobalSearchComponent {
   searchResults$: Observable<
     { label: string; values: { name: string; data: GlobalMenuInput }[] }[]
   > = this.searchControl.valueChanges.pipe(
-    // TODO move out of component; make it work offline, when address not working
     map((val) => ((val?.length ?? 0) >= 2 ? val : '')),
     debounceTime(500),
     switchMap((val) =>
-      forkJoin({
+      combineLatest({
         routes: this.customFlyRoutesService.searchRoute(val),
         points: this.interestPointsService.searchPoints(val),
         airports: Promise.resolve(this.onMapAirportsService.searchAirport(val)),
+        // eslint-disable-next-line rxjs/finnish
         address: val
-          ? geocoding.forward(val, { country: ['SK'], types: ['address'] })
+          ? from(
+              geocoding.forward(val, { country: ['SK'], types: ['address'] }),
+            ).pipe(
+              startWith({ features: [] }),
+              catchError(() => of({ features: [] })),
+            )
           : Promise.resolve({ features: [] }),
       }),
     ),
