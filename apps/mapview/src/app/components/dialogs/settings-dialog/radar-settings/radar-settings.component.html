@@ -60,6 +60,15 @@
         (ngModelChange)="enableSmooth($event)"
         >{{ t('smooth') }}
       </mat-slide-toggle>
+      <mat-form-field *ngIf="radar.type === 'radar'">
+        <mat-label>{{ t('pauseOnEnd') }}</mat-label>
+        <input
+          matInput
+          type="number"
+          [ngModel]="radar.pauseOnEnd"
+          (ngModelChange)="pauseOnEndChanged($event)"
+        />
+      </mat-form-field>
       <div
         *ngIf="radar.type !== 'coverage'"
         class="labeled-slider mat-form-field-appearance-legacy mat-form-field-can-float mat-form-field-should-float"

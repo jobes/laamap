@@ -86,6 +86,14 @@ export class RadarSettingsComponent {
     );
   }
 
+  pauseOnEndChanged(time: number): void {
+    this.store.dispatch(
+      radarSettingsActions.pauseOnEndChanged({
+        time,
+      }),
+    );
+  }
+
   widgetBgColorChanged(color: string): void {
     this.store.dispatch(radarSettingsActions.widgetBgColorChanged({ color }));
   }
