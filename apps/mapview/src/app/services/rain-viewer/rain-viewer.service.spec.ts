@@ -27,11 +27,15 @@ describe('RainViewerService', () => {
 
   it('should make observable for periodical showing frames with rain', () => {
     testScheduler.run(({ expectObservable }) => {
-      service.startAnimationTimer(99, [
-        { time: 50, isPast: true },
-        { time: 100, isPast: true },
-        { time: 150, isPast: false },
-      ]);
+      service.startAnimationTimer(
+        99,
+        [
+          { time: 50, isPast: true },
+          { time: 100, isPast: true },
+          { time: 150, isPast: false },
+        ],
+        50,
+      );
 
       expectObservable(service.currentAnimationFrame$.pipe(take(13))).toBe(
         'a 9ms b 9ms c 59ms a 9ms b 9ms c 59ms a 9ms b 9ms c 59ms a 9ms b 9ms c 59ms (a|)',
@@ -39,7 +43,7 @@ describe('RainViewerService', () => {
           a: { frameNum: 0, time: 50, pastTime: true },
           b: { frameNum: 1, time: 100, pastTime: true },
           c: { frameNum: 2, time: 150, pastTime: false },
-        }
+        },
       );
     });
   });
