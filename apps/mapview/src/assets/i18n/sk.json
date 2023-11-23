@@ -16,6 +16,7 @@
       "widgetBackgroundColor": "Farba pozadia",
       "widgetPastColor": "Farba textu v minulosti",
       "widgetFutureColor": "Farba textu v budúcnosti",
+      "pauseOnEnd": "Čas pozastavenia animácie",
       "type": {
         "title": "Typ",
         "radar": "Radar",
@@ -127,7 +128,8 @@
       "xMoveLeft": "Posun do lava",
       "xMoveRight": "Posun do prava",
       "xMoveTop": "Posun hore",
-      "zoomOut": "Vzdialiť"
+      "zoomOut": "Vzdialiť",
+      "openGlobalSearch": "Otvor globálne hladanie"
     }
   },
   "navigationDialog": {

@@ -12,7 +12,7 @@ export class OnMapRainViewerService {
   itemCounts = 0;
   constructor(
     private readonly mapService: MapService,
-    private readonly rainViewer: RainViewerService
+    private readonly rainViewer: RainViewerService,
   ) {}
 
   createLayers(urlsWithSettings?: {
@@ -26,12 +26,12 @@ export class OnMapRainViewerService {
       this.itemCounts = urls.length;
       this.createLayersFromUrls(
         urls,
-        urlsWithSettings.settings.type === 'coverage'
+        urlsWithSettings.settings.type === 'coverage',
       );
       if (urlsWithSettings.settings.type !== 'coverage') {
         this.startAnimation(
           urlsWithSettings.settings,
-          this.createFrameTimeArray(urlsWithSettings)
+          this.createFrameTimeArray(urlsWithSettings),
         );
       }
     }
@@ -50,20 +50,24 @@ export class OnMapRainViewerService {
     this.mapService.instance.setPaintProperty(
       this.getLayerName(frameNum - 1),
       'raster-opacity',
-      0
+      0,
     );
     this.mapService.instance.setPaintProperty(
       this.getLayerName(frameNum),
       'raster-opacity',
-      opacity / 100
+      opacity / 100,
     );
   }
 
   private startAnimation(
     settings: RadarSettings,
-    timeArray: { time: number; isPast: boolean }[]
+    timeArray: { time: number; isPast: boolean }[],
   ): void {
-    this.rainViewer.startAnimationTimer(settings.animationSpeed, timeArray);
+    this.rainViewer.startAnimationTimer(
+      settings.animationSpeed,
+      timeArray,
+      settings.pauseOnEnd,
+    );
   }
 
   private createLayersFromUrls(urls: string[], singleFrame: boolean): void {
@@ -141,7 +145,7 @@ export class OnMapRainViewerService {
           this.rainViewer.tileSize
         }/{z}/{x}/{y}/${urlsWithSettings.settings.colorScheme}/${
           urlsWithSettings.settings.smooth ? 1 : 0
-        }_${urlsWithSettings.settings.snow ? 1 : 0}.png`
+        }_${urlsWithSettings.settings.snow ? 1 : 0}.png`,
     );
   }
 
@@ -153,7 +157,7 @@ export class OnMapRainViewerService {
       (item) =>
         `${urlsWithSettings.urls.host}${item.path}/${
           this.rainViewer.tileSize
-        }/{z}/{x}/{y}/0/${urlsWithSettings.settings.smooth ? 1 : 0}_0.png`
+        }/{z}/{x}/{y}/0/${urlsWithSettings.settings.smooth ? 1 : 0}_0.png`,
     );
   }
 

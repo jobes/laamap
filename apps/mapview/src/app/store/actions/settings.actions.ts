@@ -151,6 +151,7 @@ export const radarSettingsActions = createActionGroup({
     'Widget bg color changed': props<{ color: string }>(),
     'Widget text color past changed': props<{ color: string }>(),
     'Widget text color future changed': props<{ color: string }>(),
+    'Pause on end changed': props<{ time: number }>(),
   },
 });
 

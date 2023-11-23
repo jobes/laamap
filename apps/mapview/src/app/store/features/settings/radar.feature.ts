@@ -24,6 +24,7 @@ const initialState = {
     textColorPast: '#707070',
     textColorFuture: '#005706',
   },
+  pauseOnEnd: 10000,
 };
 
 export type RadarSettings = typeof initialState;
@@ -37,77 +38,84 @@ export const radarFeature = createFeature({
       (state, { enabled }): RadarSettings => ({
         ...state,
         enabled,
-      })
+      }),
     ),
     on(
       radarSettingsActions.widgetEnabled,
       (state, { enabled }): RadarSettings => ({
         ...state,
         widget: { ...state.widget, enabled },
-      })
+      }),
     ),
     on(
       radarSettingsActions.typeChanged,
       (state, { viewType }): RadarSettings => ({
         ...state,
         type: viewType,
-      })
+      }),
     ),
     on(
       radarSettingsActions.colorSchemeChanged,
       (state, { colorScheme }): RadarSettings => ({
         ...state,
         colorScheme,
-      })
+      }),
     ),
     on(
       radarSettingsActions.enabledSmoothChanged,
       (state, { enabled }): RadarSettings => ({
         ...state,
         smooth: enabled,
-      })
+      }),
     ),
     on(
       radarSettingsActions.enabledSnowChanged,
       (state, { enabled }): RadarSettings => ({
         ...state,
         snow: enabled,
-      })
+      }),
     ),
     on(
       radarSettingsActions.animationSpeedChanged,
       (state, { animationSpeed }): RadarSettings => ({
         ...state,
         animationSpeed,
-      })
+      }),
     ),
     on(
       radarSettingsActions.opacityChanged,
       (state, { opacity }): RadarSettings => ({
         ...state,
         opacity,
-      })
+      }),
     ),
     on(
       radarSettingsActions.widgetBgColorChanged,
       (state, { color }): RadarSettings => ({
         ...state,
         widget: { ...state.widget, background: color },
-      })
+      }),
     ),
     on(
       radarSettingsActions.widgetTextColorPastChanged,
       (state, { color }): RadarSettings => ({
         ...state,
         widget: { ...state.widget, textColorPast: color },
-      })
+      }),
     ),
     on(
       radarSettingsActions.widgetTextColorFutureChanged,
       (state, { color }): RadarSettings => ({
         ...state,
         widget: { ...state.widget, textColorFuture: color },
-      })
+      }),
+    ),
+    on(
+      radarSettingsActions.pauseOnEndChanged,
+      (state, { time }): RadarSettings => ({
+        ...state,
+        pauseOnEnd: time,
+      }),
     ),
     on(
       radarWidgetActions.positionMoved,
@@ -117,7 +125,7 @@ export const radarFeature = createFeature({
           ...state.widget,
           position,
         },
-      })
-    )
+      }),
+    ),
   ),
 });

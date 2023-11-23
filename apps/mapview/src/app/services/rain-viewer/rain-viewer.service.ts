@@ -29,7 +29,8 @@ export class RainViewerService {
     null as null | {
       animationSpeed: number;
       timeArray: { time: number; isPast: boolean }[];
-    }
+      pauseOnEnd: number;
+    },
   );
 
   constructor(private http: HttpClient) {
@@ -42,45 +43,49 @@ export class RainViewerService {
                 stepTime: this.animationSpeedStepDuration(def.animationSpeed),
               })),
               switchMap((def) =>
-                timer(0, def.stepTime * (def.timeArray.length + 5)).pipe(
+                timer(
+                  0,
+                  def.stepTime * def.timeArray.length + def.pauseOnEnd,
+                ).pipe(
                   // duration of 1 cycle containing all frames
                   switchMap(
                     () =>
-                      timer(0, def.stepTime).pipe(take(def.timeArray.length)) // duration of 1 frame for all frame, then stop
+                      timer(0, def.stepTime).pipe(take(def.timeArray.length)), // duration of 1 frame for all frame, then stop
                   ),
                   map((frameNum) => ({
                     frameNum,
                     time: def.timeArray[frameNum].time,
                     pastTime: def.timeArray[frameNum].isPast,
-                  }))
-                )
-              )
+                  })),
+                ),
+              ),
             )
-          : of(null)
+          : of(null),
       ), // stop timer
       filter((def): def is NonNullable<typeof def> => !!def),
-      share()
+      share(),
     );
   }
 
   getUrls$(): Observable<IRainViewerUrls> {
     return this.http
       .get<IRainViewerUrls>(
-        'https://api.rainviewer.com/public/weather-maps.json'
+        'https://api.rainviewer.com/public/weather-maps.json',
       )
       .pipe(
         map((defs) => ({
           ...defs,
           coverage: `/v2/coverage/0/${this.tileSize}/{z}/{x}/{y}/0/0_0.png`,
-        }))
+        })),
       );
   }
 
   startAnimationTimer(
     animationSpeed: number,
-    timeArray: { time: number; isPast: boolean }[]
+    timeArray: { time: number; isPast: boolean }[],
+    pauseOnEnd: number,
   ): void {
-    this.animationChangeSubj$.next({ animationSpeed, timeArray });
+    this.animationChangeSubj$.next({ animationSpeed, timeArray, pauseOnEnd });
   }
 
   stopAnimationTimer(): void {
