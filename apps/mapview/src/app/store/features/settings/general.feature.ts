@@ -10,7 +10,7 @@ const initialState = {
   widgetFontSizeRatio: 1.5,
   mapFontSizeRatio: 1.5,
   airplaneName: 'OMH-XXX (John Doe)',
-  notamFirs: [''],
+  notamFirs: [] as string[],
   notamRadius: 25000,
 };
 
