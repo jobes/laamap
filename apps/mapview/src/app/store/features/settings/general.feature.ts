@@ -10,6 +10,7 @@ const initialState = {
   widgetFontSizeRatio: 1.5,
   mapFontSizeRatio: 1.5,
   airplaneName: 'OMH-XXX (John Doe)',
+  notamFirs: [''],
 };
 
 export const generalFeature = createFeature({
@@ -21,34 +22,41 @@ export const generalFeature = createFeature({
       (state, { enabled }): typeof initialState => ({
         ...state,
         screenWakeLock: { ...state.screenWakeLock, enabled },
-      })
+      }),
     ),
     on(
       generalSettingsActions.widgetFontSizeRatioChanged,
       (state, { value }): typeof initialState => ({
         ...state,
         widgetFontSizeRatio: value,
-      })
+      }),
     ),
     on(
       generalSettingsActions.mapFontSizeRatioChanged,
       (state, { value }): typeof initialState => ({
         ...state,
         mapFontSizeRatio: value,
-      })
+      }),
     ),
     on(
       generalSettingsActions.airplaneNameChanged,
       (state, { airplaneName }): typeof initialState => ({
         ...state,
         airplaneName,
-      })
-    )
+      }),
+    ),
+    on(
+      generalSettingsActions.notamFIRChanged,
+      (state, { firs }): typeof initialState => ({
+        ...state,
+        notamFirs: firs,
+      }),
+    ),
   ),
   extraSelectors: ({ selectScreenWakeLock }) => ({
     selectScreenWakeLockEnabled: createSelector(
       selectScreenWakeLock,
-      (wakeLock) => wakeLock.enabled
+      (wakeLock) => wakeLock.enabled,
     ),
   }),
 });
