@@ -11,6 +11,7 @@ const initialState = {
   mapFontSizeRatio: 1.5,
   airplaneName: 'OMH-XXX (John Doe)',
   notamFirs: [''],
+  notamRadius: 25000,
 };
 
 export const generalFeature = createFeature({
@@ -50,6 +51,13 @@ export const generalFeature = createFeature({
       (state, { firs }): typeof initialState => ({
         ...state,
         notamFirs: firs,
+      }),
+    ),
+    on(
+      generalSettingsActions.notamRadiusChanged,
+      (state, { radius }): typeof initialState => ({
+        ...state,
+        notamRadius: radius,
       }),
     ),
   ),

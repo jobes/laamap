@@ -37,6 +37,7 @@ export const generalSettingsActions = createActionGroup({
     'Map font size ratio changed': props<{ value: number }>(),
     'Airplane name changed': props<{ airplaneName: string }>(),
     'Notam FIR changed': props<{ firs: string[] }>(),
+    'Notam radius changed': props<{ radius: number }>(),
   },
 });
 

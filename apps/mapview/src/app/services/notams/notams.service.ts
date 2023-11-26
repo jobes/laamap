@@ -1,8 +1,9 @@
+/* eslint-disable max-lines */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import * as turf from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
-import { Observable, iif, map, tap, of, switchMap } from 'rxjs';
+import { Observable, iif, map, tap, of, switchMap, forkJoin } from 'rxjs';
 
 import { notamTranslations } from './notam-translations';
 import {
@@ -56,6 +57,27 @@ export class NotamsService {
   loadAroundPointNotams$(point: LngLat, radius: number): Observable<boolean> {
     return this.allAroundPoint$(point, radius).pipe(
       map((notams) => notams.notamList),
+      tap((notams) => (this.navigationCache = notams)),
+      map(() => this.navigationCache.length > 0),
+    );
+  }
+
+  loadAroundRoute$(points: LngLat[], radius: number): Observable<boolean> {
+    const line = turf.lineString(points.map((point) => point.toArray()));
+    const lineDistancePoints = turf.lineChunk(line, radius, {
+      units: 'meters',
+    });
+    const pointsForNotam = lineDistancePoints.features.map(
+      (p) => p.geometry.coordinates[0],
+    );
+    pointsForNotam.push(points[points.length - 1].toArray());
+
+    return forkJoin(
+      pointsForNotam.map((point) =>
+        this.allAroundPoint$(new LngLat(point[0], point[1]), radius),
+      ),
+    ).pipe(
+      map((notamsDef) => this.uniqueNotams(notamsDef)),
       tap((notams) => (this.navigationCache = notams)),
       map(() => this.navigationCache.length > 0),
     );
@@ -303,6 +325,21 @@ export class NotamsService {
           (coordinates.substring(4, 5) === 'S' ? -1 : 1),
       ),
     };
+  }
+
+  private uniqueNotams(
+    notamsDef: INotamDecodedResponse[],
+  ): INotamDecodedResponse['notamList'] {
+    return notamsDef
+      .map((notamDef) => notamDef.notamList)
+      .reduce((acc, val) => [...acc, ...val], [])
+      .reduce(
+        (acc, val) =>
+          acc.some((f) => f.notamNumber === val.notamNumber)
+            ? acc
+            : [...acc, val],
+        [] as INotamDecodedResponse['notamList'],
+      );
   }
 
   private parseMsg(msg: string): string {

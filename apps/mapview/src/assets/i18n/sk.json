@@ -52,7 +52,8 @@
       "widgetFontSizeRatio": "Velkosť písma widgetu",
       "mapFontSizeRatio": "Velkosť písma mapy",
       "airPlaneName": "Názov lietadla",
-      "notamFirs": "Notamy pre FIR"
+      "notamFirs": "Notamy pre FIR",
+      "notamRadius": "Notam polomer od polohy"
     },
     "navigation": {
       "title": "Navigácia",
