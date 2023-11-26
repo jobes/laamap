@@ -3,12 +3,16 @@ import { TestBed } from '@angular/core/testing';
 import { LngLat } from 'maplibre-gl';
 
 import { NotamsService } from './notams.service';
+import { APP_BASE_HREF } from '@angular/common';
 
 describe('NotamsService', () => {
   let service: NotamsService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [HttpClientTestingModule] });
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [{ provide: APP_BASE_HREF, useValue: 'assetsUrl' }],
+    });
     service = TestBed.inject(NotamsService);
   });
 
