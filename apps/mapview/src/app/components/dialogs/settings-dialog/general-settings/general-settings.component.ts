@@ -49,6 +49,7 @@ export class GeneralSettingsComponent {
   mapFontSizeRatio$ = this.store.select(generalFeature.selectMapFontSizeRatio);
   airplaneName$ = this.store.select(generalFeature.selectAirplaneName);
   notamFirs$ = this.store.select(generalFeature.selectNotamFirs);
+  notamRadius$ = this.store.select(generalFeature.selectNotamRadius);
   firList$ = this.notams.getFirList();
 
   constructor(
@@ -82,5 +83,9 @@ export class GeneralSettingsComponent {
 
   notamFirsChanged(firs: string[]) {
     this.store.dispatch(generalSettingsActions.notamFIRChanged({ firs }));
+  }
+
+  notamRadiusFirsChanged(radius: number) {
+    this.store.dispatch(generalSettingsActions.notamRadiusChanged({ radius }));
   }
 }

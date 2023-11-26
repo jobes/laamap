@@ -69,5 +69,17 @@
         }
       </mat-select>
     </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('notamRadius') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="notamRadius$ | async"
+        min="1000"
+        max="100000"
+        step="10"
+        (ngModelChange)="notamRadiusFirsChanged($event)"
+      />
+    </mat-form-field>
   </mat-expansion-panel>
 </ng-template>
