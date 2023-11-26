@@ -51,7 +51,8 @@
       "notSupported": "Funkcia nie je podporovaná vo vašom zariadení",
       "widgetFontSizeRatio": "Velkosť písma widgetu",
       "mapFontSizeRatio": "Velkosť písma mapy",
-      "airPlaneName": "Názov lietadla"
+      "airPlaneName": "Názov lietadla",
+      "notamFirs": "Notamy pre FIR"
     },
     "navigation": {
       "title": "Navigácia",

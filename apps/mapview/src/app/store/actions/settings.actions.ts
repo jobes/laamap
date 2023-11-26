@@ -36,6 +36,7 @@ export const generalSettingsActions = createActionGroup({
     'Widget font size ratio changed': props<{ value: number }>(),
     'Map font size ratio changed': props<{ value: number }>(),
     'Airplane name changed': props<{ airplaneName: string }>(),
+    'Notam FIR changed': props<{ firs: string[] }>(),
   },
 });
 

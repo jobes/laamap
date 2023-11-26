@@ -54,5 +54,20 @@
         (ngModelChange)="airplaneNameChanged($event)"
       />
     </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('notamFirs') }}</mat-label>
+      <mat-select
+        [ngModel]="notamFirs$ | async"
+        (ngModelChange)="notamFirsChanged($event)"
+        multiple
+      >
+        @for (fir of firList$ | async; track fir.code) {
+        <mat-option [value]="fir.code">
+          <div>{{ fir.country }}</div>
+          <div>{{ fir.name }} ({{ fir.code }})</div>
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </mat-expansion-panel>
 </ng-template>

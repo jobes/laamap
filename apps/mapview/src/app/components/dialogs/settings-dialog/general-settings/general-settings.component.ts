@@ -14,6 +14,8 @@ import { Store } from '@ngrx/store';
 import { ScreenWakeLockService } from '../../../../services/screen-wake-lock/screen-wake-lock.service';
 import { generalSettingsActions } from '../../../../store/actions/settings.actions';
 import { generalFeature } from '../../../../store/features/settings/general.feature';
+import { MatSelectModule } from '@angular/material/select';
+import { NotamsService } from '../../../../services/notams/notams.service';
 
 @Component({
   selector: 'laamap-general-settings',
@@ -32,6 +34,8 @@ import { generalFeature } from '../../../../store/features/settings/general.feat
     MatFormFieldModule,
     MatInputModule,
     AsyncPipe,
+    MatSelectModule,
+    AsyncPipe,
   ],
 })
 export class GeneralSettingsComponent {
@@ -44,8 +48,13 @@ export class GeneralSettingsComponent {
   );
   mapFontSizeRatio$ = this.store.select(generalFeature.selectMapFontSizeRatio);
   airplaneName$ = this.store.select(generalFeature.selectAirplaneName);
+  notamFirs$ = this.store.select(generalFeature.selectNotamFirs);
+  firList$ = this.notams.getFirList();
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly notams: NotamsService,
+  ) {}
 
   screenWakeLockEnabledChange(enabled: boolean) {
     this.store.dispatch(
@@ -69,5 +78,9 @@ export class GeneralSettingsComponent {
     this.store.dispatch(
       generalSettingsActions.airplaneNameChanged({ airplaneName }),
     );
+  }
+
+  notamFirsChanged(firs: string[]) {
+    this.store.dispatch(generalSettingsActions.notamFIRChanged({ firs }));
   }
 }

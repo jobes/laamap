@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import * as turf from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
-import { Observable, iif, map, of, switchMap } from 'rxjs';
+import { Observable, iif, map, tap, of, switchMap } from 'rxjs';
 
 import { notamTranslations } from './notam-translations';
 import {
@@ -12,6 +12,8 @@ import {
   INotamQParsed,
   INotamResponse,
 } from './notams.interface';
+import { APP_BASE_HREF } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 // data getting https://github.com/avwx-rest/avwx-engine/blob/aa929745559ad815e250a3e8bbe6166235a8c53d/avwx/service/scrape.py
 // decode structure https://www.theairlinepilots.com/flightplanningforairlinepilots/notamdecode.php
@@ -27,137 +29,35 @@ export type NotamGeoJson = turf.FeatureCollection<
   providedIn: 'root',
 })
 export class NotamsService {
-  readonly notamProxy = 'https://notams.cezmatrix.sk';
-  constructor(private http: HttpClient) {}
+  firNotamsCache: INotamDecodedResponse['notamList'] = [];
+  navigationCache: INotamDecodedResponse['notamList'] = [];
 
-  // eslint-disable-next-line max-lines-per-function
-  icaoCode$(icao: string[], offset = 0): Observable<INotamDecodedResponse> {
-    const body = new URLSearchParams();
-    body.set('searchType', '0');
-    body.set('designatorsForLocation', icao.join(','));
-    body.set('offset', offset.toString());
-    body.set('notamsOnly', 'false');
-    return this.http
-      .post<INotamResponse>(
-        `${this.notamProxy}/notamSearch/search`,
-        body.toString(),
-        {
-          headers: new HttpHeaders().set(
-            'Content-Type',
-            'application/x-www-form-urlencoded'
-          ),
-        }
-      )
-      .pipe(
-        switchMap((resp) =>
-          iif(
-            () => resp.endRecordCount === resp.totalNotamCount,
-            of(resp),
-            this.icaoCode$(icao, resp.endRecordCount).pipe(
-              map((nextResp) => ({
-                ...nextResp,
-                startRecordCount: resp.startRecordCount,
-                notamList: [...nextResp.notamList, ...resp.notamList],
-              }))
-            )
-          )
-        ),
-        map((notams) => ({
-          ...notams,
-          notamList: notams.notamList.map((notamItem) => ({
-            ...notamItem,
-            decoded: this.decodeNotam(notamItem.icaoMessage),
-          })),
-        }))
-      );
+  constructor(
+    private http: HttpClient,
+    @Inject(APP_BASE_HREF) private readonly baseHref: string,
+  ) {}
+
+  getCachedNotams(): INotamDecodedResponse['notamList'] {
+    return [...this.firNotamsCache, ...this.navigationCache];
   }
 
-  /**
-   * @param {number} [radius] Distance in meters from the center coordinates
-   */
-  // eslint-disable-next-line max-lines-per-function, max-statements
-  aroundPoint$(
-    point: LngLat,
-    radius: number,
-    offset = 0
-  ): Observable<INotamDecodedResponse> {
-    const wrapped = point.wrap();
-    const body = new URLSearchParams();
-    body.set('searchType', '3');
-    body.set('latDegrees', Math.abs(Math.floor(wrapped.lat)).toString());
-    body.set(
-      'latMinutes',
-      Math.abs(Math.floor((wrapped.lat % 1) * 60)).toString()
-    );
-    body.set(
-      'latSeconds',
-      Math.abs(Math.floor((((wrapped.lat % 1) * 60) % 1) * 60)).toString()
-    );
-    body.set('latitudeDirection', wrapped.lat >= 0 ? 'N' : 'S');
-    body.set('longDegrees', Math.abs(Math.floor(wrapped.lng)).toString());
-    body.set(
-      'longMinutes',
-      Math.abs(Math.floor((wrapped.lng % 1) * 60)).toString()
-    );
-    body.set(
-      'longSeconds',
-      Math.abs(Math.floor((((wrapped.lng % 1) * 60) % 1) * 60)).toString()
-    );
-    body.set('longitudeDirection', wrapped.lng >= 0 ? 'E' : 'W');
-    body.set('radius', Math.ceil(0.000539956803 * radius).toString());
-    body.set('offset', offset.toString());
-    body.set('notamsOnly', 'false');
-    body.set('radiusSearchOnDesignator', 'false');
+  loadFirNotams$(icao: string[]): Observable<boolean> {
+    const firNotams$ =
+      !icao || icao.length === 0
+        ? of([])
+        : this.allIcaoCode$(icao).pipe(map((notams) => notams.notamList));
 
-    return this.http
-      .post<INotamResponse>(
-        `${this.notamProxy}/notamSearch/search`,
-        body.toString(),
-        {
-          headers: new HttpHeaders().set(
-            'Content-Type',
-            'application/x-www-form-urlencoded'
-          ),
-        }
-      )
-      .pipe(
-        switchMap((resp) =>
-          iif(
-            () => resp.endRecordCount === resp.totalNotamCount,
-            of(resp),
-            this.aroundPoint$(point, radius, resp.endRecordCount).pipe(
-              map((nextResp) => ({
-                ...nextResp,
-                startRecordCount: resp.startRecordCount,
-                notamList: [...nextResp.notamList, ...resp.notamList],
-              }))
-            )
-          )
-        ),
-        map((notams) => ({
-          ...notams,
-          notamList: notams.notamList.map((notamItem) => ({
-            ...notamItem,
-            decoded: this.decodeNotam(notamItem.icaoMessage),
-          })),
-        }))
-      );
+    return firNotams$.pipe(
+      tap((notams) => (this.firNotamsCache = notams)),
+      map(() => this.firNotamsCache.length > 0),
+    );
   }
 
-  aroundPointWithCodes$(
-    point: LngLat,
-    radius: number,
-    icaoCodes: string[]
-  ): Observable<INotamDecodedResponse['notamList']> {
-    return this.aroundPoint$(point, radius).pipe(
-      switchMap((pointNotams) =>
-        this.icaoCode$(icaoCodes).pipe(
-          map((icaoCodesNotams) => [
-            ...icaoCodesNotams.notamList,
-            ...pointNotams.notamList,
-          ])
-        )
-      )
+  loadAroundPointNotams$(point: LngLat, radius: number): Observable<boolean> {
+    return this.allAroundPoint$(point, radius).pipe(
+      map((notams) => notams.notamList),
+      tap((notams) => (this.navigationCache = notams)),
+      map(() => this.navigationCache.length > 0),
     );
   }
 
@@ -185,10 +85,138 @@ export class NotamsService {
         turf.circle(
           notam.decoded.position.toArray(),
           notam.decoded.radius / 1000,
-          { properties: notam }
-        )
-      )
+          { properties: notam },
+        ),
+      ),
     );
+  }
+
+  getFirList() {
+    return this.http.get<
+      {
+        code: string;
+        type: string;
+        name: string;
+        country: string;
+      }[]
+    >(`${this.baseHref}assets/firs.json`);
+  }
+
+  /**
+   * @param {number} [radius] Distance in meters from the center coordinates
+   */
+  // eslint-disable-next-line max-lines-per-function, max-statements
+  private allAroundPoint$(
+    point: LngLat,
+    radius: number,
+    offset = 0,
+  ): Observable<INotamDecodedResponse> {
+    const wrapped = point.wrap();
+    const body = new URLSearchParams();
+    body.set('searchType', '3');
+    body.set('latDegrees', Math.abs(Math.floor(wrapped.lat)).toString());
+    body.set(
+      'latMinutes',
+      Math.abs(Math.floor((wrapped.lat % 1) * 60)).toString(),
+    );
+    body.set(
+      'latSeconds',
+      Math.abs(Math.floor((((wrapped.lat % 1) * 60) % 1) * 60)).toString(),
+    );
+    body.set('latitudeDirection', wrapped.lat >= 0 ? 'N' : 'S');
+    body.set('longDegrees', Math.abs(Math.floor(wrapped.lng)).toString());
+    body.set(
+      'longMinutes',
+      Math.abs(Math.floor((wrapped.lng % 1) * 60)).toString(),
+    );
+    body.set(
+      'longSeconds',
+      Math.abs(Math.floor((((wrapped.lng % 1) * 60) % 1) * 60)).toString(),
+    );
+    body.set('longitudeDirection', wrapped.lng >= 0 ? 'E' : 'W');
+    body.set('radius', Math.ceil(0.000539956803 * radius).toString());
+    body.set('offset', offset.toString());
+    body.set('notamsOnly', 'false');
+    body.set('radiusSearchOnDesignator', 'false');
+
+    return this.http
+      .post<INotamResponse>(
+        `${environment.notamProxy}/notamSearch/search`,
+        body.toString(),
+        {
+          headers: new HttpHeaders().set(
+            'Content-Type',
+            'application/x-www-form-urlencoded',
+          ),
+        },
+      )
+      .pipe(
+        switchMap((resp) =>
+          iif(
+            () => resp.endRecordCount === resp.totalNotamCount,
+            of(resp),
+            this.allAroundPoint$(point, radius, resp.endRecordCount).pipe(
+              map((nextResp) => ({
+                ...nextResp,
+                startRecordCount: resp.startRecordCount,
+                notamList: [...nextResp.notamList, ...resp.notamList],
+              })),
+            ),
+          ),
+        ),
+        map((notams) => ({
+          ...notams,
+          notamList: notams.notamList.map((notamItem) => ({
+            ...notamItem,
+            decoded: this.decodeNotam(notamItem.icaoMessage),
+          })),
+        })),
+      );
+  }
+
+  // eslint-disable-next-line max-lines-per-function
+  private allIcaoCode$(
+    icao: string[],
+    offset = 0,
+  ): Observable<INotamDecodedResponse> {
+    const body = new URLSearchParams();
+    body.set('searchType', '0');
+    body.set('designatorsForLocation', icao.join(','));
+    body.set('offset', offset.toString());
+    body.set('notamsOnly', 'false');
+    return this.http
+      .post<INotamResponse>(
+        `${environment.notamProxy}/notamSearch/search`,
+        body.toString(),
+        {
+          headers: new HttpHeaders().set(
+            'Content-Type',
+            'application/x-www-form-urlencoded',
+          ),
+        },
+      )
+      .pipe(
+        switchMap((resp) =>
+          iif(
+            () => resp.endRecordCount === resp.totalNotamCount,
+            of(resp),
+            this.allIcaoCode$(icao, resp.endRecordCount).pipe(
+              map((nextResp) => ({
+                ...nextResp,
+                startRecordCount: resp.startRecordCount,
+                notamList: [...nextResp.notamList, ...resp.notamList],
+              })),
+            ),
+          ),
+        ),
+        map((notams) => ({
+          ...notams,
+          notamList: notams.notamList.map((notamItem) => ({
+            ...notamItem,
+            decoded: this.decodeNotam(notamItem.icaoMessage),
+          })),
+        })),
+      );
   }
 
   // eslint-disable-next-line complexity
@@ -226,8 +254,8 @@ export class NotamsService {
     return new Date(
       `20${data.substring(0, 2)}-${data.substring(2, 4)}-${data.substring(
         4,
-        6
-      )}T${data.substring(6, 8)}:${data.substring(8, 10)}:00.000Z`
+        6,
+      )}T${data.substring(6, 8)}:${data.substring(8, 10)}:00.000Z`,
     );
   }
 
@@ -272,7 +300,7 @@ export class NotamsService {
         (Number(coordinates.substring(5, 10)) / 100) *
           (coordinates.substring(10, 11) === 'W' ? -1 : 1),
         (Number(coordinates.substring(0, 4)) / 100) *
-          (coordinates.substring(4, 5) === 'S' ? -1 : 1)
+          (coordinates.substring(4, 5) === 'S' ? -1 : 1),
       ),
     };
   }
