@@ -37,6 +37,7 @@
     "@turf/turf": "^6.5.0",
     "emulate-tab": "^1.2.1",
     "lightgallery": "^2.7.2",
+    "logrocket": "^7.0.0",
     "maplibre-gl": "^3.5.1",
     "messageformat": "^2.3.0",
     "ngrx-store-localstorage": "^16.0.0",

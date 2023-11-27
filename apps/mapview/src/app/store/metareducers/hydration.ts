@@ -9,6 +9,8 @@ import { instrumentsFeature } from '../features/settings/instruments.feature';
 import { navigationSettingsFeature } from '../features/settings/navigation.feature';
 import { notamsFeature } from '../features/settings/notams.feature';
 import { radarFeature } from '../features/settings/radar.feature';
+import { logRocketMiddleware } from './logrocket';
+import { environment } from '../../../environments/environment';
 
 export function localStorageSyncReducer(
   reducer: ActionReducer<any>,
@@ -28,4 +30,7 @@ export function localStorageSyncReducer(
   })(reducer);
 }
 
-export const metaReducers = [localStorageSyncReducer];
+export const metaReducers = [
+  localStorageSyncReducer,
+  ...(environment.production ? [logRocketMiddleware] : []),
+];
