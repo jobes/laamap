@@ -3,7 +3,6 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
   galleryLicenseKey: process.env['NX_LIGHT_GALLERY_KEY'],
   mapTilesKey: process.env['NX_MAP_TILES_KEY'] ?? 'MISSING_KEY',
   openAipDbUrl: process.env['NX_API_DB_URL'],

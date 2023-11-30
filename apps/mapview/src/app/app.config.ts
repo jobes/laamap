@@ -5,7 +5,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,7 +35,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LightgalleryModule } from 'lightgallery/angular';
 import { provideQuillConfig } from 'ngx-quill/config';
 
-import { environment } from '../environments/environment';
 import { TranslocoHttpLoader } from './services/transloco-loader.service';
 import { MapEffects } from './store/effects/map.effects';
 import { NavigationEffects } from './store/effects/navigation.effects';
@@ -111,7 +110,7 @@ export const appConfig: ApplicationConfig = {
       ]),
       StoreDevtoolsModule.instrument({
         maxAge: 500,
-        logOnly: environment.production,
+        logOnly: isDevMode(),
       }),
       LightgalleryModule,
     ),
@@ -131,7 +130,7 @@ export const appConfig: ApplicationConfig = {
       config: {
         availableLangs: ['sk', 'en'],
         defaultLang: 'sk',
-        prodMode: environment.production,
+        prodMode: isDevMode(),
       },
       loader: TranslocoHttpLoader,
     }),

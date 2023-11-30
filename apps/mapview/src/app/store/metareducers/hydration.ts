@@ -10,7 +10,7 @@ import { navigationSettingsFeature } from '../features/settings/navigation.featu
 import { notamsFeature } from '../features/settings/notams.feature';
 import { radarFeature } from '../features/settings/radar.feature';
 import { logRocketMiddleware } from './logrocket';
-import { environment } from '../../../environments/environment';
+import { isDevMode } from '@angular/core';
 
 export function localStorageSyncReducer(
   reducer: ActionReducer<any>,
@@ -32,5 +32,5 @@ export function localStorageSyncReducer(
 
 export const metaReducers = [
   localStorageSyncReducer,
-  ...(environment.production ? [logRocketMiddleware] : []),
+  ...(isDevMode() ? [logRocketMiddleware] : []),
 ];
