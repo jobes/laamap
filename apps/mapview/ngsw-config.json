@@ -1,0 +1,58 @@
+{
+  "$schema": "../../node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/icons/favicon_16.png",
+          "/assets/icons/favicon_24.png",
+          "/assets/icons/favicon_32.png",
+          "/assets/icons/favicon_64.png",
+          "/assets/icons/favicon_128.png",
+          "/assets/icons/favicon_256.png",
+          "/assets/icons/favicon_512.png",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js"
+        ],
+        "urls": ["https://fonts.gstatic.com/*"]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "map",
+      "cacheConfig": {
+        "maxAge": "700d",
+        "maxSize": 1000,
+        "timeout": "3s"
+      },
+      "urls": ["https://api.maptiler.com"]
+    },
+    {
+      "name": "openAip",
+      "cacheConfig": {
+        "maxAge": "1d",
+        "maxSize": 1000,
+        "timeout": "3s"
+      },
+      "urls": ["https://jobes.github.io/laamap-openaip-downloader"]
+    }
+  ],
+  "appData": { "news": { "sk": "Uvodna podpora pre PWA aplikacie" } }
+}
