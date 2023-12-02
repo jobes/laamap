@@ -18,8 +18,7 @@
 - map control using gamepad with basic dialog control support
 - save own point to map that can be used for the navigation
 - global search on left top with search icon, there can se searched for route, airport, interest point and address
-
-Map icon [Plane icons created by Good Ware - Flaticon](https://www.flaticon.com/free-icons/plane).
+- map can be installed as PWA
 
 ### Secrets and keys
 
@@ -62,31 +61,60 @@ server {
 }
 ```
 
+### Map icon
+
+flaticon.com [aviation icons](https://www.flaticon.com/free-icon/airport_3295244)
+
 ### POI icons
 
 https://www.pngwing.com/en/free-png-izway/download?width=24
+
 https://www.pngwing.com/en/free-png-bhypm/download?width=24
+
 https://www.pngwing.com/en/free-png-tmyal/download?width=24
+
 https://www.pngwing.com/en/free-png-tfyct/download?width=24
+
 https://www.pngwing.com/en/free-png-sactd/download?width=24
+
 https://www.pngwing.com/en/free-png-nvgek/download?width=24
+
 https://www.pngwing.com/en/free-png-snkwy/download?width=24
+
 https://www.pngwing.com/en/free-png-ptmbg/download?width=24
+
 https://www.pngwing.com/en/free-png-sjmfo/download?width=24
+
 https://www.pngwing.com/en/free-png-tnjav/download?width=24
+
 https://www.pngwing.com/en/free-png-tnvzw/download?width=24
+
 https://www.pngwing.com/en/free-png-hcwtd/download?width=24
+
 https://www.pngwing.com/en/free-png-vuicb/download?width=24
+
 https://www.freepik.com/icon/point-interest_7616080
+
 https://www.freepik.com/icon/correct_7616102
+
 https://www.freepik.com/icon/travel-guide_7616101
+
 https://www.freepik.com/icon/setting_7616100
+
 https://www.freepik.com/icon/map-book_7616099
+
 https://www.freepik.com/icon/search_7616098
+
 https://www.freepik.com/icon/school_7616094
+
 https://www.freepik.com/icon/flag_7616092
+
 https://www.freepik.com/icon/meeting-place_7616091
+
 https://www.freepik.com/icon/time_7616089
+
 https://www.freepik.com/icon/restaurant_7616087
+
 https://www.freepik.com/icon/favourite_7616072
+
 https://www.freepik.com/icon/home-address_7616069

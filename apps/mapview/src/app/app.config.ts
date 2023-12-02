@@ -52,6 +52,7 @@ import { navigationSettingsFeature } from './store/features/settings/navigation.
 import { notamsFeature } from './store/features/settings/notams.feature';
 import { radarFeature } from './store/features/settings/radar.feature';
 import { metaReducers } from './store/metareducers/hydration';
+import { provideServiceWorker } from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -139,5 +140,9 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideRouter([]),
     provideQuillConfig({}),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 };

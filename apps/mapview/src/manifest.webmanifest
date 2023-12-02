@@ -1,0 +1,123 @@
+{
+  "name": "Aviation map with navigation",
+  "short_name": "Aviation map",
+  "description": "Aviation map with navigation, tracking, NOTAMs, basic GPS flight instruments like altimeter, variometer",
+  "theme_color": "#1976d2",
+  "background_color": "#fafafa",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "assets/icons/favicon_16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon_24.png",
+      "sizes": "24x24",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon_32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon_64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon_128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon_256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["navigation", ""],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "screenshots": [
+    {
+      "src": "assets/screenshots/750_1334-airport-details.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Airport details"
+    },
+    {
+      "src": "assets/screenshots/750_1334-map.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Opened map"
+    },
+    {
+      "src": "assets/screenshots/750_1334-navigation.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Navigation"
+    },
+    {
+      "src": "assets/screenshots/750_1334-notams.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Notams on map"
+    },
+    {
+      "src": "assets/screenshots/1920_1003-airport-detail.png",
+      "sizes": "1920x1003",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Airport details"
+    },
+    {
+      "src": "assets/screenshots/1920_1003-map.png",
+      "sizes": "1920x1003",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Opened map"
+    },
+    {
+      "src": "assets/screenshots/1920_1003-navigation.png",
+      "sizes": "1920x1003",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Navigation"
+    },
+    {
+      "src": "assets/screenshots/1920_1003-notam.png",
+      "sizes": "1920x1003",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Notams on map"
+    },
+    {
+      "src": "assets/screenshots/1920_1003-weather-radar.png",
+      "sizes": "1920x1003",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Weather rain radar"
+    },
+    {
+      "src": "assets/screenshots/1920_1003-weather-radar2.png",
+      "sizes": "1920x1003",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Weather rain radar"
+    }
+  ]
+}
