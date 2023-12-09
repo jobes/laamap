@@ -677,7 +677,8 @@
     "resetBearing": "Orientovať na sever",
     "zoomIn": "Priblížiť",
     "zoomOut": "Vzdialiť",
-    "navigation": "Navigácia"
+    "navigation": "Navigácia",
+    "mapError": "Chyba načítania mapy - slabé internetové pripojenie"
   },
   "wakeLock": {
     "lockingError": "Chyba pri zakazovaní vypínania obrazovky",
