@@ -72,7 +72,7 @@ export class GlobalSearchService {
                 geocoding.forward(val, { country: ['SK'], types: ['address'] }),
               ).pipe(
                 startWith(null),
-                catchError(() => of(null)),
+                catchError(() => of({ error: true })),
               )
             : Promise.resolve(null),
         }),
@@ -85,7 +85,7 @@ export class GlobalSearchService {
     routes: ICustomFlyRoute[];
     points: Feature<Point, IInterestPoint>[];
     airports: Feature<Point, IAirport>[];
-    address: GeocodingSearchResult | null;
+    address: GeocodingSearchResult | null | { error: boolean };
   }): IGlobalMenuResult[] {
     return [
       ...this.mapRoutesToList(values.routes),
@@ -149,8 +149,11 @@ export class GlobalSearchService {
   }
 
   private mapAddressToList(
-    address: GeocodingSearchResult | null,
+    address: GeocodingSearchResult | null | { error: boolean },
   ): IGlobalMenuResult[] {
+    if (address && 'error' in address) {
+      return [{ label: 'addressError', values: [] }];
+    }
     if (!address || address.features.length === 0) {
       return [];
     }
