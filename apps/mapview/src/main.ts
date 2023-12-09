@@ -6,7 +6,7 @@ import { appConfig } from './app/app.config';
 import LogRocket from 'logrocket';
 import { isDevMode } from '@angular/core';
 
-if (isDevMode()) {
+if (!isDevMode()) {
   LogRocket.init('mnkoap/laamap');
 
   const airPlaneName = (JSON.parse(

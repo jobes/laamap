@@ -10,6 +10,7 @@ import { mapActions } from '../../store/actions/map.actions';
 import { CompassService } from '../compass/compass.service';
 import { GamepadHandlerService } from '../gamepad-handler/gamepad-handler.service';
 import { MapFontSizeService } from './map-font-size.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,8 @@ export class MapService {
     private readonly store: Store,
     private readonly mapFontSize: MapFontSizeService,
     private readonly gamepadHandlerService: GamepadHandlerService,
+    private readonly snackBar: MatSnackBar,
+    private readonly translocoService: TranslocoService,
   ) {
     this.instance = new Map({
       container: 'map',
@@ -63,6 +66,13 @@ export class MapService {
 
     this.instance.on('load', () => {
       this.store.dispatch(mapActions.loaded());
+    });
+    this.instance.on('error', () => {
+      this.snackBar.open(
+        this.translocoService.translate('mapView.mapError'),
+        undefined,
+        { duration: 5000 },
+      );
     });
     this.setupClickEvents();
   }
