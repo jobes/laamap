@@ -2,7 +2,17 @@ import { Injectable } from '@angular/core';
 import { concatLatestFrom, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
-import { combineLatest, filter, map, merge, switchMap, take, tap } from 'rxjs';
+import {
+  EMPTY,
+  catchError,
+  combineLatest,
+  filter,
+  map,
+  merge,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 
 import { OnMapNotamsService } from '../../../services/map/on-map-notams/on-map-notams.service';
 import { NotamsService } from '../../../services/notams/notams.service';
@@ -10,6 +20,8 @@ import { mapFeature } from '../../features/map.feature';
 import { notamsFeature } from '../../features/settings/notams.feature';
 import { generalFeature } from '../../features/settings/general.feature';
 import { navigationFeature } from '../../features/navigation.feature';
+import { TranslocoService } from '@ngneat/transloco';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class NotamsSettingsEffects {
@@ -31,10 +43,24 @@ export class NotamsSettingsEffects {
     { dispatch: false },
   );
 
+  private networkError = catchError(() => {
+    this.snackBar.open(
+      this.translocoService.translate('notams.failedToLoad'),
+      undefined,
+      {
+        duration: 5000,
+        politeness: 'assertive',
+      },
+    );
+    return EMPTY;
+  });
+
   private notamFir$ = this.store.select(generalFeature.selectNotamFirs).pipe(
     // don't load empty FIR notams, but clear them when turned off
     filter((val, index) => val.length !== 0 || index !== 0),
-    switchMap((firs) => this.notams.loadFirNotams$(firs)),
+    switchMap((firs) =>
+      this.notams.loadFirNotams$(firs).pipe(this.networkError),
+    ),
   );
 
   private notamPoint$ = this.store.select(mapFeature.selectGeoLocation).pipe(
@@ -51,10 +77,12 @@ export class NotamsSettingsEffects {
     take(1),
     filter(([, running]) => !running),
     switchMap(([event, , radius]) =>
-      this.notams.loadAroundPointNotams$(
-        new LngLat(event.coords.longitude, event.coords.latitude),
-        radius,
-      ),
+      this.notams
+        .loadAroundPointNotams$(
+          new LngLat(event.coords.longitude, event.coords.latitude),
+          radius,
+        )
+        .pipe(this.networkError),
     ),
   );
 
@@ -87,7 +115,7 @@ export class NotamsSettingsEffects {
       this.store.select(generalFeature.selectNotamRadius),
     ]),
     switchMap(([points, radius]) =>
-      this.notams.loadAroundRoute$(points, radius),
+      this.notams.loadAroundRoute$(points, radius).pipe(this.networkError),
     ),
   );
 
@@ -95,5 +123,7 @@ export class NotamsSettingsEffects {
     private readonly store: Store,
     private readonly onMapNotamsService: OnMapNotamsService,
     private readonly notams: NotamsService,
+    private readonly snackBar: MatSnackBar,
+    private readonly translocoService: TranslocoService,
   ) {}
 }
