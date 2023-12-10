@@ -669,7 +669,8 @@
     }
   },
   "notams": {
-    "loaded": "Notamy načítané a zobrazené na mape"
+    "loaded": "Notamy načítané a zobrazené na mape",
+    "failedToLoad": "Chyba - nepodarilo sa načítať notamy, slabé internetové pripojenie"
   },
   "mapView": {
     "settings": "Nastavenia",
@@ -679,7 +680,8 @@
     "zoomIn": "Priblížiť",
     "zoomOut": "Vzdialiť",
     "navigation": "Navigácia",
-    "mapError": "Chyba načítania mapy - slabé internetové pripojenie"
+    "mapError": "Chyba načítania mapy - slabé internetové pripojenie",
+    "radarError": "Chyba načítania radaru - slabé internetové pripojenie"
   },
   "wakeLock": {
     "lockingError": "Chyba pri zakazovaní vypínania obrazovky",

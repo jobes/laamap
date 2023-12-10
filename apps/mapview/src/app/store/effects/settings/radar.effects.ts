@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { concatLatestFrom, createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
+  catchError,
   combineLatest,
   debounceTime,
   distinctUntilChanged,
@@ -18,6 +19,8 @@ import { OnMapRainViewerService } from '../../../services/map/on-map-rain-viewer
 import { RainViewerService } from '../../../services/rain-viewer/rain-viewer.service';
 import { mapFeature } from '../../features/map.feature';
 import { radarFeature } from '../../features/settings/radar.feature';
+import { TranslocoService } from '@ngneat/transloco';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class RadarSettingsEffects {
@@ -39,34 +42,42 @@ export class RadarSettingsEffects {
                   urls: this.rainViewer.getUrls$(),
                   // eslint-disable-next-line rxjs/finnish
                   settings: this.store.select(
-                    radarFeature['selectSettings.radarState']
+                    radarFeature['selectSettings.radarState'],
                   ),
-                }).pipe(debounceTime(1000))
-              )
+                }).pipe(debounceTime(1000)),
+              ),
+              catchError(() => {
+                this.snackBar.open(
+                  this.translocoService.translate('mapView.radarError'),
+                  undefined,
+                  { duration: 5000 },
+                );
+                return of(undefined);
+              }),
             ),
-            of(undefined)
-          )
+            of(undefined),
+          ),
         ),
         tap((urlsWithSettings) =>
-          this.onMapRainViewerService.createLayers(urlsWithSettings)
-        )
+          this.onMapRainViewerService.createLayers(urlsWithSettings),
+        ),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   rainViewerAnimation$ = createEffect(
     () => {
       return this.rainViewer.currentAnimationFrame$.pipe(
         concatLatestFrom(() =>
-          this.store.select(radarFeature['selectSettings.radarState'])
+          this.store.select(radarFeature['selectSettings.radarState']),
         ),
         tap(([{ frameNum }, settings]) =>
-          this.onMapRainViewerService.showFrame(frameNum, settings.opacity)
-        )
+          this.onMapRainViewerService.showFrame(frameNum, settings.opacity),
+        ),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   private readonly radarReloadTime = 5 * 60 * 1000; // 5 minutes
@@ -74,6 +85,8 @@ export class RadarSettingsEffects {
   constructor(
     private readonly store: Store,
     private readonly rainViewer: RainViewerService,
-    private readonly onMapRainViewerService: OnMapRainViewerService
+    private readonly onMapRainViewerService: OnMapRainViewerService,
+    private readonly snackBar: MatSnackBar,
+    private readonly translocoService: TranslocoService,
   ) {}
 }
