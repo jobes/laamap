@@ -37,13 +37,10 @@ export class LoggerService {
             console.log(`Downloading new app version: ${evt.version.hash}`);
             break;
           case 'VERSION_READY':
-            console.log(`Current app version: ${evt.currentVersion.hash}`);
             console.log(
-              `New app version ready for use: ${evt.latestVersion.hash}`,
+              `Upgrade ready: ${evt.currentVersion.hash} => ${evt.latestVersion.hash}`,
             );
-            console.log('app data', evt.latestVersion.appData);
             this.openSnackbarForVersionReady(evt);
-
             break;
           case 'VERSION_INSTALLATION_FAILED':
             console.log(
