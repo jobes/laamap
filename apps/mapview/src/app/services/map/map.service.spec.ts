@@ -6,6 +6,7 @@ import maplibregl from 'maplibre-gl';
 
 import { GamepadHandlerService } from '../gamepad-handler/gamepad-handler.service';
 import { MapService } from './map.service';
+import { SwUpdate } from '@angular/service-worker';
 
 describe('MapService', () => {
   let service: MapService;
@@ -15,6 +16,7 @@ describe('MapService', () => {
       imports: [MatDialogModule, TranslocoTestingModule.forRoot({ langs: {} })],
       providers: [
         provideMockStore({}),
+        { provide: SwUpdate, useValue: {} },
         { provide: GamepadHandlerService, useValue: { init: jest.fn() } },
       ],
     });
