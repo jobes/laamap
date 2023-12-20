@@ -54,5 +54,11 @@
       "urls": ["https://jobes.github.io/laamap-openaip-downloader"]
     }
   ],
-  "appData": { "news": { "sk": "Uvodna podpora pre PWA aplikacie" } }
+  "appData": {
+    "news": {
+      "20241220": {
+        "sk": "# Uvodna podpora pre PWA aplikacie\n- správanie sa ako plnohodntná aplikácia\n- automatické aktualizácie\n- zoznam noviniek a opráv chýb"
+      }
+    }
+  }
 }
