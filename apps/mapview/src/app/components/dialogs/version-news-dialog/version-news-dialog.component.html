@@ -1,0 +1,20 @@
+<ng-template transloco let-t translocoRead="versionNewsDialog">
+  <h1 mat-dialog-title>{{ t('title') }}</h1>
+
+  <div mat-dialog-content>
+    @for(message of markDownLocalizedMessages; track $index) {
+    <markdown-it [markdown]="message"></markdown-it>
+    } @empty {
+    {{ t('emptyList') }}
+    }
+  </div>
+
+  <div mat-dialog-actions [align]="'end'">
+    <button mat-button [mat-dialog-close]="false">
+      {{ t('close') }}
+    </button>
+    <button mat-button cdkFocusInitial (click)="restart()">
+      {{ t('restart') }}
+    </button>
+  </div>
+</ng-template>
