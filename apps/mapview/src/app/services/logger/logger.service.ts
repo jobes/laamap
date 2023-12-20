@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { TranslocoService } from '@ngneat/transloco';
 import { VersionNewsDialogComponent } from '../../components/dialogs/version-news-dialog/version-news-dialog.component';
-import { CookieService } from 'ngx-cookie-service';
 
 interface INewsDef {
   [version: string]: { [lang: string]: string };
@@ -20,7 +19,6 @@ export class LoggerService {
     private readonly snackBar: MatSnackBar,
     private readonly translocoService: TranslocoService,
     private readonly dialog: MatDialog,
-    private readonly cookieService: CookieService,
   ) {
     if (this.updates.isEnabled) {
       this.logPwaEvents();
@@ -80,16 +78,15 @@ export class LoggerService {
   private actualNews(evt: VersionReadyEvent): { [lang: string]: string }[] {
     const news = ((evt?.latestVersion?.appData as { news: unknown })?.news ||
       {}) as INewsDef;
-    const versions = Object.keys(news).sort();
-    let currentNews: INewsDef['version'][] = [];
 
-    if (this.cookieService.check('installed_version')) {
-      const lastVersion = this.cookieService.get('installed_version');
-      currentNews = versions
-        .filter((version) => version > lastVersion)
-        .map((version) => news[version]);
-    }
-    this.cookieService.set('installed_version', versions[versions.length - 1]);
-    return currentNews;
+    const versions = Object.keys(news).sort();
+    const lastVersion = localStorage.getItem('installed_version');
+    localStorage.setItem('installed_version', versions[versions.length - 1]);
+
+    return lastVersion
+      ? versions
+          .filter((version) => version > lastVersion)
+          .map((version) => news[version])
+      : [];
   }
 }
