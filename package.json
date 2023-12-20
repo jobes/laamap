@@ -43,7 +43,6 @@
     "markdown-it": "^14.0.0",
     "messageformat": "^2.3.0",
     "ngrx-store-localstorage": "^16.0.0",
-    "ngx-cookie-service": "^17.0.1",
     "ngx-markdown-it": "^16.0.1",
     "ngx-quill": "^23.0.0",
     "pouchdb": "^8.0.1",
