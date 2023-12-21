@@ -57,4 +57,14 @@ describe(VersionNewsDialogComponent.name, () => {
     cy.get('.mat-mdc-dialog-title').contains('Novinky a zmeny');
     cy.get('.mat-mdc-dialog-content').contains('Žiadne novinky');
   });
+
+  it('creates current data dialog', () => {
+    cy.fixture('../../ngsw-config').then((data) => {
+      cy.mount(WrapperComponent, {
+        componentProperties: {
+          data: Object.values(data.appData.news),
+        },
+      });
+    });
+  });
 });

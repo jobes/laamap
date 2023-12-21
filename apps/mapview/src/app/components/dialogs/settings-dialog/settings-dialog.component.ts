@@ -10,6 +10,7 @@ import { GeneralSettingsComponent } from './general-settings/general-settings.co
 import { InstrumentsSettingsComponent } from './instruments-settings/instruments-settings.component';
 import { NavigationSettingsComponent } from './navigation-settings/navigation-settings.component';
 import { RadarSettingsComponent } from './radar-settings/radar-settings.component';
+import { ContactMeComponent } from './contact-me/contact-me.component';
 
 @Component({
   selector: 'laamap-settings-dialog',
@@ -27,6 +28,7 @@ import { RadarSettingsComponent } from './radar-settings/radar-settings.componen
     RadarSettingsComponent,
     GamepadSettingsComponent,
     MatButtonModule,
+    ContactMeComponent,
   ],
 })
 export class SettingsDialogComponent {}

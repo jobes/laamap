@@ -1,0 +1,13 @@
+<ng-template transloco let-t translocoRead="settingDialog.contactMe">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>call</mat-icon>{{ t('title') }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ t('description') }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div [innerHTML]="t('text')"></div>
+  </mat-expansion-panel>
+</ng-template>
