@@ -1,9 +1,15 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+  inject,
+} from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import {
   auditTime,
@@ -17,6 +23,7 @@ import {
 import { varioMeterWidgetActions } from '../../../store/actions/widgets.actions';
 import { mapFeature } from '../../../store/features/map.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 
 @Component({
   selector: 'laamap-variometer-widget',
@@ -25,7 +32,7 @@ import { instrumentsFeature } from '../../../store/features/settings/instruments
   standalone: true,
   imports: [
     TranslocoModule,
-    LetModule,
+    LetDirective,
     NgIf,
     CdkDrag,
     AsyncPipe,
@@ -33,34 +40,38 @@ import { instrumentsFeature } from '../../../store/features/settings/instruments
   ],
 })
 export class VariometerWidgetComponent {
+  @ViewChildren(CdkDrag, { read: ElementRef })
+  readonly containers!: QueryList<ElementRef<HTMLElement>>;
+  private readonly safePositionService = inject(WidgetSafePositionService);
   show$ = this.store.select(mapFeature.selectShowInstruments);
-  private climbingSpeedMs$ = this.store
-    .select(instrumentsFeature.selectVarioMeter)
-    .pipe(
-      switchMap((settings) =>
-        this.store.select(mapFeature.selectGeoLocation).pipe(
-          auditTime(settings.diffTime),
-          startWith(null),
-          startWith(null),
-          pairwise(),
-          map(([prev, curr]) =>
-            (curr?.coords.altitude || curr?.coords.altitude === 0) &&
-            (prev?.coords.altitude || prev?.coords.altitude === 0)
-              ? {
-                  altDiff: curr.coords.altitude - prev.coords.altitude,
-                  timeDiff: curr.timestamp - prev.timestamp,
-                }
-              : null
-          ),
-          map((diffs) =>
-            diffs !== null ? (diffs.altDiff * 1000) / diffs.timeDiff : null
-          )
-        )
-      )
-    );
+  private varioMeterSettings$ = this.store.select(
+    instrumentsFeature.selectVarioMeter,
+  );
+  private climbingSpeedMs$ = this.varioMeterSettings$.pipe(
+    switchMap((settings) =>
+      this.store.select(mapFeature.selectGeoLocation).pipe(
+        auditTime(settings.diffTime),
+        startWith(null),
+        startWith(null),
+        pairwise(),
+        map(([prev, curr]) =>
+          (curr?.coords.altitude || curr?.coords.altitude === 0) &&
+          (prev?.coords.altitude || prev?.coords.altitude === 0)
+            ? {
+                altDiff: curr.coords.altitude - prev.coords.altitude,
+                timeDiff: curr.timestamp - prev.timestamp,
+              }
+            : null,
+        ),
+        map((diffs) =>
+          diffs !== null ? (diffs.altDiff * 1000) / diffs.timeDiff : null,
+        ),
+      ),
+    ),
+  );
 
   colorsByClimbing$ = combineLatest([
-    this.store.select(instrumentsFeature.selectVarioMeter),
+    this.varioMeterSettings$,
     this.climbingSpeedMs$,
   ]).pipe(
     map(
@@ -71,30 +82,30 @@ export class VariometerWidgetComponent {
             .find((setting) => setting.minClimbing <= (climbingSpeed ?? 0)) ??
             null,
           climbingSpeed,
-          settings.position,
-        ] as const
+        ] as const,
     ),
-    map(([settings, climbingSpeed, position]) => ({
-      position: position,
+    map(([settings, climbingSpeed]) => ({
       bgColor: settings?.bgColor || 'white',
       textColor: settings?.textColor || 'black',
       climbingSpeed,
-    }))
+    })),
+  );
+
+  safePosition$ = this.safePositionService.safePosition$(
+    this.varioMeterSettings$.pipe(map((val) => val.position)),
+    this,
   );
 
   constructor(private readonly store: Store) {}
 
-  dragEnded(
-    originalPosition: { x: number; y: number },
-    event: CdkDragEnd
-  ): void {
+  dragEnded(event: CdkDragEnd): void {
     this.store.dispatch(
       varioMeterWidgetActions.positionMoved({
         position: {
-          x: originalPosition.x + event.distance.x,
-          y: originalPosition.y + event.distance.y,
+          x: event.source.element.nativeElement.getBoundingClientRect().x,
+          y: event.source.element.nativeElement.getBoundingClientRect().y,
         },
-      })
+      }),
     );
   }
 }

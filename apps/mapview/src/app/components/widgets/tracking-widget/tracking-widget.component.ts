@@ -1,6 +1,12 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+  inject,
+} from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetDirective } from '@ngrx/component';
@@ -22,6 +28,7 @@ import { trackingWidgetActions } from '../../../store/actions/widgets.actions';
 import { mapFeature } from '../../../store/features/map.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 import { FlyTracingHistoryDialogComponent } from '../../dialogs/fly-tracing-history-dialog/fly-tracing-history-dialog.component';
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 
 @Component({
   selector: 'laamap-tracking-widget',
@@ -37,9 +44,11 @@ import { FlyTracingHistoryDialogComponent } from '../../dialogs/fly-tracing-hist
     DigitalTimePipe,
     MatDialogModule,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrackingWidgetComponent {
+  @ViewChildren(CdkDrag, { read: ElementRef })
+  readonly containers!: QueryList<ElementRef<HTMLElement>>;
+  private readonly safePositionService = inject(WidgetSafePositionService);
   show$ = this.store.select(mapFeature.selectShowInstruments);
   tracking$ = this.store.select(instrumentsFeature.selectTracking);
   currentFlyTime$ = this.actions$.pipe(
@@ -64,6 +73,10 @@ export class TrackingWidgetComponent {
     ),
     startWith({ seconds: 0, active: false }),
   );
+  safePosition$ = this.safePositionService.safePosition$(
+    this.tracking$.pipe(map((val) => val.position)),
+    this,
+  );
 
   private dragging = false;
   constructor(
@@ -71,18 +84,15 @@ export class TrackingWidgetComponent {
     private readonly actions$: Actions,
     private readonly dialog: MatDialog,
   ) {}
-  dragEnded(
-    originalPosition: { x: number; y: number },
-    event: CdkDragEnd,
-  ): void {
+  dragEnded(event: CdkDragEnd): void {
     setTimeout(() => {
       this.dragging = false;
     }, 50);
     this.store.dispatch(
       trackingWidgetActions.positionMoved({
         position: {
-          x: originalPosition.x + event.distance.x,
-          y: originalPosition.y + event.distance.y,
+          x: event.source.element.nativeElement.getBoundingClientRect().x,
+          y: event.source.element.nativeElement.getBoundingClientRect().y,
         },
       }),
     );

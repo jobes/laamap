@@ -1,14 +1,22 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
-import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+  inject,
+} from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { RainViewerService } from '../../../services/rain-viewer/rain-viewer.service';
 import { radarWidgetActions } from '../../../store/actions/widgets.actions';
 import { radarFeature } from '../../../store/features/settings/radar.feature';
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'laamap-radar-widget',
@@ -17,33 +25,38 @@ import { radarFeature } from '../../../store/features/settings/radar.feature';
   standalone: true,
   imports: [
     TranslocoModule,
-    LetModule,
+    LetDirective,
     NgIf,
     CdkDrag,
     TranslocoLocaleModule,
-    PushModule,
+    PushPipe,
+    AsyncPipe,
   ],
 })
 export class RadarWidgetComponent {
+  @ViewChildren(CdkDrag, { read: ElementRef })
+  readonly containers!: QueryList<ElementRef<HTMLElement>>;
+  private readonly safePositionService = inject(WidgetSafePositionService);
   radarSettings$ = this.store.select(radarFeature['selectSettings.radarState']);
   currentAnimationFrame$ = this.rainViewer.currentAnimationFrame$;
+  safePosition$ = this.safePositionService.safePosition$(
+    this.radarSettings$.pipe(map((val) => val.widget.position)),
+    this,
+  );
 
   constructor(
     private readonly store: Store,
-    private readonly rainViewer: RainViewerService
+    private readonly rainViewer: RainViewerService,
   ) {}
 
-  dragEnded(
-    originalPosition: { x: number; y: number },
-    event: CdkDragEnd
-  ): void {
+  dragEnded(event: CdkDragEnd): void {
     this.store.dispatch(
       radarWidgetActions.positionMoved({
         position: {
-          x: originalPosition.x + event.distance.x,
-          y: originalPosition.y + event.distance.y,
+          x: event.source.element.nativeElement.getBoundingClientRect().x,
+          y: event.source.element.nativeElement.getBoundingClientRect().y,
         },
-      })
+      }),
     );
   }
 }

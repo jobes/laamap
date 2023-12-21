@@ -1,13 +1,13 @@
 <ng-template transloco let-t>
   <ng-container *ngrxLet="heighWithSettings$ as heighWithSettings">
     <div
-      *ngIf="show$ | async"
+      *ngIf="(show$ | async) && (safePosition$ | async) as safePosition"
       class="container"
       cdkDrag
-      (cdkDragEnded)="dragEnded(heighWithSettings.position, $event)"
+      (cdkDragEnded)="dragEnded($event)"
       (cdkDragStarted)="dragStarted()"
       cdkDragBoundary="body"
-      [cdkDragFreeDragPosition]="heighWithSettings.position"
+      [cdkDragFreeDragPosition]="safePosition"
       [cdkDragStartDelay]="1000"
       [style.background]="heighWithSettings.bgColor"
     >
@@ -27,7 +27,7 @@
               <span class="number">{{
                 heighWithSettings.hasAltitude
                   ? (heighWithSettings.altitudeObject
-                    | altitude : eHeightUnit.meter : 'value')
+                    | altitude: eHeightUnit.meter : 'value')
                   : '--'
               }}</span
               >{{ t('shared.altitude.heighUnit.0') }}
@@ -38,7 +38,7 @@
               <span class="number">{{
                 heighWithSettings.hasAltitude
                   ? (heighWithSettings.gndHeightObject
-                    | altitude : eHeightUnit.meter : 'value')
+                    | altitude: eHeightUnit.meter : 'value')
                   : '--'
               }}</span
               >{{ t('shared.altitude.heighUnit.0') }}
@@ -49,7 +49,7 @@
               <span class="number">{{
                 heighWithSettings.hasAltitude
                   ? (heighWithSettings.altitudeObject
-                    | altitude : eHeightUnit.feet : 'value')
+                    | altitude: eHeightUnit.feet : 'value')
                   : '--'
               }}</span
               >{{ t('shared.altitude.heighUnit.1') }}
@@ -60,7 +60,7 @@
               <span class="number">{{
                 heighWithSettings.hasAltitude
                   ? (heighWithSettings.gndHeightObject
-                    | altitude : eHeightUnit.feet : 'value')
+                    | altitude: eHeightUnit.feet : 'value')
                   : '--'
               }}</span
               >{{ t('shared.altitude.heighUnit.1') }}

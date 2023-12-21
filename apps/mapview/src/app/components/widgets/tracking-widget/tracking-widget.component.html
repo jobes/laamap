@@ -8,13 +8,13 @@
         [style.color]="
           currentFlyTime.active ? tracking.activeText : tracking.inactiveText
         "
-        *ngIf="show$ | async"
+        *ngIf="(show$ | async) && (safePosition$ | async) as safePosition"
         class="container"
         cdkDrag
-        (cdkDragEnded)="dragEnded(tracking.position, $event)"
+        (cdkDragEnded)="dragEnded($event)"
         (cdkDragStarted)="dragStarted()"
         cdkDragBoundary="body"
-        [cdkDragFreeDragPosition]="tracking.position"
+        [cdkDragFreeDragPosition]="safePosition"
         [cdkDragStartDelay]="1000"
         (click)="openHistory()"
       >
