@@ -7,6 +7,7 @@ import { Subject, of, takeUntil, toArray } from 'rxjs';
 
 import { MapService } from '../../../services/map/map.service';
 import { VariometerWidgetComponent } from './variometer-widget.component';
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 
 jest.useFakeTimers();
 describe('VariometerWidgetComponent', () => {
@@ -80,6 +81,10 @@ describe('VariometerWidgetComponent', () => {
           initialState,
         }),
         { provide: MapService, useValue: { geolocation$: of(null) } },
+        {
+          provide: WidgetSafePositionService,
+          useValue: { safePosition$: () => of({ x: 0, y: 0 }) },
+        },
       ],
     }).compileComponents();
 
