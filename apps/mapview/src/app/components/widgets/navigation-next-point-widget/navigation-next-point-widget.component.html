@@ -10,13 +10,14 @@
             navigationSettings.allowedRow.includes(
               'NEXT_POINT_DURATION_LEFT'
             ) ||
-            navigationSettings.allowedRow.includes('NEXT_POINT_ARRIVE_TIME'))
+            navigationSettings.allowedRow.includes('NEXT_POINT_ARRIVE_TIME')) &&
+          (safePosition$ | async) as safePosition
         "
         class="container"
         cdkDrag
-        (cdkDragEnded)="dragEnded(navigationSettings.position, $event)"
+        (cdkDragEnded)="dragEnded($event)"
         cdkDragBoundary="body"
-        [cdkDragFreeDragPosition]="navigationSettings.position"
+        [cdkDragFreeDragPosition]="safePosition"
         [cdkDragStartDelay]="1000"
         [style.background]="navigationSettings.bgColor"
         [style.color]="navigationSettings.textColor"
@@ -46,7 +47,7 @@
           <h6>{{ t('timeToNextPoint') }}</h6>
           <div class="value">
             <ng-container *ngIf="navStats?.timeToNextPoint">
-              {{ navStats?.timeToNextPoint | digitalTime : false }}
+              {{ navStats?.timeToNextPoint | digitalTime: false }}
             </ng-container>
             <ng-container *ngIf="!navStats?.timeToNextPoint"> -- </ng-container>
           </div>
@@ -62,7 +63,7 @@
             <ng-container *ngIf="navStats?.timeToNextPoint">
               {{
                 $any(navStats?.arriveTimeToNextPoint)
-                  | translocoDate : { timeStyle: 'short' }
+                  | translocoDate: { timeStyle: 'short' }
               }}
             </ng-container>
             <ng-container *ngIf="!navStats?.timeToNextPoint"> -- </ng-container>

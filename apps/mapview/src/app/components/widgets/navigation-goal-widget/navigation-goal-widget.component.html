@@ -6,13 +6,14 @@
         (running$ | async) &&
         (navigationSettings.allowedRow.includes('GOAL_DISTANCE') ||
           navigationSettings.allowedRow.includes('GOAL_DURATION_LEFT') ||
-          navigationSettings.allowedRow.includes('GOAL_ARRIVE_TIME'))
+          navigationSettings.allowedRow.includes('GOAL_ARRIVE_TIME')) &&
+        (safePosition$ | async) as safePosition
       "
       class="container"
       cdkDrag
-      (cdkDragEnded)="dragEnded(navigationSettings.position, $event)"
+      (cdkDragEnded)="dragEnded($event)"
       cdkDragBoundary="body"
-      [cdkDragFreeDragPosition]="navigationSettings.position"
+      [cdkDragFreeDragPosition]="safePosition"
       [cdkDragStartDelay]="1000"
       [style.background]="navigationSettings.bgColor"
       [style.color]="navigationSettings.textColor"
@@ -40,7 +41,7 @@
           <h6>{{ t('timeToGoal') }}</h6>
           <div class="value" data-cy="goalTimeLeft">
             <ng-container *ngIf="navStats?.timeToGoal">
-              {{ navStats?.timeToGoal | digitalTime : false }}
+              {{ navStats?.timeToGoal | digitalTime: false }}
             </ng-container>
             <ng-container *ngIf="!navStats?.timeToGoal"> -- </ng-container>
           </div>
@@ -54,7 +55,7 @@
             <ng-container *ngIf="navStats?.timeToGoal">
               {{
                 $any(navStats?.arriveTimeToGoal)
-                  | translocoDate : { timeStyle: 'short' }
+                  | translocoDate: { timeStyle: 'short' }
               }}
             </ng-container>
             <ng-container *ngIf="!navStats?.timeToGoal"> -- </ng-container>

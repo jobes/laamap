@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import maplibregl from 'maplibre-gl';
@@ -27,6 +27,7 @@ export class MapService {
     private readonly gamepadHandlerService: GamepadHandlerService,
     private readonly snackBar: MatSnackBar,
     private readonly translocoService: TranslocoService,
+    private readonly zone: NgZone,
   ) {
     this.instance = new Map({
       container: 'map',
@@ -54,19 +55,18 @@ export class MapService {
     });
 
     this.instance.on('move', (moved) => {
-      this.store.dispatch(
-        mapActions.moved({
-          center: {
-            lng: moved.target.getCenter().lng,
-            lat: moved.target.getCenter().lat,
-          },
-        }),
-      );
+      this.zone.run(() => {
+        this.store.dispatch(
+          mapActions.moved({
+            center: {
+              lng: moved.target.getCenter().lng,
+              lat: moved.target.getCenter().lat,
+            },
+          }),
+        );
+      });
     });
 
-    this.instance.on('load', () => {
-      this.store.dispatch(mapActions.loaded());
-    });
     this.instance.on('error', () => {
       this.snackBar.open(
         this.translocoService.translate('mapView.mapError'),
@@ -74,10 +74,15 @@ export class MapService {
         { duration: 5000 },
       );
     });
+
     this.setupClickEvents();
   }
 
   private setupClickEvents(): void {
+    this.instance.on('load', () => {
+      this.store.dispatch(mapActions.loaded());
+    });
+
     this.instance.on('click', (e) => {
       this.store.dispatch(
         mapActions.clicked({

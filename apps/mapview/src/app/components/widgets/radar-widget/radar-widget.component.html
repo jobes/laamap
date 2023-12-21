@@ -3,14 +3,15 @@
     <div
       class="container"
       cdkDrag
-      (cdkDragEnded)="dragEnded(radarSettings.widget.position, $event)"
+      (cdkDragEnded)="dragEnded($event)"
       cdkDragBoundary="body"
-      [cdkDragFreeDragPosition]="radarSettings.widget.position"
+      [cdkDragFreeDragPosition]="safePosition"
       [cdkDragStartDelay]="1000"
       *ngIf="
         radarSettings.type !== 'coverage' &&
         radarSettings.widget.enabled &&
-        radarSettings.enabled
+        radarSettings.enabled &&
+        (safePosition$ | async) as safePosition
       "
       [style.background]="radarSettings.widget.background"
     >
@@ -25,7 +26,7 @@
         "
         >{{
           currentAnimationFrame.time * 1000
-            | translocoDate : { timeStyle: 'short' }
+            | translocoDate: { timeStyle: 'short' }
         }}
       </span>
     </div>

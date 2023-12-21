@@ -6,7 +6,13 @@ import {
   NgSwitch,
   NgSwitchCase,
 } from '@angular/common';
-import { Component } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+  inject,
+} from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -16,6 +22,8 @@ import { EHeightUnit } from '../../../services/open-aip/airport.interfaces';
 import { altimeterWidgetActions } from '../../../store/actions/widgets.actions';
 import { selectHeighSettings } from '../../../store/advanced-selectors';
 import { mapFeature } from '../../../store/features/map.feature';
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'laamap-altimeter-widget',
@@ -35,9 +43,16 @@ import { mapFeature } from '../../../store/features/map.feature';
   ],
 })
 export class AltimeterWidgetComponent {
+  @ViewChildren(CdkDrag, { read: ElementRef })
+  readonly containers!: QueryList<ElementRef<HTMLElement>>;
+  private readonly safePositionService = inject(WidgetSafePositionService);
   show$ = this.store.select(mapFeature.selectShowInstruments);
   eHeightUnit = EHeightUnit;
   heighWithSettings$ = this.store.select(selectHeighSettings);
+  safePosition$ = this.safePositionService.safePosition$(
+    this.heighWithSettings$.pipe(map((val) => val.position)),
+    this,
+  );
 
   private dragging = false;
   constructor(private readonly store: Store) {}
@@ -45,10 +60,7 @@ export class AltimeterWidgetComponent {
   dragStarted(): void {
     this.dragging = true;
   }
-  dragEnded(
-    originalPosition: { x: number; y: number },
-    event: CdkDragEnd
-  ): void {
+  dragEnded(event: CdkDragEnd): void {
     setTimeout(() => {
       this.dragging = false;
     }, 50);
@@ -56,10 +68,10 @@ export class AltimeterWidgetComponent {
     this.store.dispatch(
       altimeterWidgetActions.positionMoved({
         position: {
-          x: originalPosition.x + event.distance.x,
-          y: originalPosition.y + event.distance.y,
+          x: event.source.element.nativeElement.getBoundingClientRect().x,
+          y: event.source.element.nativeElement.getBoundingClientRect().y,
         },
-      })
+      }),
     );
   }
 
@@ -71,7 +83,7 @@ export class AltimeterWidgetComponent {
     this.store.dispatch(
       altimeterWidgetActions.manualGNDAltitudeChanged({
         gndAltitude,
-      })
+      }),
     );
   }
 
