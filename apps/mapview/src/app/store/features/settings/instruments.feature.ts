@@ -13,6 +13,7 @@ import {
   trackingWidgetActions,
   varioMeterWidgetActions,
 } from '../../actions/widgets.actions';
+import { mapEffectsActions } from '../../actions/effects.actions';
 
 const initialState = {
   showOnlyOnActiveGps: true,
@@ -93,21 +94,21 @@ export const instrumentsFeature = createFeature({
       (state, { position }): typeof initialState => ({
         ...state,
         speedMeter: { ...state.speedMeter, position },
-      })
+      }),
     ),
     on(
       instrumentSpeedSettingsActions.widgetColorsChanged,
       (state, { colorsBySpeed }): typeof initialState => ({
         ...state,
         speedMeter: { ...state.speedMeter, colorsBySpeed },
-      })
+      }),
     ),
     on(
       varioMeterWidgetActions.positionMoved,
       (state, { position }): typeof initialState => ({
         ...state,
         varioMeter: { ...state.varioMeter, position },
-      })
+      }),
     ),
     on(
       varioSettingsActions.widgetColorsChanged,
@@ -117,7 +118,7 @@ export const instrumentsFeature = createFeature({
           ...state.varioMeter,
           colorsByClimbing: colorsByClimbingSpeed,
         },
-      })
+      }),
     ),
     on(
       varioSettingsActions.diffTimeChanged,
@@ -127,92 +128,86 @@ export const instrumentsFeature = createFeature({
           ...state.varioMeter,
           diffTime,
         },
-      })
+      }),
     ),
     on(
       altimeterWidgetActions.positionMoved,
       (state, { position }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, position },
-      })
+      }),
     ),
-    // on(
-    //   instrumentAltimeterSettingsActions.altimeterGndFromAltitudeMethodChanged,
-    //   (state, { method }): typeof initialState => ({
-    //     ...state,
-    //     altimeter: { ...state.altimeter, method },
-    //   })
-    // ),
     on(
       altimeterWidgetActions.manualGNDAltitudeChanged,
       instrumentAltimeterSettingsActions.manualGNDAltitudeChanged,
+      mapEffectsActions.firstGeolocationFixed,
       (state, { gndAltitude }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, gndAltitude },
-      })
+      }),
     ),
     on(
       instrumentAltimeterSettingsActions.bgColorChanged,
       (state, { bgColor }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, bgColor },
-      })
+      }),
     ),
     on(
       instrumentAltimeterSettingsActions.textColorChanged,
       (state, { textColor }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, textColor },
-      })
+      }),
     ),
     on(
       instrumentAltimeterSettingsActions.showTypeChanged,
       (state, { show }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, show },
-      })
+      }),
     ),
     on(
       instrumentSettingsActions.visibleOnGpsTrackingChanged,
       (state, { showOnlyOnActiveGps }): typeof initialState => ({
         ...state,
         showOnlyOnActiveGps,
-      })
+      }),
     ),
     on(
       trackingWidgetActions.positionMoved,
       (state, { position }): typeof initialState => ({
         ...state,
         tracking: { ...state.tracking, position },
-      })
+      }),
     ),
     on(
       trackingSettingsActions.activeBgColorChanged,
       (state, { activeBg }): typeof initialState => ({
         ...state,
         tracking: { ...state.tracking, activeBg },
-      })
+      }),
     ),
     on(
       trackingSettingsActions.inactiveBgColorChanged,
       (state, { inactiveBg }): typeof initialState => ({
         ...state,
         tracking: { ...state.tracking, inactiveBg },
-      })
+      }),
     ),
     on(
       trackingSettingsActions.activeTextColorChanged,
       (state, { activeText }): typeof initialState => ({
         ...state,
         tracking: { ...state.tracking, activeText },
-      })
+      }),
     ),
     on(
       trackingSettingsActions.inactiveTextColorChanged,
       (state, { inactiveText }): typeof initialState => ({
         ...state,
         tracking: { ...state.tracking, inactiveText },
-      })
-    )
+      }),
+    ),
   ),
 });
