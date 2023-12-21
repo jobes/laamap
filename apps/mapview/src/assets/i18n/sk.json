@@ -132,6 +132,11 @@
       "xMoveTop": "Posun hore",
       "zoomOut": "Vzdialiť",
       "openGlobalSearch": "Otvor globálne hladanie"
+    },
+    "contactMe": {
+      "title": "Kontakt",
+      "description": "Spätná väzba",
+      "text": "Kontaktujte ma v prípade ak máte nápad na novú vlastnosť, chcete nahlásiť chybu, hodnotiť alebo sa porozprávať o aplikácii <a href=\"mailto:support@aviation-map.raiseaticket.com\" target=\"_blank\">e-mailom</a>, <a href=\"tel:+421950781407\">telefonicky</a> alebo vytvorte cez <a href=\"https://aviation-map.raiseaticket.com/support/#/newticket\" target=\"_blank\">systém hlásení</a>. Budem sa tešiť na každú spätnú väzbu."
     }
   },
   "navigationDialog": {
