@@ -5,10 +5,22 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as turf from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
-import { combineLatest, filter, map, skip, switchMap, tap } from 'rxjs';
+import {
+  auditTime,
+  combineLatest,
+  filter,
+  map,
+  skip,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 
 import { OnMapNavigationService } from '../../services/map/on-map-navigation/on-map-navigation.service';
-import { navigationEffectsActions } from '../actions/effects.actions';
+import {
+  mapEffectsActions,
+  navigationEffectsActions,
+} from '../actions/effects.actions';
 import { mapActions, mapLocationMenuActions } from '../actions/map.actions';
 import {
   globalSearchMenu,
@@ -157,6 +169,23 @@ export class NavigationEffects {
       filter((loaded) => loaded),
       switchMap(() => this.customFlyRoutes.getCurrentRoute()),
       map((route) => navigationEffectsActions.routeInitialLoaded({ route })),
+    );
+  });
+
+  firstGeolocationFixed$ = createEffect(() => {
+    return this.store.select(mapFeature.selectLoaded).pipe(
+      filter((loaded) => loaded),
+      switchMap(() => this.store.select(mapFeature.selectGeoLocation)),
+      filter(
+        (geoLocation): geoLocation is GeolocationPosition => !!geoLocation,
+      ),
+      auditTime(3000),
+      take(1),
+      map((geoLocation) =>
+        mapEffectsActions.firstGeolocationFixed({
+          gndAltitude: geoLocation.coords.altitude || 0,
+        }),
+      ),
     );
   });
 

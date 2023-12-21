@@ -7,6 +7,7 @@ export const mapEffectsActions = createActionGroup({
     'geolocation tracking running': emptyProps(),
     'track saving started': emptyProps(),
     'track saving ended': emptyProps(),
+    'first geolocation fixed': props<{ gndAltitude: number }>(),
   },
 });
 
