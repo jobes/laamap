@@ -165,3 +165,12 @@ export const gamePadSettingsActions = createActionGroup({
     }>(),
   },
 });
+
+export const terrainSettingsActions = createActionGroup({
+  source: 'Terrain Settings',
+  events: {
+    'Enabled changed': props<{ enabled: boolean }>(),
+    'Gnd height calculate using terrain changed': props<{ enabled: boolean }>(),
+    'Exaggeration changed': props<{ exaggeration: number }>(),
+  },
+});

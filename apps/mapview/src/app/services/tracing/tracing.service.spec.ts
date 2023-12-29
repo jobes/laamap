@@ -40,6 +40,7 @@ describe('TracingService', () => {
     store.dispatch(
       mapActions.geolocationChanged({
         geoLocation: geoLocationBySpeed(speed),
+        terrainElevation: 0,
       }),
     );
   };

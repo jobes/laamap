@@ -19,6 +19,7 @@
 - save own point to map that can be used for the navigation
 - global search on left top with search icon, there can se searched for route, airport, interest point and address
 - map can be installed as PWA
+- support for terrain, it is visible on map and altitude above ground is calculated using MSL altitude (from GPS) and terrain elevation
 
 ### Secrets and keys
 

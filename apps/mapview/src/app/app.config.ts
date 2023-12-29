@@ -53,6 +53,8 @@ import { notamsFeature } from './store/features/settings/notams.feature';
 import { radarFeature } from './store/features/settings/radar.feature';
 import { metaReducers } from './store/metareducers/hydration';
 import { provideServiceWorker } from '@angular/service-worker';
+import { terrainFeature } from './store/features/settings/terrain.feature';
+import { TerrainEffects } from './store/effects/settings/terrain.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -88,6 +90,7 @@ export const appConfig: ApplicationConfig = {
           [instrumentsFeature.name]: instrumentsFeature.reducer,
           [generalFeature.name]: generalFeature.reducer,
           [gamepadFeature.name]: gamepadFeature.reducer,
+          [terrainFeature.name]: terrainFeature.reducer,
         },
         {
           runtimeChecks: {
@@ -108,6 +111,7 @@ export const appConfig: ApplicationConfig = {
         RadarSettingsEffects,
         AirSpacesEffects,
         GeneralEffects,
+        TerrainEffects,
       ]),
       StoreDevtoolsModule.instrument({
         maxAge: 500,

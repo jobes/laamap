@@ -29,6 +29,7 @@ import {
 import { mapFeature } from '../features/map.feature';
 import { navigationFeature } from '../features/navigation.feature';
 import { CustomFlyRoutesService } from '../../services/custom-fly-routes/custom-fly-routes.service';
+import { terrainFeature } from '../features/settings/terrain.feature';
 
 @Injectable()
 export class NavigationEffects {
@@ -179,13 +180,23 @@ export class NavigationEffects {
       filter(
         (geoLocation): geoLocation is GeolocationPosition => !!geoLocation,
       ),
-      auditTime(3000),
+      concatLatestFrom(() => [
+        this.store.select(mapFeature.selectTerrainElevation),
+        this.store.select(terrainFeature['selectSettings.terrainState']),
+      ]),
+      auditTime(5000),
       take(1),
-      map((geoLocation) =>
-        mapEffectsActions.firstGeolocationFixed({
-          gndAltitude: geoLocation.coords.altitude || 0,
-        }),
-      ),
+      map(([geoLocation, terrainElevation, terrain]) => {
+        const altitude = geoLocation.coords.altitude || 0;
+        return mapEffectsActions.firstGeolocationFixed({
+          gndAltitude:
+            terrain.enabled &&
+            terrain.gndHeightCalculateUsingTerrain &&
+            terrainElevation
+              ? altitude - terrainElevation
+              : altitude,
+        });
+      }),
     );
   });
 

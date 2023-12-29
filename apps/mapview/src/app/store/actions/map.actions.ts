@@ -4,7 +4,10 @@ import { LngLat, LngLatLike } from 'maplibre-gl';
 export const mapActions = createActionGroup({
   source: 'Map',
   events: {
-    'geolocation changed': props<{ geoLocation: GeolocationPosition | null }>(),
+    'geolocation changed': props<{
+      geoLocation: GeolocationPosition | null;
+      terrainElevation: number | null;
+    }>(),
     moved: props<{ center: LngLatLike }>(),
     rotated: props<{ bearing: number }>(),
     loaded: emptyProps(),

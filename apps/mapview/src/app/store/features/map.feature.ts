@@ -15,6 +15,7 @@ import { navigationSettingsFeature } from './settings/navigation.feature';
 const initialState = {
   compassHeading: 0,
   geoLocation: null as GeolocationPosition | null,
+  terrainElevation: null as number | null,
   center: [0, 0] as LngLatLike,
   bearing: 0,
   loaded: false,
@@ -33,17 +34,18 @@ export const mapFeature = createFeature({
     })),
     on(
       mapActions.geolocationChanged,
-      (state, { geoLocation }): typeof initialState => ({
+      (state, { geoLocation, terrainElevation }): typeof initialState => ({
         ...state,
         geoLocation,
-      })
+        terrainElevation,
+      }),
     ),
     on(
       compassActions.headingChanged,
       (state, { heading }): typeof initialState => ({
         ...state,
         compassHeading: heading,
-      })
+      }),
     ),
     on(mapActions.moved, (state, { center }): typeof initialState => ({
       ...state,
@@ -63,7 +65,7 @@ export const mapFeature = createFeature({
       (state): typeof initialState => ({
         ...state,
         geoLocationTrackingStarting: false,
-      })
+      }),
     ),
     on(mapActions.geolocationTrackingEnded, (state): typeof initialState => ({
       ...state,
@@ -77,24 +79,24 @@ export const mapFeature = createFeature({
     on(mapEffectsActions.trackSavingEnded, (state): typeof initialState => ({
       ...state,
       trackSaving: false,
-    }))
+    })),
   ),
   extraSelectors: ({ selectGeoLocation, selectGeoLocationTrackingActive }) => ({
     selectGpsHeading: createSelector(selectGeoLocation, (geoLocation) =>
       geoLocation?.coords.heading || geoLocation?.coords.heading === 0
         ? geoLocation?.coords.heading
-        : null
+        : null,
     ),
     selectMinSpeedHit: createSelector(
       navigationSettingsFeature.selectMinActivationSpeedKpH,
       selectGeoLocation,
       (minSpeed, geolocation) =>
-        minSpeed <= (geolocation?.coords.speed ?? 0) * 3.6
+        minSpeed <= (geolocation?.coords.speed ?? 0) * 3.6,
     ),
     selectShowInstruments: createSelector(
       instrumentsFeature.selectShowOnlyOnActiveGps,
       selectGeoLocationTrackingActive,
-      (onlyOnActiveGps, trackingActive) => !onlyOnActiveGps || trackingActive
+      (onlyOnActiveGps, trackingActive) => !onlyOnActiveGps || trackingActive,
     ),
     selectHeading: null as unknown as MemoizedSelector<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -110,5 +112,5 @@ mapFeature.selectHeading = createSelector(
   mapFeature.selectGpsHeading,
   mapFeature.selectMinSpeedHit,
   (compassHeading, gpsHeading, minSpeedHit) =>
-    minSpeedHit ? gpsHeading : compassHeading
+    minSpeedHit ? gpsHeading : compassHeading,
 );

@@ -10,13 +10,19 @@ import { mapFeature } from './features/map.feature';
 import { navigationFeature } from './features/navigation.feature';
 import { instrumentsFeature } from './features/settings/instruments.feature';
 import { navigationSettingsFeature } from './features/settings/navigation.feature';
+import { terrainFeature } from './features/settings/terrain.feature';
 
 export const selectOnMapTrackingState = createSelector(
   mapFeature.selectGeoLocation,
   mapFeature.selectHeading,
   navigationSettingsFeature.selectGpsTrackingInitZoom,
   navigationSettingsFeature.selectGpsTrackingInitPitch,
-  (geoLocation, heading, zoom, pitch) => ({ geoLocation, heading, zoom, pitch })
+  (geoLocation, heading, zoom, pitch) => ({
+    geoLocation,
+    heading,
+    zoom,
+    pitch,
+  }),
 );
 
 export const selectLineDefinitionSegmentGeoJson = createSelector(
@@ -38,10 +44,10 @@ export const selectLineDefinitionSegmentGeoJson = createSelector(
           turf.destination(
             acc[index],
             distanceKm,
-            geoLocation.coords.heading ?? 0
+            geoLocation.coords.heading ?? 0,
           ).geometry.coordinates,
         ],
-        [startPoint]
+        [startPoint],
       );
 
       return turf.featureCollection(
@@ -55,12 +61,12 @@ export const selectLineDefinitionSegmentGeoJson = createSelector(
                     color: index % 2 ? 'white' : 'black',
                   }),
                 ],
-          [] as turf.Feature<turf.LineString>[]
-        )
+          [] as turf.Feature<turf.LineString>[],
+        ),
       );
     }
     return null;
-  }
+  },
 );
 
 export const selectLineDefinitionBorderGeoJson = createSelector(
@@ -79,18 +85,20 @@ export const selectLineDefinitionBorderGeoJson = createSelector(
       const endPoint = turf.destination(
         startPoint,
         distanceKm,
-        geoLocation.coords.heading ?? 0
+        geoLocation.coords.heading ?? 0,
       ).geometry.coordinates;
       return turf.featureCollection([turf.lineString([startPoint, endPoint])]);
     }
     return null;
-  }
+  },
 );
 
 export const selectHeighSettings = createSelector(
   mapFeature.selectGeoLocation,
   instrumentsFeature.selectAltimeter,
-  (geolocation, settings) => ({
+  terrainFeature['selectSettings.terrainState'],
+  mapFeature.selectTerrainElevation,
+  (geolocation, settings, terrain, terrainElevation) => ({
     bgColor: settings.bgColor,
     textColor: settings.textColor,
     altitudeMeters: geolocation?.coords.altitude,
@@ -100,14 +108,25 @@ export const selectHeighSettings = createSelector(
       referenceDatum: EReferenceDatum.msl,
     },
     gndHeightObject: {
-      value: (geolocation?.coords.altitude ?? 0) - settings.gndAltitude,
+      value:
+        terrain.enabled &&
+        terrain.gndHeightCalculateUsingTerrain &&
+        terrainElevation
+          ? (geolocation?.coords.altitude ?? 0) -
+            settings.gndAltitude -
+            terrainElevation
+          : (geolocation?.coords.altitude ?? 0) - settings.gndAltitude,
       unit: EHeightUnit.meter,
       referenceDatum: EReferenceDatum.gnd,
     },
     types: settings.show,
     position: settings.position,
     hasAltitude: !!geolocation,
-  })
+    terrainElevation:
+      terrain.enabled && terrain.gndHeightCalculateUsingTerrain
+        ? terrainElevation ?? 0
+        : 0,
+  }),
 );
 
 export const selectColorsBySpeed = createSelector(
@@ -125,7 +144,7 @@ export const selectColorsBySpeed = createSelector(
       speedKph,
       position: speedSettings.position,
     };
-  }
+  },
 );
 
 export const selectTrackInProgressWithMinSpeed = createSelector(
@@ -134,7 +153,7 @@ export const selectTrackInProgressWithMinSpeed = createSelector(
   (hitMinSpeed, trackSavingInProgress) => ({
     hitMinSpeed,
     trackSavingInProgress,
-  })
+  }),
 );
 
 export const selectRouteNavigationStats = createSelector(
@@ -147,28 +166,30 @@ export const selectRouteNavigationStats = createSelector(
       {
         point: new LngLat(
           geoLocation.coords.longitude,
-          geoLocation.coords.latitude
+          geoLocation.coords.latitude,
         ),
       },
       ...route,
-    ].reduce((acc, item, index, array) => {
-      if (index === 0) return acc;
-      return [
-        ...acc,
-        [array[index - 1].point, array[index].point] as [LngLat, LngLat],
-      ];
-    }, [] as [LngLat, LngLat][]);
+    ].reduce(
+      (acc, item, index, array) => {
+        if (index === 0) return acc;
+        return [
+          ...acc,
+          [array[index - 1].point, array[index].point] as [LngLat, LngLat],
+        ];
+      },
+      [] as [LngLat, LngLat][],
+    );
     const distanceList = pointPairs.map(([from, to]) =>
-      turf.distance([from.lng, from.lat], [to.lng, to.lat])
+      turf.distance([from.lng, from.lat], [to.lng, to.lat]),
     );
     const durationList = minSpeedHit
       ? distanceList.map(
-          (distance) => (1000 * distance) / (geoLocation?.coords.speed ?? 1)
+          (distance) => (1000 * distance) / (geoLocation?.coords.speed ?? 1),
         )
       : null;
-
     return { distanceList, durationList };
-  }
+  },
 );
 
 export const selectNavigationStats = createSelector(
@@ -182,7 +203,7 @@ export const selectNavigationStats = createSelector(
           : undefined,
       distanceToGoal: routeNavStats.distanceList.reduce(
         (acc, item) => acc + item,
-        0
+        0,
       ),
       timeToNextPoint:
         (routeNavStats.durationList?.length ?? 0) > 1
@@ -190,19 +211,19 @@ export const selectNavigationStats = createSelector(
           : undefined,
       timeToGoal: routeNavStats.durationList?.reduce(
         (acc, item) => acc + item,
-        0
+        0,
       ),
     };
     return {
       ...distanceWithDuration,
       arriveTimeToNextPoint: currentDateAddSeconds(
-        distanceWithDuration.timeToNextPoint ?? 0
+        distanceWithDuration.timeToNextPoint ?? 0,
       ),
       arriveTimeToGoal: currentDateAddSeconds(
-        distanceWithDuration.timeToGoal ?? 0
+        distanceWithDuration.timeToGoal ?? 0,
       ),
     };
-  }
+  },
 );
 
 function currentDateAddSeconds(seconds: number): Date {
