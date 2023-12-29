@@ -16,7 +16,10 @@
         [style.color]="heighWithSettings.textColor"
         (click)="
           heighWithSettings.hasAltitude &&
-            resetGnd(heighWithSettings.altitudeMeters ?? 0)
+            resetGnd(
+              (heighWithSettings.altitudeMeters ?? 0) -
+                heighWithSettings.terrainElevation
+            )
         "
       >
         <ng-container

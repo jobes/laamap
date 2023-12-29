@@ -1,0 +1,35 @@
+<ng-template transloco let-t translocoRead="settingDialog.terrain">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>terrain</mat-icon>{{ t('title') }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ t('description') }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <ng-container *ngrxLet="enabled$ as enabled">
+      <mat-slide-toggle
+        [ngModel]="enabled"
+        (ngModelChange)="enableTerrain($event)"
+        >{{ t('enable') }}
+      </mat-slide-toggle>
+      <mat-slide-toggle
+        [ngModel]="gndHeightCalculateUsingTerrain$ | ngrxPush"
+        (ngModelChange)="gndHeightCalculateUsingTerrain($event)"
+        [disabled]="!enabled"
+        >{{ t('gndHeightCalculateUsingTerrain') }}
+      </mat-slide-toggle>
+      <mat-form-field>
+        <mat-label>{{ t('exaggeration') }}</mat-label>
+        <input
+          matInput
+          type="number"
+          [disabled]="!enabled"
+          [ngModel]="exaggeration$ | ngrxPush"
+          (ngModelChange)="exaggeration($event)"
+        />
+      </mat-form-field>
+    </ng-container>
+  </mat-expansion-panel>
+</ng-template>

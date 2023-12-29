@@ -11,6 +11,7 @@ import { notamsFeature } from '../features/settings/notams.feature';
 import { radarFeature } from '../features/settings/radar.feature';
 import { logRocketMiddleware } from './logrocket';
 import { isDevMode } from '@angular/core';
+import { terrainFeature } from '../features/settings/terrain.feature';
 
 export function localStorageSyncReducer(
   reducer: ActionReducer<any>,
@@ -25,6 +26,7 @@ export function localStorageSyncReducer(
       instrumentsFeature.name,
       generalFeature.name,
       gamepadFeature.name,
+      terrainFeature.name,
     ],
     rehydrate: true,
   })(reducer);

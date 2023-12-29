@@ -181,6 +181,7 @@ export class MapService {
       this.store.dispatch(
         mapActions.geolocationChanged({
           geoLocation: this.deepCopyGeoLocation(geoLocation),
+          terrainElevation: this.terrainElevation(geoLocation),
         }),
       ),
     );
@@ -194,6 +195,23 @@ export class MapService {
     });
     this.overrideGeoLocationControl(control);
     this.instance.addControl(control);
+  }
+
+  private terrainElevation(
+    geoLocation: GeolocationPosition | null,
+  ): number | null {
+    if (!this.instance.terrain || !geoLocation) {
+      return null;
+    }
+    return (
+      this.instance.terrain.getElevationForLngLatZoom(
+        new maplibregl.LngLat(
+          geoLocation.coords.longitude,
+          geoLocation.coords.latitude,
+        ),
+        this.instance.transform.tileZoom,
+      ) / this.instance.terrain.exaggeration
+    );
   }
 
   private overrideGeoLocationControl(
