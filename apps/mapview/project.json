@@ -5,14 +5,14 @@
   "sourceRoot": "apps/mapview/src",
   "prefix": "laamap",
   "targets": {
-    "build": {
-      "executor": "@nx/angular:webpack-browser",
+    "real_build": {
+      "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/mapview",
         "index": "apps/mapview/src/index.html",
-        "main": "apps/mapview/src/main.ts",
-        "polyfills": "apps/mapview/src/polyfills.ts",
+        "browser": "apps/mapview/src/main.ts",
+        "polyfills": ["zone.js", "apps/mapview/src/pounchdb-fix.ts"],
         "tsConfig": "apps/mapview/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -20,6 +20,8 @@
           "apps/mapview/src/manifest.webmanifest"
         ],
         "styles": [
+          "./node_modules/maplibre-gl/dist/maplibre-gl.css",
+          "./node_modules/quill/dist/quill.snow.css",
           "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
           "./node_modules/lightgallery/scss/lightgallery.scss",
           "./node_modules/lightgallery/scss/lg-zoom.scss",
@@ -27,9 +29,6 @@
         ],
         "stylePreprocessorOptions": {
           "includePaths": ["node_modules"]
-        },
-        "customWebpackConfig": {
-          "path": "apps/mapview/webpack.config.js"
         },
         "scripts": [],
         "allowedCommonJsDependencies": [
@@ -53,10 +52,10 @@
           "flat",
           "geojson-equality",
           "earcut",
-          "deepmerge"
+          "deepmerge",
+          "logrocket"
         ],
-        "serviceWorker": true,
-        "ngswConfigPath": "apps/mapview/ngsw-config.json"
+        "serviceWorker": "apps/mapview/ngsw-config.json"
       },
       "configurations": {
         "production": {
@@ -75,7 +74,7 @@
           "fileReplacements": [
             {
               "replace": "apps/mapview/src/environments/environment.ts",
-              "with": "apps/mapview/src/environments/environment.prod.ts"
+              "with": "apps/mapview/src/environments/environment.processed.ts"
             }
           ],
           "outputHashing": "all"
@@ -89,36 +88,30 @@
           ]
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true
+          "fileReplacements": [
+            {
+              "replace": "apps/mapview/src/environments/environment.ts",
+              "with": "apps/mapview/src/environments/environment.processed.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
     },
-    "serve": {
-      "executor": "@nx/angular:webpack-dev-server",
+    "real_serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "mapview:build:production"
+          "buildTarget": "mapview:real_build:production"
         },
         "development": {
-          "disableHostCheck": true,
-          "host": "0.0.0.0",
-          "proxyConfig": "apps/mapview/src/proxy.conf.json",
-          "buildTarget": "mapview:build:development"
+          "buildTarget": "mapview:real_build:development"
         }
       },
       "defaultConfiguration": "development"
-    },
-    "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "buildTarget": "mapview:build"
-      }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
@@ -169,6 +162,54 @@
       "options": {
         "command": "ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/ --server-dir subdoms/map/ --dangerous-clean-slate true --password `printenv FTP_PASSWORD`"
       }
+    },
+    "preprocess_env": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "envsubst < apps/mapview/src/environments/environment.ts > apps/mapview/src/environments/environment.processed.ts"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": []
+      },
+      "configurations": {
+        "production": {
+          "commands": [
+            "nx run mapview:preprocess_env",
+            "nx run mapview:real_build:production"
+          ]
+        },
+        "development": {
+          "commands": [
+            "nx run mapview:preprocess_env",
+            "nx run mapview:real_build:development"
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": []
+      },
+      "configurations": {
+        "production": {
+          "commands": [
+            "nx run mapview:preprocess_env",
+            "nx run mapview:real_serve:production"
+          ]
+        },
+        "development": {
+          "commands": [
+            "nx run mapview:preprocess_env",
+            "nx run mapview:real_serve:development"
+          ]
+        }
+      },
+      "defaultConfiguration": "development"
     }
   },
   "tags": []

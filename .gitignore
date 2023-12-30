@@ -7,6 +7,7 @@
 
 # dependencies
 node_modules
+environment.processed.*
 
 # IDEs and editors
 /.idea
