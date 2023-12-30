@@ -79,14 +79,6 @@
           ],
           "outputHashing": "all"
         },
-        "cypress": {
-          "fileReplacements": [
-            {
-              "replace": "apps/mapview/src/environments/environment.ts",
-              "with": "apps/mapview/src/environments/environment.cypress.ts"
-            }
-          ]
-        },
         "development": {
           "optimization": false,
           "extractLicenses": false,
@@ -112,6 +104,34 @@
         }
       },
       "defaultConfiguration": "development"
+    },
+    "cypress_build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/mapview",
+        "index": "apps/mapview/src/index.html",
+        "main": "apps/mapview/src/main.ts",
+        "polyfills": ["zone.js", "apps/mapview/src/pounchdb-fix.ts"],
+        "tsConfig": "apps/mapview/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/mapview/src/assets",
+          "apps/mapview/src/manifest.webmanifest"
+        ],
+        "styles": [
+          "./node_modules/maplibre-gl/dist/maplibre-gl.css",
+          "./node_modules/quill/dist/quill.snow.css",
+          "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+          "./node_modules/lightgallery/scss/lightgallery.scss",
+          "./node_modules/lightgallery/scss/lg-zoom.scss",
+          "apps/mapview/src/styles.scss"
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["node_modules"]
+        },
+        "scripts": []
+      }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
@@ -145,7 +165,7 @@
         "cypressConfig": "apps/mapview/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
-        "devServerTarget": "mapview:build:cypress",
+        "devServerTarget": "mapview:cypress_build",
         "watch": false
       },
       "configurations": {
