@@ -12,6 +12,9 @@ jobs:
       NX_LIGHT_GALLERY_KEY: ${{ secrets.NX_LIGHT_GALLERY_KEY }}
       NX_API_DB_URL: ${{ vars.NX_API_DB_URL }}
       NX_NOTAM_PROXY: ${{ vars.NX_NOTAM_PROXY }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      FTP_SERVER: ${{ vars.FTP_SERVER }}
+      FTP_USERNAME: ${{ vars.FTP_USERNAME }}
     steps:
       - uses: actions/checkout@v3
         with:
