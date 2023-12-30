@@ -1,4 +1,4 @@
-name: deploy mapview
+name: deploy navigation to stork web
 on:
   push:
     branches:
@@ -19,23 +19,14 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
       - run: npm ci
       - name: Build map
-        run: npx nx build mapview --base-href /laamap/
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        run: npx nx build mapview
+      - name: FTP Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          path: ./dist/apps/mapview
+          server: ftpx.forpsi.com
+          username: www.stork-nav.app
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/apps/mapview
+          server-dir: subdoms/map/
+          dangerous-clean-slate: true
       - run: npx nx-cloud stop-all-agents
-  deploy:
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1

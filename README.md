@@ -1,6 +1,6 @@
 ### Aviation map for Slovakia
 
-[Live App Demo](https://jobes.github.io/laamap/)
+[Live App](https://map.stork-nav.app/)
 
 [![CI](https://github.com/jobes/laamap/actions/workflows/ci.yml/badge.svg)](https://github.com/jobes/laamap/actions/workflows/ci.yml)
 [![deploy mapview](https://github.com/jobes/laamap/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/jobes/laamap/actions/workflows/gh-pages.yml)
