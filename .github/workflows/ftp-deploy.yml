@@ -21,12 +21,5 @@ jobs:
       - name: Build map
         run: npx nx build mapview
       - name: FTP Sync files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ftpx.forpsi.com
-          username: www.stork-nav.app
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/apps/mapview/
-          server-dir: subdoms/map/
-          dangerous-clean-slate: true
+        run: npm run deploy:mapview -- --password ${{secrets.FTP_PASSWORD}}
       - run: npx nx-cloud stop-all-agents
