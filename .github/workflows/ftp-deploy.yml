@@ -22,7 +22,7 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
       - run: npm ci
       - name: Build map
-        run: npx nx build mapview
+        run: npx nx affected -t build --output-style=stream
       - name: FTP Sync files
         run: npx nx affected -t deploy --output-style=stream
       - run: npx nx-cloud stop-all-agents
