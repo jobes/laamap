@@ -133,16 +133,6 @@
         "jestConfig": "apps/mapview/jest.config.ts"
       }
     },
-    "deploy": {
-      "executor": "angular-cli-ghpages:deploy",
-      "options": {
-        "baseHref": "/laamap/",
-        "name": "Viktor Jóba",
-        "email": "jobes666@gmail.com",
-        "cname": "",
-        "no-silent": true
-      }
-    },
     "stylelint": {
       "executor": "nx-stylelint:lint",
       "outputs": ["{options.outputFile}"],
@@ -172,6 +162,12 @@
         "development": {
           "watch": true
         }
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/ --server-dir subdoms/map/ --dangerous-clean-slate true --password `printenv FTP_PASSWORD`"
       }
     }
   },

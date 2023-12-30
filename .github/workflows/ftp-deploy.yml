@@ -21,5 +21,5 @@ jobs:
       - name: Build map
         run: npx nx build mapview
       - name: FTP Sync files
-        run: npm run deploy:mapview -- --password ${{secrets.FTP_PASSWORD}}
+        run: npx nx affected -t deploy --output-style=stream
       - run: npx nx-cloud stop-all-agents
