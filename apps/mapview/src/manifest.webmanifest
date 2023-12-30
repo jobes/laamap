@@ -1,7 +1,7 @@
 {
-  "name": "Aviation map with navigation",
-  "short_name": "Aviation map",
-  "description": "Aviation map with navigation, tracking, NOTAMs, basic GPS flight instruments like altimeter, variometer",
+  "name": "Stork aviation navigation",
+  "short_name": "Stork",
+  "description": "Aviation navigation for ultralight sport with tracking, NOTAMs, basic GPS flight instruments like altimeter, variometer",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",

@@ -61,12 +61,6 @@
       },
       "20241221b": {
         "sk": "# 21.12.2023\n- oprava presúvania widgetov, odteraz sa nedajú presunúť mimo obrazovku\n- ak je widget mimo obrazovky tak je presunutý na obrazovku\n- pri prvom zachytení signálu GPS je po 3 sekundách vymazaná výška nad zemou. Tým odpadáva starosť o nastavenie výšky nad zemou pri zapnutí aplikácie pred odletom."
-      },
-      "20241221a": {
-        "sk": "# Pridaná možnosť spätnej väzby\n- emailom\n- telefonicky\n- cez systém spätnej väzby"
-      },
-      "20241220": {
-        "sk": "# Úvodná podpora pre PWA aplikácie\n- správanie ako plnohodntná aplikácia\n- automatické aktualizácie\n- zoznam noviniek a opráv chýb"
       }
     }
   }
