@@ -26,7 +26,7 @@ jobs:
           server: ftpx.forpsi.com
           username: www.stork-nav.app
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/apps/mapview
+          local-dir: ./dist/apps/mapview/
           server-dir: subdoms/map/
           dangerous-clean-slate: true
       - run: npx nx-cloud stop-all-agents
