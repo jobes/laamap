@@ -8,7 +8,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "deploy:mapview": "ftp-deploy --server ftpx.forpsi.com --username www.stork-nav.app --local-dir /home/vjoba/Projects/laamap/dist/apps/mapview/ --server-dir subdoms/map/ --dangerous-clean-slate true",
+    "deploy:mapview": "ftp-deploy --server ftpx.forpsi.com --username www.stork-nav.app --local-dir ./dist/apps/mapview/ --server-dir subdoms/map/ --dangerous-clean-slate true",
     "i18n:extract": "transloco-keys-manager extract",
     "i18n:find": "transloco-keys-manager find",
     "prepare": "husky install"
