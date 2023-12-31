@@ -180,7 +180,17 @@
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/ --server-dir subdoms/map/ --dangerous-clean-slate true --password `printenv FTP_PASSWORD`"
+        "commands": [
+          "npx nx format:check",
+          "nx run mapview:stylelint",
+          "nx run mapview:build",
+          "nx run mapview:test",
+          "nx run mapview:lint",
+          "nx run mapview:component-test",
+          "echo ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/browser/ --server-dir subdoms/map/ --dangerous-clean-slate true --password notyourbussiness",
+          "ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/browser/ --server-dir subdoms/map/ --dangerous-clean-slate true --password `printenv FTP_PASSWORD`"
+        ],
+        "parallel": false
       }
     },
     "preprocess_env": {
@@ -192,7 +202,8 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": []
+        "commands": [],
+        "parallel": false
       },
       "configurations": {
         "production": {
@@ -213,7 +224,8 @@
     "serve": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": []
+        "commands": [],
+        "parallel": false
       },
       "configurations": {
         "production": {
