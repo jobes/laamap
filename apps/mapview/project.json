@@ -37,7 +37,6 @@
           "nx run mapview:test",
           "nx run mapview:lint",
           "nx run mapview:component-test",
-          "echo ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/browser/ --server-dir subdoms/map/ --dangerous-clean-slate true --password notyourbussiness",
           "ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/browser/ --server-dir subdoms/map/ --dangerous-clean-slate true --password `printenv FTP_PASSWORD`"
         ],
         "parallel": false
