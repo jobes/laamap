@@ -5,6 +5,62 @@
   "sourceRoot": "apps/mapview/src",
   "prefix": "laamap",
   "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [],
+        "parallel": false
+      },
+      "configurations": {
+        "production": {
+          "commands": [
+            "nx run mapview:preprocess_env",
+            "nx run mapview:real_serve:production"
+          ]
+        },
+        "development": {
+          "commands": [
+            "nx run mapview:preprocess_env",
+            "nx run mapview:real_serve:development"
+          ]
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx format:check",
+          "nx run mapview:stylelint",
+          "nx run mapview:build",
+          "nx run mapview:test",
+          "nx run mapview:lint",
+          "nx run mapview:component-test",
+          "echo ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/browser/ --server-dir subdoms/map/ --dangerous-clean-slate true --password notyourbussiness",
+          "ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/browser/ --server-dir subdoms/map/ --dangerous-clean-slate true --password `printenv FTP_PASSWORD`"
+        ],
+        "parallel": false
+      }
+    },
+    "component-test": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/mapview/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "mapview:cypress_build",
+        "watch": false
+      },
+      "configurations": {
+        "production": {
+          "watch": false
+        },
+        "development": {
+          "watch": true
+        }
+      }
+    },
     "real_build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
@@ -159,40 +215,6 @@
         "buildTarget": "mapview:build"
       }
     },
-    "component-test": {
-      "executor": "@nx/cypress:cypress",
-      "options": {
-        "cypressConfig": "apps/mapview/cypress.config.ts",
-        "testingType": "component",
-        "skipServe": true,
-        "devServerTarget": "mapview:cypress_build",
-        "watch": false
-      },
-      "configurations": {
-        "production": {
-          "watch": false
-        },
-        "development": {
-          "watch": true
-        }
-      }
-    },
-    "deploy": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npx nx format:check",
-          "nx run mapview:stylelint",
-          "nx run mapview:build",
-          "nx run mapview:test",
-          "nx run mapview:lint",
-          "nx run mapview:component-test",
-          "echo ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/browser/ --server-dir subdoms/map/ --dangerous-clean-slate true --password notyourbussiness",
-          "ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/browser/ --server-dir subdoms/map/ --dangerous-clean-slate true --password `printenv FTP_PASSWORD`"
-        ],
-        "parallel": false
-      }
-    },
     "preprocess_env": {
       "executor": "nx:run-commands",
       "options": {
@@ -220,28 +242,6 @@
         }
       },
       "defaultConfiguration": "production"
-    },
-    "serve": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [],
-        "parallel": false
-      },
-      "configurations": {
-        "production": {
-          "commands": [
-            "nx run mapview:preprocess_env",
-            "nx run mapview:real_serve:production"
-          ]
-        },
-        "development": {
-          "commands": [
-            "nx run mapview:preprocess_env",
-            "nx run mapview:real_serve:development"
-          ]
-        }
-      },
-      "defaultConfiguration": "development"
     }
   },
   "tags": []
