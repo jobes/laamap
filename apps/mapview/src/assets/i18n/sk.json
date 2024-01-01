@@ -175,8 +175,8 @@
     "navigateTo": "Navigovať",
     "addToNavigation": "Pridať bod do navigácie",
     "airports": "Letiská",
-    "address": "Adresa",
-    "addressError": "Chyba Adresy - slabé internetové pripojenie"
+    "address": "Obec",
+    "addressError": "Chyba vyhľadávania obce - slabé internetové pripojenie"
   },
   "airportDialog": {
     "close": "Zavrieť",

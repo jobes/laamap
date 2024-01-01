@@ -69,7 +69,10 @@ export class GlobalSearchService {
           // eslint-disable-next-line rxjs/finnish
           address: val
             ? from(
-                geocoding.forward(val, { country: ['SK'], types: ['address'] }),
+                geocoding.forward(val, {
+                  country: ['SK'],
+                  types: ['municipality'],
+                }),
               ).pipe(
                 startWith(null),
                 catchError(() => of({ error: true })),
