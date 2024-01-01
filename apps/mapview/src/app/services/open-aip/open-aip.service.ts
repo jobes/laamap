@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-
-import { environment } from '../../../environments/environment';
 import {
   EHeightUnit,
   EReferenceDatum,
@@ -21,6 +19,10 @@ type GetAirportsResponse = Observable<
   providedIn: 'root',
 })
 export class OpenAipService {
+  private readonly bucketUrl = `https://storage.googleapis.com/storage/v1/b/29f98e10-a489-4c82-ae5e-489dbcd4912f/o`;
+  private readonly airspaceSuffix = `_asp.geojson?alt=media`;
+  private readonly airportSuffix = `_apt.geojson?alt=media`;
+
   constructor(private readonly http: HttpClient) {}
 
   getAirSpaces$(): Observable<
@@ -32,7 +34,7 @@ export class OpenAipService {
           import('geojson').Geometry,
           IAirspaceResponse
         >
-      >(`${environment.openAipDbUrl}/sk_asp.geojson`)
+      >(`${this.bucketUrl}/sk${this.airspaceSuffix}`)
       .pipe(
         map((json) => ({
           ...json,
@@ -59,7 +61,7 @@ export class OpenAipService {
           import('geojson').Point,
           IAirportResponse
         >
-      >(`${environment.openAipDbUrl}/sk_apt.geojson`)
+      >(`${this.bucketUrl}/sk${this.airportSuffix}`)
       .pipe(
         map((json) => ({
           ...json,
