@@ -39,6 +39,11 @@ FTP_SERVER=
 FTP_USERNAME=
 ```
 
+### Wordpress reverse proxy
+
+NX_NOTAM_PROXY has to be set to a proxy URL, if there is no access to a server, just to a wordpress, simple reverse proxy can be installed from
+`apps/wordpress-plugins/simple-reverse-proxy`. It will add a `Simple reverse proxy` to settings menu in wordpress, where Proxy name should ne `notams` and URL `https://notams.aim.faa.gov/notamSearch/search`.
+
 ### Map icon
 
 flaticon.com [aviation icons](https://www.flaticon.com/free-icon/airport_3295244)
