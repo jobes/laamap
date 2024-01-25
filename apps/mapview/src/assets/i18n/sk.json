@@ -53,7 +53,8 @@
       "mapFontSizeRatio": "Velkosť písma mapy",
       "airPlaneName": "Názov lietadla",
       "notamFirs": "Notamy pre FIR",
-      "notamRadius": "Notam polomer od polohy"
+      "notamRadius": "Notam polomer od polohy",
+      "territories": "Teritória"
     },
     "navigation": {
       "title": "Navigácia",

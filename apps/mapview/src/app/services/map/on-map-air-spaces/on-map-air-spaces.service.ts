@@ -6,6 +6,7 @@ import {
   DataDrivenPropertyValueSpecification,
   ExpressionFilterSpecification,
   ExpressionSpecification,
+  GeoJSONSource,
 } from 'maplibre-gl';
 
 import { layerAirSpacesActions } from '../../../store/actions/map.actions';
@@ -17,14 +18,18 @@ import { MapService } from '../map.service';
   providedIn: 'root',
 })
 export class OnMapAirSpacesService {
-  constructor(private readonly mapService: MapService, private store: Store) {}
+  constructor(
+    private readonly mapService: MapService,
+    private store: Store,
+  ) {}
 
-  createLayers(
-    airSpaces: GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirspace>
-  ): void {
+  createLayers(): void {
     this.mapService.instance.addSource('airspacesSource', {
       type: 'geojson',
-      data: airSpaces,
+      data: {
+        type: 'FeatureCollection',
+        features: [],
+      },
     });
 
     this.mapService.instance.addLayer(
@@ -33,7 +38,7 @@ export class OnMapAirSpacesService {
         type: 'line',
         source: 'airspacesSource',
       },
-      'notamsLayer'
+      'notamsLayer',
     );
 
     this.mapService.instance.addLayer(
@@ -42,32 +47,41 @@ export class OnMapAirSpacesService {
         type: 'fill',
         source: 'airspacesSource',
       },
-      'notamsLayer'
+      'notamsLayer',
     );
 
     this.addClickListener();
   }
 
+  setSource(
+    airSpaces: GeoJSON.FeatureCollection<GeoJSON.Geometry, IAirspace>,
+  ): void {
+    const source = this.mapService.instance.getSource(
+      'airspacesSource',
+    ) as GeoJSONSource;
+    source.setData(airSpaces);
+  }
+
   reloadSettings(settings: IAirSpaceSettingsObject): void {
     this.mapService.instance.setFilter(
       'airspacesLayerBorder',
-      this.createFilter(settings)
+      this.createFilter(settings),
     );
 
     this.mapService.instance.setFilter(
       'airspacesLayerClick',
-      this.createFilter(settings)
+      this.createFilter(settings),
     );
 
     this.mapService.instance.setPaintProperty(
       'airspacesLayerClick',
       'fill-color',
-      this.colors(settings)
+      this.colors(settings),
     );
     this.mapService.instance.setPaintProperty(
       'airspacesLayerClick',
       'fill-opacity',
-      this.opacity(settings)
+      this.opacity(settings),
     );
   }
 
@@ -81,16 +95,16 @@ export class OnMapAirSpacesService {
         this.store.dispatch(
           layerAirSpacesActions.clicked({
             features: JSON.parse(
-              JSON.stringify(event.features ?? [])
+              JSON.stringify(event.features ?? []),
             ) as GeoJSON.Feature[],
-          })
+          }),
         );
-      }
+      },
     );
   }
 
   private createFilter(
-    value: IAirSpaceSettingsObject
+    value: IAirSpaceSettingsObject,
   ): ExpressionFilterSpecification {
     const filterInTypes = Object.entries(value)
       .filter(([, value]) => value.enabled)
@@ -106,7 +120,7 @@ export class OnMapAirSpacesService {
       [
         'match',
         ['number', ['get', 'type']],
-      ] as unknown as ExpressionSpecification
+      ] as unknown as ExpressionSpecification,
     );
 
     return [
@@ -117,7 +131,7 @@ export class OnMapAirSpacesService {
   }
 
   private colors(
-    value: IAirSpaceSettingsObject
+    value: IAirSpaceSettingsObject,
   ): DataDrivenPropertyValueSpecification<ColorSpecification> {
     return [
       ...Object.keys(value)
@@ -128,14 +142,14 @@ export class OnMapAirSpacesService {
             ['==', ['get', 'type'], key],
             value[key]?.color ?? 'grey',
           ],
-          ['case'] as unknown[]
+          ['case'] as unknown[],
         ),
       'grey',
     ] as DataDrivenPropertyValueSpecification<ColorSpecification>;
   }
 
   private opacity(
-    value: IAirSpaceSettingsObject
+    value: IAirSpaceSettingsObject,
   ): DataDrivenPropertyValueSpecification<number> {
     return [
       ...Object.keys(value)
@@ -146,7 +160,7 @@ export class OnMapAirSpacesService {
             ['==', ['get', 'type'], key],
             value[key]?.opacity ?? 0.1,
           ],
-          ['case'] as unknown[]
+          ['case'] as unknown[],
         ),
       0.1,
     ] as DataDrivenPropertyValueSpecification<number>;

@@ -9,6 +9,7 @@ import {
   of,
   startWith,
   switchMap,
+  take,
 } from 'rxjs';
 import {
   CustomFlyRoutesService,
@@ -28,6 +29,8 @@ import {
 import { IAirport } from '../open-aip/airport.interfaces';
 import { OnMapAirportsService } from '../map/on-map-airports/on-map-airports.service';
 import { environment } from '../../../environments/environment';
+import { Store } from '@ngrx/store';
+import { generalFeature } from '../../store/features/settings/general.feature';
 
 config.apiKey = environment.mapTilesKey;
 
@@ -52,6 +55,7 @@ export class GlobalSearchService {
   private readonly customFlyRoutesService = inject(CustomFlyRoutesService);
   private readonly interestPointsService = inject(InterestPointsService);
   private readonly onMapAirportsService = inject(OnMapAirportsService);
+  private readonly store = inject(Store);
 
   searchResults$(
     input$: Observable<string | null>,
@@ -67,20 +71,35 @@ export class GlobalSearchService {
             this.onMapAirportsService.searchAirport(val),
           ),
           // eslint-disable-next-line rxjs/finnish
-          address: val
-            ? from(
-                geocoding.forward(val, {
-                  country: ['SK'],
-                  types: ['municipality'],
-                }),
-              ).pipe(
-                startWith(null),
-                catchError(() => of({ error: true })),
-              )
-            : Promise.resolve(null),
+          address: this.searchAddress$(val),
         }),
       ),
       map((values) => this.mapToList(values)),
+    );
+  }
+
+  private searchAddress$(val: string | null): Observable<
+    | GeocodingSearchResult
+    | {
+        error: boolean;
+      }
+    | null
+  > {
+    return this.store.select(generalFeature.selectTerritories).pipe(
+      take(1),
+      switchMap((territories) =>
+        val && territories?.length
+          ? from(
+              geocoding.forward(val, {
+                country: territories,
+                types: ['municipality'],
+              }),
+            ).pipe(
+              startWith(null),
+              catchError(() => of({ error: true })),
+            )
+          : Promise.resolve(null),
+      ),
     );
   }
 

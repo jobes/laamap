@@ -12,6 +12,7 @@ const initialState = {
   airplaneName: 'OMH-XXX (John Doe)',
   notamFirs: [] as string[],
   notamRadius: 25000,
+  territories: ['sk'],
 };
 
 export const generalFeature = createFeature({
@@ -58,6 +59,13 @@ export const generalFeature = createFeature({
       (state, { radius }): typeof initialState => ({
         ...state,
         notamRadius: radius,
+      }),
+    ),
+    on(
+      generalSettingsActions.territoriesChanged,
+      (state, { territories }): typeof initialState => ({
+        ...state,
+        territories,
       }),
     ),
   ),

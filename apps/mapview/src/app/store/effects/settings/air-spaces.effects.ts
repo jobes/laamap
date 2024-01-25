@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { forkJoin, switchMap, tap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 import { InterestPointsService } from '../../../services/interest-points/interest-points.service';
 import { MapService } from '../../../services/map/map.service';
@@ -18,8 +18,10 @@ export class AirSpacesEffects {
     () => {
       return this.actions$.pipe(
         ofType(mapActions.loaded),
-        switchMap(() => this.openAip.getAirSpaces$()),
-        tap((geojson) => this.onMapAirSpacesService.createLayers(geojson)),
+        tap(() => this.onMapAirSpacesService.createLayers()),
+        switchMap(() => this.store.select(generalFeature.selectTerritories)),
+        switchMap((territories) => this.openAip.getAirSpaces$(territories)),
+        tap((geojson) => this.onMapAirSpacesService.setSource(geojson)),
         switchMap(() =>
           this.store.select(airSpacesFeature['selectSettings.airSpacesState']),
         ),
@@ -33,13 +35,11 @@ export class AirSpacesEffects {
     () => {
       return this.actions$.pipe(
         ofType(mapActions.loaded),
-        switchMap(() =>
-          forkJoin([
-            this.openAip.getAirports$(),
-            this.onMapAirportsService.addRequiredImages$(),
-          ]),
-        ),
-        tap(([geojson]) => this.onMapAirportsService.createLayers(geojson)),
+        tap(() => this.onMapAirportsService.createLayers()),
+        switchMap(() => this.onMapAirportsService.addRequiredImages$()),
+        switchMap(() => this.store.select(generalFeature.selectTerritories)),
+        switchMap((territories) => this.openAip.getAirports$(territories)),
+        tap((geojson) => this.onMapAirportsService.setSource(geojson)),
         switchMap(() =>
           this.store.select(generalFeature.selectMapFontSizeRatio),
         ),
