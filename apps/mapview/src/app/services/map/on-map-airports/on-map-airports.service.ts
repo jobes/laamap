@@ -1,7 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ExpressionFilterSpecification } from 'maplibre-gl';
+import { ExpressionFilterSpecification, GeoJSONSource } from 'maplibre-gl';
 import { Observable, forkJoin } from 'rxjs';
 
 import {
@@ -37,19 +37,26 @@ export class OnMapAirportsService {
     @Inject(APP_BASE_HREF) private readonly baseHref: string,
   ) {}
 
-  createLayers(
-    airports: GeoJSON.FeatureCollection<GeoJSON.Point, IAirport>,
-  ): void {
+  createLayers(): void {
     this.mapService.instance.addSource('airportSource', {
       type: 'geojson',
-      data: airports,
+      data: {
+        type: 'FeatureCollection',
+        features: [],
+      },
     });
 
     this.addOrientationLayer();
     this.addAirportTypeLayer();
     this.addListeners();
+  }
 
+  setSource(airports: GeoJSON.FeatureCollection<GeoJSON.Point, IAirport>) {
     this.airports = airports;
+    const source = this.mapService.instance.getSource(
+      'airportSource',
+    ) as GeoJSONSource;
+    source.setData(airports);
   }
 
   addRequiredImages$(): Observable<true[]> {

@@ -38,6 +38,7 @@ export const generalSettingsActions = createActionGroup({
     'Airplane name changed': props<{ airplaneName: string }>(),
     'Notam FIR changed': props<{ firs: string[] }>(),
     'Notam radius changed': props<{ radius: number }>(),
+    'Territories changed': props<{ territories: string[] }>(),
   },
 });
 

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import { Observable, catchError, forkJoin, map, of } from 'rxjs';
 import {
   EHeightUnit,
   EReferenceDatum,
@@ -10,6 +10,8 @@ import {
   IRunway,
 } from './airport.interfaces';
 import { IAirspace, IAirspaceResponse } from './airspaces.interfaces';
+import { APP_BASE_HREF } from '@angular/common';
+import { Feature } from '@turf/turf';
 
 type GetAirportsResponse = Observable<
   import('geojson').FeatureCollection<import('geojson').Point, IAirport>
@@ -23,54 +25,108 @@ export class OpenAipService {
   private readonly airspaceSuffix = `_asp.geojson?alt=media`;
   private readonly airportSuffix = `_apt.geojson?alt=media`;
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    @Inject(APP_BASE_HREF) private readonly baseHref: string,
+  ) {}
 
-  getAirSpaces$(): Observable<
+  getAirSpaces$(
+    territories: string[],
+  ): Observable<
     import('geojson').FeatureCollection<import('geojson').Geometry, IAirspace>
   > {
-    return this.http
-      .get<
-        import('geojson').FeatureCollection<
-          import('geojson').Geometry,
-          IAirspaceResponse
-        >
-      >(`${this.bucketUrl}/sk${this.airspaceSuffix}`)
-      .pipe(
-        map((json) => ({
-          ...json,
-          features: json.features.map((feature) => ({
-            ...feature,
-            properties: {
-              ...feature.properties,
-              lowerLimitMetersMsl: this.toMslMeters(
-                feature.properties.lowerLimit,
-              ),
-              upperLimitMetersMsl: this.toMslMeters(
-                feature.properties.upperLimit,
-              ),
-            },
-          })),
+    return this.getAllAirspaces$(territories).pipe(
+      map((features) => features.flat()),
+      map((features) => ({
+        type: 'FeatureCollection',
+        features: features.map((feature) => ({
+          ...feature,
+          properties: {
+            ...feature.properties,
+            lowerLimitMetersMsl: this.toMslMeters(
+              feature.properties.lowerLimit,
+            ),
+            upperLimitMetersMsl: this.toMslMeters(
+              feature.properties.upperLimit,
+            ),
+          },
         })),
-      );
+      })),
+    );
   }
 
-  getAirports$(): GetAirportsResponse {
-    return this.http
-      .get<
-        import('geojson').FeatureCollection<
-          import('geojson').Point,
-          IAirportResponse
-        >
-      >(`${this.bucketUrl}/sk${this.airportSuffix}`)
-      .pipe(
-        map((json) => ({
-          ...json,
-          features: json.features.map((feature) => ({
-            ...feature,
-            properties: this.mapAirportsResponse(feature),
-          })),
+  getAirports$(territories: string[]): GetAirportsResponse {
+    return this.getAllAirports$(territories).pipe(
+      map((features) => features.flat()),
+      map((features) => ({
+        type: 'FeatureCollection',
+        features: features.map((feature) => ({
+          ...feature,
+          properties: this.mapAirportsResponse(feature),
         })),
-      );
+      })),
+    );
+  }
+
+  getTerritories$(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseHref}assets/territories.json`);
+  }
+
+  private getAllAirports$(
+    territories: string[],
+  ): Observable<Feature<import('geojson').Point, IAirportResponse>[][]> {
+    return forkJoin(
+      territories?.length > 0
+        ? territories.map((territoryCode) =>
+            this.http
+              .get<
+                import('geojson').FeatureCollection<
+                  import('geojson').Point,
+                  IAirportResponse
+                >
+              >(`${this.bucketUrl}/${territoryCode}${this.airportSuffix}`)
+              .pipe(
+                catchError(() =>
+                  of({
+                    type: 'FeatureCollection',
+                    features: [],
+                  }),
+                ),
+                map((collection) => collection.features),
+              ),
+          )
+        : [of([])],
+    );
+  }
+
+  private getAllAirspaces$(
+    territories: string[],
+  ): Observable<Feature<import('geojson').Geometry, IAirspaceResponse>[][]> {
+    return forkJoin(
+      territories?.length > 0
+        ? territories.map((territoryCode) =>
+            this.http
+              .get<
+                import('geojson').FeatureCollection<
+                  import('geojson').Geometry,
+                  IAirspaceResponse
+                >
+              >(`${this.bucketUrl}/${territoryCode}${this.airspaceSuffix}`)
+              .pipe(
+                catchError(() =>
+                  of({
+                    type: 'FeatureCollection',
+                    features: [],
+                  } as import('geojson').FeatureCollection<
+                    import('geojson').Geometry,
+                    IAirspace
+                  >),
+                ),
+                map((collection) => collection.features),
+              ),
+          )
+        : [of([])],
+    );
   }
 
   private mapAirportsResponse(

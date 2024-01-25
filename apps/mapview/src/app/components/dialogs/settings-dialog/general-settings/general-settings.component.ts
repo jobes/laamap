@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -16,6 +16,7 @@ import { generalSettingsActions } from '../../../../store/actions/settings.actio
 import { generalFeature } from '../../../../store/features/settings/general.feature';
 import { MatSelectModule } from '@angular/material/select';
 import { NotamsService } from '../../../../services/notams/notams.service';
+import { OpenAipService } from '../../../../services/open-aip/open-aip.service';
 
 @Component({
   selector: 'laamap-general-settings',
@@ -36,6 +37,7 @@ import { NotamsService } from '../../../../services/notams/notams.service';
     AsyncPipe,
     MatSelectModule,
     AsyncPipe,
+    UpperCasePipe,
   ],
 })
 export class GeneralSettingsComponent {
@@ -51,10 +53,13 @@ export class GeneralSettingsComponent {
   notamFirs$ = this.store.select(generalFeature.selectNotamFirs);
   notamRadius$ = this.store.select(generalFeature.selectNotamRadius);
   firList$ = this.notams.getFirList();
+  territories$ = this.store.select(generalFeature.selectTerritories);
+  territoryList$ = this.openAip.getTerritories$();
 
   constructor(
     private readonly store: Store,
     private readonly notams: NotamsService,
+    private readonly openAip: OpenAipService,
   ) {}
 
   screenWakeLockEnabledChange(enabled: boolean) {
@@ -87,5 +92,11 @@ export class GeneralSettingsComponent {
 
   notamRadiusFirsChanged(radius: number) {
     this.store.dispatch(generalSettingsActions.notamRadiusChanged({ radius }));
+  }
+
+  territoriesChanged(territories: string[]): void {
+    this.store.dispatch(
+      generalSettingsActions.territoriesChanged({ territories }),
+    );
   }
 }

@@ -81,5 +81,19 @@
         (ngModelChange)="notamRadiusFirsChanged($event)"
       />
     </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('territories') }}</mat-label>
+      <mat-select
+        [ngModel]="territories$ | async"
+        (ngModelChange)="territoriesChanged($event)"
+        multiple
+      >
+        @for (territory of territoryList$ | async; track territory) {
+        <mat-option [value]="territory">
+          {{ territory | uppercase }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </mat-expansion-panel>
 </ng-template>
