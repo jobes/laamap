@@ -54,7 +54,13 @@
       "airPlaneName": "Aircraft name",
       "notamFirs": "Notams for FIR",
       "notamRadius": "Notam radius",
-      "territories": "Territories"
+      "territories": "Territories",
+      "language": "Language",
+      "lang": {
+        "default": "Default",
+        "sk": "Slovenský",
+        "en": "English"
+      }
     },
     "navigation": {
       "title": "Navigation",

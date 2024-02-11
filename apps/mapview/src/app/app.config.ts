@@ -35,7 +35,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LightgalleryModule } from 'lightgallery/angular';
 import { provideQuillConfig } from 'ngx-quill/config';
 
-import { TranslocoHttpLoader } from './services/transloco-loader.service';
+import {
+  TranslocoHttpLoader,
+  activeLang,
+  languages,
+} from './services/transloco-loader.service';
 import { MapEffects } from './store/effects/map.effects';
 import { NavigationEffects } from './store/effects/navigation.effects';
 import { AirSpacesEffects } from './store/effects/settings/air-spaces.effects';
@@ -126,20 +130,17 @@ export const appConfig: ApplicationConfig = {
       deps: [PlatformLocation],
     },
     provideTranslocoLocale({
-      langToLocaleMapping: {
-        en: 'en-US',
-        sk: 'sk-SK',
-      },
+      langToLocaleMapping: languages,
     }),
     provideTransloco({
       config: {
-        availableLangs: ['sk', 'en'],
-        defaultLang: 'sk',
+        availableLangs: Object.keys(languages),
+        defaultLang: activeLang,
         prodMode: isDevMode(),
       },
       loader: TranslocoHttpLoader,
     }),
-    provideTranslocoMessageformat({ locales: ['en-US', 'sk-SK'] }),
+    provideTranslocoMessageformat({ locales: Object.values(languages) }),
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
     provideRouter([]),

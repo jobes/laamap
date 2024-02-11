@@ -95,5 +95,21 @@
         }
       </mat-select>
     </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('language') }}</mat-label>
+      <mat-select
+        [ngModel]="language$ | async"
+        (ngModelChange)="languageChanged($event)"
+      >
+        <mat-option [value]="''">
+          {{ t('lang.default') }}
+        </mat-option>
+        @for (lang of languageList; track lang) {
+        <mat-option [value]="lang">
+          {{ t('lang.' + lang) }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </mat-expansion-panel>
 </ng-template>
