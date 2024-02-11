@@ -58,6 +58,10 @@
   ],
   "appData": {
     "news": {
+      "20240211": {
+        "sk": "# 11.2.2024\n- podpora jazykov, možnosť prepnúť do angličtiny",
+        "en": "#2/11/2024\n- suport for english language besides of slovak language"
+      },
       "20241229": {
         "sk": "# 29.12.2023\n- terén zobrazený na mape\n- výpočet výšky nad zemou na základe terénu"
       },
