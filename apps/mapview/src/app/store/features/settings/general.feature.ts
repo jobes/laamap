@@ -13,6 +13,7 @@ const initialState = {
   notamFirs: [] as string[],
   notamRadius: 25000,
   territories: ['sk'],
+  language: '',
 };
 
 export const generalFeature = createFeature({
@@ -66,6 +67,13 @@ export const generalFeature = createFeature({
       (state, { territories }): typeof initialState => ({
         ...state,
         territories,
+      }),
+    ),
+    on(
+      generalSettingsActions.languageChanged,
+      (state, { language }): typeof initialState => ({
+        ...state,
+        language,
       }),
     ),
   ),

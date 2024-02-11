@@ -54,7 +54,13 @@
       "airPlaneName": "Názov lietadla",
       "notamFirs": "Notamy pre FIR",
       "notamRadius": "Notam polomer od polohy",
-      "territories": "Teritória"
+      "territories": "Teritória",
+      "language": "Jazyk",
+      "lang": {
+        "default": "Automatický",
+        "sk": "Slovenský",
+        "en": "English"
+      }
     },
     "navigation": {
       "title": "Navigácia",

@@ -17,6 +17,7 @@ import { generalFeature } from '../../../../store/features/settings/general.feat
 import { MatSelectModule } from '@angular/material/select';
 import { NotamsService } from '../../../../services/notams/notams.service';
 import { OpenAipService } from '../../../../services/open-aip/open-aip.service';
+import { languages } from '../../../../services/transloco-loader.service';
 
 @Component({
   selector: 'laamap-general-settings',
@@ -55,6 +56,8 @@ export class GeneralSettingsComponent {
   firList$ = this.notams.getFirList();
   territories$ = this.store.select(generalFeature.selectTerritories);
   territoryList$ = this.openAip.getTerritories$();
+  languageList = Object.keys(languages);
+  language$ = this.store.select(generalFeature.selectLanguage);
 
   constructor(
     private readonly store: Store,
@@ -98,5 +101,10 @@ export class GeneralSettingsComponent {
     this.store.dispatch(
       generalSettingsActions.territoriesChanged({ territories }),
     );
+  }
+
+  languageChanged(language: string): void {
+    this.store.dispatch(generalSettingsActions.languageChanged({ language }));
+    window.location.reload();
   }
 }
