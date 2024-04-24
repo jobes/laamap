@@ -91,7 +91,7 @@ export class NotamsSettingsEffects {
     // eslint-disable-next-line @ngrx/avoid-combining-selectors
     this.store.select(navigationFeature.selectRunning),
   ]).pipe(
-    filter(([, running]) => running),
+    filter(([route, running]) => running && route.length > 0),
     switchMap(
       (
         [route], // run only on change of navigationFeature
