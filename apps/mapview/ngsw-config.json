@@ -58,6 +58,10 @@
   ],
   "appData": {
     "news": {
+      "20240424": {
+        "sk": "# 24.4.2024\n- oprava príletu do cieľa",
+        "en": "#4/24/2024\n- fix arriving to destination"
+      },
       "20240211": {
         "sk": "# 11.2.2024\n- podpora jazykov, možnosť prepnúť do angličtiny",
         "en": "#2/11/2024\n- suport for english language besides of slovak language"
