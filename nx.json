@@ -1,9 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "laamap",
-  "affected": {
-    "defaultBase": "main"
-  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx-cloud",
@@ -81,5 +78,7 @@
       "style": "scss"
     }
   },
-  "defaultProject": "mapview"
+  "defaultProject": "mapview",
+  "useInferencePlugins": false,
+  "defaultBase": "main"
 }

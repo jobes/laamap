@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/mapview-e2e/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["mapview"],
   "targets": {
     "e2e": {
       "executor": "nx:run-commands",
@@ -52,7 +54,5 @@
         "lintFilePatterns": ["apps/mapview-e2e/**/*.{js,ts}"]
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["mapview"]
+  }
 }

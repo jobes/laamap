@@ -63,7 +63,6 @@ describe('GamepadHandlerService', () => {
           timestamp: 1,
           connected: true,
           vibrationActuator: null,
-          hapticActuators: [],
         },
       ]);
       service['gamePadSubj$'].next([
@@ -80,7 +79,6 @@ describe('GamepadHandlerService', () => {
           timestamp: 2,
           connected: true,
           vibrationActuator: null,
-          hapticActuators: [],
         },
       ]);
 
@@ -127,7 +125,6 @@ describe('GamepadHandlerService', () => {
         timestamp: 0,
         connected: true,
         vibrationActuator: null,
-        hapticActuators: [],
       },
     ]);
 
@@ -147,7 +144,6 @@ describe('GamepadHandlerService', () => {
           timestamp: 1,
           connected: true,
           vibrationActuator: null,
-          hapticActuators: [],
         },
       ]);
       setTimeout(() => {

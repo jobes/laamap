@@ -12,7 +12,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import {
@@ -28,7 +28,7 @@ import { radarFeature } from '../../../../store/features/settings/radar.feature'
   standalone: true,
   imports: [
     TranslocoModule,
-    LetModule,
+    LetDirective,
     MatExpansionModule,
     MatIconModule,
     NgIf,

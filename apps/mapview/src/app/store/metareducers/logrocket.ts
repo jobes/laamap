@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ActionReducer } from '@ngrx/store';
+// eslint-disable-next-line @typescript-eslint/naming-convention
 import LogRocket from 'logrocket';
 
 const reduxMiddleware = LogRocket.reduxMiddleware();
@@ -13,6 +14,7 @@ export function logRocketMiddleware(
   let currentState: any;
   const fakeDispatch = reduxMiddleware({
     getState: () => currentState,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
   })(() => {});
 
   return function (state, action) {

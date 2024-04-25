@@ -87,6 +87,7 @@ export class GamepadGlobalMenuHandler {
   private sendKeyDown(code: string): void {
     this.searchComponent?.keyDown({
       code: code,
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       preventDefault: () => {},
     } as KeyboardEvent);
   }

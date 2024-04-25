@@ -12,7 +12,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
 
@@ -39,9 +39,9 @@ import { CustomFlyRouteListComponent } from '../custom-fly-route-list/custom-fly
     CdkDrag,
     MatIconModule,
     MatDividerModule,
-    LetModule,
+    LetDirective,
     MatButtonModule,
-    PushModule,
+    PushPipe,
   ],
 })
 export class NavigationDialogComponent {

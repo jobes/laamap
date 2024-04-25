@@ -10,7 +10,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs';
 
@@ -32,7 +32,7 @@ import { notamsFeature } from '../../../store/features/settings/notams.feature';
     NgIf,
     MatButtonModule,
     TranslocoLocaleModule,
-    PushModule,
+    PushPipe,
   ],
 })
 export class NotamsDialogComponent {
