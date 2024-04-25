@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { instrumentAltimeterSettingsActions } from '../../../../../store/actions/settings.actions';
@@ -28,7 +28,7 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
     MatSelectModule,
     NgFor,
     MatOptionModule,
-    PushModule,
+    PushPipe,
   ],
 })
 export class AltitudeWidgetSettingsComponent {

@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { EAirSpaceType } from '../../../../services/open-aip/airspaces.interfaces';
@@ -32,7 +32,7 @@ import { airSpacesFeature } from '../../../../store/features/settings/air-spaces
     MatFormFieldModule,
     MatInputModule,
     MatSliderModule,
-    PushModule,
+    PushPipe,
   ],
 })
 export class AirspacesSettingsComponent {

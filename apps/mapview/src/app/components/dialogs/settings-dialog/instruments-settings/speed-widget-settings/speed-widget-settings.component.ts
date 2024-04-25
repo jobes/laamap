@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { instrumentSpeedSettingsActions } from '../../../../../store/actions/settings.actions';
@@ -23,7 +23,7 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
     TranslocoModule,
     MatSnackBarModule,
     MatExpansionModule,
-    LetModule,
+    LetDirective,
     NgFor,
     MatFormFieldModule,
     MatInputModule,

@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/open-aip-downloader/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nrwl/webpack:webpack",
@@ -54,6 +55,5 @@
         "jestConfig": "apps/open-aip-downloader/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }

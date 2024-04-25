@@ -120,6 +120,7 @@ export const appConfig: ApplicationConfig = {
       StoreDevtoolsModule.instrument({
         maxAge: 500,
         logOnly: isDevMode(),
+        connectInZone: true,
       }),
       LightgalleryModule,
     ),

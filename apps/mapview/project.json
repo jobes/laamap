@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/mapview/src",
   "prefix": "laamap",
+  "tags": [],
   "targets": {
     "serve": {
       "executor": "nx:run-commands",
@@ -242,6 +243,5 @@
       },
       "defaultConfiguration": "production"
     }
-  },
-  "tags": []
+  }
 }

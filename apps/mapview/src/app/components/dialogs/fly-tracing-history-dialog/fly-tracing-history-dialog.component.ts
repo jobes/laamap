@@ -5,7 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { concatLatestFrom } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, forkJoin, switchMap } from 'rxjs';
@@ -26,7 +26,7 @@ import { generalFeature } from '../../../store/features/settings/general.feature
     MatTableModule,
     MatPaginatorModule,
     MatButtonModule,
-    PushModule,
+    PushPipe,
     DigitalTimePipe,
   ],
 })

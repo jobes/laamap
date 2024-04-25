@@ -14,7 +14,7 @@ import {
   inject,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { AltitudePipe } from '../../../pipes/altitude/altitude.pipe';
@@ -32,7 +32,7 @@ import { map } from 'rxjs';
   standalone: true,
   imports: [
     TranslocoModule,
-    LetModule,
+    LetDirective,
     NgIf,
     CdkDrag,
     NgFor,

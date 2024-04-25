@@ -3,7 +3,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { instrumentSettingsActions } from '../../../../store/actions/settings.actions';
@@ -22,7 +22,7 @@ import { VarioWidgetSettingsComponent } from './vario-widget-settings/vario-widg
     TranslocoModule,
     MatExpansionModule,
     MatIconModule,
-    LetModule,
+    LetDirective,
     MatSlideToggleModule,
     SpeedWidgetSettingsComponent,
     AltitudeWidgetSettingsComponent,

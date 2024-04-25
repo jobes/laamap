@@ -27,8 +27,6 @@ export class CustomFlyRoutesService {
     {},
   );
 
-  constructor() {}
-
   async getAllRoutes(): Promise<ICustomFlyRoute[]> {
     return (
       // eslint-disable-next-line @typescript-eslint/naming-convention

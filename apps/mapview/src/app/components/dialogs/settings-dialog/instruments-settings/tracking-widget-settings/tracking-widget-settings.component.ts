@@ -5,7 +5,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { trackingSettingsActions } from '../../../../../store/actions/settings.actions';
@@ -23,7 +23,7 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    PushModule,
+    PushPipe,
   ],
 })
 export class TrackingWidgetSettingsComponent {

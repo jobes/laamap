@@ -39,6 +39,7 @@ export class CustomFlyRouteListComponent {
       () => {
         this.routeList = this.customFlyRoutesService.getAllRoutes();
       },
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       () => {},
     );
   }
