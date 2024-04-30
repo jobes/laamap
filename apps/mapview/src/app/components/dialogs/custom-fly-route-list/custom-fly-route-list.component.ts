@@ -1,15 +1,16 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { TranslocoModule } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { TranslocoModule } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+
 import {
   CustomFlyRoutesService,
   ICustomFlyRoute,
 } from '../../../services/custom-fly-routes/custom-fly-routes.service';
-import { MatListModule } from '@angular/material/list';
-import { Store } from '@ngrx/store';
 import { customFlyRouteListDialogActions } from '../../../store/actions/navigation.actions';
 
 @Component({

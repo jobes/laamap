@@ -16,14 +16,14 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
+import { map } from 'rxjs';
 
 import { AltitudePipe } from '../../../pipes/altitude/altitude.pipe';
 import { EHeightUnit } from '../../../services/open-aip/airport.interfaces';
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 import { altimeterWidgetActions } from '../../../store/actions/widgets.actions';
 import { selectHeighSettings } from '../../../store/advanced-selectors';
 import { mapFeature } from '../../../store/features/map.feature';
-import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'laamap-altimeter-widget',

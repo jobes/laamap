@@ -20,10 +20,10 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 import { varioMeterWidgetActions } from '../../../store/actions/widgets.actions';
 import { mapFeature } from '../../../store/features/map.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
-import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 
 @Component({
   selector: 'laamap-variometer-widget',

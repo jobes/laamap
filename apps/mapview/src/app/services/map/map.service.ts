@@ -1,4 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import maplibregl from 'maplibre-gl';
@@ -10,7 +11,6 @@ import { mapActions } from '../../store/actions/map.actions';
 import { CompassService } from '../compass/compass.service';
 import { GamepadHandlerService } from '../gamepad-handler/gamepad-handler.service';
 import { MapFontSizeService } from './map-font-size.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -104,7 +104,7 @@ export class MapService {
         next: (translations) => {
           /* eslint-disable @typescript-eslint/no-unsafe-member-access */
           /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-          this.instance._locale = {
+          const locale = {
             ...this.instance._locale,
             'GeolocateControl.FindMyLocation': translations.findMyLocation,
             'GeolocateControl.LocationNotAvailable':
@@ -115,6 +115,7 @@ export class MapService {
             'SettingControl.Settings': translations.settings,
             'NavigationControl.Navigation': translations.navigation,
           };
+          this.instance._locale = locale;
           this.addControlsToMap();
         },
       });
@@ -244,9 +245,10 @@ export class MapService {
   private addSettingsControl(): void {
     const button = this.createButton();
     button.textContent = 'settings';
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     button.title = this.instance._getUIString(
-      'SettingControl.Settings',
-    ) as string;
+      'SettingControl.Settings' as 'FullscreenControl.Enter',
+    );
     button.addEventListener('click', () => this.settingsClicked());
   }
 
@@ -254,9 +256,10 @@ export class MapService {
     const button = this.createButton();
     button.textContent = 'navigation';
     button.setAttribute('navigation-dialog', '');
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     button.title = this.instance._getUIString(
-      'NavigationControl.Navigation',
-    ) as string;
+      'NavigationControl.Navigation' as 'FullscreenControl.Enter',
+    );
     button.addEventListener('click', () => this.navigationClicked());
   }
 
