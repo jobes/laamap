@@ -5,16 +5,14 @@
     {
       "files": ["**/*.scss"],
       "customSyntax": "postcss-scss",
-      "plugins": ["stylelint-color-no-non-variables", "stylelint-no-px"],
+      "plugins": ["stylelint-declaration-strict-value", "stylelint-no-px"],
       "extends": [
-        "stylelint-config-standard-scss",
-        "stylelint-config-prettier"
+        "stylelint-config-standard-scss"
       ],
       "rules": {
-        "dczajkowski/color-no-non-variables": true,
+        "scale-unlimited/declaration-strict-value": "color",
         "meowtec/no-px": [true, { "ignore": ["1px"] }],
-        "no-empty-source": null,
-        "string-quotes": "single"
+        "no-empty-source": null
       }
     }
   ]

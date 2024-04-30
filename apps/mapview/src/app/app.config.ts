@@ -26,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
 import { provideTransloco } from '@ngneat/transloco';
 import { provideTranslocoLocale } from '@ngneat/transloco-locale';
 import { provideTranslocoMessageformat } from '@ngneat/transloco-messageformat';
@@ -46,6 +47,7 @@ import { AirSpacesEffects } from './store/effects/settings/air-spaces.effects';
 import { GeneralEffects } from './store/effects/settings/general.effects';
 import { NotamsSettingsEffects } from './store/effects/settings/notams.effects';
 import { RadarSettingsEffects } from './store/effects/settings/radar.effects';
+import { TerrainEffects } from './store/effects/settings/terrain.effects';
 import { mapFeature } from './store/features/map.feature';
 import { navigationFeature } from './store/features/navigation.feature';
 import { airSpacesFeature } from './store/features/settings/air-spaces.feature';
@@ -55,10 +57,8 @@ import { instrumentsFeature } from './store/features/settings/instruments.featur
 import { navigationSettingsFeature } from './store/features/settings/navigation.feature';
 import { notamsFeature } from './store/features/settings/notams.feature';
 import { radarFeature } from './store/features/settings/radar.feature';
-import { metaReducers } from './store/metareducers/hydration';
-import { provideServiceWorker } from '@angular/service-worker';
 import { terrainFeature } from './store/features/settings/terrain.feature';
-import { TerrainEffects } from './store/effects/settings/terrain.effects';
+import { metaReducers } from './store/metareducers/hydration';
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -1,11 +1,12 @@
 import { Injectable, WritableSignal } from '@angular/core';
+import { emulateTab } from 'emulate-tab';
+
 import { actionFirstTime } from './gamepad-handler.functions';
 import {
   ActiveGamePadButtons,
   GamePadShortCutName,
   IGamePadActions,
 } from './gamepad-handler.types';
-import { emulateTab } from 'emulate-tab';
 
 @Injectable({
   providedIn: 'root',
@@ -23,11 +24,8 @@ export class GamepadGlobalMenuHandler {
     definition: { [key in GamePadShortCutName]: IGamePadActions },
   ): boolean {
     if (
-      actionFirstTime(
-        definition.openGlobalSearch,
-        active,
-        old,
-        () => this.searchComponent?.searchBoxClicked(),
+      actionFirstTime(definition.openGlobalSearch, active, old, () =>
+        this.searchComponent?.searchBoxClicked(),
       )
     ) {
       return true;

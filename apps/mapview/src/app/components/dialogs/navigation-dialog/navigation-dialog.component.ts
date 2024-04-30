@@ -15,14 +15,14 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
+import { filter, take } from 'rxjs';
 
 import { navigationDialogActions } from '../../../store/actions/navigation.actions';
 import { navigationFeature } from '../../../store/features/navigation.feature';
+import { CustomFlyRouteCreateComponent } from '../custom-fly-route-create/custom-fly-route-create.component';
+import { CustomFlyRouteListComponent } from '../custom-fly-route-list/custom-fly-route-list.component';
 import { FlyTracingHistoryDialogComponent } from '../fly-tracing-history-dialog/fly-tracing-history-dialog.component';
 import { ListInterestPointsDialogComponent } from '../list-interest-points-dialog/list-interest-points-dialog.component';
-import { CustomFlyRouteCreateComponent } from '../custom-fly-route-create/custom-fly-route-create.component';
-import { filter, take } from 'rxjs';
-import { CustomFlyRouteListComponent } from '../custom-fly-route-list/custom-fly-route-list.component';
 
 @Component({
   selector: 'laamap-navigation-dialog',
