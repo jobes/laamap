@@ -16,8 +16,6 @@ describe('mapview', () => {
     });
   });
 
-  before(() => {});
-
   it('should show a test flight', () => {
     let success: (_: unknown) => void;
     watchPosition.callsFake((onSuccess) => {
