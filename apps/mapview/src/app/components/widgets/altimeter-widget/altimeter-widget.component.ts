@@ -1,12 +1,7 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AsyncPipe } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  QueryList,
-  ViewChildren,
-  inject,
-} from '@angular/core';
+import { Component, ElementRef, inject, viewChildren } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -27,15 +22,16 @@ import { mapFeature } from '../../../store/features/map.feature';
   imports: [TranslocoModule, LetDirective, CdkDrag, AsyncPipe, AltitudePipe],
 })
 export class AltimeterWidgetComponent {
-  @ViewChildren(CdkDrag, { read: ElementRef })
-  readonly containers!: QueryList<ElementRef<HTMLElement>>;
+  containers = viewChildren<CdkDrag, ElementRef<HTMLElement>>(CdkDrag, {
+    read: ElementRef,
+  });
   private readonly safePositionService = inject(WidgetSafePositionService);
   show$ = this.store.select(mapFeature.selectShowInstruments);
   eHeightUnit = EHeightUnit;
   heighWithSettings$ = this.store.select(selectHeighSettings);
   safePosition$ = this.safePositionService.safePosition$(
     this.heighWithSettings$.pipe(map((val) => val.position)),
-    this,
+    toObservable(this.containers),
   );
 
   private dragging = false;

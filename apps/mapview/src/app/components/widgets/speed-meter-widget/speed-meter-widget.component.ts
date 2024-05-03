@@ -1,12 +1,7 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AsyncPipe } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  QueryList,
-  ViewChildren,
-  inject,
-} from '@angular/core';
+import { Component, ElementRef, inject, viewChildren } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -25,15 +20,16 @@ import { mapFeature } from '../../../store/features/map.feature';
   imports: [TranslocoModule, LetDirective, CdkDrag, AsyncPipe],
 })
 export class SpeedMeterWidgetComponent {
-  @ViewChildren(CdkDrag, { read: ElementRef })
-  readonly containers!: QueryList<ElementRef<HTMLElement>>;
+  containers = viewChildren<CdkDrag, ElementRef<HTMLElement>>(CdkDrag, {
+    read: ElementRef,
+  });
   private readonly safePositionService = inject(WidgetSafePositionService);
   private readonly store = inject(Store);
   show$ = this.store.select(mapFeature.selectShowInstruments);
   colorsBySpeed$ = this.store.select(selectColorsBySpeed);
   safePosition$ = this.safePositionService.safePosition$(
     this.colorsBySpeed$.pipe(map((val) => val.position)),
-    this,
+    toObservable(this.containers),
   );
 
   dragEnded(event: CdkDragEnd): void {

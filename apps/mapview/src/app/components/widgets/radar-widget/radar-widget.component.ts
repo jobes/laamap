@@ -1,12 +1,7 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AsyncPipe } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  QueryList,
-  ViewChildren,
-  inject,
-} from '@angular/core';
+import { Component, ElementRef, inject, viewChildren } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -33,14 +28,15 @@ import { radarFeature } from '../../../store/features/settings/radar.feature';
   ],
 })
 export class RadarWidgetComponent {
-  @ViewChildren(CdkDrag, { read: ElementRef })
-  readonly containers!: QueryList<ElementRef<HTMLElement>>;
+  containers = viewChildren<CdkDrag, ElementRef<HTMLElement>>(CdkDrag, {
+    read: ElementRef,
+  });
   private readonly safePositionService = inject(WidgetSafePositionService);
   radarSettings$ = this.store.select(radarFeature['selectSettings.radarState']);
   currentAnimationFrame$ = this.rainViewer.currentAnimationFrame$;
   safePosition$ = this.safePositionService.safePosition$(
     this.radarSettings$.pipe(map((val) => val.widget.position)),
-    this,
+    toObservable(this.containers),
   );
 
   constructor(

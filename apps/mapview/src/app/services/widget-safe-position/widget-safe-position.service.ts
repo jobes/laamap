@@ -1,4 +1,5 @@
-import { ElementRef, Injectable, QueryList } from '@angular/core';
+import { ElementRef, Injectable, Signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import {
   BehaviorSubject,
   Observable,
@@ -6,7 +7,6 @@ import {
   debounceTime,
   map,
   of,
-  startWith,
   switchMap,
 } from 'rxjs';
 
@@ -31,7 +31,7 @@ export class WidgetSafePositionService {
 
   safePosition$(
     position$: Observable<{ x: number; y: number }>,
-    widget: { containers: QueryList<ElementRef<HTMLElement>> },
+    widget$: Observable<readonly ElementRef<HTMLElement>[]> ,
   ): Observable<{
     x: number;
     y: number;
@@ -42,11 +42,11 @@ export class WidgetSafePositionService {
         combineLatest([
           this.resizeObsSubj$.pipe(debounceTime(100)),
           position$,
-          widget.containers?.changes.pipe(startWith(true)),
+          widget$,
         ]),
       ),
       map((val) =>
-        this.getSafePosition(widget.containers?.first, val[0], val[1]),
+        this.getSafePosition(val[2][0], val[0], val[1]),
       ),
     );
   }
@@ -69,14 +69,14 @@ export class WidgetSafePositionService {
         bounding.width + position.x > containerSize.width
           ? containerSize.width - bounding.width
           : bounding.width + position.x < 0
-          ? 0
-          : position.x,
+            ? 0
+            : position.x,
       y:
         bounding.height + position.y > containerSize.height
           ? containerSize.height - bounding.height
           : bounding.height + position.y < 0
-          ? 0
-          : position.y,
+            ? 0
+            : position.y,
     };
   }
 }

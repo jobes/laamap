@@ -4,11 +4,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  QueryList,
-  ViewChild,
-  ViewChildren,
   inject,
   signal,
+  viewChild,
+  viewChildren,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
@@ -43,8 +42,10 @@ import { GlobalSearchMenuComponent } from '../global-search-menu/global-search-m
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GlobalSearchComponent {
-  @ViewChild('inputElm') inputElm!: ElementRef<HTMLInputElement>;
-  @ViewChildren(MatOption) matOptions!: QueryList<MatOption<GlobalMenuInput>>;
+  inputElm = viewChild<ElementRef<HTMLInputElement>>('inputElm');
+  matOptions = viewChildren<MatOption<GlobalMenuInput>>(
+    MatOption<GlobalMenuInput>,
+  );
   private readonly globalSearchService = inject(GlobalSearchService);
   private readonly bottomSheet = inject(MatBottomSheet);
   searchControl = new FormControl('');
@@ -58,7 +59,7 @@ export class GlobalSearchComponent {
   }
 
   searchBoxClicked(): void {
-    this.inputElm.nativeElement.focus();
+    this.inputElm()?.nativeElement.focus();
     this.isOpen.set(true);
   }
 
@@ -73,7 +74,7 @@ export class GlobalSearchComponent {
     }
 
     if (event.code === 'Enter') {
-      const selected = this.matOptions.find((opt) => opt.selected);
+      const selected = this.matOptions().find((opt) => opt.selected);
       if (selected) {
         this.optionSelected(selected.value);
       }
@@ -90,21 +91,25 @@ export class GlobalSearchComponent {
   private processKeyForArrows(event: KeyboardEvent): void {
     if (event.code === 'ArrowDown' || event.code === 'ArrowUp') {
       event.preventDefault();
-      let index = this.matOptions.toArray().findIndex((opt) => opt.selected);
-      this.matOptions.forEach((opt) => opt.deselect());
+      let index = this.matOptions().findIndex((opt) => opt.selected);
+      this.matOptions().forEach((opt) => opt.deselect());
 
       if (event.code === 'ArrowDown') {
-        if (index === this.matOptions.length - 1) index = -1;
-        this.matOptions.get(index + 1)?.select();
+        if (index === this.matOptions().length - 1) index = -1;
+        this.matOptions()
+          .at(index + 1)
+          ?.select();
       } else {
         if (index <= 0) index = this.matOptions.length;
-        this.matOptions.get(index - 1)?.select();
+        this.matOptions()
+          .at(index - 1)
+          ?.select();
       }
     }
   }
 
   private closeInteraction(): void {
-    this.inputElm.nativeElement.blur();
+    this.inputElm()?.nativeElement.blur();
     this.isOpen.set(false);
     this.searchControl.reset();
   }
