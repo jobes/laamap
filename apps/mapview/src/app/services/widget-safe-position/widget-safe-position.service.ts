@@ -1,5 +1,4 @@
-import { ElementRef, Injectable, Signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { ElementRef, Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
