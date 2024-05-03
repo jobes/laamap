@@ -5,19 +5,19 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
-import { ScreenWakeLockService } from '../../../../services/screen-wake-lock/screen-wake-lock.service';
-import { generalSettingsActions } from '../../../../store/actions/settings.actions';
-import { generalFeature } from '../../../../store/features/settings/general.feature';
-import { MatSelectModule } from '@angular/material/select';
 import { NotamsService } from '../../../../services/notams/notams.service';
 import { OpenAipService } from '../../../../services/open-aip/open-aip.service';
+import { ScreenWakeLockService } from '../../../../services/screen-wake-lock/screen-wake-lock.service';
 import { languages } from '../../../../services/transloco-loader.service';
+import { generalSettingsActions } from '../../../../store/actions/settings.actions';
+import { generalFeature } from '../../../../store/features/settings/general.feature';
 
 @Component({
   selector: 'laamap-general-settings',
@@ -37,8 +37,8 @@ import { languages } from '../../../../services/transloco-loader.service';
     AsyncPipe,
     MatSelectModule,
     AsyncPipe,
-    UpperCasePipe
-],
+    UpperCasePipe,
+  ],
 })
 export class GeneralSettingsComponent {
   screenWakeLockEnabled$ = this.store.select(
