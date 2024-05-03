@@ -1,12 +1,7 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AsyncPipe } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  QueryList,
-  ViewChildren,
-  inject,
-} from '@angular/core';
+import { Component, ElementRef, inject, viewChildren } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { LetDirective } from '@ngrx/component';
@@ -36,8 +31,9 @@ import { navigationSettingsFeature } from '../../../store/features/settings/navi
   ],
 })
 export class NavigationGoalWidgetComponent {
-  @ViewChildren(CdkDrag, { read: ElementRef })
-  readonly containers!: QueryList<ElementRef<HTMLElement>>;
+  containers = viewChildren<CdkDrag, ElementRef<HTMLElement>>(CdkDrag, {
+    read: ElementRef,
+  });
   private readonly safePositionService = inject(WidgetSafePositionService);
   private readonly store = inject(Store);
   running$ = this.store.select(navigationFeature.selectRunning);
@@ -48,7 +44,7 @@ export class NavigationGoalWidgetComponent {
   navStats$ = this.store.select(selectNavigationStats);
   safePosition$ = this.safePositionService.safePosition$(
     this.navigationSettings$.pipe(map((val) => val.position)),
-    this,
+    toObservable(this.containers),
   );
 
   dragEnded(event: CdkDragEnd): void {

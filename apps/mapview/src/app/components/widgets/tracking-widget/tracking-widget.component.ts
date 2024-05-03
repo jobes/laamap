@@ -1,12 +1,7 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AsyncPipe } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  QueryList,
-  ViewChildren,
-  inject,
-} from '@angular/core';
+import { Component, ElementRef, inject, viewChildren } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetDirective } from '@ngrx/component';
@@ -45,8 +40,9 @@ import { FlyTracingHistoryDialogComponent } from '../../dialogs/fly-tracing-hist
   ],
 })
 export class TrackingWidgetComponent {
-  @ViewChildren(CdkDrag, { read: ElementRef })
-  readonly containers!: QueryList<ElementRef<HTMLElement>>;
+  containers = viewChildren<CdkDrag, ElementRef<HTMLElement>>(CdkDrag, {
+    read: ElementRef,
+  });
   private readonly safePositionService = inject(WidgetSafePositionService);
   show$ = this.store.select(mapFeature.selectShowInstruments);
   tracking$ = this.store.select(instrumentsFeature.selectTracking);
@@ -74,7 +70,7 @@ export class TrackingWidgetComponent {
   );
   safePosition$ = this.safePositionService.safePosition$(
     this.tracking$.pipe(map((val) => val.position)),
-    this,
+    toObservable(this.containers),
   );
 
   private dragging = false;
