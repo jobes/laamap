@@ -12,7 +12,6 @@ import { Store } from '@ngrx/store';
 
 import { EAirSpaceType } from '../../../../services/open-aip/airspaces.interfaces';
 import { airspacesSettingsActions } from '../../../../store/actions/settings.actions';
-import { IAirSpaceSettings } from '../../../../store/features/settings/air-spaces-init-value';
 import { airSpacesFeature } from '../../../../store/features/settings/air-spaces.feature';
 
 @Component({
