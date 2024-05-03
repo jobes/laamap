@@ -49,7 +49,7 @@ describe(NavigationGoalWidgetComponent.name, () => {
       ],
     });
 
-    cy.get('[data-cy="goalDistance"]').contains(/^45km$/g);
+    cy.get('[data-cy="goalDistance"]').contains(/^ 45km$/g);
     cy.get('[data-cy="goalTimeLeft"]').contains(/^ 0:20 $/g);
     cy.get('[data-cy="goalTimeArrive"]').contains(/^ 14:05 $/g);
   });
