@@ -95,15 +95,15 @@ export class GlobalSearchComponent {
       this.matOptions().forEach((opt) => opt.deselect());
 
       if (event.code === 'ArrowDown') {
-        if (index === this.matOptions().length - 1) index = -1;
-        this.matOptions()
-          .at(index + 1)
-          ?.select();
+        if (index === this.matOptions().length - 1) {
+          index = -1;
+        }
+        this.matOptions()[index + 1]?.select();
       } else {
-        if (index <= 0) index = this.matOptions.length;
-        this.matOptions()
-          .at(index - 1)
-          ?.select();
+        if (index <= 0) {
+          index = this.matOptions().length;
+        }
+        this.matOptions()[index - 1]?.select();
       }
     }
   }

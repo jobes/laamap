@@ -18,7 +18,7 @@
         [cdkDragStartDelay]="1000"
         [style.background]="navigationSettings.bgColor"
         [style.color]="navigationSettings.textColor"
-      >
+>
         <ng-container *ngrxLet="navStats$ as navStats">
           <h6>{{ t('goal') }}</h6>
           @if (navigationSettings.allowedRow.includes('GOAL_DISTANCE')) {
@@ -29,12 +29,11 @@
                   navStats?.distanceToGoal ?? 0
                     | translocoDecimal
                       : { minimumFractionDigits: 0, maximumFractionDigits: 0 }
-                }}
+                }}<span class="unit">km</span>
               }
               @if (!navStats?.distanceToGoal) {
                 --
               }
-              <span class="unit">km</span>
             </div>
           }
 
