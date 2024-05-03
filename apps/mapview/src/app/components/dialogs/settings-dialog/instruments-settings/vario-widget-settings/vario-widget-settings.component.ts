@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,7 +26,6 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    NgFor,
     MatButtonModule,
     MatIconModule,
   ],
@@ -135,12 +133,5 @@ export class VarioWidgetSettingsComponent {
         ],
       }),
     );
-  }
-
-  trackByVario(
-    index: number,
-    item: { minClimbing: number; bgColor: string; textColor: string },
-  ) {
-    return item.minClimbing;
   }
 }

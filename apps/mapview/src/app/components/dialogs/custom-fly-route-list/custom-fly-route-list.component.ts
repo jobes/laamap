@@ -49,8 +49,4 @@ export class CustomFlyRouteListComponent {
     this.store.dispatch(customFlyRouteListDialogActions.routeUsed({ route }));
     this.dialogRef.close();
   }
-
-  trackByRouteName(index: number, item: { routeName: string }): string {
-    return item.routeName;
-  }
 }

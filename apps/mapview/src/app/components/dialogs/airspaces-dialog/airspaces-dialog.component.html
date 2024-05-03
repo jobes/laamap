@@ -1,80 +1,84 @@
 <ng-template transloco let-t translocoRead="airspaceDialog">
   <h1 mat-dialog-title>{{ t('title', data) }}</h1>
   <mat-accordion mat-dialog-content>
-    <mat-expansion-panel
-      *ngFor="let airSpace of data; trackBy: trackByAirSpace"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ airSpace.name }}
-          ({{ t('class.' + airSpace.icaoClass) }})
-        </mat-panel-title>
-        <mat-panel-description>
-          {{ t('types.' + airSpace.type) }}
-          {{ airSpace.lowerLimit | altitude }} -
-          {{ airSpace.upperLimit | altitude }}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div class="info">
-        <span class="mat-caption">{{ t('name') }}</span>
-        <span class="value">{{ airSpace.name }}</span>
-      </div>
-      <div class="info">
-        <span class="mat-caption">{{ t('icaoClass') }}</span>
-        <span class="value">{{ t('class.' + airSpace.icaoClass) }}</span>
-      </div>
-      <div class="info">
-        <span class="mat-caption">{{ t('lowerLimit') }}</span>
-        <span class="value"
-          >{{ airSpace.lowerLimit | altitude }}
-          <span *ngIf="airSpace.lowerLimit.unit !== eHeightUnit.flightLevel">
-            ({{ airSpace.lowerLimit | altitude: eHeightUnit.meter }})
+    @for (airSpace of data; track airSpace.name) {
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ airSpace.name }}
+            ({{ t('class.' + airSpace.icaoClass) }})
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ t('types.' + airSpace.type) }}
+            {{ airSpace.lowerLimit | altitude }} -
+            {{ airSpace.upperLimit | altitude }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="info">
+          <span class="mat-caption">{{ t('name') }}</span>
+          <span class="value">{{ airSpace.name }}</span>
+        </div>
+        <div class="info">
+          <span class="mat-caption">{{ t('icaoClass') }}</span>
+          <span class="value">{{ t('class.' + airSpace.icaoClass) }}</span>
+        </div>
+        <div class="info">
+          <span class="mat-caption">{{ t('lowerLimit') }}</span>
+          <span class="value"
+            >{{ airSpace.lowerLimit | altitude }}
+            @if (airSpace.lowerLimit.unit !== eHeightUnit.flightLevel) {
+              <span>
+                ({{ airSpace.lowerLimit | altitude: eHeightUnit.meter }})
+              </span>
+            }
           </span>
-        </span>
-      </div>
-      <div class="info">
-        <span class="mat-caption">{{ t('upperLimit') }}</span>
-        <span class="value"
-          >{{ airSpace.upperLimit | altitude }}
-          <span *ngIf="airSpace.upperLimit.unit !== eHeightUnit.flightLevel">
-            ({{ airSpace.upperLimit | altitude: eHeightUnit.meter }})
+        </div>
+        <div class="info">
+          <span class="mat-caption">{{ t('upperLimit') }}</span>
+          <span class="value"
+            >{{ airSpace.upperLimit | altitude }}
+            @if (airSpace.upperLimit.unit !== eHeightUnit.flightLevel) {
+              <span>
+                ({{ airSpace.upperLimit | altitude: eHeightUnit.meter }})
+              </span>
+            }
           </span>
-        </span>
-      </div>
-      <div class="info">
-        <span class="mat-caption">{{ t('type') }}</span>
-        <span class="value"
-          >{{ t('types.' + airSpace.type) }}
-          {{ t('typesLong.' + airSpace.type) }}</span
-        >
-      </div>
-      <div class="info">
-        <span class="mat-caption">{{ t('activity') }}</span>
-        <span class="value">{{ t('activities.' + airSpace.activity) }}</span>
-      </div>
-      <div class="info">
-        <span class="mat-caption">{{ t('byNotam') }}</span>
-        <span class="value">{{ t('boolean.' + airSpace.byNotam) }}</span>
-      </div>
-      <div class="info">
-        <span class="mat-caption">{{ t('onDemand') }}</span>
-        <span class="value">{{ t('boolean.' + airSpace.onDemand) }}</span>
-      </div>
-      <div class="info">
-        <span class="mat-caption">{{ t('onRequest') }}</span>
-        <span class="value">{{ t('boolean.' + airSpace.onRequest) }}</span>
-      </div>
-      <div class="info">
-        <span class="mat-caption">{{ t('requestCompliance') }}</span>
-        <span class="value">{{ airSpace.requestCompliance }}</span>
-      </div>
-      <div class="info">
-        <span class="mat-caption">{{ t('specialAgreement') }}</span>
-        <span class="value">{{
-          t('boolean.' + airSpace.specialAgreement)
-        }}</span>
-      </div>
-    </mat-expansion-panel>
+        </div>
+        <div class="info">
+          <span class="mat-caption">{{ t('type') }}</span>
+          <span class="value"
+            >{{ t('types.' + airSpace.type) }}
+            {{ t('typesLong.' + airSpace.type) }}</span
+          >
+        </div>
+        <div class="info">
+          <span class="mat-caption">{{ t('activity') }}</span>
+          <span class="value">{{ t('activities.' + airSpace.activity) }}</span>
+        </div>
+        <div class="info">
+          <span class="mat-caption">{{ t('byNotam') }}</span>
+          <span class="value">{{ t('boolean.' + airSpace.byNotam) }}</span>
+        </div>
+        <div class="info">
+          <span class="mat-caption">{{ t('onDemand') }}</span>
+          <span class="value">{{ t('boolean.' + airSpace.onDemand) }}</span>
+        </div>
+        <div class="info">
+          <span class="mat-caption">{{ t('onRequest') }}</span>
+          <span class="value">{{ t('boolean.' + airSpace.onRequest) }}</span>
+        </div>
+        <div class="info">
+          <span class="mat-caption">{{ t('requestCompliance') }}</span>
+          <span class="value">{{ airSpace.requestCompliance }}</span>
+        </div>
+        <div class="info">
+          <span class="mat-caption">{{ t('specialAgreement') }}</span>
+          <span class="value">{{
+            t('boolean.' + airSpace.specialAgreement)
+          }}</span>
+        </div>
+      </mat-expansion-panel>
+    }
   </mat-accordion>
 
   <div mat-dialog-actions [align]="'end'">

@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -23,12 +23,12 @@ import {
 } from 'rxjs';
 
 import { DigitalTimePipe } from '../../../pipes/digital-time/digital-time.pipe';
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 import { mapEffectsActions } from '../../../store/actions/effects.actions';
 import { trackingWidgetActions } from '../../../store/actions/widgets.actions';
 import { mapFeature } from '../../../store/features/map.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 import { FlyTracingHistoryDialogComponent } from '../../dialogs/fly-tracing-history-dialog/fly-tracing-history-dialog.component';
-import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 
 @Component({
   selector: 'laamap-tracking-widget',
@@ -38,7 +38,6 @@ import { WidgetSafePositionService } from '../../../services/widget-safe-positio
   imports: [
     TranslocoModule,
     LetDirective,
-    NgIf,
     CdkDrag,
     AsyncPipe,
     DigitalTimePipe,

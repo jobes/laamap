@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -11,12 +11,12 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
+import { map } from 'rxjs';
 
 import { RainViewerService } from '../../../services/rain-viewer/rain-viewer.service';
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 import { radarWidgetActions } from '../../../store/actions/widgets.actions';
 import { radarFeature } from '../../../store/features/settings/radar.feature';
-import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'laamap-radar-widget',
@@ -26,7 +26,6 @@ import { map } from 'rxjs';
   imports: [
     TranslocoModule,
     LetDirective,
-    NgIf,
     CdkDrag,
     TranslocoLocaleModule,
     PushPipe,

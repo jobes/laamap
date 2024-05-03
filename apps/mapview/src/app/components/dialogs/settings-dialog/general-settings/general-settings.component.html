@@ -14,12 +14,9 @@
         (ngModelChange)="screenWakeLockEnabledChange($event)"
         >{{ t('screenWakeLockEnabled') }}
       </mat-slide-toggle>
-      <mat-icon
-        *ngIf="!screenWakeLockSupported"
-        [matTooltip]="t('notSupported')"
-      >
-        info
-      </mat-icon>
+      @if (!screenWakeLockSupported) {
+        <mat-icon [matTooltip]="t('notSupported')"> info </mat-icon>
+      }
     </div>
     <mat-form-field>
       <mat-label>{{ t('widgetFontSizeRatio') }}</mat-label>
@@ -62,10 +59,10 @@
         multiple
       >
         @for (fir of firList$ | async; track fir.code) {
-        <mat-option [value]="fir.code">
-          <div>{{ fir.country }}</div>
-          <div>{{ fir.name }} ({{ fir.code }})</div>
-        </mat-option>
+          <mat-option [value]="fir.code">
+            <div>{{ fir.country }}</div>
+            <div>{{ fir.name }} ({{ fir.code }})</div>
+          </mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -89,9 +86,9 @@
         multiple
       >
         @for (territory of territoryList$ | async; track territory) {
-        <mat-option [value]="territory">
-          {{ territory | uppercase }}
-        </mat-option>
+          <mat-option [value]="territory">
+            {{ territory | uppercase }}
+          </mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -105,9 +102,9 @@
           {{ t('lang.default') }}
         </mat-option>
         @for (lang of languageList; track lang) {
-        <mat-option [value]="lang">
-          {{ t('lang.' + lang) }}
-        </mat-option>
+          <mat-option [value]="lang">
+            {{ t('lang.' + lang) }}
+          </mat-option>
         }
       </mat-select>
     </mat-form-field>

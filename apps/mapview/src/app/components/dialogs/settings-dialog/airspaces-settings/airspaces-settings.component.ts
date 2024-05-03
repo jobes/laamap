@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -25,8 +24,6 @@ import { airSpacesFeature } from '../../../../store/features/settings/air-spaces
     TranslocoModule,
     MatExpansionModule,
     MatIconModule,
-    NgIf,
-    NgFor,
     MatSlideToggleModule,
     FormsModule,
     MatFormFieldModule,
@@ -63,12 +60,5 @@ export class AirspacesSettingsComponent {
     this.store.dispatch(
       airspacesSettingsActions.minZoomChanged({ airspaceType, minZoom }),
     );
-  }
-
-  airSpaceTrack(
-    index: number,
-    obj: IAirSpaceSettings & { id: EAirSpaceType },
-  ): EAirSpaceType {
-    return obj.id;
   }
 }

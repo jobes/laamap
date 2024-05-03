@@ -1,26 +1,28 @@
 <ng-template transloco let-t>
   <ng-container *ngrxLet="colorsByClimbing$ as colorsByClimbing">
-    <div
-      *ngIf="(show$ | async) && (safePosition$ | async) as safePosition"
-      class="container"
-      cdkDrag
-      (cdkDragEnded)="dragEnded($event)"
-      cdkDragBoundary="body"
-      [cdkDragFreeDragPosition]="safePosition"
-      [cdkDragStartDelay]="1000"
-      [style.background]="colorsByClimbing.bgColor"
-    >
-      <h6>{{ t('widgets.variometer.header') }}</h6>
-      <span class="value" [style.color]="colorsByClimbing.textColor">
-        <span class="fixed-value">{{
-          colorsByClimbing.climbingSpeed || colorsByClimbing.climbingSpeed === 0
-            ? (colorsByClimbing.climbingSpeed
-              | translocoDecimal
-                : { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-            : '--'
-        }}</span>
-        {{ t('shared.speed.mps') }}</span
+    @if ((show$ | async) && (safePosition$ | async); as safePosition) {
+      <div
+        class="container"
+        cdkDrag
+        (cdkDragEnded)="dragEnded($event)"
+        cdkDragBoundary="body"
+        [cdkDragFreeDragPosition]="safePosition"
+        [cdkDragStartDelay]="1000"
+        [style.background]="colorsByClimbing.bgColor"
       >
-    </div>
+        <h6>{{ t('widgets.variometer.header') }}</h6>
+        <span class="value" [style.color]="colorsByClimbing.textColor">
+          <span class="fixed-value">{{
+            colorsByClimbing.climbingSpeed ||
+            colorsByClimbing.climbingSpeed === 0
+              ? (colorsByClimbing.climbingSpeed
+                | translocoDecimal
+                  : { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+              : '--'
+          }}</span>
+          {{ t('shared.speed.mps') }}</span
+        >
+      </div>
+    }
   </ng-container>
 </ng-template>

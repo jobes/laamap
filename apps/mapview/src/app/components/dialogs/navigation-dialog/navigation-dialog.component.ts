@@ -4,7 +4,7 @@ import {
   CdkDropList,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -32,17 +32,15 @@ import { ListInterestPointsDialogComponent } from '../list-interest-points-dialo
   imports: [
     TranslocoModule,
     MatDialogModule,
-    NgIf,
     MatListModule,
     CdkDropList,
-    NgFor,
     CdkDrag,
     MatIconModule,
     MatDividerModule,
     LetDirective,
     MatButtonModule,
-    PushPipe,
-  ],
+    PushPipe
+],
 })
 export class NavigationDialogComponent {
   private readonly store = inject(Store);

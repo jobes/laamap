@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
@@ -21,12 +20,10 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
   imports: [
     TranslocoModule,
     MatExpansionModule,
-    NgIf,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
     MatSelectModule,
-    NgFor,
     MatOptionModule,
     PushPipe,
   ],
@@ -63,9 +60,5 @@ export class AltitudeWidgetSettingsComponent {
     this.store.dispatch(
       instrumentAltimeterSettingsActions.showTypeChanged({ show }),
     );
-  }
-
-  showTypeTrack(index: number, item: string): string {
-    return item;
   }
 }

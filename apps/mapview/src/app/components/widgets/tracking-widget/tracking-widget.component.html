@@ -1,26 +1,27 @@
 <ng-template transloco let-t>
   <ng-container *ngrxLet="tracking$ as tracking">
     <ng-container *ngrxLet="currentFlyTime$ as currentFlyTime">
-      <div
-        [style.background-color]="
-          currentFlyTime.active ? tracking.activeBg : tracking.inactiveBg
-        "
-        [style.color]="
-          currentFlyTime.active ? tracking.activeText : tracking.inactiveText
-        "
-        *ngIf="(show$ | async) && (safePosition$ | async) as safePosition"
-        class="container"
-        cdkDrag
-        (cdkDragEnded)="dragEnded($event)"
-        (cdkDragStarted)="dragStarted()"
-        cdkDragBoundary="body"
-        [cdkDragFreeDragPosition]="safePosition"
-        [cdkDragStartDelay]="1000"
-        (click)="openHistory()"
-      >
-        <h6>{{ t('widgets.tracking.header') }}</h6>
-        <span class="value">{{ currentFlyTime.seconds | digitalTime }} </span>
-      </div>
+      @if ((show$ | async) && (safePosition$ | async); as safePosition) {
+        <div
+          [style.background-color]="
+            currentFlyTime.active ? tracking.activeBg : tracking.inactiveBg
+          "
+          [style.color]="
+            currentFlyTime.active ? tracking.activeText : tracking.inactiveText
+          "
+          class="container"
+          cdkDrag
+          (cdkDragEnded)="dragEnded($event)"
+          (cdkDragStarted)="dragStarted()"
+          cdkDragBoundary="body"
+          [cdkDragFreeDragPosition]="safePosition"
+          [cdkDragStartDelay]="1000"
+          (click)="openHistory()"
+        >
+          <h6>{{ t('widgets.tracking.header') }}</h6>
+          <span class="value">{{ currentFlyTime.seconds | digitalTime }} </span>
+        </div>
+      }
     </ng-container>
   </ng-container>
 </ng-template>

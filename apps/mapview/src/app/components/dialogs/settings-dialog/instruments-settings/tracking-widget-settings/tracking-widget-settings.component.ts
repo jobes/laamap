@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -19,7 +18,6 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
   imports: [
     TranslocoModule,
     MatExpansionModule,
-    NgIf,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,

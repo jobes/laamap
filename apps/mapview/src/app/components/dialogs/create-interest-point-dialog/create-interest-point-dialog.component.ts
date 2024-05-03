@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +28,6 @@ export type CreateInterestPointDialogInput =
   selector: 'laamap-create-interest-point-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     TranslocoModule,
     MatDialogModule,
     MatButtonModule,
@@ -96,9 +94,5 @@ export class CreateInterestPointDialogComponent {
       );
     }
     this.dialogRef.close();
-  }
-
-  trackBySrcName(index: number, img: { name: string; src: string }): string {
-    return img.name;
   }
 }

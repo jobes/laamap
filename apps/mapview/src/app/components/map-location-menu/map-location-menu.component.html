@@ -7,59 +7,52 @@
     <span matListItemTitle>{{ t('addToNavigation') }}</span>
   </a>
 
-  <a
-    mat-list-item
-    *ngIf="data.airport"
-    (click)="showAirport(data.airport.features)"
-    tabindex="0"
-  >
-    <span matListItemTitle>{{ t('showAirport') }}</span>
-    <span matLine
-      >{{ data.airport.features[0].properties['name'] }}
-      <ng-container *ngIf="data.airport.features[0].properties['icaoCode']">
-        ({{ data.airport.features[0].properties['icaoCode'] }})</ng-container
-      >
-    </span>
-  </a>
+  @if (data.airport) {
+    <a mat-list-item (click)="showAirport(data.airport.features)" tabindex="0">
+      <span matListItemTitle>{{ t('showAirport') }}</span>
+      <span matLine
+        >{{ data.airport.features[0].properties['name'] }}
+        @if (data.airport.features[0].properties['icaoCode']) {
+          ({{ data.airport.features[0].properties['icaoCode'] }})
+        }
+      </span>
+    </a>
+  }
 
-  <a
-    mat-list-item
-    *ngIf="!data.airport && !data.interestPoint"
-    tabindex="0"
-    (click)="newInterestPoint(data.lngLat)"
-  >
-    <span matListItemTitle>{{ t('addToInterestPoints') }}</span>
-    <span matListItemLine>{{ t('latitude') }}: {{ data.lngLat.lat }}</span>
-    <span matListItemLine>{{ t('longitude') }}: {{ data.lngLat.lng }}</span>
-  </a>
+  @if (!data.airport && !data.interestPoint) {
+    <a mat-list-item tabindex="0" (click)="newInterestPoint(data.lngLat)">
+      <span matListItemTitle>{{ t('addToInterestPoints') }}</span>
+      <span matListItemLine>{{ t('latitude') }}: {{ data.lngLat.lat }}</span>
+      <span matListItemLine>{{ t('longitude') }}: {{ data.lngLat.lng }}</span>
+    </a>
+  }
 
-  <a
-    mat-list-item
-    *ngIf="data.interestPoint"
-    tabindex="0"
-    (click)="editInterestPoint(data.interestPoint.features[0])"
-  >
-    <span matListItemTitle>{{ t('showInterestPoints') }}</span>
-    <span matListItemLine>{{
-      data.interestPoint.features[0].properties.name
-    }}</span>
-  </a>
+  @if (data.interestPoint) {
+    <a
+      mat-list-item
+      tabindex="0"
+      (click)="editInterestPoint(data.interestPoint.features[0])"
+    >
+      <span matListItemTitle>{{ t('showInterestPoints') }}</span>
+      <span matListItemLine>{{
+        data.interestPoint.features[0].properties.name
+      }}</span>
+    </a>
+  }
 
-  <a
-    mat-list-item
-    *ngIf="data.airspace"
-    (click)="showAirspaces(data.airspace.features)"
-    tabindex="0"
-  >
-    <span matListItemTitle>{{ t('showAirspaces') }}</span>
-  </a>
+  @if (data.airspace) {
+    <a
+      mat-list-item
+      (click)="showAirspaces(data.airspace.features)"
+      tabindex="0"
+    >
+      <span matListItemTitle>{{ t('showAirspaces') }}</span>
+    </a>
+  }
 
-  <a
-    mat-list-item
-    *ngIf="data.notams"
-    (click)="showNotams(data.notams.features)"
-    tabindex="0"
-  >
-    <span matListItemTitle>{{ t('showNotams') }}</span>
-  </a>
+  @if (data.notams) {
+    <a mat-list-item (click)="showNotams(data.notams.features)" tabindex="0">
+      <span matListItemTitle>{{ t('showNotams') }}</span>
+    </a>
+  }
 </mat-nav-list>

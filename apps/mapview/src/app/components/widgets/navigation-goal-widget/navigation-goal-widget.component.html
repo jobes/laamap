@@ -1,67 +1,71 @@
 <ng-template transloco let-t translocoRead="widgets.navigation">
   <ng-container *ngrxLet="navigationSettings$ as navigationSettings">
-    <div
-      *ngIf="
-        (activeGps$ | async) &&
+    @if (
+      (activeGps$ | async) &&
         (running$ | async) &&
         (navigationSettings.allowedRow.includes('GOAL_DISTANCE') ||
           navigationSettings.allowedRow.includes('GOAL_DURATION_LEFT') ||
           navigationSettings.allowedRow.includes('GOAL_ARRIVE_TIME')) &&
-        (safePosition$ | async) as safePosition
-      "
-      class="container"
-      cdkDrag
-      (cdkDragEnded)="dragEnded($event)"
-      cdkDragBoundary="body"
-      [cdkDragFreeDragPosition]="safePosition"
-      [cdkDragStartDelay]="1000"
-      [style.background]="navigationSettings.bgColor"
-      [style.color]="navigationSettings.textColor"
-    >
-      <ng-container *ngrxLet="navStats$ as navStats">
-        <h6>{{ t('goal') }}</h6>
-        <ng-container
-          *ngIf="navigationSettings.allowedRow.includes('GOAL_DISTANCE')"
-        >
-          <h6>{{ t('distanceToGoal') }}</h6>
-          <div class="value" data-cy="goalDistance">
-            <ng-container *ngIf="navStats?.distanceToGoal">{{
-              navStats?.distanceToGoal ?? 0
-                | translocoDecimal
-                  : { minimumFractionDigits: 0, maximumFractionDigits: 0 }
-            }}</ng-container
-            ><ng-container *ngIf="!navStats?.distanceToGoal">--</ng-container
-            ><span class="unit">km</span>
-          </div>
-        </ng-container>
+        (safePosition$ | async);
+      as safePosition
+    ) {
+      <div
+        class="container"
+        cdkDrag
+        (cdkDragEnded)="dragEnded($event)"
+        cdkDragBoundary="body"
+        [cdkDragFreeDragPosition]="safePosition"
+        [cdkDragStartDelay]="1000"
+        [style.background]="navigationSettings.bgColor"
+        [style.color]="navigationSettings.textColor"
+      >
+        <ng-container *ngrxLet="navStats$ as navStats">
+          <h6>{{ t('goal') }}</h6>
+          @if (navigationSettings.allowedRow.includes('GOAL_DISTANCE')) {
+            <h6>{{ t('distanceToGoal') }}</h6>
+            <div class="value" data-cy="goalDistance">
+              @if (navStats?.distanceToGoal) {
+                {{
+                  navStats?.distanceToGoal ?? 0
+                    | translocoDecimal
+                      : { minimumFractionDigits: 0, maximumFractionDigits: 0 }
+                }}
+              }
+              @if (!navStats?.distanceToGoal) {
+                --
+              }
+              <span class="unit">km</span>
+            </div>
+          }
 
-        <ng-container
-          *ngIf="navigationSettings.allowedRow.includes('GOAL_DURATION_LEFT')"
-        >
-          <h6>{{ t('timeToGoal') }}</h6>
-          <div class="value" data-cy="goalTimeLeft">
-            <ng-container *ngIf="navStats?.timeToGoal">
-              {{ navStats?.timeToGoal | digitalTime: false }}
-            </ng-container>
-            <ng-container *ngIf="!navStats?.timeToGoal"> -- </ng-container>
-          </div>
-        </ng-container>
+          @if (navigationSettings.allowedRow.includes('GOAL_DURATION_LEFT')) {
+            <h6>{{ t('timeToGoal') }}</h6>
+            <div class="value" data-cy="goalTimeLeft">
+              @if (navStats?.timeToGoal) {
+                {{ navStats?.timeToGoal | digitalTime: false }}
+              }
+              @if (!navStats?.timeToGoal) {
+                --
+              }
+            </div>
+          }
 
-        <ng-container
-          *ngIf="navigationSettings.allowedRow.includes('GOAL_ARRIVE_TIME')"
-        >
-          <h6>{{ t('arriveTimeToGoal') }}</h6>
-          <div class="value" data-cy="goalTimeArrive">
-            <ng-container *ngIf="navStats?.timeToGoal">
-              {{
-                $any(navStats?.arriveTimeToGoal)
-                  | translocoDate: { timeStyle: 'short' }
-              }}
-            </ng-container>
-            <ng-container *ngIf="!navStats?.timeToGoal"> -- </ng-container>
-          </div>
+          @if (navigationSettings.allowedRow.includes('GOAL_ARRIVE_TIME')) {
+            <h6>{{ t('arriveTimeToGoal') }}</h6>
+            <div class="value" data-cy="goalTimeArrive">
+              @if (navStats?.timeToGoal) {
+                {{
+                  $any(navStats?.arriveTimeToGoal)
+                    | translocoDate: { timeStyle: 'short' }
+                }}
+              }
+              @if (!navStats?.timeToGoal) {
+                --
+              }
+            </div>
+          }
         </ng-container>
-      </ng-container>
-    </div>
+      </div>
+    }
   </ng-container>
 </ng-template>

@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -33,7 +33,6 @@ import { instrumentsFeature } from '../../../store/features/settings/instruments
   imports: [
     TranslocoModule,
     LetDirective,
-    NgIf,
     CdkDrag,
     AsyncPipe,
     TranslocoLocaleModule,

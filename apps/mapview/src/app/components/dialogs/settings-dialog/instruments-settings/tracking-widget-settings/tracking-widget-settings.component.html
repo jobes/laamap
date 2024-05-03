@@ -2,7 +2,7 @@
   <mat-expansion-panel-header>
     <mat-panel-title>{{ t('tracking') }}</mat-panel-title>
   </mat-expansion-panel-header>
-  <ng-container *ngIf="settings$ | ngrxPush as settings">
+  @if (settings$ | ngrxPush; as settings) {
     <mat-form-field>
       <mat-label>{{ t('activeBgColor') }}</mat-label>
       <input
@@ -39,5 +39,5 @@
         (ngModelChange)="inactiveTextColorChanged($event)"
       />
     </mat-form-field>
-  </ng-container>
+  }
 </mat-expansion-panel>

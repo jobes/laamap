@@ -7,63 +7,73 @@
       <ng-container
         *ngrxLet="speedWidgetColorsSettings$ as speedWidgetColorsSettings"
       >
-        <mat-expansion-panel
-          *ngFor="
-            let speed of speedWidgetColorsSettings.colorsBySpeed;
-            let i = index;
-            trackBy: trackBySpeed
-          "
-        >
-          <mat-expansion-panel-header [style.background-color]="speed.bgColor">
-            <mat-panel-title [style.color]="speed.textColor">
-              {{ speed.minSpeed }} {{ s('speed.kph') }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-form-field>
-            <mat-label>{{ t('minSpeedKph') }}</mat-label>
-            <input
-              matInput
-              type="number"
-              [ngModel]="speed.minSpeed"
-              (ngModelChange)="
-                setMinSpeed(speedWidgetColorsSettings.colorsBySpeed, i, $event)
+        @for (
+          speed of speedWidgetColorsSettings.colorsBySpeed;
+          track speed.minSpeed;
+          let i = $index
+        ) {
+          <mat-expansion-panel>
+            <mat-expansion-panel-header
+              [style.background-color]="speed.bgColor"
+            >
+              <mat-panel-title [style.color]="speed.textColor">
+                {{ speed.minSpeed }} {{ s('speed.kph') }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field>
+              <mat-label>{{ t('minSpeedKph') }}</mat-label>
+              <input
+                matInput
+                type="number"
+                [ngModel]="speed.minSpeed"
+                (ngModelChange)="
+                  setMinSpeed(
+                    speedWidgetColorsSettings.colorsBySpeed,
+                    i,
+                    $event
+                  )
+                "
+                [ngModelOptions]="{ updateOn: 'blur' }"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ t('textColor') }}</mat-label>
+              <input
+                matInput
+                type="color"
+                [ngModel]="speed.textColor"
+                (ngModelChange)="
+                  setTextColor(
+                    speedWidgetColorsSettings.colorsBySpeed,
+                    i,
+                    $event
+                  )
+                "
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ t('bgColor') }}</mat-label>
+              <input
+                matInput
+                type="color"
+                [ngModel]="speed.bgColor"
+                (ngModelChange)="
+                  setBgColor(speedWidgetColorsSettings.colorsBySpeed, i, $event)
+                "
+              />
+            </mat-form-field>
+            <button
+              mat-mini-fab
+              color="warn"
+              class="add"
+              (click)="
+                removeSpeedItem(speedWidgetColorsSettings.colorsBySpeed, i)
               "
-              [ngModelOptions]="{ updateOn: 'blur' }"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ t('textColor') }}</mat-label>
-            <input
-              matInput
-              type="color"
-              [ngModel]="speed.textColor"
-              (ngModelChange)="
-                setTextColor(speedWidgetColorsSettings.colorsBySpeed, i, $event)
-              "
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ t('bgColor') }}</mat-label>
-            <input
-              matInput
-              type="color"
-              [ngModel]="speed.bgColor"
-              (ngModelChange)="
-                setBgColor(speedWidgetColorsSettings.colorsBySpeed, i, $event)
-              "
-            />
-          </mat-form-field>
-          <button
-            mat-mini-fab
-            color="warn"
-            class="add"
-            (click)="
-              removeSpeedItem(speedWidgetColorsSettings.colorsBySpeed, i)
-            "
-          >
-            <mat-icon>remove</mat-icon>
-          </button>
-        </mat-expansion-panel>
+            >
+              <mat-icon>remove</mat-icon>
+            </button>
+          </mat-expansion-panel>
+        }
 
         <button
           mat-mini-fab

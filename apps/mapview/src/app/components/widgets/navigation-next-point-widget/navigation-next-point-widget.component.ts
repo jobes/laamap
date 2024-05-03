@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -11,15 +11,15 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
+import { map } from 'rxjs';
 
 import { DigitalTimePipe } from '../../../pipes/digital-time/digital-time.pipe';
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 import { navigationNextPointWidgetActions } from '../../../store/actions/widgets.actions';
 import { selectNavigationStats } from '../../../store/advanced-selectors';
 import { mapFeature } from '../../../store/features/map.feature';
 import { navigationFeature } from '../../../store/features/navigation.feature';
 import { navigationSettingsFeature } from '../../../store/features/settings/navigation.feature';
-import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'laamap-navigation-next-point-widget',
@@ -29,7 +29,6 @@ import { map } from 'rxjs';
   imports: [
     TranslocoModule,
     LetDirective,
-    NgIf,
     CdkDrag,
     AsyncPipe,
     TranslocoLocaleModule,

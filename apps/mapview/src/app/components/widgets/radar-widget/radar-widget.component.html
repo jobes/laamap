@@ -1,34 +1,37 @@
 <ng-template transloco let-t>
   <ng-container *ngrxLet="radarSettings$ as radarSettings">
-    <div
-      class="container"
-      cdkDrag
-      (cdkDragEnded)="dragEnded($event)"
-      cdkDragBoundary="body"
-      [cdkDragFreeDragPosition]="safePosition"
-      [cdkDragStartDelay]="1000"
-      *ngIf="
-        radarSettings.type !== 'coverage' &&
+    @if (
+      radarSettings.type !== 'coverage' &&
         radarSettings.widget.enabled &&
         radarSettings.enabled &&
-        (safePosition$ | async) as safePosition
-      "
-      [style.background]="radarSettings.widget.background"
-    >
-      <h6>{{ t('settingDialog.radar.type.' + radarSettings.type) }}</h6>
-      <span
-        class="value"
-        *ngIf="currentAnimationFrame$ | ngrxPush as currentAnimationFrame"
-        [style.color]="
-          currentAnimationFrame.pastTime
-            ? radarSettings.widget.textColorPast
-            : radarSettings.widget.textColorFuture
-        "
-        >{{
-          currentAnimationFrame.time * 1000
-            | translocoDate: { timeStyle: 'short' }
-        }}
-      </span>
-    </div>
+        (safePosition$ | async);
+      as safePosition
+    ) {
+      <div
+        class="container"
+        cdkDrag
+        (cdkDragEnded)="dragEnded($event)"
+        cdkDragBoundary="body"
+        [cdkDragFreeDragPosition]="safePosition"
+        [cdkDragStartDelay]="1000"
+        [style.background]="radarSettings.widget.background"
+      >
+        <h6>{{ t('settingDialog.radar.type.' + radarSettings.type) }}</h6>
+        @if (currentAnimationFrame$ | ngrxPush; as currentAnimationFrame) {
+          <span
+            class="value"
+            [style.color]="
+              currentAnimationFrame.pastTime
+                ? radarSettings.widget.textColorPast
+                : radarSettings.widget.textColorFuture
+            "
+            >{{
+              currentAnimationFrame.time * 1000
+                | translocoDate: { timeStyle: 'short' }
+            }}
+          </span>
+        }
+      </div>
+    }
   </ng-container>
 </ng-template>

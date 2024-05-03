@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -28,8 +27,6 @@ import { notamsFeature } from '../../../store/features/settings/notams.feature';
     TranslocoModule,
     MatDialogModule,
     MatExpansionModule,
-    NgFor,
-    NgIf,
     MatButtonModule,
     TranslocoLocaleModule,
     PushPipe,
@@ -59,9 +56,5 @@ export class NotamsDialogComponent {
 
   hide(notamId: string): void {
     this.store.dispatch(notamsViewActions.hide({ notamId }));
-  }
-
-  trackByNotam(index: number, value: INotamDecoded) {
-    return value.id;
   }
 }

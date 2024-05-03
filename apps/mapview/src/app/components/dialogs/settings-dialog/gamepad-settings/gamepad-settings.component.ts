@@ -1,4 +1,4 @@
-import { AsyncPipe, KeyValuePipe, NgFor } from '@angular/common';
+import { AsyncPipe, KeyValuePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,7 +42,6 @@ import { gamepadFeature } from '../../../../store/features/settings/gamepad.feat
     AsyncPipe,
     KeyValuePipe,
     AsyncPipe,
-    NgFor,
   ],
   templateUrl: './gamepad-settings.component.html',
   styleUrls: ['./gamepad-settings.component.scss'],
@@ -89,13 +88,6 @@ export class GamepadSettingsComponent implements OnInit, OnDestroy {
 
   expandedChange(value: boolean) {
     this.gamepadService.settingMode = value;
-  }
-
-  trackByKey(
-    index: number,
-    item: { key: string; value: IGamePadActions },
-  ): string {
-    return item.key;
   }
 
   private processGamePadInput(input: ActiveGamePadButtons | null): void {

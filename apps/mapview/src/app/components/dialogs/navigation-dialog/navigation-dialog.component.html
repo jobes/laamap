@@ -1,15 +1,17 @@
 <ng-template transloco let-t translocoRead="navigationDialog">
   <h1 mat-dialog-title>{{ t('title') }}</h1>
-  <ng-container *ngIf="currentRoute$ | ngrxPush as currentRoute">
+  @if (currentRoute$ | ngrxPush; as currentRoute) {
     <div mat-dialog-content>
       <mat-list
         cdkDropList
         (cdkDropListDropped)="drop($event, currentRoute)"
         [class.dragging]="dragging"
       >
-        <ng-container
-          *ngFor="let point of currentRoute; trackBy: routeTrack; let i = index"
-        >
+        @for (
+          point of currentRoute;
+          track routeTrack(i, point);
+          let i = $index
+        ) {
           <mat-list-item
             cdkDrag
             (cdkDragStarted)="dragging = true"
@@ -23,10 +25,10 @@
             </div>
           </mat-list-item>
           <mat-divider></mat-divider>
-        </ng-container>
-        <span matListItemTitle *ngIf="currentRoute.length < 1">{{
-          t('noItemInList')
-        }}</span>
+        }
+        @if (currentRoute.length < 1) {
+          <span matListItemTitle>{{ t('noItemInList') }}</span>
+        }
       </mat-list>
     </div>
     <div mat-dialog-actions [align]="'end'" *ngrxLet="running$ as running">
@@ -38,32 +40,31 @@
       >
         <mat-icon>save</mat-icon>
       </button>
-      <button
-        mat-mini-fab
-        color="primary"
-        *ngIf="!running"
-        [disabled]="currentRoute.length < 1"
-        (click)="startNavigation()"
-      >
-        <mat-icon>navigation</mat-icon>
-      </button>
-      <button
-        mat-mini-fab
-        color="warn"
-        *ngIf="running"
-        (click)="stopNavigation()"
-      >
-        <mat-icon>stop</mat-icon>
-      </button>
-      <button
-        mat-mini-fab
-        color="warn"
-        *ngIf="!running"
-        [disabled]="currentRoute.length < 1"
-        (click)="deleteRoute()"
-      >
-        <mat-icon>block</mat-icon>
-      </button>
+      @if (!running) {
+        <button
+          mat-mini-fab
+          color="primary"
+          [disabled]="currentRoute.length < 1"
+          (click)="startNavigation()"
+        >
+          <mat-icon>navigation</mat-icon>
+        </button>
+      }
+      @if (running) {
+        <button mat-mini-fab color="warn" (click)="stopNavigation()">
+          <mat-icon>stop</mat-icon>
+        </button>
+      }
+      @if (!running) {
+        <button
+          mat-mini-fab
+          color="warn"
+          [disabled]="currentRoute.length < 1"
+          (click)="deleteRoute()"
+        >
+          <mat-icon>block</mat-icon>
+        </button>
+      }
     </div>
     <div mat-dialog-actions [align]="'end'">
       <button mat-button (click)="showPoiList()">{{ t('POIList') }}</button>
@@ -82,5 +83,5 @@
         {{ t('close') }}
       </button>
     </div>
-  </ng-container>
+  }
 </ng-template>
