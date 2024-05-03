@@ -31,7 +31,7 @@ export class WidgetSafePositionService {
 
   safePosition$(
     position$: Observable<{ x: number; y: number }>,
-    widget$: Observable<readonly ElementRef<HTMLElement>[]> ,
+    widget$: Observable<readonly ElementRef<HTMLElement>[]>,
   ): Observable<{
     x: number;
     y: number;
@@ -45,9 +45,7 @@ export class WidgetSafePositionService {
           widget$,
         ]),
       ),
-      map((val) =>
-        this.getSafePosition(val[2][0], val[0], val[1]),
-      ),
+      map((val) => this.getSafePosition(val[2][0], val[0], val[1])),
     );
   }
 
