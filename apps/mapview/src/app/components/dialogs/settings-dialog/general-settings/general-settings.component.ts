@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -31,15 +31,14 @@ import { languages } from '../../../../services/transloco-loader.service';
     LetDirective,
     MatSlideToggleModule,
     FormsModule,
-    NgIf,
     MatTooltipModule,
     MatFormFieldModule,
     MatInputModule,
     AsyncPipe,
     MatSelectModule,
     AsyncPipe,
-    UpperCasePipe,
-  ],
+    UpperCasePipe
+],
 })
 export class GeneralSettingsComponent {
   screenWakeLockEnabled$ = this.store.select(

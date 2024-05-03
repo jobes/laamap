@@ -1,4 +1,4 @@
-import { Location, NgFor, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -19,13 +19,7 @@ import { filter } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { AltitudePipe } from '../../../pipes/altitude/altitude.pipe';
 import { DimensionPipe } from '../../../pipes/dimension/dimension.pipe';
-import {
-  ETrafficType,
-  IAirport,
-  IAirportFrequency,
-  IAirportResponse,
-  IRunway,
-} from '../../../services/open-aip/airport.interfaces';
+import { IAirport } from '../../../services/open-aip/airport.interfaces';
 
 @UntilDestroy()
 @Component({
@@ -36,8 +30,6 @@ import {
   imports: [
     TranslocoModule,
     MatDialogModule,
-    NgIf,
-    NgFor,
     MatExpansionModule,
     LightgalleryModule,
     MatButtonModule,
@@ -93,20 +85,4 @@ export class AirportDialogComponent {
   onInit = (detail: InitDetail): void => {
     this.lightGallery = detail.instance;
   };
-
-  trackByTrafficType(index: number, value: ETrafficType) {
-    return value;
-  }
-
-  trackByFrequency(index: number, value: IAirportFrequency) {
-    return value.value;
-  }
-
-  trackByRunway(index: number, value: IRunway) {
-    return value.designator;
-  }
-
-  trackByImages(index: number, value: IAirportResponse['images'][0]) {
-    return value.filename;
-  }
 }

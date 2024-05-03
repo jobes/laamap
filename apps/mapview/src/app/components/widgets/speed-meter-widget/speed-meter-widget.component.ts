@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -8,21 +8,21 @@ import {
   inject,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
+import { map } from 'rxjs';
 
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 import { speedMeterWidgetActions } from '../../../store/actions/widgets.actions';
 import { selectColorsBySpeed } from '../../../store/advanced-selectors';
 import { mapFeature } from '../../../store/features/map.feature';
-import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
-import { map } from 'rxjs';
-import { LetDirective } from '@ngrx/component';
 
 @Component({
   selector: 'laamap-speed-meter-widget',
   templateUrl: './speed-meter-widget.component.html',
   styleUrls: ['./speed-meter-widget.component.scss'],
   standalone: true,
-  imports: [TranslocoModule, LetDirective, NgIf, CdkDrag, AsyncPipe],
+  imports: [TranslocoModule, LetDirective, CdkDrag, AsyncPipe],
 })
 export class SpeedMeterWidgetComponent {
   @ViewChildren(CdkDrag, { read: ElementRef })

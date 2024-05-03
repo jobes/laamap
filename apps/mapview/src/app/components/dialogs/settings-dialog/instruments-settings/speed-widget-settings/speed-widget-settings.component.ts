@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,7 +23,6 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
     MatSnackBarModule,
     MatExpansionModule,
     LetDirective,
-    NgFor,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
@@ -127,12 +125,5 @@ export class SpeedWidgetSettingsComponent {
         colorsBySpeed: [...array.slice(0, index), ...array.slice(index + 1)],
       }),
     );
-  }
-
-  trackBySpeed(
-    index: number,
-    item: { minSpeed: number; bgColor: string; textColor: string },
-  ) {
-    return item.minSpeed;
   }
 }

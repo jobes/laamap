@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -29,7 +29,6 @@ import {
   standalone: true,
   imports: [
     TranslocoModule,
-    NgFor,
     MatDialogModule,
     MatButtonModule,
     AsyncPipe,
@@ -88,9 +87,5 @@ export class ListInterestPointsDialogComponent {
       .subscribe({
         next: (poiList) => this.interestPointsSubj$.next(poiList),
       });
-  }
-
-  userTrackPoi(index: number, point: Feature<Point, IInterestPoint>): string {
-    return point.properties.id;
   }
 }

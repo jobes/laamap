@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -31,13 +30,11 @@ import { radarFeature } from '../../../../store/features/settings/radar.feature'
     LetDirective,
     MatExpansionModule,
     MatIconModule,
-    NgIf,
     MatTooltipModule,
     MatSlideToggleModule,
     FormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    NgFor,
     MatOptionModule,
     MatSliderModule,
     MatCardModule,
@@ -114,13 +111,5 @@ export class RadarSettingsComponent {
     this.store.dispatch(
       radarSettingsActions.opacityChanged({ opacity: opacity ?? 0 }),
     );
-  }
-
-  trackByNumber(index: number, value: number) {
-    return value;
-  }
-
-  trackByString(index: number, value: string) {
-    return value;
   }
 }

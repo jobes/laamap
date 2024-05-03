@@ -5,16 +5,17 @@
       <span class="mat-caption">{{ t('type') }}</span>
       <span class="value">
         {{ t('types.' + data.type) }}
-        <span *ngIf="data.trafficType?.length"
-          >(<span
-            class="split-list"
-            *ngFor="
-              let trafficType of data.trafficType;
-              trackBy: trackByTrafficType
-            "
-            >{{ t('trafficTypes.' + trafficType) }}</span
-          >)</span
-        >
+        @if (data.trafficType.length) {
+          <span
+            >(
+            @for (trafficType of data.trafficType; track trafficType) {
+              <span class="split-list">{{
+                t('trafficTypes.' + trafficType)
+              }}</span>
+            }
+            )</span
+          >
+        }
       </span>
     </div>
     <div class="info">
@@ -34,100 +35,117 @@
       <span class="value">{{ t('boolean.' + data.skydiveActivity) }}</span>
     </div>
 
-    <div
-      class="info"
-      *ngFor="let freq of data.frequencies; trackBy: trackByFrequency"
-    >
-      <span class="mat-caption"
-        >{{ t('frequency') }} {{ t('frequencies.types.' + freq.type) }}</span
-      >
-      <span class="value" [class.highlight]="freq.primary"
-        >{{ freq.value + 'MHz ' }}<span *ngIf="freq.name">{{ freq.name }}</span
-        ><span *ngIf="freq.remarks">({{ freq.remarks }})</span></span
-      >
-    </div>
+    @for (freq of data.frequencies; track freq.value) {
+      <div class="info">
+        <span class="mat-caption"
+          >{{ t('frequency') }} {{ t('frequencies.types.' + freq.type) }}</span
+        >
+        <span class="value" [class.highlight]="freq.primary"
+          >{{ freq.value + 'MHz ' }}
+          @if (freq.name) {
+            <span>{{ freq.name }}</span>
+          }
+          @if (freq.remarks) {
+            <span>({{ freq.remarks }})</span>
+          }
+        </span>
+      </div>
+    }
 
     <mat-accordion>
-      <mat-expansion-panel *ngIf="data.runways">
-        <mat-expansion-panel-header>
-          <mat-panel-title> {{ t('runways') }} </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-accordion>
-          <mat-expansion-panel
-            *ngFor="let runway of data.runways; trackBy: trackByRunway"
+      @if (data.runways) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> {{ t('runways') }} </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-accordion>
+            @for (runway of data.runways; track runway.designator) {
+              <mat-expansion-panel>
+                <mat-expansion-panel-header
+                  ><mat-panel-title [class.highlight]="runway.mainRunway">
+                    {{ runway.designator }}
+                  </mat-panel-title></mat-expansion-panel-header
+                >
+                <div class="info">
+                  <span class="mat-caption">{{
+                    t('runwaysDetail.length')
+                  }}</span>
+                  <span class="value">{{
+                    runway.dimension.length | dimension
+                  }}</span>
+                </div>
+                <div class="info">
+                  <span class="mat-caption">{{
+                    t('runwaysDetail.width')
+                  }}</span>
+                  <span class="value">{{
+                    runway.dimension.width | dimension
+                  }}</span>
+                </div>
+                <div class="info">
+                  <span class="mat-caption">{{
+                    t('runwaysDetail.operation')
+                  }}</span>
+                  <span class="value">{{
+                    t('runwaysDetail.operations.' + runway.operations)
+                  }}</span>
+                </div>
+                @if (runway.remarks) {
+                  <div class="info">
+                    <span class="mat-caption">{{
+                      t('runwaysDetail.remarks')
+                    }}</span>
+                    <span class="value">{{ runway.remarks }}</span>
+                  </div>
+                }
+                <div class="info">
+                  <span class="mat-caption">{{
+                    t('runwaysDetail.trueHeading')
+                  }}</span>
+                  <span class="value">{{ runway.trueHeading }}°</span>
+                </div>
+                <div class="info">
+                  <span class="mat-caption">{{
+                    t('runwaysDetail.turnDirection')
+                  }}</span>
+                  <span class="value">{{
+                    t('runwaysDetail.turnDirections.' + runway.turnDirection)
+                  }}</span>
+                </div>
+              </mat-expansion-panel>
+            }
+          </mat-accordion>
+        </mat-expansion-panel>
+      }
+      @if (data.images) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> {{ t('images') }} </mat-panel-title>
+          </mat-expansion-panel-header>
+          <lightgallery
+            [settings]="gallerySettings"
+            [onAfterOpen]="galleryOpened()"
+            [onAfterClose]="galleryClosed()"
+            [onInit]="onInit"
           >
-            <mat-expansion-panel-header
-              ><mat-panel-title [class.highlight]="runway.mainRunway">
-                {{ runway.designator }}
-              </mat-panel-title></mat-expansion-panel-header
-            >
-            <div class="info">
-              <span class="mat-caption">{{ t('runwaysDetail.length') }}</span>
-              <span class="value">{{
-                runway.dimension.length | dimension
-              }}</span>
-            </div>
-            <div class="info">
-              <span class="mat-caption">{{ t('runwaysDetail.width') }}</span>
-              <span class="value">{{
-                runway.dimension.width | dimension
-              }}</span>
-            </div>
-            <div class="info">
-              <span class="mat-caption">{{
-                t('runwaysDetail.operation')
-              }}</span>
-              <span class="value">{{
-                t('runwaysDetail.operations.' + runway.operations)
-              }}</span>
-            </div>
-            <div class="info" *ngIf="runway.remarks">
-              <span class="mat-caption">{{ t('runwaysDetail.remarks') }}</span>
-              <span class="value">{{ runway.remarks }}</span>
-            </div>
-            <div class="info">
-              <span class="mat-caption">{{
-                t('runwaysDetail.trueHeading')
-              }}</span>
-              <span class="value">{{ runway.trueHeading }}°</span>
-            </div>
-            <div class="info">
-              <span class="mat-caption">{{
-                t('runwaysDetail.turnDirection')
-              }}</span>
-              <span class="value">{{
-                t('runwaysDetail.turnDirections.' + runway.turnDirection)
-              }}</span>
-            </div>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </mat-expansion-panel>
-      <mat-expansion-panel *ngIf="data.images">
-        <mat-expansion-panel-header>
-          <mat-panel-title> {{ t('images') }} </mat-panel-title>
-        </mat-expansion-panel-header>
-        <lightgallery
-          [settings]="gallerySettings"
-          [onAfterOpen]="galleryOpened()"
-          [onAfterClose]="galleryClosed()"
-          [onInit]="onInit"
-        >
-          <a
-            href="https://www.openaip.net/api/core/files/images/{{
-              image.filename
-            }}"
-            *ngFor="let image of data.images; trackBy: trackByImages"
-          >
-            <img
-              src="https://www.openaip.net/api/core/files/images/{{
-                image.filename
-              }}?width=200&height=200"
-              title="{{ image.description }}"
-              alt="{{ image.description }}"
-            />
-          </a>
-        </lightgallery>
-      </mat-expansion-panel>
+            @for (image of data.images; track image.filename) {
+              <a
+                href="https://www.openaip.net/api/core/files/images/{{
+                  image.filename
+                }}"
+              >
+                <img
+                  src="https://www.openaip.net/api/core/files/images/{{
+                    image.filename
+                  }}?width=200&height=200"
+                  title="{{ image.description }}"
+                  alt="{{ image.description }}"
+                />
+              </a>
+            }
+          </lightgallery>
+        </mat-expansion-panel>
+      }
     </mat-accordion>
   </div>
   <div mat-dialog-actions [align]="'end'">

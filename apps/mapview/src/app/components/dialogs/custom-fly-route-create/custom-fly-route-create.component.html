@@ -8,10 +8,11 @@
   </div>
   <div mat-dialog-actions [align]="'end'">
     <button mat-button [mat-dialog-close]="name.value" [disabled]="!name.valid">
-      <ng-container *ngIf="nameExists$ | async; else nameNotExists">{{
-        t('overwrite')
-      }}</ng-container>
-      <ng-template #nameNotExists>{{ t('save') }}</ng-template>
+      @if (nameExists$ | async) {
+        {{ t('overwrite') }}
+      } @else {
+        {{ t('save') }}
+      }
     </button>
     <button mat-button [mat-dialog-close]="false" cdkFocusInitial>
       {{ t('close') }}

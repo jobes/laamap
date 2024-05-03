@@ -6,15 +6,14 @@
       </mat-panel-title>
       <mat-panel-description>
         {{ t('description') }}
-        <mat-icon *ngIf="!radar.enabled" [matTooltip]="t('disabledDesc')">
-          hide_source
-        </mat-icon>
-        <mat-icon
-          *ngIf="radar.enabled && !radar.widget.enabled"
-          [matTooltip]="t('widgetDisabledDesc')"
-        >
-          speaker_notes_off
-        </mat-icon>
+        @if (!radar.enabled) {
+          <mat-icon [matTooltip]="t('disabledDesc')"> hide_source </mat-icon>
+        }
+        @if (radar.enabled && !radar.widget.enabled) {
+          <mat-icon [matTooltip]="t('widgetDisabledDesc')">
+            speaker_notes_off
+          </mat-icon>
+        }
       </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-slide-toggle
@@ -22,120 +21,129 @@
       (ngModelChange)="enableRadar($event)"
       >{{ t('enable') }}
     </mat-slide-toggle>
-    <div class="settings" *ngIf="radar.enabled">
-      <mat-form-field>
-        <mat-label>{{ t('type.title') }}</mat-label>
-        <mat-select [value]="radar.type" (valueChange)="typeChanged($event)">
-          <mat-option
-            *ngFor="let type of types; trackBy: trackByString"
-            [value]="type"
+    @if (radar.enabled) {
+      <div class="settings">
+        <mat-form-field>
+          <mat-label>{{ t('type.title') }}</mat-label>
+          <mat-select [value]="radar.type" (valueChange)="typeChanged($event)">
+            @for (type of types; track type) {
+              <mat-option [value]="type">
+                {{ t('type.' + type) }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        @if (radar.type === 'radar') {
+          <mat-form-field>
+            <mat-label>{{ t('colorScheme.title') }}</mat-label>
+            <mat-select
+              [value]="radar.colorScheme"
+              (valueChange)="colorSchemeChanged($event)"
+            >
+              @for (scheme of colorScheme; track scheme) {
+                <mat-option [value]="scheme">
+                  {{ t('colorScheme.' + scheme) }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+        @if (radar.type === 'radar') {
+          <mat-slide-toggle
+            [ngModel]="radar.snow"
+            (ngModelChange)="enableSnow($event)"
+            >{{ t('snow') }}
+          </mat-slide-toggle>
+        }
+        @if (radar.type !== 'coverage') {
+          <mat-slide-toggle
+            [ngModel]="radar.smooth"
+            (ngModelChange)="enableSmooth($event)"
+            >{{ t('smooth') }}
+          </mat-slide-toggle>
+        }
+        @if (radar.type === 'radar') {
+          <mat-form-field>
+            <mat-label>{{ t('pauseOnEnd') }}</mat-label>
+            <input
+              matInput
+              type="number"
+              [ngModel]="radar.pauseOnEnd"
+              (ngModelChange)="pauseOnEndChanged($event)"
+            />
+          </mat-form-field>
+        }
+        @if (radar.type !== 'coverage') {
+          <div
+            class="labeled-slider mat-form-field-appearance-legacy mat-form-field-can-float mat-form-field-should-float"
           >
-            {{ t('type.' + type) }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field *ngIf="radar.type === 'radar'">
-        <mat-label>{{ t('colorScheme.title') }}</mat-label>
-        <mat-select
-          [value]="radar.colorScheme"
-          (valueChange)="colorSchemeChanged($event)"
-        >
-          <mat-option
-            *ngFor="let scheme of colorScheme; trackBy: trackByNumber"
-            [value]="scheme"
+            <span class="mat-form-field-label">
+              {{ t('animationSpeed') }}
+            </span>
+            <mat-slider [min]="0" [max]="100">
+              <input
+                matSliderThumb
+                [ngModel]="radar.animationSpeed"
+                (ngModelChange)="animationSpeedChanged($event)"
+            /></mat-slider>
+          </div>
+        }
+        @if (radar.type !== 'coverage') {
+          <div
+            class="labeled-slider mat-form-field-appearance-legacy mat-form-field-can-float mat-form-field-should-float"
           >
-            {{ t('colorScheme.' + scheme) }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-slide-toggle
-        *ngIf="radar.type === 'radar'"
-        [ngModel]="radar.snow"
-        (ngModelChange)="enableSnow($event)"
-        >{{ t('snow') }}
-      </mat-slide-toggle>
-      <mat-slide-toggle
-        *ngIf="radar.type !== 'coverage'"
-        [ngModel]="radar.smooth"
-        (ngModelChange)="enableSmooth($event)"
-        >{{ t('smooth') }}
-      </mat-slide-toggle>
-      <mat-form-field *ngIf="radar.type === 'radar'">
-        <mat-label>{{ t('pauseOnEnd') }}</mat-label>
-        <input
-          matInput
-          type="number"
-          [ngModel]="radar.pauseOnEnd"
-          (ngModelChange)="pauseOnEndChanged($event)"
-        />
-      </mat-form-field>
-      <div
-        *ngIf="radar.type !== 'coverage'"
-        class="labeled-slider mat-form-field-appearance-legacy mat-form-field-can-float mat-form-field-should-float"
-      >
-        <span class="mat-form-field-label">
-          {{ t('animationSpeed') }}
-        </span>
-        <mat-slider [min]="0" [max]="100">
-          <input
-            matSliderThumb
-            [ngModel]="radar.animationSpeed"
-            (ngModelChange)="animationSpeedChanged($event)"
-        /></mat-slider>
+            <span class="mat-form-field-label">
+              {{ t('opacity') }}
+            </span>
+            <mat-slider [min]="0" [max]="100"
+              ><input
+                matSliderThumb
+                [ngModel]="radar.opacity"
+                (ngModelChange)="opacityChanged($event)"
+            /></mat-slider>
+          </div>
+        }
       </div>
-      <div
-        *ngIf="radar.type !== 'coverage'"
-        class="labeled-slider mat-form-field-appearance-legacy mat-form-field-can-float mat-form-field-should-float"
-      >
-        <span class="mat-form-field-label">
-          {{ t('opacity') }}
-        </span>
-        <mat-slider [min]="0" [max]="100"
-          ><input
-            matSliderThumb
-            [ngModel]="radar.opacity"
-            (ngModelChange)="opacityChanged($event)"
-        /></mat-slider>
-      </div>
-    </div>
-    <mat-card
-      class="widgetSettings"
-      *ngIf="radar.enabled && radar.type !== 'coverage'"
-    >
-      <mat-slide-toggle
-        [ngModel]="radar.widget.enabled"
-        (ngModelChange)="enableWidget($event)"
-        >{{ t('enableWidget') }}
-      </mat-slide-toggle>
-      <div class="settings" *ngIf="radar.widget.enabled">
-        <mat-form-field>
-          <mat-label>{{ t('widgetBackgroundColor') }}</mat-label>
-          <input
-            matInput
-            type="color"
-            [ngModel]="radar.widget.background"
-            (ngModelChange)="widgetBgColorChanged($event)"
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ t('widgetPastColor') }}</mat-label>
-          <input
-            matInput
-            type="color"
-            [ngModel]="radar.widget.textColorPast"
-            (ngModelChange)="widgetTextColorPastChanged($event)"
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ t('widgetFutureColor') }}</mat-label>
-          <input
-            matInput
-            type="color"
-            [ngModel]="radar.widget.textColorFuture"
-            (ngModelChange)="widgetTextColorFutureChanged($event)"
-          />
-        </mat-form-field>
-      </div>
-    </mat-card>
+    }
+    @if (radar.enabled && radar.type !== 'coverage') {
+      <mat-card class="widgetSettings">
+        <mat-slide-toggle
+          [ngModel]="radar.widget.enabled"
+          (ngModelChange)="enableWidget($event)"
+          >{{ t('enableWidget') }}
+        </mat-slide-toggle>
+        @if (radar.widget.enabled) {
+          <div class="settings">
+            <mat-form-field>
+              <mat-label>{{ t('widgetBackgroundColor') }}</mat-label>
+              <input
+                matInput
+                type="color"
+                [ngModel]="radar.widget.background"
+                (ngModelChange)="widgetBgColorChanged($event)"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ t('widgetPastColor') }}</mat-label>
+              <input
+                matInput
+                type="color"
+                [ngModel]="radar.widget.textColorPast"
+                (ngModelChange)="widgetTextColorPastChanged($event)"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ t('widgetFutureColor') }}</mat-label>
+              <input
+                matInput
+                type="color"
+                [ngModel]="radar.widget.textColorFuture"
+                (ngModelChange)="widgetTextColorFutureChanged($event)"
+              />
+            </mat-form-field>
+          </div>
+        }
+      </mat-card>
+    }
   </mat-expansion-panel>
 </ng-template>

@@ -1,11 +1,5 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
-import {
-  AsyncPipe,
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -30,17 +24,7 @@ import { mapFeature } from '../../../store/features/map.feature';
   templateUrl: './altimeter-widget.component.html',
   styleUrls: ['./altimeter-widget.component.scss'],
   standalone: true,
-  imports: [
-    TranslocoModule,
-    LetDirective,
-    NgIf,
-    CdkDrag,
-    NgFor,
-    NgSwitch,
-    NgSwitchCase,
-    AsyncPipe,
-    AltitudePipe,
-  ],
+  imports: [TranslocoModule, LetDirective, CdkDrag, AsyncPipe, AltitudePipe],
 })
 export class AltimeterWidgetComponent {
   @ViewChildren(CdkDrag, { read: ElementRef })
@@ -85,9 +69,5 @@ export class AltimeterWidgetComponent {
         gndAltitude,
       }),
     );
-  }
-
-  typeTrack(index: number, type: string): string {
-    return type;
   }
 }

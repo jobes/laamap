@@ -1,9 +1,8 @@
 <ng-template transloco let-t translocoRead="widgets.navigation">
   <ng-container *ngrxLet="navigationSettings$ as navigationSettings">
     <ng-container *ngrxLet="navStats$ as navStats">
-      <div
-        *ngIf="
-          (activeGps$ | async) &&
+      @if (
+        (activeGps$ | async) &&
           (running$ | async) &&
           navStats?.distanceToNextPoint &&
           (navigationSettings.allowedRow.includes('NEXT_POINT_DISTANCE') ||
@@ -11,65 +10,69 @@
               'NEXT_POINT_DURATION_LEFT'
             ) ||
             navigationSettings.allowedRow.includes('NEXT_POINT_ARRIVE_TIME')) &&
-          (safePosition$ | async) as safePosition
-        "
-        class="container"
-        cdkDrag
-        (cdkDragEnded)="dragEnded($event)"
-        cdkDragBoundary="body"
-        [cdkDragFreeDragPosition]="safePosition"
-        [cdkDragStartDelay]="1000"
-        [style.background]="navigationSettings.bgColor"
-        [style.color]="navigationSettings.textColor"
-      >
-        <h6>{{ t('nextPoint') }}</h6>
-        <ng-container
-          *ngIf="navigationSettings.allowedRow.includes('NEXT_POINT_DISTANCE')"
+          (safePosition$ | async);
+        as safePosition
+      ) {
+        <div
+          class="container"
+          cdkDrag
+          (cdkDragEnded)="dragEnded($event)"
+          cdkDragBoundary="body"
+          [cdkDragFreeDragPosition]="safePosition"
+          [cdkDragStartDelay]="1000"
+          [style.background]="navigationSettings.bgColor"
+          [style.color]="navigationSettings.textColor"
         >
-          <h6>{{ t('distanceToNextPoint') }}</h6>
-          <div class="value">
-            <ng-container *ngIf="navStats?.distanceToNextPoint">{{
-              navStats?.distanceToNextPoint ?? 0
-                | translocoDecimal
-                  : { minimumFractionDigits: 0, maximumFractionDigits: 0 }
-            }}</ng-container
-            ><ng-container *ngIf="!navStats?.distanceToNextPoint"
-              >--</ng-container
-            ><span class="unit">km</span>
-          </div>
-        </ng-container>
+          <h6>{{ t('nextPoint') }}</h6>
+          @if (navigationSettings.allowedRow.includes('NEXT_POINT_DISTANCE')) {
+            <h6>{{ t('distanceToNextPoint') }}</h6>
+            <div class="value">
+              @if (navStats?.distanceToNextPoint) {
+                {{
+                  navStats?.distanceToNextPoint ?? 0
+                    | translocoDecimal
+                      : { minimumFractionDigits: 0, maximumFractionDigits: 0 }
+                }}
+              }
+              @if (!navStats?.distanceToNextPoint) {
+                --
+              }
+              <span class="unit">km</span>
+            </div>
+          }
 
-        <ng-container
-          *ngIf="
+          @if (
             navigationSettings.allowedRow.includes('NEXT_POINT_DURATION_LEFT')
-          "
-        >
-          <h6>{{ t('timeToNextPoint') }}</h6>
-          <div class="value">
-            <ng-container *ngIf="navStats?.timeToNextPoint">
-              {{ navStats?.timeToNextPoint | digitalTime: false }}
-            </ng-container>
-            <ng-container *ngIf="!navStats?.timeToNextPoint"> -- </ng-container>
-          </div>
-        </ng-container>
+          ) {
+            <h6>{{ t('timeToNextPoint') }}</h6>
+            <div class="value">
+              @if (navStats?.timeToNextPoint) {
+                {{ navStats?.timeToNextPoint | digitalTime: false }}
+              }
+              @if (!navStats?.timeToNextPoint) {
+                --
+              }
+            </div>
+          }
 
-        <ng-container
-          *ngIf="
+          @if (
             navigationSettings.allowedRow.includes('NEXT_POINT_ARRIVE_TIME')
-          "
-        >
-          <h6>{{ t('arriveTimeToNextPoint') }}</h6>
-          <div class="value">
-            <ng-container *ngIf="navStats?.timeToNextPoint">
-              {{
-                $any(navStats?.arriveTimeToNextPoint)
-                  | translocoDate: { timeStyle: 'short' }
-              }}
-            </ng-container>
-            <ng-container *ngIf="!navStats?.timeToNextPoint"> -- </ng-container>
-          </div>
-        </ng-container>
-      </div>
+          ) {
+            <h6>{{ t('arriveTimeToNextPoint') }}</h6>
+            <div class="value">
+              @if (navStats?.timeToNextPoint) {
+                {{
+                  $any(navStats?.arriveTimeToNextPoint)
+                    | translocoDate: { timeStyle: 'short' }
+                }}
+              }
+              @if (!navStats?.timeToNextPoint) {
+                --
+              }
+            </div>
+          }
+        </div>
+      }
     </ng-container>
   </ng-container>
 </ng-template>

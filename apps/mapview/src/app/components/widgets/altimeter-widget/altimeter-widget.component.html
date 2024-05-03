@@ -1,77 +1,84 @@
 <ng-template transloco let-t>
   <ng-container *ngrxLet="heighWithSettings$ as heighWithSettings">
-    <div
-      *ngIf="(show$ | async) && (safePosition$ | async) as safePosition"
-      class="container"
-      cdkDrag
-      (cdkDragEnded)="dragEnded($event)"
-      (cdkDragStarted)="dragStarted()"
-      cdkDragBoundary="body"
-      [cdkDragFreeDragPosition]="safePosition"
-      [cdkDragStartDelay]="1000"
-      [style.background]="heighWithSettings.bgColor"
-    >
-      <h6>{{ t('widgets.altimeter.header') }}</h6>
+    @if ((show$ | async) && (safePosition$ | async); as safePosition) {
       <div
-        [style.color]="heighWithSettings.textColor"
-        (click)="
-          heighWithSettings.hasAltitude &&
-            resetGnd(
-              (heighWithSettings.altitudeMeters ?? 0) -
-                heighWithSettings.terrainElevation
-            )
-        "
+        class="container"
+        cdkDrag
+        (cdkDragEnded)="dragEnded($event)"
+        (cdkDragStarted)="dragStarted()"
+        cdkDragBoundary="body"
+        [cdkDragFreeDragPosition]="safePosition"
+        [cdkDragStartDelay]="1000"
+        [style.background]="heighWithSettings.bgColor"
       >
-        <ng-container
-          *ngFor="let showType of heighWithSettings.types; trackBy: typeTrack"
+        <h6>{{ t('widgets.altimeter.header') }}</h6>
+        <div
+          [style.color]="heighWithSettings.textColor"
+          (click)="
+            heighWithSettings.hasAltitude &&
+              resetGnd(
+                (heighWithSettings.altitudeMeters ?? 0) -
+                  heighWithSettings.terrainElevation
+              )
+          "
         >
-          <ng-container [ngSwitch]="showType">
-            <div class="value" *ngSwitchCase="'altitudeM'">
-              <span class="number">{{
-                heighWithSettings.hasAltitude
-                  ? (heighWithSettings.altitudeObject
-                    | altitude: eHeightUnit.meter : 'value')
-                  : '--'
-              }}</span
-              >{{ t('shared.altitude.heighUnit.0') }}
-              {{ t('shared.altitude.referenceDatum.1') }}
-            </div>
+          @for (showType of heighWithSettings.types; track showType) {
+            @switch (showType) {
+              @case ('altitudeM') {
+                <div class="value">
+                  <span class="number">{{
+                    heighWithSettings.hasAltitude
+                      ? (heighWithSettings.altitudeObject
+                        | altitude: eHeightUnit.meter : 'value')
+                      : '--'
+                  }}</span
+                  >{{ t('shared.altitude.heighUnit.0') }}
+                  {{ t('shared.altitude.referenceDatum.1') }}
+                </div>
+              }
 
-            <div class="value" *ngSwitchCase="'gndM'">
-              <span class="number">{{
-                heighWithSettings.hasAltitude
-                  ? (heighWithSettings.gndHeightObject
-                    | altitude: eHeightUnit.meter : 'value')
-                  : '--'
-              }}</span
-              >{{ t('shared.altitude.heighUnit.0') }}
-              {{ t('shared.altitude.referenceDatum.0') }}
-            </div>
+              @case ('gndM') {
+                <div class="value">
+                  <span class="number">{{
+                    heighWithSettings.hasAltitude
+                      ? (heighWithSettings.gndHeightObject
+                        | altitude: eHeightUnit.meter : 'value')
+                      : '--'
+                  }}</span
+                  >{{ t('shared.altitude.heighUnit.0') }}
+                  {{ t('shared.altitude.referenceDatum.0') }}
+                </div>
+              }
 
-            <div class="value" *ngSwitchCase="'altitudeFt'">
-              <span class="number">{{
-                heighWithSettings.hasAltitude
-                  ? (heighWithSettings.altitudeObject
-                    | altitude: eHeightUnit.feet : 'value')
-                  : '--'
-              }}</span
-              >{{ t('shared.altitude.heighUnit.1') }}
-              {{ t('shared.altitude.referenceDatum.1') }}
-            </div>
+              @case ('altitudeFt') {
+                <div class="value">
+                  <span class="number">{{
+                    heighWithSettings.hasAltitude
+                      ? (heighWithSettings.altitudeObject
+                        | altitude: eHeightUnit.feet : 'value')
+                      : '--'
+                  }}</span
+                  >{{ t('shared.altitude.heighUnit.1') }}
+                  {{ t('shared.altitude.referenceDatum.1') }}
+                </div>
+              }
 
-            <div class="value" *ngSwitchCase="'gndFt'">
-              <span class="number">{{
-                heighWithSettings.hasAltitude
-                  ? (heighWithSettings.gndHeightObject
-                    | altitude: eHeightUnit.feet : 'value')
-                  : '--'
-              }}</span
-              >{{ t('shared.altitude.heighUnit.1') }}
-              {{ t('shared.altitude.referenceDatum.0') }}
-            </div>
-          </ng-container>
-        </ng-container>
+              @case ('gndFt') {
+                <div class="value">
+                  <span class="number">{{
+                    heighWithSettings.hasAltitude
+                      ? (heighWithSettings.gndHeightObject
+                        | altitude: eHeightUnit.feet : 'value')
+                      : '--'
+                  }}</span
+                  >{{ t('shared.altitude.heighUnit.1') }}
+                  {{ t('shared.altitude.referenceDatum.0') }}
+                </div>
+              }
+            }
+          }
+        </div>
       </div>
-    </div>
+    }
   </ng-container>
 </ng-template>

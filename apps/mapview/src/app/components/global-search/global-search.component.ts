@@ -1,3 +1,5 @@
+import { OverlayModule } from '@angular/cdk/overlay';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,27 +10,25 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { HighlightTextDirective } from '../../directives/highlight-text.directive';
-import { OverlayModule } from '@angular/cdk/overlay';
-import { MatOption, MatOptionModule } from '@angular/material/core';
-import { GlobalSearchMenuComponent } from '../global-search-menu/global-search-menu.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { TranslocoModule } from '@ngneat/transloco';
+import { MatOption, MatOptionModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { TranslocoModule } from '@ngneat/transloco';
+
+import { HighlightTextDirective } from '../../directives/highlight-text.directive';
 import { GamepadGlobalMenuHandler } from '../../services/gamepad-handler/gamepad-global-menu-handler';
 import {
   GlobalMenuInput,
   GlobalSearchService,
 } from '../../services/global-search/global-search.service';
+import { GlobalSearchMenuComponent } from '../global-search-menu/global-search-menu.component';
 
 @Component({
   selector: 'laamap-global-search',
   standalone: true,
   imports: [
-    CommonModule,
     MatIconModule,
     ReactiveFormsModule,
     OverlayModule,
@@ -36,6 +36,7 @@ import {
     MatOptionModule,
     TranslocoModule,
     MatListModule,
+    AsyncPipe,
   ],
   templateUrl: './global-search.component.html',
   styleUrls: ['./global-search.component.scss'],

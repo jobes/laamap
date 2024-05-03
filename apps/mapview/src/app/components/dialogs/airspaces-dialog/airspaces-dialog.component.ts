@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -18,8 +17,6 @@ import { IAirspace } from '../../../services/open-aip/airspaces.interfaces';
     TranslocoModule,
     MatDialogModule,
     MatExpansionModule,
-    NgFor,
-    NgIf,
     MatButtonModule,
     AltitudePipe,
   ],
@@ -27,8 +24,4 @@ import { IAirspace } from '../../../services/open-aip/airspaces.interfaces';
 export class AirspacesDialogComponent {
   eHeightUnit = EHeightUnit;
   constructor(@Inject(MAT_DIALOG_DATA) public data: IAirspace[]) {}
-
-  trackByAirSpace(index: number, value: IAirspace) {
-    return value.name;
-  }
 }

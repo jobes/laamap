@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -22,7 +21,6 @@ import { generalFeature } from '../../../store/features/settings/general.feature
   imports: [
     TranslocoModule,
     MatDialogModule,
-    NgIf,
     MatTableModule,
     MatPaginatorModule,
     MatButtonModule,
