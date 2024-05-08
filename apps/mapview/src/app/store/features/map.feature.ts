@@ -21,6 +21,7 @@ const initialState = {
   loaded: false,
   geoLocationTrackingStarting: false,
   geoLocationTrackingActive: false,
+  geoLocationFollowing: false,
   trackSaving: false,
 };
 
@@ -59,19 +60,27 @@ export const mapFeature = createFeature({
       ...state,
       geoLocationTrackingStarting: true,
       geoLocationTrackingActive: true,
+      geoLocationFollowing: false,
     })),
     on(
       mapEffectsActions.geolocationTrackingRunning,
-      (state): typeof initialState => ({
+      (state, { following }): typeof initialState => ({
         ...state,
         geoLocationTrackingStarting: false,
+        geoLocationFollowing: following,
       }),
     ),
-    on(mapActions.geolocationTrackingEnded, (state): typeof initialState => ({
-      ...state,
-      geoLocationTrackingStarting: false,
-      geoLocationTrackingActive: false,
-    })),
+    on(
+      mapActions.geolocationTrackingEnded,
+      (state, { background }): typeof initialState => ({
+        ...state,
+        geoLocationTrackingStarting: false,
+        geoLocationTrackingActive: background
+          ? state.geoLocationTrackingActive
+          : false,
+        geoLocationFollowing: false,
+      }),
+    ),
     on(mapEffectsActions.trackSavingStarted, (state): typeof initialState => ({
       ...state,
       trackSaving: true,

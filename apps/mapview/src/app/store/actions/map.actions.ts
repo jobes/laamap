@@ -12,7 +12,7 @@ export const mapActions = createActionGroup({
     rotated: props<{ bearing: number }>(),
     loaded: emptyProps(),
     'geolocation tracking started': emptyProps(),
-    'geolocation tracking ended': emptyProps(),
+    'geolocation tracking ended': props<{ background: boolean }>(),
     clicked: props<{ lngLat: LngLatLike }>(),
     zoom: emptyProps(),
     'navigation clicked': emptyProps(),

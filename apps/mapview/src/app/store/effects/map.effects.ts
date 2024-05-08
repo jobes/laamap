@@ -9,15 +9,16 @@ import {
   filter,
   map,
   of,
+  pairwise,
   sampleTime,
   startWith,
   switchMap,
   tap,
 } from 'rxjs';
 
-import { MapLocationMenuComponent } from '../../components/map-location-menu/map-location-menu.component';
 import { NavigationDialogComponent } from '../../components/dialogs/navigation-dialog/navigation-dialog.component';
 import { SettingsDialogComponent } from '../../components/dialogs/settings-dialog/settings-dialog.component';
+import { MapLocationMenuComponent } from '../../components/map-location-menu/map-location-menu.component';
 import { MapService } from '../../services/map/map.service';
 import { OnMapDirectionLineService } from '../../services/map/on-map-direction-line/on-map-direction-line.service';
 import { TracingService } from '../../services/tracing/tracing.service';
@@ -68,13 +69,15 @@ export class MapEffects {
     { dispatch: false },
   );
 
-  gpsTrackingStarted$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(mapActions.geolocationTrackingStarted),
-      tap(() => (this.startGpsTracking = true)),
-      map(() => mapEffectsActions.geolocationTrackingRunning()),
-    );
-  });
+  gpsTrackingStarted$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(mapActions.geolocationTrackingStarted),
+        tap(() => (this.startGpsTracking = true)),
+      );
+    },
+    { dispatch: false },
+  );
 
   gpsRouteSavingStarted$ = createEffect(() => {
     return this.store.select(selectTrackInProgressWithMinSpeed).pipe(
@@ -106,24 +109,51 @@ export class MapEffects {
             geoLocation: NonNullable<(typeof params)['geoLocation']>;
           } => this.trackingActive(params),
         ),
-        tap(({ geoLocation, heading, zoom, pitch }) => {
+        startWith({ geoLocation: null, heading: 0, zoom: 0, pitch: 0 }),
+        pairwise(),
+        tap(([previous, { geoLocation, heading, zoom, pitch }]) => {
           const center = new maplibreGl.LngLat(
-            geoLocation.coords.longitude,
-            geoLocation.coords.latitude,
+            geoLocation?.coords.longitude ?? 0,
+            geoLocation?.coords.latitude ?? 0,
           );
 
-          this.mapService.instance.flyTo(
-            {
-              ...{ center, bearing: heading ?? 0 },
-              ...(this.startGpsTracking ? { zoom, pitch } : {}),
-            },
-            {
-              geolocateSource: true,
-            },
-          );
+          if (this.startGpsTracking) {
+            this.mapService.instance.flyTo(
+              {
+                center,
+                bearing: heading ?? 0,
+                zoom,
+                pitch,
+              },
+              {
+                geolocateSource: true,
+              },
+            );
+          } else {
+            const duration =
+              (geoLocation?.timestamp ?? 0) -
+              (previous.geoLocation?.timestamp ?? 0);
+            this.mapService.instance.easeTo(
+              {
+                center,
+                bearing: heading ?? 0,
+                duration: duration < 0 ? 0 : duration,
+                easing: (n) => n,
+              },
+              {
+                geolocateSource: true,
+              },
+            );
+          }
+
           setTimeout(() => {
             this.startGpsTracking = false; // wait until initial animation ends
-          }, 5000);
+            this.store.dispatch(
+              mapEffectsActions.geolocationTrackingRunning({
+                following: this.trackingActive({ geoLocation }),
+              }),
+            );
+          }, 1200);
         }),
       );
     },
@@ -237,6 +267,22 @@ export class MapEffects {
           });
         }),
       );
+    },
+    { dispatch: false },
+  );
+
+  mapMoved$ = createEffect(
+    () => {
+      return this.store
+        .select(mapFeature.selectGeoLocationFollowing)
+        .pipe(
+          tap((active) =>
+            document.documentElement.style.setProperty(
+              '--location-animation-duration',
+              active ? '1s' : '0s',
+            ),
+          ),
+        );
     },
     { dispatch: false },
   );

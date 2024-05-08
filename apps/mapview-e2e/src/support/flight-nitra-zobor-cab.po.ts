@@ -2,6 +2,7 @@ import * as turf from '@turf/turf';
 
 export const getGeolocationButton = () =>
   cy.get('.maplibregl-ctrl-geolocate > .maplibregl-ctrl-icon');
+export const getSettingsButton = () => cy.get('button[title="Nastavenia"');
 interface IPointWithMetaData {
   bearing: number;
   speed: number;
@@ -126,7 +127,7 @@ export function locationForSecond(second: number) {
     coords: {
       longitude: point.position[0],
       latitude: point.position[1],
-      altitude: 500,
+      altitude: second === -1 ? 0 : 500,
       heading: point.bearing,
       speed: point.speed,
     },

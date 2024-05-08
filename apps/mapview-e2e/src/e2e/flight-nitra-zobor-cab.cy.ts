@@ -1,6 +1,7 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 import {
   getGeolocationButton,
+  getSettingsButton,
   locationForSecond,
   points,
 } from '../support/flight-nitra-zobor-cab.po';
@@ -23,8 +24,12 @@ describe('mapview', () => {
       success = onSuccess;
     });
 
+    getSettingsButton().click();
+    cy.get('laamap-terrain-settings mat-expansion-panel').click();
+    cy.get('[data-cy="terrain-enable"] [mat-internal-form-field]').click();
+    cy.get('.mat-mdc-dialog-actions button').click();
     getGeolocationButton().click();
-    cy.wait(20000); // wait until map is loaded
+    cy.wait(10000); // wait until map is loaded
     for (let time = 0; time < points.length + 100; time++) {
       cy.wait(1000).then(() => success(locationForSecond(time)));
     }
