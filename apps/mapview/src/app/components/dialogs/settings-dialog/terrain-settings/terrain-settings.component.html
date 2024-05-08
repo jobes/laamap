@@ -12,6 +12,7 @@
       <mat-slide-toggle
         [ngModel]="enabled"
         (ngModelChange)="enableTerrain($event)"
+        data-cy="terrain-enable"
         >{{ t('enable') }}
       </mat-slide-toggle>
       <mat-slide-toggle

@@ -190,9 +190,11 @@ export class MapService {
       this.store.dispatch(mapActions.geolocationTrackingStarted()),
     );
     control.on('trackuserlocationend', () => {
-      if (control._watchState === 'OFF') {
-        this.store.dispatch(mapActions.geolocationTrackingEnded());
-      }
+      this.store.dispatch(
+        mapActions.geolocationTrackingEnded({
+          background: control._watchState !== 'OFF',
+        }),
+      );
     });
     this.overrideGeoLocationControl(control);
     this.instance.addControl(control);

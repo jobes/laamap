@@ -4,7 +4,7 @@ import { LngLat } from 'maplibre-gl';
 export const mapEffectsActions = createActionGroup({
   source: 'Map effects',
   events: {
-    'geolocation tracking running': emptyProps(),
+    'geolocation tracking running': props<{ following: boolean }>(),
     'track saving started': emptyProps(),
     'track saving ended': emptyProps(),
     'first geolocation fixed': props<{ gndAltitude: number }>(),
