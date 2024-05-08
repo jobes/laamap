@@ -121,8 +121,8 @@ export function locationForSecond(second: number) {
     second === -1
       ? { ...points[0], speed: 0 }
       : points.length > second
-      ? points[second]
-      : { ...points[points.length - 1], speed: 0 };
+        ? points[second]
+        : { ...points[points.length - 1], speed: 0 };
   return {
     coords: {
       longitude: point.position[0],

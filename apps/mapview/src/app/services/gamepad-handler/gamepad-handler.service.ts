@@ -19,6 +19,7 @@ import {
 } from 'rxjs';
 
 import { gamepadFeature } from '../../store/features/settings/gamepad.feature';
+import { GamepadGlobalMenuHandler } from './gamepad-global-menu-handler';
 import {
   actionDefToNumber,
   actionFirstTime,
@@ -28,7 +29,6 @@ import {
   GamePadShortCutName,
   IGamePadActions,
 } from './gamepad-handler.types';
-import { GamepadGlobalMenuHandler } from './gamepad-global-menu-handler';
 
 @Injectable({
   providedIn: 'root',
