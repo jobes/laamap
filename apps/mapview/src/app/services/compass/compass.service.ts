@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { fromEvent, throttleTime } from 'rxjs';
 
 import { compassActions } from '../../store/actions/map.actions';
 import { LoggerService } from '../logger/logger.service';
@@ -8,8 +9,9 @@ declare class AbsoluteOrientationSensor {
   constructor(param: { referenceFrame: 'screen' });
   addEventListener(
     eventName: 'reading',
-    eventValue: (param: { target: { quaternion: number[] } }) => void
+    eventValue: (param: { target: { quaternion: number[] } }) => void,
   ): void;
+  removeEventListener(): void;
   start(): void;
 }
 
@@ -19,7 +21,7 @@ declare class AbsoluteOrientationSensor {
 export class CompassService {
   constructor(
     private readonly logger: LoggerService,
-    private readonly store: Store
+    private readonly store: Store,
   ) {}
 
   public init(): void {
@@ -32,7 +34,7 @@ export class CompassService {
       .catch(() => {
         this.logger.logErrorMsg(
           'mapComponent compass permission',
-          'Can not get permission for using compass'
+          'Can not get permission for using compass',
         );
       });
   }
@@ -44,7 +46,7 @@ export class CompassService {
       navigator.permissions?.query({ name: 'gyroscope' as never }),
     ]);
     const result = results.every((result) =>
-      result ? result.state === 'granted' : true
+      result ? result.state === 'granted' : true,
     );
     return result;
   }
@@ -55,16 +57,18 @@ export class CompassService {
         referenceFrame: 'screen',
       });
 
-      sensor.addEventListener('reading', (e) => {
-        const q = e.target.quaternion;
-        const heading =
-          Math.atan2(
-            2 * q[0] * q[1] + 2 * q[2] * q[3],
-            1 - 2 * q[1] * q[1] - 2 * q[2] * q[2]
-          ) *
-          (-180 / Math.PI);
-        this.store.dispatch(compassActions.headingChanged({ heading }));
-      });
+      fromEvent(sensor, 'reading')
+        .pipe(throttleTime(1000))
+        .subscribe((e) => {
+          const q = e.target.quaternion;
+          const heading =
+            Math.atan2(
+              2 * q[0] * q[1] + 2 * q[2] * q[3],
+              1 - 2 * q[1] * q[1] - 2 * q[2] * q[2],
+            ) *
+            (-180 / Math.PI);
+          this.store.dispatch(compassActions.headingChanged({ heading }));
+        });
       return sensor;
     }
     return undefined;
