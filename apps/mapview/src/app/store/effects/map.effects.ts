@@ -118,8 +118,10 @@ export class MapEffects {
           minSpeedHit: false,
         }),
         pairwise(),
+        filter(() => !this.animationInProgress),
         tap(
           ([previous, { geoLocation, heading, zoom, pitch, minSpeedHit }]) => {
+            this.animationInProgress = true;
             const center = new maplibreGl.LngLat(
               geoLocation?.coords.longitude ?? 0,
               geoLocation?.coords.latitude ?? 0,
@@ -140,6 +142,7 @@ export class MapEffects {
               );
               setTimeout(() => {
                 this.startGpsTracking = false; // wait until initial animation ends
+                this.animationInProgress = false;
                 this.store.dispatch(
                   mapEffectsActions.geolocationTrackingRunning({
                     following: this.trackingActive({ geoLocation }),
@@ -161,6 +164,12 @@ export class MapEffects {
                 {
                   geolocateSource: true,
                 },
+              );
+              setTimeout(
+                () => {
+                  this.animationInProgress = false;
+                },
+                duration < 0 ? 0 : duration * 0.9,
               );
             }
           },
@@ -298,6 +307,7 @@ export class MapEffects {
   );
 
   private startGpsTracking = false;
+  private animationInProgress = false;
 
   /* eslint-disable rxjs/finnish */
   private layerClicks = {

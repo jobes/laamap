@@ -56,7 +56,7 @@ export class CompassService {
     if (`AbsoluteOrientationSensor` in window) {
       const sensor = new AbsoluteOrientationSensor({
         referenceFrame: 'screen',
-        frequency: compassDuration,
+        frequency: 1000 / compassDuration,
       });
 
       fromEvent(sensor, 'reading').subscribe((e) => {

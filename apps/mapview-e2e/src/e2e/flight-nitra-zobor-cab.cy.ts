@@ -29,7 +29,11 @@ describe('mapview', () => {
     cy.get('[data-cy="terrain-enable"] [mat-internal-form-field]').click();
     cy.get('.mat-mdc-dialog-actions button').click();
     getGeolocationButton().click();
-    cy.wait(10000); // wait until map is loaded
+    // wait for everything si loaded
+    for (let time = 0; time < 5; time++) {
+      cy.wait(1000).then(() => success(locationForSecond(-1)));
+    }
+    // start flight
     for (let time = 0; time < points.length + 100; time++) {
       cy.wait(1000).then(() => success(locationForSecond(time)));
     }
