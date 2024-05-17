@@ -50,6 +50,7 @@ class WrapperComponentEditPoint {
 
 describe(CreateInterestPointDialogComponent.name, () => {
   it('add new point', () => {
+    cy.viewport(1000, 1000);
     cy.mount(WrapperComponentAddPoint, {
       providers: [
         {
