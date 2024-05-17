@@ -127,7 +127,7 @@ export function locationForSecond(second: number) {
     coords: {
       longitude: point.position[0],
       latitude: point.position[1],
-      altitude: second === -1 ? 0 : 500,
+      altitude: second === -1 ? 135 : 500,
       heading: point.bearing,
       speed: point.speed,
     },

@@ -37,6 +37,7 @@ export class MapService {
       attributionControl: false,
       maxPitch: 85,
     });
+    this.instance._finalizeElevation = () => {}; // stop changing elevation, makes smoother animation
     this.addTranslatedControlsToMap();
     this.setupEvents();
     this.compassService.init();
