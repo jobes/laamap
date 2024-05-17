@@ -37,6 +37,7 @@ export class MapService {
       attributionControl: false,
       maxPitch: 85,
     });
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     this.instance._finalizeElevation = () => {}; // stop changing elevation, makes smoother animation
     this.addTranslatedControlsToMap();
     this.setupEvents();
