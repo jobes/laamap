@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { fromEvent, throttleTime } from 'rxjs';
+import { fromEvent } from 'rxjs';
 
+import { compassDuration } from '../../helper';
 import { compassActions } from '../../store/actions/map.actions';
 import { LoggerService } from '../logger/logger.service';
 
 declare class AbsoluteOrientationSensor {
-  constructor(param: { referenceFrame: 'screen' });
+  constructor(param: { referenceFrame: 'screen'; frequency: number });
   addEventListener(
     eventName: 'reading',
     eventValue: (param: { target: { quaternion: number[] } }) => void,
@@ -55,20 +56,19 @@ export class CompassService {
     if (`AbsoluteOrientationSensor` in window) {
       const sensor = new AbsoluteOrientationSensor({
         referenceFrame: 'screen',
+        frequency: compassDuration,
       });
 
-      fromEvent(sensor, 'reading')
-        .pipe(throttleTime(1000))
-        .subscribe((e) => {
-          const q = e.target.quaternion;
-          const heading =
-            Math.atan2(
-              2 * q[0] * q[1] + 2 * q[2] * q[3],
-              1 - 2 * q[1] * q[1] - 2 * q[2] * q[2],
-            ) *
-            (-180 / Math.PI);
-          this.store.dispatch(compassActions.headingChanged({ heading }));
-        });
+      fromEvent(sensor, 'reading').subscribe((e) => {
+        const q = e.target.quaternion;
+        const heading =
+          Math.atan2(
+            2 * q[0] * q[1] + 2 * q[2] * q[3],
+            1 - 2 * q[1] * q[1] - 2 * q[2] * q[2],
+          ) *
+          (-180 / Math.PI);
+        this.store.dispatch(compassActions.headingChanged({ heading }));
+      });
       return sensor;
     }
     return undefined;

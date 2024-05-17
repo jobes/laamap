@@ -12,3 +12,6 @@ export function isPwa() {
       document.referrer.includes('android-app://'),
   );
 }
+
+export const flyAnimationDuration = 3000;
+export const compassDuration = 1000;

@@ -17,11 +17,13 @@ export const selectOnMapTrackingState = createSelector(
   mapFeature.selectHeading,
   navigationSettingsFeature.selectGpsTrackingInitZoom,
   navigationSettingsFeature.selectGpsTrackingInitPitch,
-  (geoLocation, heading, zoom, pitch) => ({
+  mapFeature.selectMinSpeedHit,
+  (geoLocation, heading, zoom, pitch, minSpeedHit) => ({
     geoLocation,
     heading,
     zoom,
     pitch,
+    minSpeedHit,
   }),
 );
 
