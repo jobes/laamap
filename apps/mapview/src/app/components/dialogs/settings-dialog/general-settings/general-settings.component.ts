@@ -1,6 +1,11 @@
+import {
+  GoogleSigninButtonModule,
+  SocialAuthService,
+} from '@abacritt/angularx-social-login';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,11 +38,13 @@ import { generalFeature } from '../../../../store/features/settings/general.feat
     FormsModule,
     MatTooltipModule,
     MatFormFieldModule,
+    MatButtonModule,
     MatInputModule,
     AsyncPipe,
     MatSelectModule,
     AsyncPipe,
     UpperCasePipe,
+    GoogleSigninButtonModule,
   ],
 })
 export class GeneralSettingsComponent {
@@ -57,11 +64,13 @@ export class GeneralSettingsComponent {
   territoryList$ = this.openAip.getTerritories$();
   languageList = Object.keys(languages);
   language$ = this.store.select(generalFeature.selectLanguage);
+  authState$ = this.authService.authState;
 
   constructor(
     private readonly store: Store,
     private readonly notams: NotamsService,
     private readonly openAip: OpenAipService,
+    private readonly authService: SocialAuthService,
   ) {}
 
   screenWakeLockEnabledChange(enabled: boolean) {
@@ -105,5 +114,10 @@ export class GeneralSettingsComponent {
   languageChanged(language: string): void {
     this.store.dispatch(generalSettingsActions.languageChanged({ language }));
     window.location.reload();
+  }
+
+  logout(): void {
+    this.store.dispatch(generalSettingsActions.logOut());
+    this.authService.signOut(true);
   }
 }

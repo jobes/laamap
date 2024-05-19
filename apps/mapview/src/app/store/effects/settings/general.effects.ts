@@ -1,10 +1,13 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
+  filter,
   fromEvent,
   map,
   startWith,
@@ -14,6 +17,7 @@ import {
 
 import { MapService } from '../../../services/map/map.service';
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
+import { account } from '../../actions/effects.actions';
 import { mapActions } from '../../actions/map.actions';
 import { generalFeature } from '../../features/settings/general.feature';
 
@@ -21,10 +25,10 @@ import { generalFeature } from '../../features/settings/general.feature';
 export class GeneralEffects {
   private readonly visibilitySubj$ = fromEvent<DocumentVisibilityState>(
     document,
-    'visibilitychange'
+    'visibilitychange',
   ).pipe(
     map(() => document.visibilityState),
-    startWith(document.visibilityState)
+    startWith(document.visibilityState),
   );
 
   private readonly wakeLockEnabled$ = this.store
@@ -41,10 +45,10 @@ export class GeneralEffects {
           } else {
             this.screenWakeLockService.release();
           }
-        })
+        }),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   widgetFontSizeRation$ = createEffect(
@@ -53,12 +57,12 @@ export class GeneralEffects {
         tap((ratio) => {
           document.documentElement.style.setProperty(
             '--widget-font-size-ratio',
-            `${ratio}`
+            `${ratio}`,
           );
-        })
+        }),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   mapFontSizeRation$ = createEffect(
@@ -66,20 +70,34 @@ export class GeneralEffects {
       return this.actions$.pipe(
         ofType(mapActions.loaded),
         switchMap(() =>
-          this.store.select(generalFeature.selectMapFontSizeRatio)
+          this.store.select(generalFeature.selectMapFontSizeRatio),
         ),
         tap((ratio) => {
           this.mapService.setMapFontSizeRatio(ratio);
-        })
+        }),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
+
+  account$ = createEffect(() => {
+    return this.authService.authState.pipe(
+      filter((user) => !!user),
+      concatLatestFrom(() => this.store.select(generalFeature.selectUserId)),
+      map(([user, oldUser]) =>
+        account.loggedIn({
+          userId: user.email,
+          userChanged: user.email !== oldUser,
+        }),
+      ),
+    );
+  });
 
   constructor(
     private readonly mapService: MapService,
     private readonly actions$: Actions,
     private readonly store: Store,
-    private readonly screenWakeLockService: ScreenWakeLockService
+    private readonly screenWakeLockService: ScreenWakeLockService,
+    private readonly authService: SocialAuthService,
   ) {}
 }

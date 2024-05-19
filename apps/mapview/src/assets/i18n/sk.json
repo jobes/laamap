@@ -60,7 +60,9 @@
         "default": "Automatický",
         "sk": "Slovenský",
         "en": "English"
-      }
+      },
+      "syncInfo": "S prihlásením súhlasite, že sa údaje (body záujmu) budú synchronizovat so server a medzi všetkými vašimi zariadeniami.",
+      "logout": "Odhlásiť {username}"
     },
     "navigation": {
       "title": "Navigácia",

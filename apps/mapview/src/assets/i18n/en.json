@@ -60,7 +60,9 @@
         "default": "Default",
         "sk": "Slovenský",
         "en": "English"
-      }
+      },
+      "syncInfo": "With log in you accept that data (points of interest) will be synchronized with server and your devices.",
+      "logout": "Log out {username}"
     },
     "navigation": {
       "title": "Navigation",

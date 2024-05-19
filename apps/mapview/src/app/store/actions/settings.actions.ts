@@ -1,4 +1,4 @@
-import { createActionGroup, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import {
   GamePadShortCutName,
@@ -40,6 +40,7 @@ export const generalSettingsActions = createActionGroup({
     'Notam radius changed': props<{ radius: number }>(),
     'Territories changed': props<{ territories: string[] }>(),
     'Language changed': props<{ language: string }>(),
+    'Log out': emptyProps(),
   },
 });
 

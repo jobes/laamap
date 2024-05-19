@@ -1,3 +1,8 @@
+import {
+  GoogleLoginProvider,
+  SocialAuthServiceConfig,
+  SocialLoginModule,
+} from '@abacritt/angularx-social-login';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common';
 import {
@@ -36,6 +41,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LightgalleryModule } from 'lightgallery/angular';
 import { provideQuillConfig } from 'ngx-quill/config';
 
+import { environment } from '../environments/environment';
 import {
   TranslocoHttpLoader,
   activeLang,
@@ -123,6 +129,7 @@ export const appConfig: ApplicationConfig = {
         connectInZone: true,
       }),
       LightgalleryModule,
+      SocialLoginModule,
     ),
     {
       provide: APP_BASE_HREF,
@@ -150,5 +157,20 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: true,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(environment.clientId),
+          },
+        ],
+        onError: (err: unknown) => {
+          console.error(err);
+        },
+      } as SocialAuthServiceConfig,
+    },
   ],
 };
