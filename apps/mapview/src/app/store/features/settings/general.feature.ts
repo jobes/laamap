@@ -1,6 +1,7 @@
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
+import { account } from '../../actions/effects.actions';
 import { generalSettingsActions } from '../../actions/settings.actions';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   notamRadius: 25000,
   territories: ['sk'],
   language: '',
+  userId: '',
 };
 
 export const generalFeature = createFeature({
@@ -76,6 +78,14 @@ export const generalFeature = createFeature({
         language,
       }),
     ),
+    on(account.loggedIn, (state, { userId }): typeof initialState => ({
+      ...state,
+      userId,
+    })),
+    on(generalSettingsActions.logOut, (state): typeof initialState => ({
+      ...state,
+      userId: '',
+    })),
   ),
   extraSelectors: ({ selectScreenWakeLock }) => ({
     selectScreenWakeLockEnabled: createSelector(

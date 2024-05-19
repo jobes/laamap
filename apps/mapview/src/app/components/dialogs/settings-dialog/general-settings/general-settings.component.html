@@ -108,5 +108,18 @@
         }
       </mat-select>
     </mat-form-field>
+
+    @if (authState$ | async; as authState) {
+      <button mat-stroked-button (click)="logout()">
+        {{ t('logout', { username: authState?.firstName }) }}
+      </button>
+      <div>{{ t('syncInfo') }}</div>
+    } @else {
+      <asl-google-signin-button
+        type="standard"
+        size="medium"
+      ></asl-google-signin-button>
+      <div>{{ t('syncInfo') }}</div>
+    }
   </mat-expansion-panel>
 </ng-template>
