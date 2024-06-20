@@ -1,5 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import {
+  GeocodingFeature,
+  GeocodingSearchResult,
+  config,
+  geocoding,
+} from '@maptiler/client';
+import { Store } from '@ngrx/store';
+import { Feature, Point } from '@turf/turf';
+import {
   Observable,
   catchError,
   combineLatest,
@@ -11,32 +19,23 @@ import {
   switchMap,
   take,
 } from 'rxjs';
+
+import { environment } from '../../../environments/environment';
+import { IDbInterestPoint } from '../../database/synced-db.service';
+import { generalFeature } from '../../store/features/settings/general.feature';
 import {
   CustomFlyRoutesService,
   ICustomFlyRoute,
 } from '../custom-fly-routes/custom-fly-routes.service';
-import {
-  GeocodingFeature,
-  GeocodingSearchResult,
-  config,
-  geocoding,
-} from '@maptiler/client';
-import { Feature, Point } from '@turf/turf';
-import {
-  IInterestPoint,
-  InterestPointsService,
-} from '../interest-points/interest-points.service';
-import { IAirport } from '../open-aip/airport.interfaces';
+import { InterestPointsService } from '../interest-points/interest-points.service';
 import { OnMapAirportsService } from '../map/on-map-airports/on-map-airports.service';
-import { environment } from '../../../environments/environment';
-import { Store } from '@ngrx/store';
-import { generalFeature } from '../../store/features/settings/general.feature';
+import { IAirport } from '../open-aip/airport.interfaces';
 
 config.apiKey = environment.mapTilesKey;
 
 export type GlobalMenuInput =
   | ({ itemType: 'route' } & ICustomFlyRoute)
-  | ({ itemType: 'interestPoint' } & GeoJSON.Feature<Point, IInterestPoint>)
+  | ({ itemType: 'interestPoint' } & GeoJSON.Feature<Point, IDbInterestPoint>)
   | ({ itemType: 'airports' } & GeoJSON.Feature<Point, IAirport>)
   | ({ itemType: 'address' } & GeocodingFeature);
 
@@ -105,7 +104,7 @@ export class GlobalSearchService {
 
   private mapToList(values: {
     routes: ICustomFlyRoute[];
-    points: Feature<Point, IInterestPoint>[];
+    points: Feature<Point, IDbInterestPoint>[];
     airports: Feature<Point, IAirport>[];
     address: GeocodingSearchResult | null | { error: boolean };
   }): IGlobalMenuResult[] {
@@ -133,7 +132,7 @@ export class GlobalSearchService {
   }
 
   private mapInterestPointsToList(
-    points: Feature<Point, IInterestPoint>[],
+    points: Feature<Point, IDbInterestPoint>[],
   ): IGlobalMenuResult[] {
     if (points.length === 0) {
       return [];

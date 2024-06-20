@@ -3,23 +3,24 @@ import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ICustomFlyRoute } from '../../services/custom-fly-routes/custom-fly-routes.service';
-import { globalSearchMenu } from '../../store/actions/navigation.actions';
 import { Store } from '@ngrx/store';
-import { IInterestPoint } from '../../services/interest-points/interest-points.service';
 import { Point, Position } from '@turf/turf';
-import { MatDialog } from '@angular/material/dialog';
+import { LngLat } from 'maplibre-gl';
+
+import { IDbInterestPoint } from '../../database/synced-db.service';
+import { ICustomFlyRoute } from '../../services/custom-fly-routes/custom-fly-routes.service';
+import { GlobalMenuInput } from '../../services/global-search/global-search.service';
+import { MapService } from '../../services/map/map.service';
+import { IAirport } from '../../services/open-aip/airport.interfaces';
+import { globalSearchMenu } from '../../store/actions/navigation.actions';
+import { AirportDialogComponent } from '../dialogs/airport-dialog/airport-dialog.component';
 import {
   CreateInterestPointDialogComponent,
   CreateInterestPointDialogInput,
 } from '../dialogs/create-interest-point-dialog/create-interest-point-dialog.component';
-import { MapService } from '../../services/map/map.service';
-import { LngLat } from 'maplibre-gl';
-import { IAirport } from '../../services/open-aip/airport.interfaces';
-import { AirportDialogComponent } from '../dialogs/airport-dialog/airport-dialog.component';
-import { GlobalMenuInput } from '../../services/global-search/global-search.service';
 
 @Component({
   selector: 'laamap-global-search-menu',
@@ -43,7 +44,7 @@ export class GlobalSearchMenuComponent {
     this.bottomSheetRef.dismiss();
   }
 
-  showPointDetails(point: GeoJSON.Feature<Point, IInterestPoint>): void {
+  showPointDetails(point: GeoJSON.Feature<Point, IDbInterestPoint>): void {
     this.bottomSheetRef.dismiss();
     this.dialog
       .open(CreateInterestPointDialogComponent, {

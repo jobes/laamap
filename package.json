@@ -38,6 +38,9 @@
     "@ngrx/store-devtools": "17.2.0",
     "@nx/angular": "18.3.3",
     "@turf/turf": "^6.5.0",
+    "dexie": "^4.0.4",
+    "dexie-observable": "^4.0.1-beta.13",
+    "dexie-syncable": "^4.0.1-beta.13",
     "emulate-tab": "^1.2.1",
     "lightgallery": "^2.7.2",
     "logrocket": "^8.1.0",
@@ -124,8 +127,7 @@
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
-    "//": "*.js\": \"eslint",
-    "//": "*.ts\": \"eslint",
+    "//": "*.ts\": \"eslint and  .js too",
     "*.css": "stylelint",
     "*.scss": "stylelint"
   }
