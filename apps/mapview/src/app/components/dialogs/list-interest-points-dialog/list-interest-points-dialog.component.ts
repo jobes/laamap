@@ -14,10 +14,8 @@ import { Feature, Point } from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
 import { BehaviorSubject, switchMap, take } from 'rxjs';
 
-import {
-  IInterestPoint,
-  InterestPointsService,
-} from '../../../services/interest-points/interest-points.service';
+import { IDbInterestPoint } from '../../../database/synced-db.service';
+import { InterestPointsService } from '../../../services/interest-points/interest-points.service';
 import { poiListDialogActions } from '../../../store/actions/navigation.actions';
 import {
   CreateInterestPointDialogComponent,
@@ -47,7 +45,7 @@ export class ListInterestPointsDialogComponent {
     MatDialogRef<ListInterestPointsDialogComponent>,
   );
   private readonly interestPointsSubj$ = new BehaviorSubject<
-    Feature<Point, IInterestPoint>[]
+    Feature<Point, IDbInterestPoint>[]
   >([]);
   interestPoints$ = this.interestPointsSubj$.asObservable();
 
@@ -57,7 +55,7 @@ export class ListInterestPointsDialogComponent {
       .then((poiList) => this.interestPointsSubj$.next(poiList));
   }
 
-  startNavigation(point: Feature<Point, IInterestPoint>): void {
+  startNavigation(point: Feature<Point, IDbInterestPoint>): void {
     this.store.dispatch(
       poiListDialogActions.addedPointToNavigation({
         point: {
@@ -70,7 +68,7 @@ export class ListInterestPointsDialogComponent {
     this.dialogRef.close(true);
   }
 
-  showDetails(point: Feature<Point, IInterestPoint>): void {
+  showDetails(point: Feature<Point, IDbInterestPoint>): void {
     this.dialog
       .open(CreateInterestPointDialogComponent, {
         width: '100%',

@@ -7,22 +7,15 @@ import {
   featureCollection,
   point,
 } from '@turf/turf';
-import { GeoJSONSource, LngLat } from 'maplibre-gl';
-// eslint-disable-next-line @typescript-eslint/naming-convention
-import PouchDb from 'pouchdb';
-import { Observable, forkJoin } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
+import { GeoJSONSource } from 'maplibre-gl';
+import { Observable, filter, forkJoin } from 'rxjs';
 
+import {
+  DexieSyncService,
+  IDbInterestPoint,
+} from '../../database/synced-db.service';
 import { MapHelperFunctionsService } from '../map-helper-functions/map-helper-functions.service';
 import { MapService } from '../map/map.service';
-import { escapeStringRegexp } from '../../helper';
-
-export interface IInterestPoint {
-  id: string;
-  name: string;
-  icon: string;
-  description?: string;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -39,45 +32,39 @@ export class InterestPointsService {
     private readonly mapService: MapService,
     private readonly mapHelper: MapHelperFunctionsService,
     @Inject(APP_BASE_HREF) private readonly baseHref: string,
-  ) {}
-
-  async getPoints(): Promise<GeoJSON.Feature<Point, IInterestPoint>[]> {
-    const pointDb = this.getDb();
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const pointList = await pointDb.allDocs({ include_docs: true });
-    return pointList.rows
-      .map((r) => r.doc as NonNullable<typeof r.doc>)
-      .filter((doc) => !!doc);
+    private readonly dexieDb: DexieSyncService,
+  ) {
+    this.dexieDb.changes$
+      .pipe(filter((c) => c.tables.includes(this.dexieDb.interestPoints.name)))
+      .subscribe((c) => {
+        this.updateSource();
+      });
   }
 
-  async getGeoJson(): Promise<FeatureCollection<Point, IInterestPoint>> {
+  async getPoints(): Promise<GeoJSON.Feature<Point, IDbInterestPoint>[]> {
+    const pointsFromDexieDb = await this.dexieDb.interestPoints
+      .toArray()
+      .then((points) => points.map((p) => feature(point(p.point).geometry, p)));
+    return pointsFromDexieDb;
+  }
+
+  async getGeoJson(): Promise<FeatureCollection<Point, IDbInterestPoint>> {
     const points = await this.getPoints();
     return featureCollection(points);
   }
 
-  async addPoint(
-    poi: LngLat,
-    value: Omit<IInterestPoint, 'id'>,
-  ): Promise<void> {
-    const id = uuidv4();
-    const feat = feature(point([poi.lng, poi.lat]).geometry, { ...value, id });
-    const pointDb = this.getDb();
-    await pointDb.put({ _id: id, ...feat });
+  async addPoint(value: Omit<IDbInterestPoint, 'id'>): Promise<void> {
+    await this.dexieDb.interestPoints.add(value as IDbInterestPoint);
     await this.updateSource();
   }
 
-  async editPoint(properties: IInterestPoint): Promise<void> {
-    const pointDb = this.getDb();
-    const doc = await pointDb.get(properties.id);
-    doc.properties = properties;
-    await pointDb.put(doc);
+  async editPoint(properties: Omit<IDbInterestPoint, 'point'>): Promise<void> {
+    await this.dexieDb.interestPoints.update(properties.id, properties);
     await this.updateSource();
   }
 
   async deletePoint(id: string): Promise<void> {
-    const pointDb = this.getDb();
-    const doc = await pointDb.get(id);
-    await pointDb.remove(doc);
+    await this.dexieDb.interestPoints.delete(id);
     await this.updateSource();
   }
 
@@ -136,33 +123,17 @@ export class InterestPointsService {
   async searchPoints(
     searchText: string | null,
     limit = 5,
-  ): Promise<GeoJSON.Feature<Point, IInterestPoint>[]> {
+  ): Promise<GeoJSON.Feature<Point, IDbInterestPoint>[]> {
     if (!searchText) {
       return [];
     }
-    const pointDb = this.getDb();
-    return (
-      await pointDb.find({
-        selector: {
-          properties: {
-            name: {
-              $regex: RegExp(
-                `.*${escapeStringRegexp(searchText)}.*`,
-                'i',
-              ) as unknown as string,
-            },
-          },
-        },
-      })
-    ).docs
-      .sort((a, b) => this.sortByPointName(searchText, a, b))
-      .slice(0, limit);
-  }
 
-  private getDb() {
-    return new PouchDb<GeoJSON.Feature<Point, IInterestPoint>>(
-      'interestPoints',
-    );
+    return await this.dexieDb.interestPoints
+      .where('name')
+      .startsWithIgnoreCase(searchText.trim())
+      .limit(limit)
+      .toArray()
+      .then((points) => points.map((p) => feature(point(p.point).geometry, p)));
   }
 
   private async updateSource(): Promise<void> {
@@ -172,25 +143,5 @@ export class InterestPointsService {
         'interestPointsSource',
       ) as GeoJSONSource
     ).setData(interestGeoJson);
-  }
-
-  private sortByPointName(
-    pointName: string,
-    a: GeoJSON.Feature<Point, IInterestPoint>,
-    b: GeoJSON.Feature<Point, IInterestPoint>,
-  ): number {
-    if (
-      a.properties.name.startsWith(pointName) &&
-      !b.properties.name.startsWith(pointName)
-    ) {
-      return -1;
-    }
-    if (
-      !a.properties.name.startsWith(pointName) &&
-      b.properties.name.startsWith(pointName)
-    ) {
-      return 1;
-    }
-    return a.properties.name.localeCompare(b.properties.name);
   }
 }

@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { Feature, Point } from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
 
-import { IInterestPoint } from '../../services/interest-points/interest-points.service';
+import { IDbInterestPoint } from '../../database/synced-db.service';
 import { MapHelperFunctionsService } from '../../services/map-helper-functions/map-helper-functions.service';
 import { INotamDecodedResponse } from '../../services/notams/notams.interface';
 import { IAirportResponse } from '../../services/open-aip/airport.interfaces';
@@ -43,7 +43,7 @@ export class MapLocationMenuComponent {
       lngLat: LngLat;
       notams?: { features: GeoJSON.Feature[] };
       interestPoint?: {
-        features: GeoJSON.Feature<Point, IInterestPoint>[];
+        features: GeoJSON.Feature<Point, IDbInterestPoint>[];
       };
     },
     private readonly mapHelper: MapHelperFunctionsService,
@@ -120,7 +120,7 @@ export class MapLocationMenuComponent {
     });
   }
 
-  editInterestPoint(feature: Feature<Point, IInterestPoint>): void {
+  editInterestPoint(feature: Feature<Point, IDbInterestPoint>): void {
     this.bottomSheetRef.dismiss();
     this.dialog.open(CreateInterestPointDialogComponent, {
       width: '100%',

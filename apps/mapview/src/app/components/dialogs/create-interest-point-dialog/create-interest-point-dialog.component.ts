@@ -15,14 +15,12 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { LngLat } from 'maplibre-gl';
 import { QuillModule } from 'ngx-quill';
 
-import {
-  IInterestPoint,
-  InterestPointsService,
-} from '../../../services/interest-points/interest-points.service';
+import { IDbInterestPoint } from '../../../database/synced-db.service';
+import { InterestPointsService } from '../../../services/interest-points/interest-points.service';
 
 export type CreateInterestPointDialogInput =
   | { mode: 'create'; point: LngLat }
-  | { mode: 'edit'; value: { id: string; properties: IInterestPoint } };
+  | { mode: 'edit'; value: { id: string; properties: IDbInterestPoint } };
 
 @Component({
   selector: 'laamap-create-interest-point-dialog',
@@ -76,11 +74,14 @@ export class CreateInterestPointDialogComponent {
       description: this.description.value,
     };
     if (this.data.mode === 'create') {
-      void this.interestPointsService.addPoint(this.data.point, properties);
+      void this.interestPointsService.addPoint({
+        ...properties,
+        point: [this.data.point.lng, this.data.point.lat],
+      });
     } else {
       void this.interestPointsService.editPoint({
-        ...properties,
         id: this.data.value.properties.id,
+        ...properties,
       });
     }
 
