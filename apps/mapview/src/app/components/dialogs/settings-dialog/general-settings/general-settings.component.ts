@@ -1,11 +1,8 @@
-import {
-  GoogleSigninButtonModule,
-  SocialAuthService,
-} from '@abacritt/angularx-social-login';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,16 +11,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LetDirective } from '@ngrx/component';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { NotamsService } from '../../../../services/notams/notams.service';
 import { OpenAipService } from '../../../../services/open-aip/open-aip.service';
 import { ScreenWakeLockService } from '../../../../services/screen-wake-lock/screen-wake-lock.service';
 import { languages } from '../../../../services/transloco-loader.service';
+import { account } from '../../../../store/actions/init.actions';
 import { generalSettingsActions } from '../../../../store/actions/settings.actions';
 import { generalFeature } from '../../../../store/features/settings/general.feature';
 
+@UntilDestroy()
 @Component({
   selector: 'laamap-general-settings',
   templateUrl: './general-settings.component.html',
@@ -44,10 +45,9 @@ import { generalFeature } from '../../../../store/features/settings/general.feat
     MatSelectModule,
     AsyncPipe,
     UpperCasePipe,
-    GoogleSigninButtonModule,
   ],
 })
-export class GeneralSettingsComponent {
+export class GeneralSettingsComponent implements AfterViewInit {
   screenWakeLockEnabled$ = this.store.select(
     generalFeature.selectScreenWakeLockEnabled,
   );
@@ -64,14 +64,29 @@ export class GeneralSettingsComponent {
   territoryList$ = this.openAip.getTerritories$();
   languageList = Object.keys(languages);
   language$ = this.store.select(generalFeature.selectLanguage);
-  authState$ = this.authService.authState;
+  loggedInUser$ = this.store.select(generalFeature.selectLoginObject);
+  loggedInUserToken$ = this.store.select(generalFeature.selectLoginToken);
 
   constructor(
     private readonly store: Store,
     private readonly notams: NotamsService,
     private readonly openAip: OpenAipService,
-    private readonly authService: SocialAuthService,
+    private readonly dialogRef: MatDialogRef<unknown>,
+    private readonly actions$: Actions,
   ) {}
+
+  ngAfterViewInit(): void {
+    google.accounts.id.renderButton(
+      document.getElementById('googleLoginButton')!,
+      {},
+    );
+
+    this.actions$
+      .pipe(ofType(account.loggedIn), untilDestroyed(this))
+      .subscribe(() => {
+        this.dialogRef.close(); // because google button does not disappear
+      });
+  }
 
   screenWakeLockEnabledChange(enabled: boolean) {
     this.store.dispatch(
@@ -118,6 +133,6 @@ export class GeneralSettingsComponent {
 
   logout(): void {
     this.store.dispatch(generalSettingsActions.logOut());
-    this.authService.signOut(true);
+    this.dialogRef.close(); // behavior to be same as login
   }
 }

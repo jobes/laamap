@@ -21,6 +21,7 @@
 - map can be installed as PWA
 - support for terrain, it is visible on map and altitude above ground is calculated using MSL altitude (from GPS) and terrain elevation
 - slovak and english language, world wide notams, AIP, address search
+- sync interest point to / from server, google login required
 
 ### Secrets and keys
 

@@ -1,5 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { Position } from '@turf/turf';
 import Dexie, { Table } from 'dexie';
 import { IDatabaseChange } from 'dexie-observable/api';
@@ -7,11 +9,14 @@ import DexieSyncable from 'dexie-syncable';
 import { Subject } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import { account } from '../store/actions/init.actions';
+import { generalSettingsActions } from '../store/actions/settings.actions';
+import { generalFeature } from '../store/features/settings/general.feature';
 
 interface IServerSync {
   clientIdentity?: string;
   changes: IDatabaseChange[];
-  currentRevision: any;
+  currentRevision: number;
 }
 
 export interface IDbInterestPoint {
@@ -25,31 +30,81 @@ export interface IDbInterestPoint {
 @Injectable({ providedIn: 'root' })
 export class DexieSyncService extends Dexie {
   private readonly http = inject(HttpClient);
+  private readonly store = inject(Store);
+  private readonly actions$ = inject(Actions);
+  private protocolName = 'dexie-wordpress';
+
   interestPoints!: Table<IDbInterestPoint, string>;
-  private changeObserver = new Subject<{
-    changes: IDatabaseChange[];
-    tables: string[];
-  }>();
-  public changes$ = this.changeObserver.asObservable();
+  private changeObserver$ = new Subject<
+    | {
+        changes: IDatabaseChange[];
+        tables: string[];
+      }
+    | { clear: true; tables: string[] }
+  >();
+  public changes$ = this.changeObserver$.asObservable();
 
   constructor() {
     super('stork-navigation');
-    const protocolName = 'dexie-wordpress';
     this.version(1).stores({
       interestPoints: '$$id, name', // name is index key for search
     });
-    this.registerSyncProtocol(protocolName); // TODO sync only after login and after logout stop syncing
+    this.registerSyncProtocol(this.protocolName);
+    this.syncActionEnabling();
+  }
+
+  private syncActionEnabling(): void {
+    const token = this.store.selectSignal(generalFeature.selectLoginToken)();
+    if (token) {
+      this.syncStart();
+    }
+
+    this.actions$.pipe(ofType(account.loggedIn)).subscribe((data) => {
+      if (data.userChanged) {
+        void this.syncEnd().then(() => this.syncStart());
+      } else {
+        this.syncStart();
+      }
+    });
+
+    this.actions$.pipe(ofType(generalSettingsActions.logOut)).subscribe(() => {
+      void this.syncEnd();
+    });
+  }
+
+  private syncStart(): void {
     this.syncable
-      .connect(protocolName, environment.dexieWordpressSyncUrl, {
-        authToken: 'theToken',
-      })
+      .connect(this.protocolName, environment.dexieWordpressSyncUrl)
       .catch((e) => console.log('sync could not be created', e));
+  }
+
+  private async syncEnd(): Promise<void> {
+    await this.syncable.delete(environment.dexieWordpressSyncUrl);
+    await Promise.all(
+      this.tables
+        .filter(
+          (t) => !t.name.startsWith('_') || t.name === '_uncommittedChanges',
+        )
+        .map((t) => t.clear()),
+    );
+
+    const tableNames = this.tables.reduce(
+      (acc, val) => [...acc, val.name],
+      [] as string[],
+    );
+    this.changeObserver$.next({
+      clear: true,
+      tables: tableNames,
+    });
   }
 
   private registerSyncProtocol(protocolName: string): void {
     const http = this.http;
-    const pollInterval = 10000; // TODO make configurable
-    const changeObserver = this.changeObserver;
+    const pollInterval = 60000; // sync DBs every minute
+    const changeObserver$ = this.changeObserver$;
+    const tokenSignal = this.store.selectSignal(
+      generalFeature.selectLoginToken,
+    );
 
     DexieSyncable.registerSyncProtocol(protocolName, {
       sync(
@@ -66,16 +121,16 @@ export class DexieSyncService extends Dexie {
         onError,
       ) {
         const request = {
-          clientIdentity: context['clientIdentity'] || null,
-          baseRevision: baseRevision,
+          clientIdentity: (context['clientIdentity'] as string) || null,
+          baseRevision: baseRevision as number,
           partial: partial,
           changes: changes,
-          syncedRevision: syncedRevision,
+          syncedRevision: syncedRevision as number,
         };
 
         http
           .post<IServerSync>(url, request, {
-            // headers: { authToken: options.authToken },
+            headers: { Authorization: `Bearer ${tokenSignal()}` },
           })
           .subscribe({
             next: (data) => {
@@ -85,14 +140,15 @@ export class DexieSyncService extends Dexie {
                   .save()
                   .then(() => {
                     onChangesAccepted();
-                    applyRemoteChanges(data.changes, data.currentRevision).then(
-                      () => {
-                        changeObserver.next({
-                          changes: data.changes,
-                          tables: data.changes.map((change) => change.table),
-                        });
-                      },
-                    );
+                    void applyRemoteChanges(
+                      data.changes,
+                      data.currentRevision,
+                    ).then(() => {
+                      changeObserver$.next({
+                        changes: data.changes,
+                        tables: data.changes.map((change) => change.table),
+                      });
+                    });
                     onSuccess({ again: pollInterval });
                   })
                   .catch((e) => {
@@ -100,19 +156,20 @@ export class DexieSyncService extends Dexie {
                   });
               } else {
                 onChangesAccepted();
-                applyRemoteChanges(data.changes, data.currentRevision).then(
-                  () => {
-                    changeObserver.next({
-                      changes: data.changes,
-                      tables: data.changes.map((change) => change.table),
-                    });
-                  },
-                );
+                void applyRemoteChanges(
+                  data.changes,
+                  data.currentRevision,
+                ).then(() => {
+                  changeObserver$.next({
+                    changes: data.changes,
+                    tables: data.changes.map((change) => change.table),
+                  });
+                });
                 onSuccess({ again: pollInterval });
               }
             },
-            error: (error: HttpErrorResponse) => {
-              onError(error.statusText, pollInterval);
+            error: (error: unknown) => {
+              onError((error as HttpErrorResponse)?.statusText, pollInterval);
             },
           });
       },

@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+import { MatDialogRef } from '@angular/material/dialog';
+import { Actions } from '@ngrx/effects';
 import { provideMockStore } from '@ngrx/store/testing';
+import { Subject } from 'rxjs';
 
 import { GeneralSettingsComponent } from './general-settings.component';
 
@@ -18,6 +22,8 @@ describe(GeneralSettingsComponent.name, () => {
             },
           },
         }),
+        { provide: MatDialogRef, useValue: { close: () => {} } },
+        { provide: Actions, useValue: new Subject() },
       ],
     });
   });

@@ -109,16 +109,13 @@
       </mat-select>
     </mat-form-field>
 
-    @if (authState$ | async; as authState) {
+    @if (loggedInUserToken$ | async) {
       <button mat-stroked-button (click)="logout()">
-        {{ t('logout', { username: authState?.firstName }) }}
+        {{ t('logout', { username: (loggedInUser$ | async)?.name }) }}
       </button>
       <div>{{ t('syncInfo') }}</div>
     } @else {
-      <asl-google-signin-button
-        type="standard"
-        size="medium"
-      ></asl-google-signin-button>
+      <div id="googleLoginButton"></div>
       <div>{{ t('syncInfo') }}</div>
     }
   </mat-expansion-panel>

@@ -24,10 +24,3 @@ export const navigationEffectsActions = createActionGroup({
     }>(),
   },
 });
-
-export const account = createActionGroup({
-  source: 'Account',
-  events: {
-    'Logged in': props<{ userId: string; userChanged: boolean }>(),
-  },
-});
