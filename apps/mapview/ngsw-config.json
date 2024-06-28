@@ -19,10 +19,7 @@
           "/*.css",
           "/*.js"
         ],
-        "urls": [
-          "https://fonts.gstatic.com/*",
-          "https://accounts.google.com/gsi/client"
-        ]
+        "urls": ["https://fonts.gstatic.com/*"]
       }
     },
     {
