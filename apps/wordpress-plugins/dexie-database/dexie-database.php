@@ -11,6 +11,7 @@
 */
 
 require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+require_once(plugin_dir_path(__FILE__) . '/vendor/autoload.php');
 
 class Type {
     const ADD = 1;
@@ -19,10 +20,11 @@ class Type {
 }
 
 $tableName=$wpdb->prefix."dexiedb_sync";
+$CLIENT_ID = '*.apps.googleusercontent.com';
 
 function sync_endpoint($request) {
     global $wpdb, $tableName;
-    $userId = 'bobi';
+    $userId = getUserIdFromHeaderAuthToken($request);
     $clientIdentity = $request['clientIdentity'] ?? uniqid();
     $clientRevision = $request['baseRevision'] ?? 0;
     $clientChanges = $request['changes'];
@@ -51,6 +53,35 @@ function sync_endpoint($request) {
     }
 
     generateChangeAnswer($changes, $clientRevision, $revision, $clientIdentity);
+}
+
+function getUserIdFromHeaderAuthToken($request) {
+    global $CLIENT_ID;
+
+    try {
+        $bearer = $request->get_headers()['authorization'][0];
+        $id_token = explode('Bearer ', $bearer)[1];
+
+        $storedUserId = apcu_fetch($id_token);
+        if($storedUserId) {
+            return $storedUserId;
+        }
+
+        $client = new Google_Client(['client_id' => $CLIENT_ID]);
+        $payload = $client->verifyIdToken($id_token);
+
+        if ($payload) {
+            apcu_store($id_token, $payload['sub'], 3600 *24 * 3); // make token valid for 3 days
+            return $payload['sub'];
+        } else {
+            wp_send_json_error('Unauthorized', 401);
+            wp_die();
+        }
+    } catch (Exception $e) {
+        wp_send_json_error('Unauthorized', 401);
+        wp_die();
+    }
+
 }
 
 function addDataFromClient($userId, $item, $revision, &$changes, $collisionItem) {

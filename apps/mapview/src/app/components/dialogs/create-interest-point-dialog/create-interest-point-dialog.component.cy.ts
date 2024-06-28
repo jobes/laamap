@@ -16,7 +16,7 @@ class WrapperComponentAddPoint {
     this.dialog.open(CreateInterestPointDialogComponent, {
       width: '100%',
       closeOnNavigation: false,
-      data: { mode: 'create', point: { x: 5, y: 7 } },
+      data: { mode: 'create', point: { lng: 5, lat: 7 } },
     }).componentInstance;
   }
 }
@@ -71,11 +71,12 @@ describe(CreateInterestPointDialogComponent.name, () => {
     cy.get('#mat-option-2').click();
     cy.get('p').click().type('nice text');
     cy.get('.mat-mdc-dialog-actions > button:nth-of-type(1)').click();
-    cy.get('@addPointSpy').should(
-      'have.been.calledWith',
-      { x: 5, y: 7 },
-      { name: 'test', icon: 'poi3', description: '<p>nice text</p>' },
-    );
+    cy.get('@addPointSpy').should('have.been.calledWith', {
+      name: 'test',
+      icon: 'poi3',
+      description: '<p>nice text</p>',
+      point: [5, 7],
+    });
   });
 });
 

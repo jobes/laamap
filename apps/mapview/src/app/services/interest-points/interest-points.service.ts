@@ -36,8 +36,8 @@ export class InterestPointsService {
   ) {
     this.dexieDb.changes$
       .pipe(filter((c) => c.tables.includes(this.dexieDb.interestPoints.name)))
-      .subscribe((c) => {
-        this.updateSource();
+      .subscribe(() => {
+        void this.updateSource();
       });
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /// <reference types="cypress" />
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common';
 import {
@@ -33,7 +34,23 @@ declare global {
       deleteItem(key: string): Chainable<IDBObjectStore>;
     }
   }
+
+  const google: typeof import('google-one-tap');
 }
+
+(window as any).google = {
+  accounts: {
+    id: {
+      initialize: () => {},
+      prompt: () => {},
+      renderButton: () => {},
+      cancel: () => {},
+      disableAutoSelect: () => {},
+      revoke: () => {},
+      storeCredential: () => {},
+    },
+  },
+};
 
 // mount
 

@@ -16,7 +16,8 @@
     "notams",
     "navigation",
     "widgets",
-    "map"
+    "map",
+    "sync"
   ],
   "stylelint.validate": ["css", "scss"],
   "files.exclude": {

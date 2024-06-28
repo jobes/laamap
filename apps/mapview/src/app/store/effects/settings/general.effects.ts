@@ -1,13 +1,10 @@
-import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
-  filter,
   fromEvent,
   map,
   startWith,
@@ -17,8 +14,8 @@ import {
 
 import { MapService } from '../../../services/map/map.service';
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
-import { account } from '../../actions/effects.actions';
 import { mapActions } from '../../actions/map.actions';
+import { generalSettingsActions } from '../../actions/settings.actions';
 import { generalFeature } from '../../features/settings/general.feature';
 
 @Injectable()
@@ -80,24 +77,23 @@ export class GeneralEffects {
     { dispatch: false },
   );
 
-  account$ = createEffect(() => {
-    return this.authService.authState.pipe(
-      filter((user) => !!user),
-      concatLatestFrom(() => this.store.select(generalFeature.selectUserId)),
-      map(([user, oldUser]) =>
-        account.loggedIn({
-          userId: user.email,
-          userChanged: user.email !== oldUser,
+  logOut$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(generalSettingsActions.logOut),
+        tap(() => {
+          google.accounts.id.disableAutoSelect();
+          google.accounts.id.revoke('jobes666@gmail.com'); // of refresh google would do auto login
         }),
-      ),
-    );
-  });
+      );
+    },
+    { dispatch: false },
+  );
 
   constructor(
     private readonly mapService: MapService,
     private readonly actions$: Actions,
     private readonly store: Store,
     private readonly screenWakeLockService: ScreenWakeLockService,
-    private readonly authService: SocialAuthService,
   ) {}
 }

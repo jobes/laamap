@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { isDevMode } from '@angular/core';
 import { ActionReducer } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
 
@@ -9,9 +10,8 @@ import { instrumentsFeature } from '../features/settings/instruments.feature';
 import { navigationSettingsFeature } from '../features/settings/navigation.feature';
 import { notamsFeature } from '../features/settings/notams.feature';
 import { radarFeature } from '../features/settings/radar.feature';
-import { logRocketMiddleware } from './logrocket';
-import { isDevMode } from '@angular/core';
 import { terrainFeature } from '../features/settings/terrain.feature';
+import { logRocketMiddleware } from './logrocket';
 
 export function localStorageSyncReducer(
   reducer: ActionReducer<any>,
@@ -34,5 +34,5 @@ export function localStorageSyncReducer(
 
 export const metaReducers = [
   localStorageSyncReducer,
-  ...(isDevMode() ? [logRocketMiddleware] : []),
+  ...(isDevMode() ? [] : [logRocketMiddleware]),
 ];

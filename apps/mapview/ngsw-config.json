@@ -19,7 +19,10 @@
           "/*.css",
           "/*.js"
         ],
-        "urls": ["https://fonts.gstatic.com/*"]
+        "urls": [
+          "https://fonts.gstatic.com/*",
+          "https://accounts.google.com/gsi/client"
+        ]
       }
     },
     {
@@ -58,6 +61,10 @@
   ],
   "appData": {
     "news": {
+      "20240628": {
+        "sk": "# 28.6.2024\n- synchronizácia bodov záujmu so serverom",
+        "en": "#6/28/2024\n- interest point synchronization with server"
+      },
       "20240424": {
         "sk": "# 24.4.2024\n- oprava príletu do cieľa",
         "en": "#4/24/2024\n- fix arriving to destination"
