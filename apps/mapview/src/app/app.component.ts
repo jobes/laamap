@@ -48,7 +48,7 @@ export class AppComponent implements AfterViewInit {
         this.store.dispatch(
           account.loggedIn({
             jwtToken: response.credential,
-            userChanged: oldEmail !== newEmail,
+            userChanged: oldEmail !== newEmail && !oldEmail,
           }),
         );
       },
@@ -57,7 +57,7 @@ export class AppComponent implements AfterViewInit {
     });
 
     const token = this.store.selectSignal(generalFeature.selectLoginToken)();
-    if (token) {
+    if (!token) {
       google.accounts.id.prompt(); // prompt login only if user is not yet logged in
     }
   }
