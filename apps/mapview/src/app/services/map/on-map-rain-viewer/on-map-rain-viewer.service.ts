@@ -110,7 +110,7 @@ export class OnMapRainViewerService {
     }
 
     if (urlsWithSettings.settings.type === 'satellite') {
-      urlsWithSettings.urls.satellite.infrared.map((item) => ({
+      return urlsWithSettings.urls.satellite.infrared.map((item) => ({
         time: item.time,
         isPast: true,
       }));
