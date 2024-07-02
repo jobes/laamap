@@ -68,7 +68,7 @@
         "outputPath": "dist/apps/mapview",
         "index": "apps/mapview/src/index.html",
         "browser": "apps/mapview/src/main.ts",
-        "polyfills": ["zone.js", "apps/mapview/src/pounchdb-fix.ts"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/mapview/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -168,7 +168,7 @@
         "outputPath": "dist/apps/mapview",
         "index": "apps/mapview/src/index.html",
         "main": "apps/mapview/src/main.ts",
-        "polyfills": ["zone.js", "apps/mapview/src/pounchdb-fix.ts"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/mapview/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [

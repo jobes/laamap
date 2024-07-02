@@ -2,10 +2,10 @@
   <h1 mat-dialog-title>{{ t('title') }}</h1>
   <div mat-dialog-content>
     <mat-list role="list">
-      @for (route of routeList | async; track route.routeName) {
+      @for (route of routeList | async; track route.id) {
         <mat-list-item role="listitem">
           <div class="row">
-            <span class="name">{{ route.routeName }}</span>
+            <span class="name">{{ route.id }}</span>
             <button
               class="first-button"
               mat-mini-fab

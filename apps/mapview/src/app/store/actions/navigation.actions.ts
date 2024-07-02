@@ -1,6 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
-import { ICustomFlyRoute } from '../../services/custom-fly-routes/custom-fly-routes.service';
+
+import { IDbCustomRoute } from '../../database/synced-db.service';
 
 export const navigationDialogActions = createActionGroup({
   source: 'Navigation dialog',
@@ -24,14 +25,14 @@ export const poiListDialogActions = createActionGroup({
 export const customFlyRouteListDialogActions = createActionGroup({
   source: 'Custom fly route list dialog',
   events: {
-    'Route used': props<{ route: ICustomFlyRoute }>(),
+    'Route used': props<{ route: IDbCustomRoute }>(),
   },
 });
 
 export const globalSearchMenu = createActionGroup({
   source: 'Global search menu',
   events: {
-    'Activate route': props<{ route: ICustomFlyRoute }>(),
+    'Activate route': props<{ route: IDbCustomRoute }>(),
     'Started new route navigation': props<{ point: LngLat; name: string }>(),
     'Added point to navigation': props<{ point: LngLat; name: string }>(),
   },

@@ -6,7 +6,7 @@
     "useDefineForClassFields": false,
     "types": ["node"]
   },
-  "files": ["src/main.ts", "src/pounchdb-fix.ts"],
+  "files": ["src/main.ts"],
   "include": ["src/**/*.d.ts", "src/**/*.interfaces.ts"],
   "exclude": [
     "jest.config.ts",

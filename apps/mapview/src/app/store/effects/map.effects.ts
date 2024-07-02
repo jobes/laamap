@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import maplibreGl from 'maplibre-gl';
 import {
@@ -184,7 +185,7 @@ export class MapEffects {
       return this.actions$.pipe(
         ofType(mapEffectsActions.trackSavingStarted),
         switchMap(() => this.store.select(generalFeature.selectAirplaneName)),
-        tap((airPlaneName) =>
+        switchMap((airPlaneName) =>
           this.tracing.createFlyTrace(airPlaneName, new Date().toISOString()),
         ),
       );
@@ -211,7 +212,7 @@ export class MapEffects {
           (geoLocation): geoLocation is NonNullable<typeof geoLocation> =>
             !!geoLocation,
         ),
-        tap((geoLocation) =>
+        switchMap((geoLocation) =>
           this.tracing.addTraceItem(
             geoLocation?.timestamp ?? 0,
             geoLocation?.coords,
