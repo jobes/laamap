@@ -10,8 +10,10 @@ import { Store } from '@ngrx/store';
 import { Point, Position } from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
 
-import { IDbInterestPoint } from '../../database/synced-db.service';
-import { ICustomFlyRoute } from '../../services/custom-fly-routes/custom-fly-routes.service';
+import {
+  IDbCustomRoute,
+  IDbInterestPoint,
+} from '../../database/synced-db.service';
 import { GlobalMenuInput } from '../../services/global-search/global-search.service';
 import { MapService } from '../../services/map/map.service';
 import { IAirport } from '../../services/open-aip/airport.interfaces';
@@ -39,7 +41,7 @@ export class GlobalSearchMenuComponent {
   private readonly store = inject(Store);
   private readonly map = inject(MapService);
 
-  activateRoute(route: ICustomFlyRoute): void {
+  activateRoute(route: IDbCustomRoute): void {
     this.store.dispatch(globalSearchMenu.activateRoute({ route }));
     this.bottomSheetRef.dismiss();
   }

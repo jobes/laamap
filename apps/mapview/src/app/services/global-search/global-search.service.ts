@@ -21,12 +21,12 @@ import {
 } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { IDbInterestPoint } from '../../database/synced-db.service';
-import { generalFeature } from '../../store/features/settings/general.feature';
 import {
-  CustomFlyRoutesService,
-  ICustomFlyRoute,
-} from '../custom-fly-routes/custom-fly-routes.service';
+  IDbCustomRoute,
+  IDbInterestPoint,
+} from '../../database/synced-db.service';
+import { generalFeature } from '../../store/features/settings/general.feature';
+import { CustomFlyRoutesService } from '../custom-fly-routes/custom-fly-routes.service';
 import { InterestPointsService } from '../interest-points/interest-points.service';
 import { OnMapAirportsService } from '../map/on-map-airports/on-map-airports.service';
 import { IAirport } from '../open-aip/airport.interfaces';
@@ -34,7 +34,7 @@ import { IAirport } from '../open-aip/airport.interfaces';
 config.apiKey = environment.mapTilesKey;
 
 export type GlobalMenuInput =
-  | ({ itemType: 'route' } & ICustomFlyRoute)
+  | ({ itemType: 'route' } & IDbCustomRoute)
   | ({ itemType: 'interestPoint' } & GeoJSON.Feature<Point, IDbInterestPoint>)
   | ({ itemType: 'airports' } & GeoJSON.Feature<Point, IAirport>)
   | ({ itemType: 'address' } & GeocodingFeature);
@@ -103,7 +103,7 @@ export class GlobalSearchService {
   }
 
   private mapToList(values: {
-    routes: ICustomFlyRoute[];
+    routes: IDbCustomRoute[];
     points: Feature<Point, IDbInterestPoint>[];
     airports: Feature<Point, IAirport>[];
     address: GeocodingSearchResult | null | { error: boolean };
@@ -116,7 +116,7 @@ export class GlobalSearchService {
     ];
   }
 
-  private mapRoutesToList(routes: ICustomFlyRoute[]): IGlobalMenuResult[] {
+  private mapRoutesToList(routes: IDbCustomRoute[]): IGlobalMenuResult[] {
     if (routes.length === 0) {
       return [];
     }
@@ -124,7 +124,7 @@ export class GlobalSearchService {
       {
         label: 'routes',
         values: routes.map((route) => ({
-          name: route.routeName,
+          name: route.id,
           data: { itemType: 'route' as const, ...route },
         })),
       },

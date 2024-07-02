@@ -6,6 +6,7 @@ import { Position } from '@turf/turf';
 import Dexie, { Table } from 'dexie';
 import { IDatabaseChange } from 'dexie-observable/api';
 import DexieSyncable from 'dexie-syncable';
+import { LngLat } from 'maplibre-gl';
 import { Subject } from 'rxjs';
 
 import { environment } from '../../environments/environment';
@@ -27,6 +28,19 @@ export interface IDbInterestPoint {
   description?: string;
 }
 
+export interface IDbCustomRoute {
+  id: string;
+  points: { point: LngLat; name: string }[];
+}
+
+export interface IDbTracking {
+  id?: string;
+  name: string;
+  airplane: string;
+  startTime: number;
+  points: { timestamp: number; item: GeolocationCoordinates }[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class DexieSyncService extends Dexie {
   private readonly http = inject(HttpClient);
@@ -35,6 +49,9 @@ export class DexieSyncService extends Dexie {
   private protocolName = 'dexie-wordpress';
 
   interestPoints!: Table<IDbInterestPoint, string>;
+  customRoutes!: Table<IDbCustomRoute, string>;
+  tracking!: Table<IDbTracking, string>;
+
   private changeObserver$ = new Subject<
     | {
         changes: IDatabaseChange[];
@@ -48,6 +65,8 @@ export class DexieSyncService extends Dexie {
     super('stork-navigation');
     this.version(1).stores({
       interestPoints: '$$id, name', // name is index key for search
+      customRoutes: '$$id', // we need just primary key
+      tracking: '$$id, startTime', // name is index key for sort
     });
     this.registerSyncProtocol(this.protocolName);
     this.syncActionEnabling();

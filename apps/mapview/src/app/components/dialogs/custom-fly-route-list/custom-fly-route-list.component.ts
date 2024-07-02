@@ -7,10 +7,8 @@ import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import {
-  CustomFlyRoutesService,
-  ICustomFlyRoute,
-} from '../../../services/custom-fly-routes/custom-fly-routes.service';
+import { IDbCustomRoute } from '../../../database/synced-db.service';
+import { CustomFlyRoutesService } from '../../../services/custom-fly-routes/custom-fly-routes.service';
 import { customFlyRouteListDialogActions } from '../../../store/actions/navigation.actions';
 
 @Component({
@@ -35,8 +33,8 @@ export class CustomFlyRouteListComponent {
   private readonly store = inject(Store);
   routeList = this.customFlyRoutesService.getAllRoutes();
 
-  remove(route: ICustomFlyRoute): void {
-    this.customFlyRoutesService.deleteRoute(route.routeName).then(
+  remove(route: IDbCustomRoute): void {
+    this.customFlyRoutesService.deleteRoute(route.id).then(
       () => {
         this.routeList = this.customFlyRoutesService.getAllRoutes();
       },
@@ -45,7 +43,7 @@ export class CustomFlyRouteListComponent {
     );
   }
 
-  startNavigation(route: ICustomFlyRoute): void {
+  startNavigation(route: IDbCustomRoute): void {
     this.store.dispatch(customFlyRouteListDialogActions.routeUsed({ route }));
     this.dialogRef.close();
   }

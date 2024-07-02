@@ -1,9 +1,11 @@
 import { importProvidersFrom } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialogModule } from '@angular/material/dialog';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 
 import { mapActions } from '../../store/actions/map.actions';
 import { MapEffects } from '../../store/effects/map.effects';
@@ -13,7 +15,6 @@ import { navigationSettingsFeature } from '../../store/features/settings/navigat
 import { MapService } from '../map/map.service';
 import { OnMapDirectionLineService } from '../map/on-map-direction-line/on-map-direction-line.service';
 import { TracingService } from './tracing.service';
-import { MatDialogModule } from '@angular/material/dialog';
 
 function geoLocationBySpeed(speed: number): GeolocationPosition {
   return {
@@ -65,14 +66,16 @@ describe('TracingService', () => {
         {
           provide: TracingService,
           useValue: {
-            createFlyTrace: jest
-              .fn()
-              .mockImplementation(() => (tracing = true)),
+            createFlyTrace: jest.fn().mockImplementation(() => {
+              tracing = true;
+              return of('name');
+            }),
             endFlyTrace: jest.fn().mockImplementation(() => (tracing = false)),
             addTraceItem: jest.fn().mockImplementation((args) => {
               if (tracing) {
                 tracedItems.push(args);
               }
+              return of(5);
             }),
           },
         },

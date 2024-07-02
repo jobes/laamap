@@ -5,13 +5,10 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
-import { concatLatestFrom } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 import { BehaviorSubject, forkJoin, switchMap } from 'rxjs';
 
 import { DigitalTimePipe } from '../../../pipes/digital-time/digital-time.pipe';
 import { TracingService } from '../../../services/tracing/tracing.service';
-import { generalFeature } from '../../../store/features/settings/general.feature';
 
 @Component({
   selector: 'laamap-fly-tracing-history-dialog',
@@ -30,28 +27,18 @@ import { generalFeature } from '../../../store/features/settings/general.feature
 })
 export class FlyTracingHistoryDialogComponent {
   private readonly tracingService = inject(TracingService);
-  private readonly store = inject(Store);
   private readonly pageSizeSubj$ = new BehaviorSubject({ offset: 0, limit: 5 });
-  statistic$ = this.store.select(generalFeature.selectAirplaneName).pipe(
-    switchMap((airPlaneName) =>
-      forkJoin({
-        all: this.tracingService.getFlyTime(airPlaneName, 'all'),
-        year: this.tracingService.getFlyTime(airPlaneName, 'year'),
-        month: this.tracingService.getFlyTime(airPlaneName, 'month'),
-        today: this.tracingService.getFlyTime(airPlaneName, 'today'),
-      }),
-    ),
-  );
+  statistic$ = forkJoin({
+    all: this.tracingService.getFlyTime('all'),
+    year: this.tracingService.getFlyTime('year'),
+    month: this.tracingService.getFlyTime('month'),
+    today: this.tracingService.getFlyTime('today'),
+  });
 
   displayedColumns: string[] = ['name', 'duration'];
   items$ = this.pageSizeSubj$.pipe(
-    concatLatestFrom(() =>
-      this.store.select(generalFeature.selectAirplaneName),
-    ),
-
-    switchMap(([pageSize, airPlaneName]) =>
+    switchMap((pageSize) =>
       this.tracingService.getFlyHistoryListWithTime(
-        airPlaneName,
         pageSize.offset,
         pageSize.limit,
       ),
