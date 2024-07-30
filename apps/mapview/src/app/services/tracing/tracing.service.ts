@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 
 import {
   DexieSyncService,
-  IDbTracking,
+  ITrackingRoute,
 } from '../../database/synced-db.service';
 
 @Injectable({
@@ -13,12 +13,12 @@ export class TracingService {
   private currentTrackId?: string;
 
   async createFlyTrace(airplane: string, name: string): Promise<string> {
-    return this.dexieDb.tracking
+    return this.dexieDb.trackingRoutes
       .add({
         name,
         airplane,
-        points: [],
         startTime: new Date().getTime(),
+        flightTime: 0,
       })
       .then((id) => (this.currentTrackId = id));
   }
@@ -29,48 +29,46 @@ export class TracingService {
 
   addTraceItem(
     timestamp: number,
-    item: GeolocationCoordinates,
-  ): Promise<number> {
+    data: GeolocationCoordinates,
+  ): Promise<unknown> {
     const currentTrackId = this.currentTrackId;
-    if (!currentTrackId) return Promise.resolve(-1);
+    if (!currentTrackId) return Promise.resolve();
 
-    return this.dexieDb.tracking
-      .get(currentTrackId)
-      .then((currentTrack) => {
-        const points = currentTrack?.points || [];
-        return [...points, { timestamp, item }];
+    return this.dexieDb.trackingPoints
+      .add({
+        trackStatsId: currentTrackId,
+        timestamp,
+        data,
       })
-      .then((points) =>
-        this.dexieDb.tracking.update(currentTrackId, { points }),
-      );
+      .then(() => this.dexieDb.trackingRoutes.get(currentTrackId))
+      .then((currentRoute) => {
+        if (currentRoute) {
+          return this.dexieDb.trackingRoutes.update(currentTrackId, {
+            flightTime: new Date().getTime() - currentRoute.startTime,
+          });
+        } else {
+          return Promise.resolve(-1);
+        }
+      });
   }
 
   async getFlyHistoryListWithTime(
     offset = 0,
     limit = 10,
   ): Promise<{
-    list: (IDbTracking & { duration: number })[];
+    list: ITrackingRoute[];
     totalItems: number;
   }> {
-    const tracingList = (
-      await this.dexieDb.tracking
-        .orderBy('startTime')
-        .reverse()
-        .offset(offset)
-        .limit(limit)
-        .toArray()
-    ).map((trace) => {
-      const duration =
-        trace.points.length >= 2
-          ? (trace.points[trace.points.length - 1].timestamp -
-              trace.points[0].timestamp) /
-            1000
-          : 0;
-      return { ...trace, duration };
-    });
+    const routes = await this.dexieDb.trackingRoutes
+      .orderBy('startTime')
+      .reverse()
+      .offset(offset)
+      .limit(limit)
+      .toArray();
+
     return {
-      list: tracingList,
-      totalItems: await this.dexieDb.tracking.count(),
+      list: routes,
+      totalItems: await this.dexieDb.trackingRoutes.count(),
     };
   }
 
@@ -81,18 +79,12 @@ export class TracingService {
     if (type === 'month') typeTimeStart.setDate(1);
     typeTimeStart.setHours(0, 0, 0, 0);
 
-    const allFlyTraces = await this.dexieDb.tracking.toArray();
-    const traceDurations = allFlyTraces.map((trace) => {
-      const startPointPerType = trace.points.find(
-        (point) => point.timestamp >= typeTimeStart.getTime(),
-      );
-      if (startPointPerType) {
-        const endPointPerType = trace.points[trace.points.length - 1];
-        return endPointPerType.timestamp - startPointPerType.timestamp;
-      }
-      return 0;
-    });
-
-    return (traceDurations.reduce((acc, val) => acc + val, 0) || 0) / 1000;
+    const allFlyTraces = await this.dexieDb.trackingRoutes
+      .where('startTime')
+      .aboveOrEqual(typeTimeStart.getTime())
+      .toArray();
+    return (
+      (allFlyTraces.reduce((acc, val) => acc + val.flightTime, 0) || 0) / 1000
+    );
   }
 }
