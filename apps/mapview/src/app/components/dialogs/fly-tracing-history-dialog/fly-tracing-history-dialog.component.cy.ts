@@ -22,7 +22,9 @@ const initIndexDb = (tracingService: TracingService) => {
           new Date().getTime(),
           {} as GeolocationCoordinates,
         ),
-      )
+      );
+    cy.clock()
+      .then((clock) => clock.tick(8000))
       .then(
         () =>
           tracingService.addTraceItem(
@@ -40,20 +42,26 @@ const initIndexDb = (tracingService: TracingService) => {
           new Date().getTime(),
           {} as GeolocationCoordinates,
         ),
-      )
+      );
+    cy.clock()
+      .then((clock) => clock.tick(5000))
       .then(() =>
         tracingService.addTraceItem(
           new Date().getTime() + 5000, // +5s
           {} as GeolocationCoordinates,
         ),
       )
-      .then(() => tracingService.endFlyTrace())
+      .then(() => tracingService.endFlyTrace());
+    cy.clock()
+      .then((clock) => clock.tick(6000))
       .then(() =>
         tracingService.addTraceItem(
           new Date().getTime() + 6000,
           {} as GeolocationCoordinates,
         ),
-      )
+      );
+    cy.clock()
+      .then((clock) => clock.tick(8000))
       .then(
         () =>
           tracingService.addTraceItem(
@@ -71,7 +79,9 @@ const initIndexDb = (tracingService: TracingService) => {
           new Date().getTime(),
           {} as GeolocationCoordinates,
         ),
-      )
+      );
+    cy.clock()
+      .then((clock) => clock.tick(8000))
       .then(
         () =>
           tracingService.addTraceItem(
@@ -123,10 +133,10 @@ describe(FlyTracingHistoryDialogComponent.name, () => {
     cy.get(':nth-child(3) > .value').contains('0:00:21');
     cy.get(':nth-child(4) > .value').contains('0:00:21');
     cy.get(
-      '.mdc-data-table__content > :nth-child(1) > .cdk-column-duration',
+      '.mdc-data-table__content > :nth-child(1) > .cdk-column-flightTime',
     ).contains('0:00:08');
-    cy.get(':nth-child(2) > .cdk-column-duration').contains('0:00:05');
-    cy.get(':nth-child(3) > .cdk-column-duration').contains('0:00:08');
+    cy.get(':nth-child(2) > .cdk-column-flightTime').contains('0:00:05');
+    cy.get(':nth-child(3) > .cdk-column-flightTime').contains('0:00:08');
     cy.clock().invoke('restore');
   });
 });

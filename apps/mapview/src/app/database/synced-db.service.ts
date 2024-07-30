@@ -33,12 +33,19 @@ export interface IDbCustomRoute {
   points: { point: LngLat; name: string }[];
 }
 
-export interface IDbTracking {
+export interface IDbTrackingPoint {
+  id?: string;
+  trackStatsId: string;
+  timestamp: number;
+  data: GeolocationCoordinates;
+}
+
+export interface ITrackingRoute {
   id?: string;
   name: string;
   airplane: string;
-  startTime: number;
-  points: { timestamp: number; item: GeolocationCoordinates }[];
+  startTime: number; // unix timestamp
+  flightTime: number; // seconds
 }
 
 @Injectable({ providedIn: 'root' })
@@ -50,7 +57,8 @@ export class DexieSyncService extends Dexie {
 
   interestPoints!: Table<IDbInterestPoint, string>;
   customRoutes!: Table<IDbCustomRoute, string>;
-  tracking!: Table<IDbTracking, string>;
+  trackingRoutes!: Table<ITrackingRoute, string>;
+  trackingPoints!: Table<IDbTrackingPoint, string>;
 
   private changeObserver$ = new Subject<
     | {
@@ -66,7 +74,8 @@ export class DexieSyncService extends Dexie {
     this.version(1).stores({
       interestPoints: '$$id, name', // name is index key for search
       customRoutes: '$$id', // we need just primary key
-      tracking: '$$id, startTime', // name is index key for sort
+      trackingRoutes: '$$id, startTime', // for sorting by startTime
+      trackingPoints: '$$id, trackStatsId',
     });
     this.registerSyncProtocol(this.protocolName);
     this.syncActionEnabling();
@@ -92,9 +101,12 @@ export class DexieSyncService extends Dexie {
   }
 
   private syncStart(): void {
-    this.syncable
-      .connect(this.protocolName, environment.dexieWordpressSyncUrl)
-      .catch((e) => console.log('sync could not be created', e));
+    setTimeout(() => {
+      console.log('DB sync started');
+      this.syncable
+        .connect(this.protocolName, environment.dexieWordpressSyncUrl)
+        .catch((e) => console.log('sync could not be created', e));
+    }, 5000);
   }
 
   private async syncEnd(): Promise<void> {
@@ -124,6 +136,7 @@ export class DexieSyncService extends Dexie {
     const tokenSignal = this.store.selectSignal(
       generalFeature.selectLoginToken,
     );
+    const nonSyncableTables = ['trackingPoints'];
 
     DexieSyncable.registerSyncProtocol(protocolName, {
       sync(
@@ -143,7 +156,9 @@ export class DexieSyncService extends Dexie {
           clientIdentity: (context['clientIdentity'] as string) || null,
           baseRevision: baseRevision as number,
           partial: partial,
-          changes: changes,
+          changes: changes.filter(
+            (change) => !nonSyncableTables.includes(change.table),
+          ),
           syncedRevision: syncedRevision as number,
         };
 

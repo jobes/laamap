@@ -27,10 +27,10 @@
     @if (items$ | ngrxPush; as items) {
       <div class="mat-elevation-z3">
         <table mat-table [dataSource]="items.list">
-          <ng-container matColumnDef="duration">
+          <ng-container matColumnDef="flightTime">
             <th mat-header-cell *matHeaderCellDef>{{ t('duration') }}</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.duration | digitalTime }}
+              {{ element.flightTime / 1000 | digitalTime }}
             </td>
           </ng-container>
 

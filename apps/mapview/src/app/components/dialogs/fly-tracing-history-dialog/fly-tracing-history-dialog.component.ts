@@ -35,7 +35,7 @@ export class FlyTracingHistoryDialogComponent {
     today: this.tracingService.getFlyTime('today'),
   });
 
-  displayedColumns: string[] = ['name', 'duration'];
+  displayedColumns: string[] = ['name', 'flightTime'];
   items$ = this.pageSizeSubj$.pipe(
     switchMap((pageSize) =>
       this.tracingService.getFlyHistoryListWithTime(
