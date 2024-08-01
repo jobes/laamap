@@ -1,4 +1,5 @@
 import { ActionReducer } from '@ngrx/store';
+// eslint-disable-next-line @typescript-eslint/naming-convention
 import LogRocket from 'logrocket';
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */

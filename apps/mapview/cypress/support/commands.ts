@@ -34,23 +34,12 @@ declare global {
       deleteItem(key: string): Chainable<IDBObjectStore>;
     }
   }
-
-  const google: typeof import('google-one-tap');
 }
 
-(window as any).google = {
-  accounts: {
-    id: {
-      initialize: () => {},
-      prompt: () => {},
-      renderButton: () => {},
-      cancel: () => {},
-      disableAutoSelect: () => {},
-      revoke: () => {},
-      storeCredential: () => {},
-    },
-  },
-};
+// eslint-disable-next-line @typescript-eslint/prefer-namespace-keyword, @typescript-eslint/no-namespace, @typescript-eslint/no-unused-vars
+declare module window {
+  const google: typeof import('google-one-tap');
+}
 
 // mount
 
