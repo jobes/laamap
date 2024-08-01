@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { concatLatestFrom, createEffect } from '@ngrx/effects';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslocoService } from '@ngneat/transloco';
+import { createEffect } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import {
   catchError,
@@ -19,8 +22,6 @@ import { OnMapRainViewerService } from '../../../services/map/on-map-rain-viewer
 import { RainViewerService } from '../../../services/rain-viewer/rain-viewer.service';
 import { mapFeature } from '../../features/map.feature';
 import { radarFeature } from '../../features/settings/radar.feature';
-import { TranslocoService } from '@ngneat/transloco';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class RadarSettingsEffects {

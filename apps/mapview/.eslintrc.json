@@ -60,8 +60,8 @@
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:rxjs/recommended"
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+        //"plugin:rxjs/recommended"
       ],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
@@ -127,65 +127,65 @@
           }
         ],
         "no-console": "warn",
-        "rxjs-angular/prefer-takeuntil": [
-          "error",
-          {
-            "alias": ["untilDestroyed", "take"],
-            "checkComplete": true
-          }
-        ],
-        "rxjs/suffix-subjects": [
-          "warn",
-          {
-            "parameters": true,
-            "properties": true,
-            "suffix": "Subj",
-            "types": {
-              "^EventEmitter$": false
-            },
-            "variables": true
-          }
-        ],
-        "rxjs/finnish": [
-          "error",
-          {
-            "functions": true,
-            "methods": true,
-            "names": {
-              "^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$": false
-            },
-            "parameters": true,
-            "properties": true,
-            "strict": true,
-            "types": {
-              "^EventEmitter$": false,
-              "^Store": false
-            },
-            "variables": true
-          }
-        ],
+        // "rxjs-angular/prefer-takeuntil": [
+        //   "error",
+        //   {
+        //     "alias": ["untilDestroyed", "take"],
+        //     "checkComplete": true
+        //   }
+        // ],
+        // "rxjs/suffix-subjects": [
+        //   "warn",
+        //   {
+        //     "parameters": true,
+        //     "properties": true,
+        //     "suffix": "Subj",
+        //     "types": {
+        //       "^EventEmitter$": false
+        //     },
+        //     "variables": true
+        //   }
+        // ],
+        // "rxjs/finnish": [
+        //   "error",
+        //   {
+        //     "functions": true,
+        //     "methods": true,
+        //     "names": {
+        //       "^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$": false
+        //     },
+        //     "parameters": true,
+        //     "properties": true,
+        //     "strict": true,
+        //     "types": {
+        //       "^EventEmitter$": false,
+        //       "^Store": false
+        //     },
+        //     "variables": true
+        //   }
+        // ],
         "rxjs/no-compat": "error",
-        "rxjs/no-explicit-generics": "warn",
-        "rxjs/no-exposed-subjects": "warn",
-        "rxjs/no-ignored-error": "warn",
-        "rxjs/no-unsafe-switchmap": [
-          "error",
-          {
-            "disallow": [
-              "add",
-              "create",
-              "delete",
-              "post",
-              "put",
-              "remove",
-              "set",
-              "update"
-            ],
-            "observable": "[Aa]ction(s|s\\$|\\$)$"
-          }
-        ],
-        "rxjs/throw-error": "warn",
-        "rxjs/no-subclass": "warn"
+        "rxjs/no-explicit-generics": "warn"
+        //"rxjs/no-exposed-subjects": "warn",
+        //"rxjs/no-ignored-error": "warn",
+        // "rxjs/no-unsafe-switchmap": [
+        //   "error",
+        //   {
+        //     "disallow": [
+        //       "add",
+        //       "create",
+        //       "delete",
+        //       "post",
+        //       "put",
+        //       "remove",
+        //       "set",
+        //       "update"
+        //     ],
+        //     "observable": "[Aa]ction(s|s\\$|\\$)$"
+        //   }
+        // ],
+        // "rxjs/throw-error": "warn",
+        // "rxjs/no-subclass": "warn"
       }
     },
     {

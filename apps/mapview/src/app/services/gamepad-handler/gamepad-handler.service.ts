@@ -123,9 +123,7 @@ export class GamepadHandlerService {
   }
 
   private catchGamepadEvents(): void {
-    const gamepads = navigator
-      .getGamepads()
-      .filter((gamepad) => !!gamepad) as Gamepad[];
+    const gamepads = navigator.getGamepads().filter((gamepad) => !!gamepad);
     this.gamePadSubj$.next(gamepads);
     requestAnimationFrame(() => this.catchGamepadEvents());
   }

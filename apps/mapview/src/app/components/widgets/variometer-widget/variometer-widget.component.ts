@@ -49,7 +49,6 @@ export class VariometerWidgetComponent {
         startWith(null),
         startWith(null),
         pairwise(),
-        // eslint-disable-next-line @ngrx/avoid-mapping-selectors
         map(([prev, curr]) =>
           (curr?.coords.altitude || curr?.coords.altitude === 0) &&
           (prev?.coords.altitude || prev?.coords.altitude === 0)

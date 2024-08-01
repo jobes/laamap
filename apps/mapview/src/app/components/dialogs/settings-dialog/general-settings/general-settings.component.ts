@@ -76,7 +76,7 @@ export class GeneralSettingsComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    google.accounts.id.renderButton(
+    window.google.accounts.id.renderButton(
       document.getElementById('googleLoginButton')!,
       {},
     );

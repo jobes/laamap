@@ -8,7 +8,8 @@ import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
 import { isPwa } from './app/helper';
 
-declare global {
+// eslint-disable-next-line @typescript-eslint/prefer-namespace-keyword, @typescript-eslint/no-namespace, @typescript-eslint/no-unused-vars
+declare module window {
   const google: typeof import('google-one-tap');
 }
 

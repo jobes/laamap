@@ -34,7 +34,7 @@ import { generalFeature } from './store/features/settings/general.feature';
 export class AppComponent implements AfterViewInit {
   private store = inject(Store);
   ngAfterViewInit(): void {
-    google.accounts.id.initialize({
+    window.google.accounts.id.initialize({
       client_id: environment.clientId,
       callback: (response) => {
         const oldEmail = this.store.selectSignal(
@@ -58,7 +58,7 @@ export class AppComponent implements AfterViewInit {
 
     const token = this.store.selectSignal(generalFeature.selectLoginToken)();
     if (!token) {
-      google.accounts.id.prompt(); // prompt login only if user is not yet logged in
+      window.google.accounts.id.prompt(); // prompt login only if user is not yet logged in
     }
   }
 }

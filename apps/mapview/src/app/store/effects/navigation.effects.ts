@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoService } from '@ngneat/transloco';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import * as turf from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
@@ -16,6 +17,7 @@ import {
   tap,
 } from 'rxjs';
 
+import { CustomFlyRoutesService } from '../../services/custom-fly-routes/custom-fly-routes.service';
 import { OnMapNavigationService } from '../../services/map/on-map-navigation/on-map-navigation.service';
 import {
   mapEffectsActions,
@@ -28,7 +30,6 @@ import {
 } from '../actions/navigation.actions';
 import { mapFeature } from '../features/map.feature';
 import { navigationFeature } from '../features/navigation.feature';
-import { CustomFlyRoutesService } from '../../services/custom-fly-routes/custom-fly-routes.service';
 import { terrainFeature } from '../features/settings/terrain.feature';
 
 @Injectable()

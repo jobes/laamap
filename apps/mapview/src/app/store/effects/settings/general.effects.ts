@@ -82,8 +82,8 @@ export class GeneralEffects {
       return this.actions$.pipe(
         ofType(generalSettingsActions.logOut),
         tap(() => {
-          google.accounts.id.disableAutoSelect();
-          google.accounts.id.revoke('jobes666@gmail.com'); // of refresh google would do auto login
+          window.google.accounts.id.disableAutoSelect();
+          window.google.accounts.id.revoke('jobes666@gmail.com'); // of refresh google would do auto login
         }),
       );
     },

@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { concatLatestFrom, createEffect } from '@ngrx/effects';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslocoService } from '@ngneat/transloco';
+import { createEffect } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
 import {
@@ -17,11 +20,9 @@ import {
 import { OnMapNotamsService } from '../../../services/map/on-map-notams/on-map-notams.service';
 import { NotamsService } from '../../../services/notams/notams.service';
 import { mapFeature } from '../../features/map.feature';
-import { notamsFeature } from '../../features/settings/notams.feature';
-import { generalFeature } from '../../features/settings/general.feature';
 import { navigationFeature } from '../../features/navigation.feature';
-import { TranslocoService } from '@ngneat/transloco';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { generalFeature } from '../../features/settings/general.feature';
+import { notamsFeature } from '../../features/settings/notams.feature';
 
 @Injectable()
 export class NotamsSettingsEffects {
@@ -88,7 +89,6 @@ export class NotamsSettingsEffects {
 
   private notamRoute$ = combineLatest([
     this.store.select(navigationFeature.selectRoute),
-    // eslint-disable-next-line @ngrx/avoid-combining-selectors
     this.store.select(navigationFeature.selectRunning),
   ]).pipe(
     filter(([route, running]) => running && route.length > 0),
@@ -99,7 +99,6 @@ export class NotamsSettingsEffects {
         this.store.select(mapFeature.selectGeoLocation).pipe(
           filter((position) => !!position),
           take(1),
-          // eslint-disable-next-line @ngrx/avoid-mapping-selectors
           map((position) => [
             new LngLat(
               position?.coords.longitude ?? 0,
