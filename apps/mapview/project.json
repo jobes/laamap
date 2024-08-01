@@ -78,7 +78,7 @@
         "styles": [
           "./node_modules/maplibre-gl/dist/maplibre-gl.css",
           "./node_modules/quill/dist/quill.snow.css",
-          "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+          "@angular/material/prebuilt-themes/azure-blue.css",
           "./node_modules/lightgallery/scss/lightgallery.scss",
           "./node_modules/lightgallery/scss/lg-zoom.scss",
           "apps/mapview/src/styles.scss"
@@ -178,7 +178,7 @@
         "styles": [
           "./node_modules/maplibre-gl/dist/maplibre-gl.css",
           "./node_modules/quill/dist/quill.snow.css",
-          "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+          "@angular/material/prebuilt-themes/azure-blue.css",
           "./node_modules/lightgallery/scss/lightgallery.scss",
           "./node_modules/lightgallery/scss/lg-zoom.scss",
           "apps/mapview/src/styles.scss"

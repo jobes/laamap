@@ -14,7 +14,7 @@ class WrapperComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialog.open(VersionNewsDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: this.data,
       closeOnNavigation: false,
     });

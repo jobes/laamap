@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import * as turf from '@turf/turf';
+import { Feature, LineString } from 'geojson';
 import { LngLat } from 'maplibre-gl';
 
 import {
@@ -63,7 +64,7 @@ export const selectLineDefinitionSegmentGeoJson = createSelector(
                     color: index % 2 ? 'white' : 'black',
                   }),
                 ],
-          [] as turf.Feature<turf.LineString>[],
+          [] as Feature<LineString>[],
         ),
       );
     }
@@ -126,7 +127,7 @@ export const selectHeighSettings = createSelector(
     hasAltitude: !!geolocation,
     terrainElevation:
       terrain.enabled && terrain.gndHeightCalculateUsingTerrain
-        ? terrainElevation ?? 0
+        ? (terrainElevation ?? 0)
         : 0,
   }),
 );

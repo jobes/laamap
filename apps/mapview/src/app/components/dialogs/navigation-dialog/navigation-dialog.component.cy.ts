@@ -14,7 +14,7 @@ class WrapperComponent {
   dialog = inject(MatDialog);
   constructor() {
     this.dialog.open(NavigationDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       closeOnNavigation: false,
     });
   }

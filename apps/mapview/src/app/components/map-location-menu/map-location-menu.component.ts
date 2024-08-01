@@ -7,7 +7,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { Feature, Point } from '@turf/turf';
+import { Feature, Point } from 'geojson';
 import { LngLat } from 'maplibre-gl';
 
 import { IDbInterestPoint } from '../../database/synced-db.service';
@@ -58,7 +58,7 @@ export class MapLocationMenuComponent {
     ) as IAirportResponse;
 
     this.dialog.open(AirportDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: airPort,
       closeOnNavigation: false,
     });
@@ -72,7 +72,7 @@ export class MapLocationMenuComponent {
     );
 
     this.dialog.open(AirspacesDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: airspaces,
     });
   }
@@ -87,7 +87,7 @@ export class MapLocationMenuComponent {
     );
 
     this.dialog.open(NotamsDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: notams?.map((notam) => notam.decoded),
     });
   }
@@ -115,7 +115,7 @@ export class MapLocationMenuComponent {
   newInterestPoint(point: LngLat): void {
     this.bottomSheetRef.dismiss();
     this.dialog.open(CreateInterestPointDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: { mode: 'create', point } as CreateInterestPointDialogInput,
     });
   }
@@ -123,7 +123,7 @@ export class MapLocationMenuComponent {
   editInterestPoint(feature: Feature<Point, IDbInterestPoint>): void {
     this.bottomSheetRef.dismiss();
     this.dialog.open(CreateInterestPointDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: {
         mode: 'edit',
         value: { id: feature.id, properties: feature.properties },

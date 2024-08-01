@@ -2,10 +2,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { Position } from '@turf/turf';
 import Dexie, { Table } from 'dexie';
 import { IDatabaseChange } from 'dexie-observable/api';
 import DexieSyncable from 'dexie-syncable';
+import { Position } from 'geojson';
 import { LngLat } from 'maplibre-gl';
 import { Subject } from 'rxjs';
 

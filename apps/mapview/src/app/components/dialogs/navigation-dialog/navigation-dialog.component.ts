@@ -76,7 +76,7 @@ export class NavigationDialogComponent {
   showTrackHistory(): void {
     this.dialog
       .open(FlyTracingHistoryDialogComponent, {
-        width: '100%',
+        maxWidth: '100%',
         id: 'flyHistory',
       })
       .afterClosed();
@@ -85,7 +85,7 @@ export class NavigationDialogComponent {
   showPoiList(): void {
     this.dialog
       .open(ListInterestPointsDialogComponent, {
-        width: '100%',
+        maxWidth: '100%',
         id: 'poiList',
       })
       .afterClosed();
@@ -95,6 +95,7 @@ export class NavigationDialogComponent {
     this.dialog
       .open(CustomFlyRouteCreateComponent, {
         id: CustomFlyRouteCreateComponent.name,
+        maxWidth: '100%',
       })
       .afterClosed()
       .pipe(
@@ -112,7 +113,7 @@ export class NavigationDialogComponent {
   showRoutes(): void {
     this.dialog
       .open(CustomFlyRouteListComponent, {
-        width: '100%',
+        maxWidth: '100%',
         id: CustomFlyRouteListComponent.name,
       })
       .afterClosed();

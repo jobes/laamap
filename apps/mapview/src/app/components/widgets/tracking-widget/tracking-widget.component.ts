@@ -103,7 +103,7 @@ export class TrackingWidgetComponent {
     }
     this.dialog
       .open(FlyTracingHistoryDialogComponent, {
-        width: '100%',
+        maxWidth: '100%',
         id: 'flyHistory',
       })
       .afterClosed();

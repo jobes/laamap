@@ -14,7 +14,7 @@ class WrapperComponentAddPoint {
   dialog = inject(MatDialog);
   constructor() {
     this.dialog.open(CreateInterestPointDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       closeOnNavigation: false,
       data: { mode: 'create', point: { lng: 5, lat: 7 } },
     }).componentInstance;
@@ -30,7 +30,7 @@ class WrapperComponentEditPoint {
   dialog = inject(MatDialog);
   constructor() {
     this.dialog.open(CreateInterestPointDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       closeOnNavigation: false,
       data: {
         mode: 'edit',

@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { Point, Position } from '@turf/turf';
+import { Point, Position } from 'geojson';
 import { LngLat } from 'maplibre-gl';
 
 import {
@@ -50,7 +50,7 @@ export class GlobalSearchMenuComponent {
     this.bottomSheetRef.dismiss();
     this.dialog
       .open(CreateInterestPointDialogComponent, {
-        width: '100%',
+        maxWidth: '100%',
         data: {
           mode: 'edit',
           value: { id: point.id, properties: point.properties },
@@ -63,7 +63,7 @@ export class GlobalSearchMenuComponent {
     this.bottomSheetRef.dismiss();
     this.dialog
       .open(AirportDialogComponent, {
-        width: '100%',
+        maxWidth: '100%',
         data: point.properties,
         closeOnNavigation: false,
       })

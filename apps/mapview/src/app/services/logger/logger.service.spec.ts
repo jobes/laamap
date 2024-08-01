@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
-import { LoggerService } from './logger.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslocoService } from '@ngneat/transloco';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
+import { TranslocoService } from '@ngneat/transloco';
 import { of } from 'rxjs';
+
 import { VersionNewsDialogComponent } from '../../components/dialogs/version-news-dialog/version-news-dialog.component';
+import { LoggerService } from './logger.service';
 
 class LocalStorageMock {
   store: { [key: string]: string } = {};
@@ -89,7 +89,7 @@ describe('LoggerService', () => {
     global.localStorage = new LocalStorageMock();
     service.logPwaEvents();
     expect(dialogService.open).toBeCalledWith(VersionNewsDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: [],
     });
   });
@@ -99,7 +99,7 @@ describe('LoggerService', () => {
     global.localStorage.setItem('installed_version', '7');
     service.logPwaEvents();
     expect(dialogService.open).toBeCalledWith(VersionNewsDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: [],
     });
   });
@@ -109,7 +109,7 @@ describe('LoggerService', () => {
     global.localStorage.setItem('installed_version', '4');
     service.logPwaEvents();
     expect(dialogService.open).toBeCalledWith(VersionNewsDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: [{ sk: 'markdown5' }, { sk: 'markdown6' }, { sk: 'markdown7' }],
     });
   });
@@ -119,7 +119,7 @@ describe('LoggerService', () => {
     global.localStorage.setItem('installed_version', '0');
     service.logPwaEvents();
     expect(dialogService.open).toBeCalledWith(VersionNewsDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: [
         { sk: 'markdown1' },
         { sk: 'markdown2' },

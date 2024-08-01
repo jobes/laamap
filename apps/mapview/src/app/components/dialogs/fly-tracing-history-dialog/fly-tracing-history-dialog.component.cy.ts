@@ -101,7 +101,7 @@ class WrapperComponent {
 
   start() {
     this.dialogService.open(FlyTracingHistoryDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       closeOnNavigation: false,
     });
   }
