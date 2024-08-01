@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { TranslocoService } from '@ngneat/transloco';
+
 import { VersionNewsDialogComponent } from '../../components/dialogs/version-news-dialog/version-news-dialog.component';
 
 interface INewsDef {
@@ -66,7 +67,7 @@ export class LoggerService {
       .subscribe({
         next: () =>
           this.dialog.open(VersionNewsDialogComponent, {
-            width: '100%',
+            maxWidth: '100%',
             data: news,
           }),
       });

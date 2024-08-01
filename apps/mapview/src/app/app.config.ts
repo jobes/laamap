@@ -7,22 +7,6 @@ import {
 import { ApplicationConfig } from '@angular/core';
 import { importProvidersFrom, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTableModule } from '@angular/material/table';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
@@ -66,23 +50,7 @@ export const appConfig: ApplicationConfig = {
       BrowserModule,
       FormsModule,
       ReactiveFormsModule,
-      MatBottomSheetModule,
-      MatListModule,
-      MatCardModule,
-      MatIconModule,
-      MatDialogModule,
-      MatTableModule,
-      MatFormFieldModule,
-      MatButtonModule,
       DragDropModule,
-      MatExpansionModule,
-      MatInputModule,
-      MatSlideToggleModule,
-      MatSelectModule,
-      MatTooltipModule,
-      MatPaginatorModule,
-      MatSliderModule,
-      MatSnackBarModule,
       StoreModule.forRoot(
         {
           [mapFeature.name]: mapFeature.reducer,

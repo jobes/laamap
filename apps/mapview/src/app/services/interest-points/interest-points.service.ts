@@ -1,12 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import {
-  FeatureCollection,
-  Point,
-  feature,
-  featureCollection,
-  point,
-} from '@turf/turf';
+import { feature, featureCollection, point } from '@turf/turf';
+import { FeatureCollection, Point } from 'geojson';
 import { GeoJSONSource } from 'maplibre-gl';
 import { Observable, filter, forkJoin } from 'rxjs';
 

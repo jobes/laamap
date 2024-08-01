@@ -6,7 +6,7 @@ import {
   geocoding,
 } from '@maptiler/client';
 import { Store } from '@ngrx/store';
-import { Feature, Point } from '@turf/turf';
+import { Feature, Point } from 'geojson';
 import {
   Observable,
   catchError,

@@ -13,7 +13,7 @@ class WrapperComponent implements OnInit {
   @Input() data!: object;
   ngOnInit(): void {
     this.dialog.open(AirspacesDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: this.data,
       closeOnNavigation: false,
     });

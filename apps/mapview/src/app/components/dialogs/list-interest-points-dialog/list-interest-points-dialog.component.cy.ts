@@ -16,7 +16,7 @@ class WrapperComponent {
   dialog = inject(MatDialog);
   constructor() {
     const instance = this.dialog.open(ListInterestPointsDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       closeOnNavigation: false,
     }).componentInstance;
     instance.showDetails = cy.spy().as('showDetailsSpy');

@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { Feature, Point } from '@turf/turf';
+import { Feature, Point } from 'geojson';
 import { LngLat } from 'maplibre-gl';
 import { BehaviorSubject, switchMap, take } from 'rxjs';
 
@@ -71,7 +71,7 @@ export class ListInterestPointsDialogComponent {
   showDetails(point: Feature<Point, IDbInterestPoint>): void {
     this.dialog
       .open(CreateInterestPointDialogComponent, {
-        width: '100%',
+        maxWidth: '100%',
         data: {
           mode: 'edit',
           value: { id: point.id, properties: point.properties },

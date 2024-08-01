@@ -1,10 +1,13 @@
 /* eslint-disable max-lines */
+import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import * as turf from '@turf/turf';
+import { FeatureCollection, Polygon } from 'geojson';
 import { LngLat } from 'maplibre-gl';
-import { Observable, iif, map, tap, of, switchMap, forkJoin } from 'rxjs';
+import { Observable, forkJoin, iif, map, of, switchMap, tap } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
 import { notamTranslations } from './notam-translations';
 import {
   INotamDecoded,
@@ -13,16 +16,14 @@ import {
   INotamQParsed,
   INotamResponse,
 } from './notams.interface';
-import { APP_BASE_HREF } from '@angular/common';
-import { environment } from '../../../environments/environment';
 
 // data getting https://github.com/avwx-rest/avwx-engine/blob/aa929745559ad815e250a3e8bbe6166235a8c53d/avwx/service/scrape.py
 // decode structure https://www.theairlinepilots.com/flightplanningforairlinepilots/notamdecode.php
 // decode message abbreviations https://www.notams.faa.gov/downloads/contractions.pdf
 // decode structure https://www.faa.gov/air_traffic/flight_info/aeronav/notams/media/ICAO_NOTAM_Format_Example.pdf
 
-export type NotamGeoJson = turf.FeatureCollection<
-  turf.Polygon,
+export type NotamGeoJson = FeatureCollection<
+  Polygon,
   INotamDecodedResponse['notamList'][0]
 >;
 

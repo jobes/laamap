@@ -1,4 +1,5 @@
 import * as turf from '@turf/turf';
+import { Position } from 'geojson';
 
 export const getGeolocationButton = () =>
   cy.get('.maplibregl-ctrl-geolocate > .maplibregl-ctrl-icon');
@@ -6,7 +7,7 @@ export const getSettingsButton = () => cy.get('button[title="Nastavenia"');
 interface IPointWithMetaData {
   bearing: number;
   speed: number;
-  position: turf.helpers.Position;
+  position: Position;
   distanceFromLastPoint: number;
   distanceFromBeginning: number;
   timeFromLastPoint: number;

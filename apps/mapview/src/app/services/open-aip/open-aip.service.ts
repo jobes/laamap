@@ -1,6 +1,9 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Feature } from 'geojson';
 import { Observable, catchError, forkJoin, map, of } from 'rxjs';
+
 import {
   EHeightUnit,
   EReferenceDatum,
@@ -10,8 +13,6 @@ import {
   IRunway,
 } from './airport.interfaces';
 import { IAirspace, IAirspaceResponse } from './airspaces.interfaces';
-import { APP_BASE_HREF } from '@angular/common';
-import { Feature } from '@turf/turf';
 
 type GetAirportsResponse = Observable<
   import('geojson').FeatureCollection<import('geojson').Point, IAirport>
@@ -177,8 +178,8 @@ export class OpenAipService {
       value.unit === EHeightUnit.feet
         ? 0.3048
         : value.unit === EHeightUnit.flightLevel
-        ? 30.48
-        : 1;
+          ? 30.48
+          : 1;
     return value.value * toMCoefficient;
   }
 }

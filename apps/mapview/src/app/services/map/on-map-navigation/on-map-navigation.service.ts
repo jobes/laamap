@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as turf from '@turf/turf';
+import {
+  Feature,
+  GeoJsonProperties,
+  LineString,
+  MultiLineString,
+} from 'geojson';
 import { LngLat } from 'maplibre-gl';
 import { GeoJSONSource } from 'maplibre-gl';
 
@@ -33,7 +39,7 @@ export class OnMapNavigationService {
 
   hideNavigationRoute(): void {
     const source = this.mapService.instance.getSource(
-      'navigationSource'
+      'navigationSource',
     ) as GeoJSONSource;
     source?.setData({
       type: 'FeatureCollection',
@@ -46,20 +52,23 @@ export class OnMapNavigationService {
       return;
     }
     const geoJson = turf.featureCollection(
-      points.reduce((acc, item, index, array) => {
-        if (index === 0) return acc;
-        return [
-          ...acc,
-          turf.greatCircle(
-            [array[index - 1].point.lng, array[index - 1].point.lat],
-            [array[index].point.lng, array[index].point.lat]
-          ),
-        ];
-      }, [] as turf.Feature<turf.LineString | turf.MultiLineString, turf.Properties>[])
+      points.reduce(
+        (acc, item, index, array) => {
+          if (index === 0) return acc;
+          return [
+            ...acc,
+            turf.greatCircle(
+              [array[index - 1].point.lng, array[index - 1].point.lat],
+              [array[index].point.lng, array[index].point.lat],
+            ),
+          ];
+        },
+        [] as Feature<LineString | MultiLineString, GeoJsonProperties>[],
+      ),
     );
 
     const source = this.mapService.instance.getSource(
-      'navigationSource'
+      'navigationSource',
     ) as GeoJSONSource;
     source.setData(geoJson);
   }

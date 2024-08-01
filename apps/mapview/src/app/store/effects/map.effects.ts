@@ -267,7 +267,7 @@ export class MapEffects {
         ofType(mapActions.settingsClicked),
         tap(() => {
           this.dialog.open(SettingsDialogComponent, {
-            width: '100%',
+            maxWidth: '100%',
             id: 'settingDialog',
           });
         }),
@@ -282,7 +282,7 @@ export class MapEffects {
         ofType(mapActions.navigationClicked),
         tap(() => {
           this.dialog.open(NavigationDialogComponent, {
-            width: '100%',
+            maxWidth: '100%',
             id: 'settingDialog',
           });
         }),

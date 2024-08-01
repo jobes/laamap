@@ -15,7 +15,7 @@ class WrapperComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialog.open(NotamsDialogComponent, {
-      width: '100%',
+      maxWidth: '100%',
       data: this.data,
       closeOnNavigation: false,
     });
