@@ -10,7 +10,7 @@ import { CreateInterestPointDialogComponent } from './create-interest-point-dial
   standalone: true,
   imports: [MatDialogModule],
 })
-class WrapperComponentAddPoint {
+class WrapperAddPointComponent {
   dialog = inject(MatDialog);
   constructor() {
     this.dialog.open(CreateInterestPointDialogComponent, {
@@ -26,7 +26,7 @@ class WrapperComponentAddPoint {
   standalone: true,
   imports: [MatDialogModule],
 })
-class WrapperComponentEditPoint {
+class WrapperEditPointComponent {
   dialog = inject(MatDialog);
   constructor() {
     this.dialog.open(CreateInterestPointDialogComponent, {
@@ -51,7 +51,7 @@ class WrapperComponentEditPoint {
 describe(CreateInterestPointDialogComponent.name, () => {
   it('add new point', () => {
     cy.viewport(1000, 1000);
-    cy.mount(WrapperComponentAddPoint, {
+    cy.mount(WrapperAddPointComponent, {
       providers: [
         {
           provide: InterestPointsService,
@@ -82,7 +82,7 @@ describe(CreateInterestPointDialogComponent.name, () => {
 
 describe(CreateInterestPointDialogComponent.name, () => {
   it('edit point', () => {
-    cy.mount(WrapperComponentEditPoint, {
+    cy.mount(WrapperEditPointComponent, {
       providers: [
         {
           provide: InterestPointsService,
@@ -112,7 +112,7 @@ describe(CreateInterestPointDialogComponent.name, () => {
   });
 
   it('delete point', () => {
-    cy.mount(WrapperComponentEditPoint, {
+    cy.mount(WrapperEditPointComponent, {
       providers: [
         {
           provide: InterestPointsService,
