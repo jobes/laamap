@@ -4,7 +4,6 @@
   "overrides": [
     {
       "files": ["*.ts"],
-      "excludedFiles": ["**/*.cy.ts", "src/app/cypress-helpers.ts"],
       "extends": [
         "plugin:@nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates"
@@ -31,13 +30,6 @@
         "max-lines-per-function": ["warn", 30],
         "max-nested-callbacks": ["error", 3],
         "max-statements": ["warn", 10]
-      }
-    },
-    {
-      "files": ["*.html"],
-      "extends": ["plugin:@nx/angular-template"],
-      "rules": {
-        "@angular-eslint/template/use-track-by-function": "warn"
       }
     },
     {
@@ -126,7 +118,7 @@
             ]
           }
         ],
-        "no-console": "warn",
+        "no-console": "warn"
         // "rxjs-angular/prefer-takeuntil": [
         //   "error",
         //   {
@@ -164,8 +156,8 @@
         //     "variables": true
         //   }
         // ],
-        "rxjs/no-compat": "error",
-        "rxjs/no-explicit-generics": "warn"
+        // "rxjs/no-compat": "error",
+        // "rxjs/no-explicit-generics": "warn"
         //"rxjs/no-exposed-subjects": "warn",
         //"rxjs/no-ignored-error": "warn",
         // "rxjs/no-unsafe-switchmap": [
