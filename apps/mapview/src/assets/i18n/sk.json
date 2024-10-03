@@ -47,9 +47,9 @@
       "airSpacesRegions": {
         "slovakia": "Slovensko"
       },
-      "activityUnknown": "Neznámá aktivita",
-      "activityActivated": "Aktivovaná",
-      "activityDeactivated": "Deaktivovaná"
+      "activity-unknown": "Neznámá aktivita",
+      "activity-activated": "Aktivovaná",
+      "activity-deactivated": "Deaktivovaná"
     },
     "general": {
       "title": "Aplikácia",

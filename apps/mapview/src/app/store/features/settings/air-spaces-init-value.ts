@@ -21,15 +21,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.other]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#808080',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#808080',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#808080',
         opacity: 0.1,
       },
@@ -37,15 +37,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.restricted]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#db2100',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#db2100',
         opacity: 0.5,
       },
-      Deactivated: {
+      deactivated: {
         color: '#fb00ff',
         opacity: 0.1,
       },
@@ -53,15 +53,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.danger]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffa500',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#ffa500',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ffa500',
         opacity: 0.1,
       },
@@ -69,15 +69,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.prohibited]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#db2100',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#db2100',
         opacity: 0.75,
       },
-      Deactivated: {
+      deactivated: {
         color: '#fb00ff',
         opacity: 0.1,
       },
@@ -85,15 +85,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.ctr]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#00ccff',
         opacity: 0.5,
       },
-      Activated: {
+      activated: {
         color: '#00ccff',
         opacity: 0.5,
       },
-      Deactivated: {
+      deactivated: {
         color: '#00ccff',
         opacity: 0.5,
       },
@@ -101,15 +101,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.tmz]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
@@ -117,15 +117,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.rmz]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
@@ -133,15 +133,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.tma]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
@@ -149,15 +149,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.tra]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
@@ -165,15 +165,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.tsa]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
@@ -181,15 +181,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.fir]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#000000',
         opacity: 0.0,
       },
-      Activated: {
+      activated: {
         color: '#000000',
         opacity: 0.0,
       },
-      Deactivated: {
+      deactivated: {
         color: '#000000',
         opacity: 0.0,
       },
@@ -197,15 +197,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.uir]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#000000',
         opacity: 0.0,
       },
-      Activated: {
+      activated: {
         color: '#000000',
         opacity: 0.0,
       },
-      Deactivated: {
+      deactivated: {
         color: '#000000',
         opacity: 0.0,
       },
@@ -213,15 +213,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.adiz]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#db2100',
         opacity: 0.25,
       },
-      Activated: {
+      activated: {
         color: '#db2100',
         opacity: 0.25,
       },
-      Deactivated: {
+      deactivated: {
         color: '#db2100',
         opacity: 0.25,
       },
@@ -229,15 +229,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.atz]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#808080',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#808080',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#d8d8d8',
         opacity: 0.1,
       },
@@ -245,15 +245,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.matz]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#db2100',
         opacity: 0.35,
       },
-      Activated: {
+      activated: {
         color: '#db2100',
         opacity: 0.35,
       },
-      Deactivated: {
+      deactivated: {
         color: '#db2100',
         opacity: 0.35,
       },
@@ -261,15 +261,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.airway]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#000000',
         opacity: 0.0,
       },
-      Activated: {
+      activated: {
         color: '#000000',
         opacity: 0.0,
       },
-      Deactivated: {
+      deactivated: {
         color: '#000000',
         opacity: 0.0,
       },
@@ -277,15 +277,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.mtr]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#db2100',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#db2100',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#db2100',
         opacity: 0.1,
       },
@@ -293,15 +293,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.alertArea]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffa500',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#ffa500',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ffa500',
         opacity: 0.1,
       },
@@ -309,15 +309,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.warningArea]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffa500',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#ffa500',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ffa500',
         opacity: 0.1,
       },
@@ -325,15 +325,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.protectedArea]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffa500',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#db2100',
         opacity: 0.5,
       },
-      Deactivated: {
+      deactivated: {
         color: '#fb00ff',
         opacity: 0.1,
       },
@@ -341,15 +341,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.htz]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ff2500',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#ff2500',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ff2500',
         opacity: 0.1,
       },
@@ -357,15 +357,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.gliderSector]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
@@ -373,15 +373,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.trp]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#000000',
         opacity: 0.0,
       },
-      Activated: {
+      activated: {
         color: '#000000',
         opacity: 0.0,
       },
-      Deactivated: {
+      deactivated: {
         color: '#000000',
         opacity: 0.0,
       },
@@ -389,15 +389,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.tiz]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#925449',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#925449',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#925449',
         opacity: 0.1,
       },
@@ -405,15 +405,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.tia]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#925449',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#925449',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#925449',
         opacity: 0.1,
       },
@@ -421,15 +421,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.mta]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffa500',
         opacity: 0.2,
       },
-      Activated: {
+      activated: {
         color: '#db2100',
         opacity: 0.5,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ffa500',
         opacity: 0.1,
       },
@@ -437,15 +437,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.cta]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#000000',
         opacity: 0.0,
       },
-      Activated: {
+      activated: {
         color: '#000000',
         opacity: 0.0,
       },
-      Deactivated: {
+      deactivated: {
         color: '#000000',
         opacity: 0.0,
       },
@@ -453,15 +453,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.acc]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#000000',
         opacity: 0.0,
       },
-      Activated: {
+      activated: {
         color: '#000000',
         opacity: 0.0,
       },
-      Deactivated: {
+      deactivated: {
         color: '#000000',
         opacity: 0.0,
       },
@@ -469,15 +469,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.sport]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#808080',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#808080',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#808080',
         opacity: 0.1,
       },
@@ -485,15 +485,15 @@ export const airspacesInitValue: {
     [EAirSpaceType.lowOverflightRestriction]: {
       enabled: true,
       minZoom: 5,
-      Unknown: {
+      unknown: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Activated: {
+      activated: {
         color: '#ffdd00',
         opacity: 0.1,
       },
-      Deactivated: {
+      deactivated: {
         color: '#ffdd00',
         opacity: 0.1,
       },

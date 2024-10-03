@@ -10,8 +10,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
-import { AirspacesActivationStateService } from 'apps/mapview/src/app/services/airspaces-activation-state/airspaces-activation-state.service';
 
+import { AirspacesActivationStateService } from '../../../../services/airspaces-activation-state/airspaces-activation-state.service';
 import { EAirSpaceType } from '../../../../services/open-aip/airspaces.interfaces';
 import {
   airspacesActivity,

@@ -47,9 +47,9 @@
       "airSpacesRegions": {
         "slovakia": "Slovakia"
       },
-      "activityUnknown": "Unknown activity",
-      "activityActivated": "Activated",
-      "activityDeactivated": "Deactivated"
+      "activity-unknown": "Unknown activity",
+      "activity-activated": "Activated",
+      "activity-deactivated": "Deactivated"
     },
     "general": {
       "title": "Application",

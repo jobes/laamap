@@ -11,9 +11,9 @@ import {
 } from '../features/settings/navigation.feature';
 
 export const airspacesActivity = [
-  'Unknown',
-  'Activated',
-  'Deactivated',
+  'unknown',
+  'activated',
+  'deactivated',
 ] as const;
 
 export const airspacesSettingsActions = createActionGroup({
