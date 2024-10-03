@@ -29,9 +29,11 @@ export class AirspacesActivationStateService {
   getActivationStateRegionLZBB(): Observable<string[]> {
     const url =
       'https://gis.lps.sk/server/rest/services/Hosted/Reservation_(Public)2/FeatureServer/0/query';
-    const fields = [/*'activity_code', */ 'airspace' /*'status'*/ /*'*'*/, ,];
+    const fields = [/*'activity_code', */ 'airspace' /*'status'*/ /*'*'*/];
     return this.http
-      .get(url, {
+      .get<{
+        features: { attributes: { airspace: string } }[];
+      }>(url, {
         params: {
           f: 'json',
           where: `(lower_fl <> 'FL' OR lower_val <= 195) AND (localtype_txt IS NULL OR localtype_txt <> 'NPZ') AND (status = 'ACTIVE' OR status = 'APPROVED' OR status = 'ALLOCATED' OR status = 'REFERENCE_ALLOCATED' OR status = 'PENDING')`,
@@ -43,8 +45,6 @@ export class AirspacesActivationStateService {
           resultRecordCount: 1000,
         },
       })
-      .pipe(
-        map((res: any) => res.features.map((f: any) => f.attributes.airspace)),
-      );
+      .pipe(map((res) => res.features.map((f) => f.attributes.airspace)));
   }
 }
