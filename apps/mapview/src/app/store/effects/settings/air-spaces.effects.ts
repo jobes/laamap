@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { switchMap, tap } from 'rxjs';
+import { catchError, switchMap, tap, timer } from 'rxjs';
 
+import { AirspacesActivationStateService } from '../../../services/airspaces-activation-state/airspaces-activation-state.service';
 import { InterestPointsService } from '../../../services/interest-points/interest-points.service';
 import { MapService } from '../../../services/map/map.service';
 import { OnMapAirSpacesService } from '../../../services/map/on-map-air-spaces/on-map-air-spaces.service';
@@ -25,7 +26,9 @@ export class AirSpacesEffects {
         switchMap(() =>
           this.store.select(airSpacesFeature['selectSettings.airSpacesState']),
         ),
-        tap((settings) => this.onMapAirSpacesService.reloadSettings(settings)),
+        tap((settings) =>
+          this.onMapAirSpacesService.reloadSettings(settings.airspacesDef),
+        ),
       );
     },
     { dispatch: false },
@@ -76,6 +79,29 @@ export class AirSpacesEffects {
     { dispatch: false },
   );
 
+  loadAirSpaceState = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(mapActions.loaded),
+        switchMap(() => timer(1000, 60 * 1000)),
+        switchMap(() =>
+          this.store.select(airSpacesFeature.selectActivationAirspaceList),
+        ),
+        switchMap((activationAirspaceList) =>
+          this.airspacesActivationStateService
+            .getActivationState(activationAirspaceList)
+            .pipe(
+              switchMap((activeAirSpaces) =>
+                this.onMapAirSpacesService.setActiveState(activeAirSpaces),
+              ),
+              catchError(() => this.onMapAirSpacesService.setErrorState()),
+            ),
+        ),
+      );
+    },
+    { dispatch: false },
+  );
+
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions,
@@ -84,5 +110,6 @@ export class AirSpacesEffects {
     private readonly onMapAirSpacesService: OnMapAirSpacesService,
     private readonly onMapAirportsService: OnMapAirportsService,
     private readonly interestPointsService: InterestPointsService,
+    private readonly airspacesActivationStateService: AirspacesActivationStateService,
   ) {}
 }

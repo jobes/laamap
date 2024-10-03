@@ -42,7 +42,14 @@
       "enable": "Povoliť",
       "color": "Farba",
       "opacity": "Priehľadnosť",
-      "zoomRange": "Rozsah viditeľnosti podľa zoom"
+      "zoomRange": "Rozsah viditeľnosti podľa zoom",
+      "activeAirspaceChecking": "Kontrola aktívnych priestorov",
+      "airSpacesRegions": {
+        "slovakia": "Slovensko"
+      },
+      "activityUnknown": "Neznámá aktivita",
+      "activityActivated": "Aktivovaná",
+      "activityDeactivated": "Deaktivovaná"
     },
     "general": {
       "title": "Aplikácia",

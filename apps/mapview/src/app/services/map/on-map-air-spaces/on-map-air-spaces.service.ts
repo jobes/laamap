@@ -62,6 +62,51 @@ export class OnMapAirSpacesService {
     source.setData(airSpaces);
   }
 
+  async setActiveState(activationAirspaceList: string[]): Promise<void> {
+    const source = this.mapService.instance.getSource(
+      'airspacesSource',
+    ) as GeoJSONSource;
+    const data = (await source.getData()) as GeoJSON.FeatureCollection<
+      GeoJSON.Geometry,
+      IAirspace
+    >;
+
+    source.updateData({
+      update: data.features.map((feature) => ({
+        id: feature.id!,
+        addOrUpdateProperties: [
+          {
+            key: 'activityState',
+            value: activationAirspaceList.find(
+              (airspaceName) =>
+                feature.properties.name === airspaceName ||
+                feature.properties.name.startsWith(airspaceName + ' '),
+            )
+              ? 'Activated'
+              : 'Deactivated',
+          },
+        ],
+      })),
+    });
+  }
+
+  async setErrorState(): Promise<void> {
+    const source = this.mapService.instance.getSource(
+      'airspacesSource',
+    ) as GeoJSONSource;
+    const data = (await source.getData()) as GeoJSON.FeatureCollection<
+      GeoJSON.Geometry,
+      IAirspace
+    >;
+
+    source.updateData({
+      update: data.features.map((feature) => ({
+        id: feature.id!,
+        removeProperties: ['activityState'],
+      })),
+    });
+  }
+
   reloadSettings(settings: IAirSpaceSettingsObject): void {
     this.mapService.instance.setFilter(
       'airspacesLayerBorder',
@@ -139,8 +184,20 @@ export class OnMapAirSpacesService {
         .reduce(
           (acc, key) => [
             ...acc,
-            ['==', ['get', 'type'], key],
-            value[key]?.color ?? 'grey',
+            [
+              'all',
+              ['==', ['get', 'type'], key],
+              ['==', ['get', 'activityState'], 'Activated'],
+            ],
+            value[key]['Activated']?.color ?? 'grey',
+            [
+              'all',
+              ['==', ['get', 'type'], key],
+              ['==', ['get', 'activityState'], 'Deactivated'],
+            ],
+            value[key]['Deactivated']?.color ?? 'grey',
+            ['all', ['==', ['get', 'type'], key]],
+            value[key]['Unknown']?.color ?? 'grey',
           ],
           ['case'] as unknown[],
         ),
@@ -157,8 +214,20 @@ export class OnMapAirSpacesService {
         .reduce(
           (acc, key) => [
             ...acc,
-            ['==', ['get', 'type'], key],
-            value[key]?.opacity ?? 0.1,
+            [
+              'all',
+              ['==', ['get', 'type'], key],
+              ['==', ['get', 'activityState'], 'Activated'],
+            ],
+            value[key]['Activated']?.opacity ?? 0.1,
+            [
+              'all',
+              ['==', ['get', 'type'], key],
+              ['==', ['get', 'activityState'], 'Deactivated'],
+            ],
+            value[key]['Deactivated']?.opacity ?? 0.1,
+            ['all', ['==', ['get', 'type'], key]],
+            value[key]['Unknown']?.opacity ?? 0.1,
           ],
           ['case'] as unknown[],
         ),

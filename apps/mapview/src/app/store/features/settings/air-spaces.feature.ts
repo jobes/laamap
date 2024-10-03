@@ -12,44 +12,84 @@ export const airSpacesFeature = createFeature({
       airspacesSettingsActions.enabledChanged,
       (state, { airspaceType, enabled }): typeof airspacesInitValue => ({
         ...state,
-        [airspaceType]: { ...state[airspaceType], enabled },
-      })
+        airspacesDef: {
+          ...state.airspacesDef,
+          [airspaceType]: { ...state.airspacesDef[airspaceType], enabled },
+        },
+      }),
     ),
     on(
       airspacesSettingsActions.colorChanged,
-      (state, { airspaceType, color }): typeof airspacesInitValue => ({
+      (
+        state,
+        { airspaceType, color, airspacesActivity },
+      ): typeof airspacesInitValue => ({
         ...state,
-        [airspaceType]: { ...state[airspaceType], color },
-      })
+        airspacesDef: {
+          ...state.airspacesDef,
+          [airspaceType]: {
+            ...state.airspacesDef[airspaceType],
+            [airspacesActivity]: {
+              ...state.airspacesDef[airspaceType][airspacesActivity],
+              color,
+            },
+          },
+        },
+      }),
     ),
     on(
       airspacesSettingsActions.opacityChanged,
-      (state, { airspaceType, opacity }): typeof airspacesInitValue => ({
+      (
+        state,
+        { airspaceType, opacity, airspacesActivity },
+      ): typeof airspacesInitValue => ({
         ...state,
-        [airspaceType]: { ...state[airspaceType], opacity },
-      })
+        airspacesDef: {
+          ...state.airspacesDef,
+          [airspaceType]: {
+            ...state.airspacesDef[airspaceType],
+            [airspacesActivity]: {
+              ...state.airspacesDef[airspaceType][airspacesActivity],
+              opacity,
+            },
+          },
+        },
+      }),
     ),
     on(
       airspacesSettingsActions.minZoomChanged,
       (state, { airspaceType, minZoom }): typeof airspacesInitValue => ({
         ...state,
-        [airspaceType]: { ...state[airspaceType], minZoom },
-      })
-    )
+        airspacesDef: {
+          ...state.airspacesDef,
+          [airspaceType]: {
+            ...state.airspacesDef[airspaceType],
+            minZoom,
+          },
+        },
+      }),
+    ),
+    on(
+      airspacesSettingsActions.activationAirspaceListChanged,
+      (state, { activationAirspaceList }): typeof airspacesInitValue => ({
+        ...state,
+        activationAirspaceList,
+      }),
+    ),
   ),
   extraSelectors: (selectors) => ({
     selectAirspacesSettingsArray: createSelector(
       selectors['selectSettings.airSpacesState'],
       (state) => {
-        const x = Object.entries(state).reduce(
+        const x = Object.entries(state.airspacesDef).reduce(
           (acc, item) => [
             ...acc,
             { ...item[1], id: Number(item[0]) as EAirSpaceType },
           ],
-          [] as (IAirSpaceSettings & { id: EAirSpaceType })[]
+          [] as (IAirSpaceSettings & { id: EAirSpaceType })[],
         );
         return x;
-      }
+      },
     ),
   }),
 });

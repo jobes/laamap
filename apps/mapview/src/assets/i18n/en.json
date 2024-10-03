@@ -42,7 +42,14 @@
       "enable": "Enable",
       "color": "Color",
       "opacity": "Opacity",
-      "zoomRange": "Zoom range"
+      "zoomRange": "Zoom range",
+      "activeAirspaceChecking": "Check of active airspaces",
+      "airSpacesRegions": {
+        "slovakia": "Slovakia"
+      },
+      "activityUnknown": "Unknown activity",
+      "activityActivated": "Activated",
+      "activityDeactivated": "Deactivated"
     },
     "general": {
       "title": "Application",
