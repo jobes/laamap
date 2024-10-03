@@ -10,6 +10,12 @@ import {
   AllowedNavigationNextPointWidgetRowType,
 } from '../features/settings/navigation.feature';
 
+export const airspacesActivity = [
+  'Unknown',
+  'Activated',
+  'Deactivated',
+] as const;
+
 export const airspacesSettingsActions = createActionGroup({
   source: 'Airspaces settings',
   events: {
@@ -17,14 +23,22 @@ export const airspacesSettingsActions = createActionGroup({
       airspaceType: EAirSpaceType;
       enabled: boolean;
     }>(),
-    'Color changed': props<{ airspaceType: EAirSpaceType; color: string }>(),
+    'Color changed': props<{
+      airspaceType: EAirSpaceType;
+      color: string;
+      airspacesActivity: (typeof airspacesActivity)[number];
+    }>(),
     'Opacity changed': props<{
       airspaceType: EAirSpaceType;
       opacity: number;
+      airspacesActivity: (typeof airspacesActivity)[number];
     }>(),
     'Min zoom changed': props<{
       airspaceType: EAirSpaceType;
       minZoom: number;
+    }>(),
+    'Activation airspace list changed': props<{
+      activationAirspaceList: string[];
     }>(),
   },
 });
