@@ -66,7 +66,7 @@ describe(CreateInterestPointDialogComponent.name, () => {
       ],
     });
 
-    cy.get('#mat-input-0').click().type('test');
+    cy.get('#mat-input-0').click().wait(500).type('test');
     cy.get('.mat-mdc-select-placeholder').click();
     cy.get('#mat-option-2').click();
     cy.get('p').click().type('nice text');

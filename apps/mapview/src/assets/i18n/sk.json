@@ -76,6 +76,7 @@
       "description": "Nastavenia navigácie a pohybu",
       "directionLine": "Ukazateľ smeru letu",
       "minActivationSpeed": "Minimálna rýchlosť aktivácie",
+      "averageSpeed": "Priemerná rýchlost letu",
       "directionLineSegmentSeconds": "Veľkosť segmentu v sekundách",
       "directionLineSegmentCount": "Počet segmentov",
       "gpsTrackingInitialZoom": "Priblíženie mapy",

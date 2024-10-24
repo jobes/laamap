@@ -51,6 +51,10 @@ export class NavigationSettingsComponent {
     navigationSettingsFeature.selectGpsTrackingInitPitch,
   );
 
+  averageSpeed$ = this.store.select(
+    navigationSettingsFeature.selectAverageSpeed,
+  );
+
   widgetGoal$ = this.store.select(navigationSettingsFeature.selectWidgetGoal);
   widgetNextPoint$ = this.store.select(
     navigationSettingsFeature.selectWidgetNextPoint,
@@ -62,6 +66,14 @@ export class NavigationSettingsComponent {
     this.store.dispatch(
       navigationSettingsActions.minimumActivationSpeedChanged({
         minActivationSpeedKpH,
+      }),
+    );
+  }
+
+  setAverageSpeed(speed: number): void {
+    this.store.dispatch(
+      navigationSettingsActions.averageSpeedChanged({
+        speed,
       }),
     );
   }

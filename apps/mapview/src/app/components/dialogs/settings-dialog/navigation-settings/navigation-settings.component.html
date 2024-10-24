@@ -19,6 +19,18 @@
       />
     </mat-form-field>
     <mat-form-field>
+      <mat-label>{{ t('averageSpeed') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="averageSpeed$ | async"
+        min="1"
+        max="1000"
+        step="1"
+        (ngModelChange)="setAverageSpeed($event)"
+      />
+    </mat-form-field>
+    <mat-form-field>
       <mat-label>{{ t('gpsTrackingInitialZoom') }}</mat-label>
       <input
         matInput

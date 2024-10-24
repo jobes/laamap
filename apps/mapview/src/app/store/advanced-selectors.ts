@@ -163,7 +163,8 @@ export const selectRouteNavigationStats = createSelector(
   mapFeature.selectMinSpeedHit,
   mapFeature.selectGeoLocation,
   navigationFeature.selectRoute,
-  (minSpeedHit, geoLocation, route) => {
+  navigationSettingsFeature.selectAverageSpeed,
+  (minSpeedHit, geoLocation, route, averageSpeed) => {
     if (!geoLocation) return null;
     const pointPairs = [
       {
@@ -190,7 +191,9 @@ export const selectRouteNavigationStats = createSelector(
       ? distanceList.map(
           (distance) => (1000 * distance) / (geoLocation?.coords.speed ?? 1),
         )
-      : null;
+      : distanceList.map(
+          (distance) => (1000 * distance) / (averageSpeed / 3.6),
+        );
     return { distanceList, durationList };
   },
 );

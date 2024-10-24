@@ -76,6 +76,7 @@
       "description": "Settings of navigation and movement",
       "directionLine": "Line of flight direction",
       "minActivationSpeed": "Minimal speed of activation",
+      "averageSpeed": "Average flight speed",
       "directionLineSegmentSeconds": "Segment size in seconds",
       "directionLineSegmentCount": "Number of segments",
       "gpsTrackingInitialZoom": "Map zoom",
