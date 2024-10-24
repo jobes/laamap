@@ -151,6 +151,7 @@ export const navigationSettingsActions = createActionGroup({
     'Widget Next Point allowed rows changed': props<{
       list: AllowedNavigationNextPointWidgetRowType;
     }>(),
+    'Average speed changed': props<{ speed: number }>(),
   },
 });
 
