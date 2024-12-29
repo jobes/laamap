@@ -1,0 +1,12 @@
+<ng-template transloco let-t translocoRead="widgets.navigation">
+  <div
+    class="container"
+    cdkDrag
+    (cdkDragEnded)="dragEnded($event)"
+    cdkDragBoundary="body"
+    [cdkDragFreeDragPosition]="safePosition()"
+    [cdkDragStartDelay]="1000"
+  >
+    <mat-icon [class.active]="!disabled()">sports_esports</mat-icon>
+  </div>
+</ng-template>

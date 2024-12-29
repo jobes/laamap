@@ -148,7 +148,8 @@
       "xMoveRight": "Posun do prava",
       "xMoveTop": "Posun hore",
       "zoomOut": "Vzdialiť",
-      "openGlobalSearch": "Otvor globálne hladanie"
+      "openGlobalSearch": "Otvor globálne hladanie",
+      "disabled": "Blokovanie/Odblokovanie"
     },
     "contactMe": {
       "title": "Kontakt",

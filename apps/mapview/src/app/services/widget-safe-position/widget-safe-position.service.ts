@@ -1,4 +1,5 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, Signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   BehaviorSubject,
   Observable,
@@ -46,6 +47,15 @@ export class WidgetSafePositionService {
       ),
       map((val) => this.getSafePosition(val[2][0], val[0], val[1])),
     );
+  }
+
+  safePosition(
+    position$: Observable<{ x: number; y: number }>,
+    widget: Signal<readonly ElementRef<HTMLElement>[]>,
+  ): Signal<{ x: number; y: number }> {
+    return toSignal(this.safePosition$(position$, toObservable(widget)), {
+      initialValue: { x: 0, y: 0 },
+    });
   }
 
   private getSafePosition(

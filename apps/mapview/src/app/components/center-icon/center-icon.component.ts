@@ -1,4 +1,4 @@
-import { Component, HostBinding, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { GamepadHandlerService } from '../../services/gamepad-handler/gamepad-handler.service';
@@ -9,11 +9,10 @@ import { GamepadHandlerService } from '../../services/gamepad-handler/gamepad-ha
   styleUrls: ['./center-icon.component.scss'],
   standalone: true,
   imports: [MatIconModule],
+  host: {
+    '[style.visibility]': 'gamePadService.gamePadChangingViewVisibility()',
+  },
 })
 export class CenterIconComponent {
   readonly gamePadService = inject(GamepadHandlerService);
-
-  @HostBinding('style.visibility') get visibility() {
-    return this.gamePadService.gamePadChangingView ? 'visible' : 'hidden';
-  }
 }

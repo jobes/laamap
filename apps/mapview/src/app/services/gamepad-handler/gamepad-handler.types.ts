@@ -30,4 +30,5 @@ export type GamePadShortCutName =
   | 'closeDialog'
   | 'dialogDo'
   | 'nextField'
+  | 'disabled'
   | 'previousField';

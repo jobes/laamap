@@ -5,6 +5,7 @@ import { environment } from '../environments/environment';
 import { CenterIconComponent } from './components/center-icon/center-icon.component';
 import { GlobalSearchComponent } from './components/global-search/global-search.component';
 import { AltimeterWidgetComponent } from './components/widgets/altimeter-widget/altimeter-widget.component';
+import { GamepadWidgetComponent } from './components/widgets/gamepad-widget/gamepad-widget.component';
 import { NavigationGoalWidgetComponent } from './components/widgets/navigation-goal-widget/navigation-goal-widget.component';
 import { NavigationNextPointWidgetComponent } from './components/widgets/navigation-next-point-widget/navigation-next-point-widget.component';
 import { RadarWidgetComponent } from './components/widgets/radar-widget/radar-widget.component';
@@ -29,6 +30,7 @@ import { generalFeature } from './store/features/settings/general.feature';
     NavigationNextPointWidgetComponent,
     CenterIconComponent,
     GlobalSearchComponent,
+    GamepadWidgetComponent,
   ],
 })
 export class AppComponent implements AfterViewInit {

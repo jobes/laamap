@@ -5,10 +5,14 @@ import {
   IGamePadActions,
 } from '../../../services/gamepad-handler/gamepad-handler.types';
 import { gamePadSettingsActions } from '../../actions/settings.actions';
+import { gamepadWidgetActions } from '../../actions/widgets.actions';
 
 export const gamepadInitialState: {
   shortCuts: {
     [key in GamePadShortCutName]: IGamePadActions;
+  };
+  widget: {
+    position: { x: number; y: number };
   };
 } = {
   shortCuts: {
@@ -110,6 +114,16 @@ export const gamepadInitialState: {
       index: 0,
       button: 12,
     },
+    disabled: {
+      index: 0,
+      button: 3,
+    },
+  },
+  widget: {
+    position: {
+      x: 400,
+      y: 200,
+    },
   },
 };
 
@@ -122,6 +136,13 @@ export const gamepadFeature = createFeature({
       (state, { value }): typeof gamepadInitialState => ({
         ...state,
         shortCuts: value,
+      }),
+    ),
+    on(
+      gamepadWidgetActions.positionMoved,
+      (state, { position }): typeof gamepadInitialState => ({
+        ...state,
+        widget: { ...state.widget, position },
       }),
     ),
   ),
