@@ -148,7 +148,8 @@
       "xMoveRight": "Move right",
       "xMoveTop": "Move up",
       "zoomOut": "Zoom out",
-      "openGlobalSearch": "Open global search"
+      "openGlobalSearch": "Open global search",
+      "disabled": "Block/Unblock"
     },
     "contactMe": {
       "title": "Contact",

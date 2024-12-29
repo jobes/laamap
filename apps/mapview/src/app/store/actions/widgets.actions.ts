@@ -65,3 +65,12 @@ export const varioMeterWidgetActions = createActionGroup({
     }>(),
   },
 });
+
+export const gamepadWidgetActions = createActionGroup({
+  source: 'Gamepad meter widget',
+  events: {
+    'Position moved': props<{
+      position: { x: number; y: number };
+    }>(),
+  },
+});

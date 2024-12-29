@@ -110,6 +110,7 @@ describe('GamepadHandlerService', () => {
 
   it('close dialog using gamepad', (done) => {
     service.init(null as unknown as Map);
+    service.disabled.set(false);
     service['gamePadSubj$'].next([
       {
         axes: [0, 0.7, 0, 0],

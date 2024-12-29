@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { concatLatestFrom } from '@ngrx/operators';
@@ -40,8 +40,13 @@ export class GamepadHandlerService {
   private readonly globalMenuHandler = inject(GamepadGlobalMenuHandler);
   private readonly gamePadSubj$ = new Subject<Gamepad[]>();
 
-  settingMode = false;
-  gamePadChangingView = false;
+  disabled = signal(true);
+  settingMode = signal(false);
+  gamePadChangingView = signal(false);
+  gamePadChangingViewVisibility = computed(() =>
+    this.gamePadChangingView() ? 'visible' : 'hidden',
+  );
+  gamePadVisibility = signal('hidden');
   gamePadFrame$ = this.gamePadSubj$.asObservable();
   gamePadChange$ = this.gamePadFrame$.pipe(
     distinctUntilChanged(
@@ -89,6 +94,7 @@ export class GamepadHandlerService {
     this.map = map;
     window.addEventListener('gamepadconnected', () => {
       this.catchGamepadEvents();
+      this.gamePadVisibility.set('visible');
     });
     this.initAnimationActions();
   }
@@ -97,14 +103,16 @@ export class GamepadHandlerService {
     this.gamePadDoAnimationAction$
       .pipe(
         pairwise(),
-        filter(([, active]) => !!active && !this.settingMode),
+        filter(([, active]) => !!active && !this.settingMode()),
         concatLatestFrom(() =>
           this.store.select(gamepadFeature.selectShortCuts),
         ),
       )
       .subscribe({
         next: ([[old, active], definition]) => {
-          if (this.globalMenuHandler.searchComponent?.isOpen()) {
+          if (this.disabled()) {
+            this.tryUnblock(old, active, definition);
+          } else if (this.globalMenuHandler.searchComponent?.isOpen()) {
             this.globalMenuHandler.reactOnGlobalSearchEvents(
               old,
               active,
@@ -126,6 +134,16 @@ export class GamepadHandlerService {
     const gamepads = navigator.getGamepads().filter((gamepad) => !!gamepad);
     this.gamePadSubj$.next(gamepads);
     requestAnimationFrame(() => this.catchGamepadEvents());
+  }
+
+  private tryUnblock(
+    old: ActiveGamePadButtons | null,
+    active: ActiveGamePadButtons | null,
+    definition: { [key in GamePadShortCutName]: IGamePadActions },
+  ): void {
+    actionFirstTime(definition.disabled, active, old, () => {
+      this.disabled.set(!this.disabled());
+    });
   }
 
   private reactOnMapEvents(
@@ -151,6 +169,14 @@ export class GamepadHandlerService {
       return;
     }
 
+    if (
+      actionFirstTime(definition.disabled, active, old, () => {
+        this.disabled.set(!this.disabled());
+      })
+    ) {
+      return;
+    }
+
     if (this.processMapClick(old, active, definition)) {
       return;
     }
@@ -171,7 +197,7 @@ export class GamepadHandlerService {
         if (control._watchState !== 'ACTIVE_LOCK') {
           // only when not following airplane
           control.trigger();
-          this.gamePadChangingView = false;
+          this.gamePadChangingView.set(false);
         }
       })
     ) {
@@ -210,7 +236,7 @@ export class GamepadHandlerService {
     active: ActiveGamePadButtons | null,
     definition: { [key in GamePadShortCutName]: IGamePadActions },
   ): void {
-    this.gamePadChangingView = true;
+    this.gamePadChangingView.set(true);
     this.map.easeTo({
       duration: 0,
       easeId: 'gamepadHandler',

@@ -74,7 +74,7 @@ export class GamepadSettingsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.gamepadService.gamePadActive$
       .pipe(
-        filter((val) => !!val && this.gamepadService.settingMode),
+        filter((val) => !!val && this.gamepadService.settingMode()),
         untilDestroyed(this),
       )
       .subscribe({
@@ -83,11 +83,11 @@ export class GamepadSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.gamepadService.settingMode = false;
+    this.gamepadService.settingMode.set(false);
   }
 
   expandedChange(value: boolean) {
-    this.gamepadService.settingMode = value;
+    this.gamepadService.settingMode.set(value);
   }
 
   private processGamePadInput(input: ActiveGamePadButtons | null): void {

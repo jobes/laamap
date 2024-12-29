@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { provideMockStore } from '@ngrx/store/testing';
 import { of, repeat } from 'rxjs';
 
@@ -20,7 +21,7 @@ describe(GamepadSettingsComponent.name, () => {
         {
           provide: GamepadHandlerService,
           useValue: {
-            settingMode: false,
+            settingMode: signal(false),
             gamePadActive$: of([
               {
                 index: 0,
@@ -41,11 +42,11 @@ describe(GamepadSettingsComponent.name, () => {
       '#mat-expansion-panel-header-0 > .mat-content > .mat-expansion-panel-header-title',
     ).click();
     cy.get(
-      '#mat-expansion-panel-header-6 > .mat-content > .mat-expansion-panel-header-title',
+      '#mat-expansion-panel-header-7 > .mat-content > .mat-expansion-panel-header-title',
     ).click();
-    cy.get('#mat-input-26').should('have.value', 0); // init value
-    cy.get('#mat-input-26').click();
-    cy.get('#mat-input-26').should('have.value', 10); // value from gamepad
+    cy.get('#mat-input-31').should('have.value', 0); // init value
+    cy.get('#mat-input-31').click();
+    cy.get('#mat-input-31').should('have.value', 10); // value from gamepad
 
     const dispatchValue = Object.entries(gamepadInitialState.shortCuts).reduce(
       (res, val) => ({
