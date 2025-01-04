@@ -64,6 +64,9 @@ class CpuTemperatureService(Service):
 
 class InstrumentService(Service):
     data = {'temperature':0, 'pressure':0}
+    refreshRate = 100 # every 100ms check for refresh
+    forceNotifyFrames = 1000 / refreshRate * 5 # every 5 seconds force a notify
+    currentFrame = 0
     
     def __init__(self, index):
         self.sensor = BMP3XX(ULTRA_PRECISION, cs=6, bus=0, dev=0, speed=8000000)
@@ -72,15 +75,21 @@ class InstrumentService(Service):
         self.temperatureCharacteristic = ServiceReadNotifyOnlyCharacteristic(self,'3e5047b4-131a-4b31-8bc3-5e338fed6c08','Temperature in Celsius', 'temperature')
         self.add_characteristic(self.pressureCharacteristic)
         self.add_characteristic(self.temperatureCharacteristic)
-        GObject.timeout_add(100, self.refreshPressureValues)
+        GObject.timeout_add(self.refreshRate, self.refreshPressureValues)
     
     def refreshPressureValues(self):
         currentPressure, currentTemperature = self.sensor.values
+        forceNotify = False
+        if self.refreshRate == 0:
+            forceNotify = True
+            self.currentFrame = self.forceNotifyFrames
+        else:
+            self.currentFrame -= 1
         
-        if self.data['pressure'] != currentPressure:
+        if self.data['pressure'] != currentPressure or forceNotify:
             self.pressureCharacteristic.notify(currentPressure)
             
-        if self.data['temperature'] != currentTemperature:
+        if self.data['temperature'] != currentTemperature or forceNotify:
             self.temperatureCharacteristic.notify(currentTemperature)
             
         self.data['pressure'] = currentPressure

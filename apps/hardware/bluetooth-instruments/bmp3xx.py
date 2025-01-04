@@ -327,7 +327,7 @@ class BMP3XX(object):
         pd4 = pd3 + p11 * adc_p ** 3.0
         pressure = po1 + po2 + pd4
 
-        return round(pressure, 2), round(temperature, 2)
+        return round(pressure, -1), round(temperature, 0)
 
     def _get_reg_temp_press_data(self):
         data = self._read_reg(BMP3XX_P_DATA_PA, 6)
