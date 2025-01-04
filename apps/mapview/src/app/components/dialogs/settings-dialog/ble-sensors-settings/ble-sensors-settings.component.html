@@ -1,0 +1,23 @@
+<ng-template transloco let-t translocoRead="settingDialog.ble">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>bluetooth</mat-icon>{{ t('title') }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ t('description') }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    @if (deviceId()) {
+      <div class="line">
+        {{ deviceName() }}
+        <button mat-icon-button (click)="deleteDevice()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    } @else {
+      {{ t('tip') }}
+      <button mat-button (click)="findDevice()">{{ t('findDevice') }}</button>
+    }
+  </mat-expansion-panel>
+</ng-template>

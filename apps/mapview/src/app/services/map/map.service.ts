@@ -69,7 +69,8 @@ export class MapService {
       });
     });
 
-    this.instance.on('error', () => {
+    this.instance.on('error', (error) => {
+      console.warn(error);
       this.snackBar.open(
         this.translocoService.translate('mapView.mapError'),
         undefined,

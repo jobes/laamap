@@ -162,6 +162,12 @@
       "enable": "Povoliť",
       "gndHeightCalculateUsingTerrain": "Výpočet výšky nad zemou pomocou terénu",
       "exaggeration": "Zväčšenie/zvýraznenie výšky"
+    },
+    "ble": {
+      "title": "Bluetooth",
+      "description": "Externé senzory",
+      "findDevice": "Nájst zariadenie",
+      "tip": "Najprv spárujte vaše zariadenie so zariadením lietadla v operačnom systéme (android) inak komunikácia nemusí fungovať spolahlivo."
     }
   },
   "navigationDialog": {

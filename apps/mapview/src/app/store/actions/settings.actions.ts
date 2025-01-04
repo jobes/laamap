@@ -192,3 +192,11 @@ export const terrainSettingsActions = createActionGroup({
     'Exaggeration changed': props<{ exaggeration: number }>(),
   },
 });
+
+export const bleSensorsActions = createActionGroup({
+  source: 'Ble sensors Settings',
+  events: {
+    'Device changed': props<{ deviceId: string; deviceName: string }>(),
+    'Device deleted': emptyProps(),
+  },
+});

@@ -11,6 +11,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
+import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
 import { provideTransloco } from '@ngneat/transloco';
 import { provideTranslocoLocale } from '@ngneat/transloco-locale';
 import { provideTranslocoMessageformat } from '@ngneat/transloco-messageformat';
@@ -35,6 +36,7 @@ import { TerrainEffects } from './store/effects/settings/terrain.effects';
 import { mapFeature } from './store/features/map.feature';
 import { navigationFeature } from './store/features/navigation.feature';
 import { airSpacesFeature } from './store/features/settings/air-spaces.feature';
+import { bleSensorsSettingsFeature } from './store/features/settings/ble-sensors-settings.feature';
 import { gamepadFeature } from './store/features/settings/gamepad.feature';
 import { generalFeature } from './store/features/settings/general.feature';
 import { instrumentsFeature } from './store/features/settings/instruments.feature';
@@ -63,6 +65,7 @@ export const appConfig: ApplicationConfig = {
           [generalFeature.name]: generalFeature.reducer,
           [gamepadFeature.name]: gamepadFeature.reducer,
           [terrainFeature.name]: terrainFeature.reducer,
+          [bleSensorsSettingsFeature.name]: bleSensorsSettingsFeature.reducer,
         },
         {
           runtimeChecks: {
@@ -91,6 +94,9 @@ export const appConfig: ApplicationConfig = {
         connectInZone: true,
       }),
       LightgalleryModule,
+      WebBluetoothModule.forRoot({
+        enableTracing: false,
+      }),
     ),
     {
       provide: APP_BASE_HREF,

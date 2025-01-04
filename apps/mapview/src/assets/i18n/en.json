@@ -162,6 +162,12 @@
       "enable": "Enable",
       "gndHeightCalculateUsingTerrain": "Gnd computation using terrain",
       "exaggeration": "Terrain exaggeration"
+    },
+    "ble": {
+      "title": "Bluetooth",
+      "description": "External sensors",
+      "findDevice": "Find device",
+      "tip": "Pair your device with device of the plane in the operating system (android) otherwise communication will not work properly."
     }
   },
   "navigationDialog": {
