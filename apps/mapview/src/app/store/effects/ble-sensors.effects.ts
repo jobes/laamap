@@ -50,6 +50,11 @@ export class BleSensorsEffects {
           });
         }),
         filter((device) => !!device),
+        tap((device) => {
+          device.addEventListener('gattserverdisconnected', () => {
+            this.store.dispatch(bleSensorsEffectsActions.deviceDisconnected());
+          });
+        }),
         switchMap((device) => this.ble.connectDevice$(device)),
         filter((gatt) => !!gatt),
         switchMap((gatt) =>
@@ -74,6 +79,7 @@ export class BleSensorsEffects {
         ),
         switchMap(({ pressure, temperature }) => {
           const observables = [];
+          console.log('SUBSCRIBING!!!', pressure);
           if (pressure) {
             observables.push(
               this.ble.observeValue$(pressure).pipe(

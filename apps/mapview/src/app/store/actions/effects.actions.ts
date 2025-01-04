@@ -31,5 +31,6 @@ export const bleSensorsEffectsActions = createActionGroup({
     'Pressure changed': props<{ value: number }>(),
     'Temperature changed': props<{ value: number }>(),
     'Connect device': props<{ deviceId: string }>(),
+    'Device disconnected': emptyProps(),
   },
 });
