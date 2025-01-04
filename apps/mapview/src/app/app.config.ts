@@ -26,6 +26,7 @@ import {
   activeLang,
   languages,
 } from './services/transloco-loader.service';
+import { BleSensorsEffects } from './store/effects/ble-sensors.effects';
 import { MapEffects } from './store/effects/map.effects';
 import { NavigationEffects } from './store/effects/navigation.effects';
 import { AirSpacesEffects } from './store/effects/settings/air-spaces.effects';
@@ -33,6 +34,7 @@ import { GeneralEffects } from './store/effects/settings/general.effects';
 import { NotamsSettingsEffects } from './store/effects/settings/notams.effects';
 import { RadarSettingsEffects } from './store/effects/settings/radar.effects';
 import { TerrainEffects } from './store/effects/settings/terrain.effects';
+import { bleSensorsFeature } from './store/features/ble-sensors.feature';
 import { mapFeature } from './store/features/map.feature';
 import { navigationFeature } from './store/features/navigation.feature';
 import { airSpacesFeature } from './store/features/settings/air-spaces.feature';
@@ -66,6 +68,7 @@ export const appConfig: ApplicationConfig = {
           [gamepadFeature.name]: gamepadFeature.reducer,
           [terrainFeature.name]: terrainFeature.reducer,
           [bleSensorsSettingsFeature.name]: bleSensorsSettingsFeature.reducer,
+          [bleSensorsFeature.name]: bleSensorsFeature.reducer,
         },
         {
           runtimeChecks: {
@@ -87,6 +90,7 @@ export const appConfig: ApplicationConfig = {
         AirSpacesEffects,
         GeneralEffects,
         TerrainEffects,
+        BleSensorsEffects,
       ]),
       StoreDevtoolsModule.instrument({
         maxAge: 500,
