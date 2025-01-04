@@ -24,3 +24,12 @@ export const navigationEffectsActions = createActionGroup({
     }>(),
   },
 });
+
+export const bleSensorsEffectsActions = createActionGroup({
+  source: 'Ble sensors effects',
+  events: {
+    'Pressure changed': props<{ value: number }>(),
+    'Temperature changed': props<{ value: number }>(),
+    'Connect device': props<{ deviceId: string }>(),
+  },
+});

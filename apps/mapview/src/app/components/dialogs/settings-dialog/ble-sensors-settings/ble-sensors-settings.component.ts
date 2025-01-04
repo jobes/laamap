@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { bleSensorsActions } from 'apps/mapview/src/app/store/actions/settings.actions';
+import { bleSensorsSettingsActions } from 'apps/mapview/src/app/store/actions/settings.actions';
 import { bleSensorsSettingsFeature } from 'apps/mapview/src/app/store/features/settings/ble-sensors-settings.feature';
 import { filter, take } from 'rxjs/operators';
 
@@ -43,7 +43,7 @@ export class BleSettingsComponent {
       )
       .subscribe((value) => {
         this.store.dispatch(
-          bleSensorsActions.deviceChanged({
+          bleSensorsSettingsActions.deviceChanged({
             deviceId: value.device.id,
             deviceName: value.device.name ?? value.device.id,
           }),
@@ -52,6 +52,6 @@ export class BleSettingsComponent {
   }
 
   deleteDevice() {
-    this.store.dispatch(bleSensorsActions.deviceDeleted());
+    this.store.dispatch(bleSensorsSettingsActions.deviceDeleted());
   }
 }

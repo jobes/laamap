@@ -193,7 +193,7 @@ export const terrainSettingsActions = createActionGroup({
   },
 });
 
-export const bleSensorsActions = createActionGroup({
+export const bleSensorsSettingsActions = createActionGroup({
   source: 'Ble sensors Settings',
   events: {
     'Device changed': props<{ deviceId: string; deviceName: string }>(),
