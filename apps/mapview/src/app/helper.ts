@@ -15,3 +15,5 @@ export function isPwa() {
 
 export const flyAnimationDuration = 3000;
 export const compassDuration = 1000;
+export const bluetoothServiceIdFlyInstruments =
+  'e0833334-0e1d-4b79-ae7f-a4e5792819e9';

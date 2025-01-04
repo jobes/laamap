@@ -65,13 +65,13 @@ export class MapFontSizeService {
   }
 
   private setWaterFontSizeRatio(ratio: number, map: Map) {
-    map.setLayoutProperty('Ocean labels', 'text-field', [
-      'format',
-      ['get', 'name'],
-      {
-        'font-scale': ratio,
-      },
-    ]);
+    // map.setLayoutProperty('Ocean labels', 'text-field', [
+    //   'format',
+    //   ['get', 'name'],
+    //   {
+    //     'font-scale': ratio,
+    //   },
+    // ]);
 
     map.setLayoutProperty('River labels', 'text-field', [
       'format',
