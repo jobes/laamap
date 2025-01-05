@@ -7,7 +7,6 @@ import {
   filter,
   forkJoin,
   map,
-  of,
   switchMap,
   take,
   tap,
@@ -44,11 +43,12 @@ export class BleSensorsEffects {
           bleSensorsSettingsActions.deviceChanged,
           bleSensorsEffectsActions.connectDevice,
         ),
-        switchMap((deviceId) => {
-          return navigator.bluetooth.getDevices().then((devices) => {
-            return devices.find((d) => d.id === deviceId.deviceId);
-          });
-        }),
+        switchMap((deviceId) =>
+          navigator.bluetooth
+            .getDevices()
+            // eslint-disable-next-line max-nested-callbacks
+            .then((devices) => devices.find((d) => d.id === deviceId.deviceId)),
+        ),
         filter((device) => !!device),
         tap((device) => {
           device.addEventListener('gattserverdisconnected', () => {

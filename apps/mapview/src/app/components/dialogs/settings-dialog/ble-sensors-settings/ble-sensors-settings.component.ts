@@ -5,11 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { bleSensorsSettingsActions } from 'apps/mapview/src/app/store/actions/settings.actions';
-import { bleSensorsSettingsFeature } from 'apps/mapview/src/app/store/features/settings/ble-sensors-settings.feature';
 import { filter, take } from 'rxjs/operators';
 
 import { bluetoothServiceIdFlyInstruments } from '../../../../helper';
+import { bleSensorsSettingsActions } from '../../../../store/actions/settings.actions';
+import { bleSensorsSettingsFeature } from '../../../../store/features/settings/ble-sensors-settings.feature';
 
 @Component({
   selector: 'laamap-ble-sensors-settings',
