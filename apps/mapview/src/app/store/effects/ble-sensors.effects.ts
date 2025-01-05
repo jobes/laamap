@@ -79,7 +79,7 @@ export class BleSensorsEffects {
         ),
         switchMap(({ pressure, temperature }) => {
           const observables = [];
-          console.log('SUBSCRIBING!!!', pressure);
+          console.log('SUBSCRIBING to BLE characteristics');
           if (pressure) {
             observables.push(
               this.ble.observeValue$(pressure).pipe(
