@@ -3,10 +3,12 @@ import * as turf from '@turf/turf';
 import { Feature, LineString } from 'geojson';
 import { LngLat } from 'maplibre-gl';
 
+import { altitudeFromPressure } from '../helper';
 import {
   EHeightUnit,
   EReferenceDatum,
 } from '../services/open-aip/airport.interfaces';
+import { bleSensorsFeature } from './features/ble-sensors.feature';
 import { mapFeature } from './features/map.feature';
 import { navigationFeature } from './features/navigation.feature';
 import { instrumentsFeature } from './features/settings/instruments.feature';
@@ -101,34 +103,53 @@ export const selectHeighSettings = createSelector(
   instrumentsFeature.selectAltimeter,
   terrainFeature['selectSettings.terrainState'],
   mapFeature.selectTerrainElevation,
-  (geolocation, settings, terrain, terrainElevation) => ({
+  bleSensorsFeature.selectPressure,
+  (geolocation, settings, terrain, terrainElevation, pressure) => ({
     bgColor: settings.bgColor,
     textColor: settings.textColor,
-    altitudeMeters: geolocation?.coords.altitude,
-    altitudeObject: {
-      value: geolocation?.coords.altitude ?? 0,
+    altitudeMetersGps: geolocation?.coords.altitude,
+    altitudeObjectGps: {
+      value: (geolocation?.coords.altitude ?? 0) - settings.gpsAltitudeError,
       unit: EHeightUnit.meter,
       referenceDatum: EReferenceDatum.msl,
     },
-    gndHeightObject: {
+    gndHeightObjectGps: {
       value:
         terrain.enabled &&
         terrain.gndHeightCalculateUsingTerrain &&
         terrainElevation
           ? (geolocation?.coords.altitude ?? 0) -
-            settings.gndAltitude -
+            settings.gpsAltitudeError -
             terrainElevation
-          : (geolocation?.coords.altitude ?? 0) - settings.gndAltitude,
+          : (geolocation?.coords.altitude ?? 0) -
+            settings.gndAltitude -
+            settings.gpsAltitudeError,
+      unit: EHeightUnit.meter,
+      referenceDatum: EReferenceDatum.gnd,
+    },
+    altitudeObjectPressure: {
+      realValue: !!(pressure && settings.qnh),
+      value:
+        (pressure &&
+          settings.qnh &&
+          altitudeFromPressure(pressure, settings.qnh)) ??
+        0,
+      unit: EHeightUnit.meter,
+      referenceDatum: EReferenceDatum.msl,
+    },
+    gndHeightObjectPressure: {
+      realValue: !!(pressure && settings.qfe),
+      value:
+        (pressure &&
+          settings.qfe &&
+          altitudeFromPressure(pressure, settings.qfe)) ??
+        0,
       unit: EHeightUnit.meter,
       referenceDatum: EReferenceDatum.gnd,
     },
     types: settings.show,
     position: settings.position,
-    hasAltitude: !!geolocation,
-    terrainElevation:
-      terrain.enabled && terrain.gndHeightCalculateUsingTerrain
-        ? (terrainElevation ?? 0)
-        : 0,
+    terrainElevation,
   }),
 );
 

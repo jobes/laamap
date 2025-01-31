@@ -115,11 +115,24 @@
       "activeTextColor": "Farba písma",
       "inactiveBgColor": "Farba pozadia pri neaktivite",
       "inactiveTextColor": "Farba písma pri neaktivite",
+      "qfe": "QFE",
+      "qnh": "QNH",
+      "gpsAltitudeError": "Chyba výšky GPS v metroch",
+      "relativeHeightSource": "Zdroj relatívnej výšky",
       "altitudeShowTypeList": {
-        "altitudeM": "Nadmorská výška v metroch",
-        "gndM": "Výška nad zemou v metroch",
-        "altitudeFt": "Nadmorská výška v stopách",
-        "gndFt": "Výška nad zemou v stopách"
+        "altitudeM": "Nadmorská výška v metroch (gps)",
+        "gndM": "Výška nad zemou v metroch (gps)",
+        "altitudeFt": "Nadmorská výška v stopách (gps)",
+        "gndFt": "Výška nad zemou v stopách (gps)",
+        "pressureAltitudeM": "Nadmorská výška v metroch (QFE)",
+        "pressureGndM": "Výška nad zemou v metroch (QNH)",
+        "pressureAltitudeFt": "Nadmorská výška v stopách (QFE)",
+        "pressureGndFt": "Výška nad zemou v stopách (QNH)",
+        "auto": "Výška automaticky (QNH, QFE, standard)"
+      },
+      "relativeHeightSourceList": {
+        "gps": "GPS",
+        "pressure": "Tlak"
       }
     },
     "gamepad": {
@@ -167,7 +180,9 @@
       "title": "Bluetooth",
       "description": "Externé senzory",
       "findDevice": "Nájst zariadenie",
-      "tip": "Najprv spárujte vaše zariadenie so zariadením lietadla v operačnom systéme (android) inak komunikácia nemusí fungovať spolahlivo."
+      "tip": "Najprv spárujte vaše zariadenie so zariadením lietadla v operačnom systéme (android) inak komunikácia nemusí fungovať spolahlivo.",
+      "sensor": "senzor",
+      "value": "hodnota"
     }
   },
   "navigationDialog": {
@@ -683,6 +698,19 @@
     "close": "Zavrieť",
     "restart": "Reštartovať a načítať zmeny",
     "emptyList": "Žiadne novinky"
+  },
+  "altimeterQuickSetDialog": {
+    "title": "Rýchle nastavenie altimetru",
+    "close": "Zavrieť",
+    "gndAltitude": "Nadmorská výška zeme",
+    "calculate": "Vypočitaj",
+    "gndAltitudeTip": "Nastaví nadmorskú výšku zeme podľa údajov z GPS. Použi len na zemy.",
+    "qnh": "QNH",
+    "qnhTip": "Nastaví QNH podľa údajov z GPS a aktuálneho tlaku. Použi len na zemy.",
+    "qfe": "QFE",
+    "qfeTip": "Nastaví QFE podľa údajov z GPS a aktuálneho tlaku. Použi len na zemy.",
+    "gpsAltitudeError": "Chyba výšky GPS",
+    "gpsAltitudeErrorTip": "Nastaví chybu výšky GPS podľa údajov z GPS. Použi len na zemy."
   },
   "shared": {
     "altitude": {

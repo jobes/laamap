@@ -1,0 +1,101 @@
+<ng-template transloco let-t translocoRead="altimeterQuickSetDialog">
+  <h1 mat-dialog-title>{{ t('title') }}</h1>
+
+  @if (!terrainEnabled()) {
+    <div class="row">
+      <mat-form-field>
+        <mat-label>{{ t('gndAltitude') }}</mat-label>
+        <input
+          matInput
+          type="number"
+          [ngModel]="values().gndAltitude"
+          (ngModelChange)="setGndAltitude($event)"
+        />
+      </mat-form-field>
+      <div class="button-area">
+        @if (isGrounded()) {
+          <button mat-button (click)="resetGnd()">{{ t('calculate') }}</button>
+
+          <button mat-icon-button [matTooltip]="t('gndAltitudeTip')">
+            <mat-icon>info</mat-icon>
+          </button>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="row">
+    <mat-form-field>
+      <mat-label>{{ t('gpsAltitudeError') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="values().gpsAltitudeError"
+        (ngModelChange)="setGpsAltitudeError($event)"
+      />
+    </mat-form-field>
+    @if (terrainEnabled() && isGrounded()) {
+      <div class="button-area">
+        <button mat-button (click)="automaticGpsAltitudeError()">
+          {{ t('calculate') }}
+        </button>
+
+        <button mat-icon-button [matTooltip]="t('gpsAltitudeErrorTip')">
+          <mat-icon>info</mat-icon>
+        </button>
+      </div>
+    }
+  </div>
+
+  <div class="row">
+    <mat-form-field>
+      <mat-label>{{ t('qnh') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="values().qnh"
+        (ngModelChange)="setQnh($event)"
+      />
+    </mat-form-field>
+    <div class="button-area">
+      @if (pressureUsed() && isGrounded()) {
+        <button mat-button (click)="automaticQnh()">
+          {{ t('calculate') }}
+        </button>
+
+        <button mat-icon-button [matTooltip]="t('qnhTip')">
+          <mat-icon>info</mat-icon>
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="row">
+    <mat-form-field>
+      <mat-label>{{ t('qfe') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="values().qfe"
+        (ngModelChange)="setQfe($event)"
+      />
+    </mat-form-field>
+    <div class="button-area">
+      @if (pressureUsed() && isGrounded()) {
+        <button mat-button (click)="automaticQfe()">
+          {{ t('calculate') }}
+        </button>
+
+        <button mat-icon-button [matTooltip]="t('qfeTip')">
+          <mat-icon>info</mat-icon>
+        </button>
+      }
+    </div>
+  </div>
+
+  <div mat-dialog-actions [align]="'end'">
+    <button mat-button [mat-dialog-close]="false" cdkFocusInitial>
+      {{ t('close') }}
+    </button>
+  </div>
+</ng-template>

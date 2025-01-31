@@ -115,16 +115,25 @@
       "activeTextColor": "Font color",
       "inactiveBgColor": "Background color if not active",
       "inactiveTextColor": "Font color if not active",
+      "qfe": "QFE",
+      "qnh": "QNH",
+      "gpsAltitudeError": "GPS altitude errom in meter",
+      "relativeHeightSource": "Relative altitude source",
       "altitudeShowTypeList": {
-        "altitudeM": "Altitude (meters)",
-        "gndM": "Above ground level (meters)",
-        "altitudeFt": "Altitude (feet)",
-        "gndFt": "Above ground level (feet)"
+        "altitudeM": "Altitude (meters GPSS)",
+        "gndM": "Height (meters GPS)",
+        "altitudeFt": "Altitude (feet GPS)",
+        "gndFt": "Height (feet GPS)",
+        "pressureAltitudeM": "Altitude (meters QFE)",
+        "pressureGndM": "Height (meters QNH)",
+        "pressureAltitudeFt": "Altitude (feet QFE)",
+        "pressureGndFt": "Height (feet QNH)",
+        "auto": "Sutomatic altitude/height  (QNH, QFE, standard)"
       }
     },
     "gamepad": {
       "title": "Gamepad",
-      "description": "Gamepadu controlling",
+      "description": "Gamepad controlling",
       "button": "Button",
       "axis": "axis",
       "coefficient": "Action speed",
@@ -134,7 +143,7 @@
       "bearing": "Bearing",
       "bearingOpposite": "Opposite bearing",
       "closeDialog": "Close",
-      "dialogDo": "Action/xlixk in dialog",
+      "dialogDo": "Action/click in dialog",
       "followAirplane": "Follow location",
       "mapClick": "Click on map",
       "nextField": "Next field",
@@ -167,7 +176,9 @@
       "title": "Bluetooth",
       "description": "External sensors",
       "findDevice": "Find device",
-      "tip": "Pair your device with device of the plane in the operating system (android) otherwise communication will not work properly."
+      "tip": "Pair your device with device of the plane in the operating system (android) otherwise communication will not work properly.",
+      "sensor": "Sensor",
+      "value": "Value"
     }
   },
   "navigationDialog": {
@@ -377,7 +388,7 @@
       "2": "Aerobatics",
       "3": "Aero club",
       "4": "Ultralight",
-      "5": "Paragliding/Rogallo"
+      "5": "Paragliding/Hang gliding"
     },
     "boolean": {
       "false": "No",
@@ -683,6 +694,19 @@
     "close": "Close",
     "restart": "Restart and Load Changes",
     "emptyList": "No news"
+  },
+  "altimeterQuickSetDialog": {
+    "title": "Quick altimeter settings",
+    "close": "Close",
+    "gndAltitude": "Height above GND (meters)",
+    "calculate": "Calculate",
+    "gndAltitudeTip": "Sets ground altitude based on GPS data. Only use on ground.",
+    "qnh": "QNH",
+    "qnhTip": "Sets QNH based on GPS data and current pressure. Only use on ground.",
+    "qfe": "QFE",
+    "qfeTip": "Sets QFE based on GPS data and current pressure. Only use on ground.",
+    "gpsAltitudeError": "GPS altitude error in meter",
+    "gpsAltitudeErrorTip": "Sets GPS altitude error in meter. Only use on ground."
   },
   "shared": {
     "altitude": {

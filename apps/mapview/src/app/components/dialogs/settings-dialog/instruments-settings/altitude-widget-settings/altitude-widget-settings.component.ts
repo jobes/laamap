@@ -6,7 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { instrumentAltimeterSettingsActions } from '../../../../../store/actions/settings.actions';
@@ -25,12 +24,20 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
     FormsModule,
     MatSelectModule,
     MatOptionModule,
-    PushPipe,
   ],
 })
 export class AltitudeWidgetSettingsComponent {
-  showTypes = ['altitudeM', 'gndM', 'altitudeFt', 'gndFt'];
-  settings$ = this.store.select(instrumentsFeature.selectAltimeter);
+  showTypes = [
+    'altitudeM',
+    'gndM',
+    'altitudeFt',
+    'gndFt',
+    'pressureAltitudeM',
+    'pressureGndM',
+    'pressureAltitudeFt',
+    'pressureGndFt',
+  ];
+  settings = this.store.selectSignal(instrumentsFeature.selectAltimeter);
 
   constructor(private readonly store: Store) {}
 
@@ -38,6 +45,30 @@ export class AltitudeWidgetSettingsComponent {
     this.store.dispatch(
       instrumentAltimeterSettingsActions.manualGNDAltitudeChanged({
         gndAltitude,
+      }),
+    );
+  }
+
+  setAltitudeGpsErrorChanged(gpsAltitudeError: number): void {
+    this.store.dispatch(
+      instrumentAltimeterSettingsActions.altitudeGpsErrorChanged({
+        gpsAltitudeError,
+      }),
+    );
+  }
+
+  setQFE(qfe: number): void {
+    this.store.dispatch(
+      instrumentAltimeterSettingsActions.qfeChanged({
+        qfe,
+      }),
+    );
+  }
+
+  setQNH(qnh: number): void {
+    this.store.dispatch(
+      instrumentAltimeterSettingsActions.qnhChanged({
+        qnh,
       }),
     );
   }

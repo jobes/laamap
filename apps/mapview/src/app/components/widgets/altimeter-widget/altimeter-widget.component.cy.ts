@@ -21,7 +21,6 @@ describe(AltimeterWidgetComponent.name, () => {
                 position: { x: 0, y: 0 },
                 bgColor: 'cccccc',
                 textColor: '222222',
-                hasAltitude: true,
                 altitudeMeters: 5,
                 altitudeObject: {
                   value: 100,

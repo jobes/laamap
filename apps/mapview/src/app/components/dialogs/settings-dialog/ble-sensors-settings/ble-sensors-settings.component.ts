@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +9,7 @@ import { filter, take } from 'rxjs/operators';
 
 import { bluetoothServiceIdFlyInstruments } from '../../../../helper';
 import { bleSensorsSettingsActions } from '../../../../store/actions/settings.actions';
+import { bleSensorsFeature } from '../../../../store/features/ble-sensors.feature';
 import { bleSensorsSettingsFeature } from '../../../../store/features/settings/ble-sensors-settings.feature';
 
 @Component({
@@ -30,6 +31,12 @@ export class BleSettingsComponent {
   deviceId = this.store.selectSignal(bleSensorsSettingsFeature.selectDeviceId);
   deviceName = this.store.selectSignal(
     bleSensorsSettingsFeature.selectDeviceName,
+  );
+
+  sensors = computed(() =>
+    Object.entries(
+      this.store.selectSignal(bleSensorsFeature.selectBleSensorsState)(),
+    ),
   );
 
   findDevice() {

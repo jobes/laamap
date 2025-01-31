@@ -7,7 +7,12 @@ export const mapEffectsActions = createActionGroup({
     'geolocation tracking running': props<{ following: boolean }>(),
     'track saving started': emptyProps(),
     'track saving ended': emptyProps(),
-    'first geolocation fixed': props<{ gndAltitude: number }>(),
+    'first geolocation fixed': props<{
+      gndAltitude: number;
+      gpsAltitudeError: number;
+      qnh: number;
+      qfe: number;
+    }>(),
   },
 });
 
@@ -32,5 +37,15 @@ export const bleSensorsEffectsActions = createActionGroup({
     'Temperature changed': props<{ value: number }>(),
     'Connect device': props<{ deviceId: string }>(),
     'Device disconnected': emptyProps(),
+  },
+});
+
+export const generalEffectsActions = createActionGroup({
+  source: 'General effects',
+  events: {
+    'Automatic GND Altitude set': props<{ gndAltitude: number }>(),
+    'automatic Gps Altitude Error Set': props<{ gpsAltitudeError: number }>(),
+    'Automatic Qnh set': props<{ qnh: number }>(),
+    'Automatic Qfe set': props<{ qfe: number }>(),
   },
 });

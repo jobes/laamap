@@ -5,6 +5,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetDirective } from '@ngrx/component';
@@ -28,12 +29,15 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
     FormsModule,
     MatButtonModule,
     MatIconModule,
+    MatSelectModule,
   ],
 })
 export class VarioWidgetSettingsComponent {
   varioWidgetColorsSettings$ = this.store.select(
     instrumentsFeature.selectVarioMeter,
   );
+
+  sourceValues = ['gps', 'pressure'];
 
   constructor(
     private readonly store: Store,
@@ -132,6 +136,12 @@ export class VarioWidgetSettingsComponent {
           ...array.slice(index + 1),
         ],
       }),
+    );
+  }
+
+  setRelativeHeightSource(source: 'gps' | 'pressure'): void {
+    this.store.dispatch(
+      varioSettingsActions.relativeHeightSourceChanged({ source }),
     );
   }
 }

@@ -1,9 +1,8 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
-import { AsyncPipe } from '@angular/common';
 import { Component, ElementRef, inject, viewChildren } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
 
@@ -13,25 +12,27 @@ import { WidgetSafePositionService } from '../../../services/widget-safe-positio
 import { altimeterWidgetActions } from '../../../store/actions/widgets.actions';
 import { selectHeighSettings } from '../../../store/advanced-selectors';
 import { mapFeature } from '../../../store/features/map.feature';
+import { AltimeterQuickSetDialogComponent } from '../../dialogs/altimeter-quick-set-dialog/altimeter-quick-set-dialog.component';
 
 @Component({
   selector: 'laamap-altimeter-widget',
   templateUrl: './altimeter-widget.component.html',
   styleUrls: ['./altimeter-widget.component.scss'],
   standalone: true,
-  imports: [TranslocoModule, LetDirective, CdkDrag, AsyncPipe, AltitudePipe],
+  imports: [TranslocoModule, CdkDrag, AltitudePipe],
 })
 export class AltimeterWidgetComponent {
   containers = viewChildren<CdkDrag, ElementRef<HTMLElement>>(CdkDrag, {
     read: ElementRef,
   });
+  private readonly dialog = inject(MatDialog);
   private readonly safePositionService = inject(WidgetSafePositionService);
-  show$ = this.store.select(mapFeature.selectShowInstruments);
+  show = this.store.selectSignal(mapFeature.selectShowInstruments);
   eHeightUnit = EHeightUnit;
-  heighWithSettings$ = this.store.select(selectHeighSettings);
-  safePosition$ = this.safePositionService.safePosition$(
-    this.heighWithSettings$.pipe(map((val) => val.position)),
-    toObservable(this.containers),
+  heighWithSettings = this.store.selectSignal(selectHeighSettings);
+  safePosition = this.safePositionService.safePosition(
+    toObservable(this.heighWithSettings).pipe(map((val) => val.position)),
+    this.containers,
   );
 
   private dragging = false;
@@ -55,15 +56,16 @@ export class AltimeterWidgetComponent {
     );
   }
 
-  resetGnd(gndAltitude: number): void {
+  openQuickSettings(): void {
     if (this.dragging) {
       return;
     }
 
-    this.store.dispatch(
-      altimeterWidgetActions.manualGNDAltitudeChanged({
-        gndAltitude,
-      }),
-    );
+    this.dialog
+      .open(AltimeterQuickSetDialogComponent, {
+        maxWidth: '100%',
+        id: 'altimeterQuickSet',
+      })
+      .afterClosed();
   }
 }

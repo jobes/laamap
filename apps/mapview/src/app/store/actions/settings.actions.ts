@@ -73,6 +73,15 @@ export const instrumentAltimeterSettingsActions = createActionGroup({
     'Manual GND Altitude Changed': props<{
       gndAltitude: number;
     }>(),
+    'Altitude Gps Error Changed': props<{
+      gpsAltitudeError: number;
+    }>(),
+    'qfe Changed': props<{
+      qfe: number;
+    }>(),
+    'Qnh Changed': props<{
+      qnh: number;
+    }>(),
     'Bg Color Changed': props<{
       bgColor: string;
     }>(),
@@ -120,6 +129,9 @@ export const varioSettingsActions = createActionGroup({
   events: {
     'Diff Time Changed': props<{
       diffTime: number;
+    }>(),
+    'relative Height Source Changed': props<{
+      source: 'gps' | 'pressure';
     }>(),
     'Widget Colors Changed': props<{
       colorsByClimbingSpeed: {
@@ -198,5 +210,19 @@ export const bleSensorsSettingsActions = createActionGroup({
   events: {
     'Device changed': props<{ deviceId: string; deviceName: string }>(),
     'Device deleted': emptyProps(),
+  },
+});
+
+export const altimeterQuickSettingsActions = createActionGroup({
+  source: 'Altimeter Quick Settings',
+  events: {
+    'Manual GND Altitude changed': props<{ gndAltitude: number }>(),
+    'Automatic GND Altitude requested': emptyProps(),
+    'Manual Qnh changed': props<{ qnh: number }>(),
+    'Automatic Qnh requested': emptyProps(),
+    'Manual Qfe changed': props<{ qfe: number }>(),
+    'Automatic Qfe requested': emptyProps(),
+    'Gps altitude error changed': props<{ gpsAltitudeError: number }>(),
+    'Automatic Gps altitude error requested': emptyProps(),
   },
 });

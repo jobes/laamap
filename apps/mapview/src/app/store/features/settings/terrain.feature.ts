@@ -1,4 +1,5 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
+
 import { terrainSettingsActions } from '../../actions/settings.actions';
 
 const initialState = {
@@ -33,4 +34,15 @@ export const terrainFeature = createFeature({
       }),
     ),
   ),
+  extraSelectors: ({
+    selectEnabled,
+    selectGndHeightCalculateUsingTerrain,
+  }) => ({
+    selectGndHeightCalculateUsingTerrainEnabled: createSelector(
+      selectEnabled,
+      selectGndHeightCalculateUsingTerrain,
+      (enabled, heightCalculationUsingTerrain) =>
+        enabled && heightCalculationUsingTerrain,
+    ),
+  }),
 });

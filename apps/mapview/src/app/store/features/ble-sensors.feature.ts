@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export const bleSensorsFeature = createFeature({
-  name: 'ble sensors',
+  name: 'bleSensors',
   reducer: createReducer(
     initialState,
     on(

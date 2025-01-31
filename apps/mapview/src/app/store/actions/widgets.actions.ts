@@ -6,9 +6,6 @@ export const altimeterWidgetActions = createActionGroup({
     'Position moved': props<{
       position: { x: number; y: number };
     }>(),
-    'Manual GND Altitude Changed': props<{
-      gndAltitude: number;
-    }>(),
   },
 });
 
