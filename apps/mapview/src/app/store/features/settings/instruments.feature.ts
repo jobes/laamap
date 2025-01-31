@@ -1,6 +1,11 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 
 import {
+  generalEffectsActions,
+  mapEffectsActions,
+} from '../../actions/effects.actions';
+import {
+  altimeterQuickSettingsActions,
   instrumentAltimeterSettingsActions,
   instrumentSettingsActions,
   instrumentSpeedSettingsActions,
@@ -13,7 +18,6 @@ import {
   trackingWidgetActions,
   varioMeterWidgetActions,
 } from '../../actions/widgets.actions';
-import { mapEffectsActions } from '../../actions/effects.actions';
 
 const initialState = {
   showOnlyOnActiveGps: true,
@@ -45,6 +49,7 @@ const initialState = {
   varioMeter: {
     position: { x: 0, y: 200 },
     diffTime: 1000,
+    source: 'gps' as 'gps' | 'pressure',
     colorsByClimbing: [
       {
         minClimbing: -1000,
@@ -66,6 +71,9 @@ const initialState = {
   altimeter: {
     position: { x: 0, y: 60 },
     gndAltitude: 0,
+    gpsAltitudeError: 0,
+    qfe: 1013,
+    qnh: 1013,
     method: 'manual' as 'manual' | 'terrain',
     bgColor: '#ffffff',
     textColor: '#000000',
@@ -74,6 +82,10 @@ const initialState = {
       | 'gndM'
       | 'altitudeFt'
       | 'gndFt'
+      | 'pressureAltitudeM'
+      | 'pressureGndM'
+      | 'pressureAltitudeFt'
+      | 'pressureGndFt'
     )[],
   },
   tracking: {
@@ -121,6 +133,16 @@ export const instrumentsFeature = createFeature({
       }),
     ),
     on(
+      varioSettingsActions.relativeHeightSourceChanged,
+      (state, { source }): typeof initialState => ({
+        ...state,
+        varioMeter: {
+          ...state.varioMeter,
+          source,
+        },
+      }),
+    ),
+    on(
       varioSettingsActions.diffTimeChanged,
       (state, { diffTime }): typeof initialState => ({
         ...state,
@@ -138,12 +160,43 @@ export const instrumentsFeature = createFeature({
       }),
     ),
     on(
-      altimeterWidgetActions.manualGNDAltitudeChanged,
+      generalEffectsActions.automaticGNDAltitudeSet,
+      altimeterQuickSettingsActions.manualGNDAltitudeChanged,
       instrumentAltimeterSettingsActions.manualGNDAltitudeChanged,
       mapEffectsActions.firstGeolocationFixed,
       (state, { gndAltitude }): typeof initialState => ({
         ...state,
         altimeter: { ...state.altimeter, gndAltitude },
+      }),
+    ),
+    on(
+      instrumentAltimeterSettingsActions.altitudeGpsErrorChanged,
+      altimeterQuickSettingsActions.gpsAltitudeErrorChanged,
+      generalEffectsActions.automaticGpsAltitudeErrorSet,
+      mapEffectsActions.firstGeolocationFixed,
+      (state, { gpsAltitudeError }): typeof initialState => ({
+        ...state,
+        altimeter: { ...state.altimeter, gpsAltitudeError },
+      }),
+    ),
+    on(
+      altimeterQuickSettingsActions.manualQfeChanged,
+      instrumentAltimeterSettingsActions.qfeChanged,
+      generalEffectsActions.automaticQfeSet,
+      mapEffectsActions.firstGeolocationFixed,
+      (state, { qfe }): typeof initialState => ({
+        ...state,
+        altimeter: { ...state.altimeter, qfe },
+      }),
+    ),
+    on(
+      altimeterQuickSettingsActions.manualQnhChanged,
+      instrumentAltimeterSettingsActions.qnhChanged,
+      generalEffectsActions.automaticQnhSet,
+      mapEffectsActions.firstGeolocationFixed,
+      (state, { qnh }): typeof initialState => ({
+        ...state,
+        altimeter: { ...state.altimeter, qnh },
       }),
     ),
     on(

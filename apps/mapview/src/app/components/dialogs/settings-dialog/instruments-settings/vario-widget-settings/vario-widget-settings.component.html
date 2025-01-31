@@ -17,6 +17,19 @@
           [ngModelOptions]="{ updateOn: 'blur' }"
         />
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t('relativeHeightSource') }}</mat-label>
+        <mat-select
+          [ngModel]="varioWidgetColorsSettings.source"
+          (ngModelChange)="setRelativeHeightSource($event)"
+        >
+          @for (value of sourceValues; track value) {
+            <mat-option [value]="value">{{
+              t('relativeHeightSourceList.' + value)
+            }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
       <mat-accordion>
         @for (
           vario of varioWidgetColorsSettings.colorsByClimbing;

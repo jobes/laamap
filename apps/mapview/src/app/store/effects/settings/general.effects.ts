@@ -10,13 +10,23 @@ import {
   startWith,
   switchMap,
   tap,
+  withLatestFrom,
 } from 'rxjs';
 
+import { pressureOnSeaLevel } from '../../../helper';
 import { MapService } from '../../../services/map/map.service';
 import { ScreenWakeLockService } from '../../../services/screen-wake-lock/screen-wake-lock.service';
+import { generalEffectsActions } from '../../actions/effects.actions';
 import { mapActions } from '../../actions/map.actions';
-import { generalSettingsActions } from '../../actions/settings.actions';
+import {
+  altimeterQuickSettingsActions,
+  generalSettingsActions,
+} from '../../actions/settings.actions';
+import { bleSensorsFeature } from '../../features/ble-sensors.feature';
+import { mapFeature } from '../../features/map.feature';
 import { generalFeature } from '../../features/settings/general.feature';
+import { instrumentsFeature } from '../../features/settings/instruments.feature';
+import { terrainFeature } from '../../features/settings/terrain.feature';
 
 @Injectable()
 export class GeneralEffects {
@@ -89,6 +99,75 @@ export class GeneralEffects {
     },
     { dispatch: false },
   );
+
+  calculateGndAltitude$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(altimeterQuickSettingsActions.automaticGNDAltitudeRequested),
+      withLatestFrom(
+        this.store.select(mapFeature.selectGeoLocation),
+        this.store.select(instrumentsFeature.selectAltimeter),
+      ),
+      map(([, geolocation, altimeter]) =>
+        generalEffectsActions.automaticGNDAltitudeSet({
+          gndAltitude:
+            (geolocation?.coords.altitude ?? 0) - altimeter?.gpsAltitudeError,
+        }),
+      ),
+    );
+  });
+
+  automaticGpsAltitudeErrorRequested$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(altimeterQuickSettingsActions.automaticGpsAltitudeErrorRequested),
+      withLatestFrom(
+        this.store.select(mapFeature.selectGeoLocation),
+        this.store.select(mapFeature.selectTerrainElevation),
+      ),
+      map(([, geolocation, terrainElevation]) =>
+        generalEffectsActions.automaticGpsAltitudeErrorSet({
+          gpsAltitudeError: Math.round(
+            (geolocation?.coords.altitude ?? 0) - (terrainElevation ?? 0),
+          ),
+        }),
+      ),
+    );
+  });
+
+  automaticQnhRequested$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(altimeterQuickSettingsActions.automaticQnhRequested),
+      withLatestFrom(
+        this.store.select(mapFeature.selectGeoLocation),
+        this.store.select(mapFeature.selectTerrainElevation),
+        this.store.select(bleSensorsFeature.selectPressure),
+        this.store.select(
+          terrainFeature.selectGndHeightCalculateUsingTerrainEnabled,
+        ),
+      ),
+      map(([, geolocation, terrainElevation, pressure, terrainGndEnabled]) =>
+        generalEffectsActions.automaticQnhSet({
+          qnh: pressureOnSeaLevel(
+            pressure ?? 0,
+            (terrainGndEnabled
+              ? terrainElevation
+              : geolocation?.coords.altitude) ?? 0,
+          ),
+        }),
+      ),
+    );
+  });
+
+  automaticQfeRequested$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(altimeterQuickSettingsActions.automaticQfeRequested),
+      withLatestFrom(this.store.select(bleSensorsFeature.selectPressure)),
+      map(([, pressure]) =>
+        generalEffectsActions.automaticQfeSet({
+          qfe: Math.round((pressure ?? 0) / 100),
+        }),
+      ),
+    );
+  });
 
   constructor(
     private readonly mapService: MapService,

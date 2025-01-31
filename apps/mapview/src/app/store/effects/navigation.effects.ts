@@ -15,8 +15,10 @@ import {
   switchMap,
   take,
   tap,
+  withLatestFrom,
 } from 'rxjs';
 
+import { pressureOnSeaLevel } from '../../helper';
 import { CustomFlyRoutesService } from '../../services/custom-fly-routes/custom-fly-routes.service';
 import { OnMapNavigationService } from '../../services/map/on-map-navigation/on-map-navigation.service';
 import {
@@ -28,6 +30,7 @@ import {
   globalSearchMenu,
   navigationDialogActions,
 } from '../actions/navigation.actions';
+import { bleSensorsFeature } from '../features/ble-sensors.feature';
 import { mapFeature } from '../features/map.feature';
 import { navigationFeature } from '../features/navigation.feature';
 import { terrainFeature } from '../features/settings/terrain.feature';
@@ -181,21 +184,29 @@ export class NavigationEffects {
       filter(
         (geoLocation): geoLocation is GeolocationPosition => !!geoLocation,
       ),
-      concatLatestFrom(() => [
-        this.store.select(mapFeature.selectTerrainElevation),
-        this.store.select(terrainFeature['selectSettings.terrainState']),
-      ]),
       auditTime(5000),
       take(1),
-      map(([geoLocation, terrainElevation, terrain]) => {
-        const altitude = geoLocation.coords.altitude || 0;
+      withLatestFrom(
+        this.store.select(mapFeature.selectTerrainElevation),
+        this.store.select(bleSensorsFeature.selectPressure),
+        this.store.select(
+          terrainFeature.selectGndHeightCalculateUsingTerrainEnabled,
+        ),
+      ),
+      map(([geoLocation, terrainElevation, pressure, terrainHeightEnabled]) => {
+        const gndAltitude =
+          (terrainHeightEnabled
+            ? terrainElevation
+            : geoLocation.coords.altitude) ?? 0;
         return mapEffectsActions.firstGeolocationFixed({
-          gndAltitude:
-            terrain.enabled &&
-            terrain.gndHeightCalculateUsingTerrain &&
-            terrainElevation
-              ? altitude - terrainElevation
-              : altitude,
+          gndAltitude,
+          gpsAltitudeError: terrainHeightEnabled
+            ? Math.round(
+                (geoLocation.coords.altitude ?? 0) - (terrainElevation ?? 0),
+              )
+            : 0,
+          qfe: Math.round((pressure ?? 0) / 100),
+          qnh: pressure ? pressureOnSeaLevel(pressure, gndAltitude) : 0,
         });
       }),
     );

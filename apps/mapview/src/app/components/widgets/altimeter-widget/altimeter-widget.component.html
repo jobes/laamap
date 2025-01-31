@@ -1,84 +1,128 @@
 <ng-template transloco let-t>
-  <ng-container *ngrxLet="heighWithSettings$ as heighWithSettings">
-    @if ((show$ | async) && (safePosition$ | async); as safePosition) {
+  @if (show()) {
+    <div
+      class="container"
+      cdkDrag
+      (cdkDragEnded)="dragEnded($event)"
+      (cdkDragStarted)="dragStarted()"
+      cdkDragBoundary="body"
+      [cdkDragFreeDragPosition]="safePosition()"
+      [cdkDragStartDelay]="1000"
+      [style.background]="heighWithSettings().bgColor"
+    >
+      <h6>{{ t('widgets.altimeter.header') }}</h6>
       <div
-        class="container"
-        cdkDrag
-        (cdkDragEnded)="dragEnded($event)"
-        (cdkDragStarted)="dragStarted()"
-        cdkDragBoundary="body"
-        [cdkDragFreeDragPosition]="safePosition"
-        [cdkDragStartDelay]="1000"
-        [style.background]="heighWithSettings.bgColor"
+        [style.color]="heighWithSettings().textColor"
+        (click)="openQuickSettings()"
       >
-        <h6>{{ t('widgets.altimeter.header') }}</h6>
-        <div
-          [style.color]="heighWithSettings.textColor"
-          (click)="
-            heighWithSettings.hasAltitude &&
-              resetGnd(
-                (heighWithSettings.altitudeMeters ?? 0) -
-                  heighWithSettings.terrainElevation
-              )
-          "
-        >
-          @for (showType of heighWithSettings.types; track showType) {
-            @switch (showType) {
-              @case ('altitudeM') {
-                <div class="value">
-                  <span class="number">{{
-                    heighWithSettings.hasAltitude
-                      ? (heighWithSettings.altitudeObject
-                        | altitude: eHeightUnit.meter : 'value')
-                      : '--'
-                  }}</span
-                  >{{ t('shared.altitude.heighUnit.0') }}
-                  {{ t('shared.altitude.referenceDatum.1') }}
-                </div>
-              }
+        @for (showType of heighWithSettings().types; track showType) {
+          @switch (showType) {
+            @case ('altitudeM') {
+              <div class="value">
+                <span class="number">{{
+                  heighWithSettings().altitudeMetersGps !== undefined
+                    ? (heighWithSettings().altitudeObjectGps
+                      | altitude: eHeightUnit.meter : 'value')
+                    : '--'
+                }}</span
+                >{{ t('shared.altitude.heighUnit.0') }}
+                {{ t('shared.altitude.referenceDatum.1') }}
+              </div>
+            }
 
-              @case ('gndM') {
-                <div class="value">
-                  <span class="number">{{
-                    heighWithSettings.hasAltitude
-                      ? (heighWithSettings.gndHeightObject
-                        | altitude: eHeightUnit.meter : 'value')
-                      : '--'
-                  }}</span
-                  >{{ t('shared.altitude.heighUnit.0') }}
-                  {{ t('shared.altitude.referenceDatum.0') }}
-                </div>
-              }
+            @case ('gndM') {
+              <div class="value">
+                <span class="number">{{
+                  heighWithSettings().altitudeMetersGps !== undefined
+                    ? (heighWithSettings().gndHeightObjectGps
+                      | altitude: eHeightUnit.meter : 'value')
+                    : '--'
+                }}</span
+                >{{ t('shared.altitude.heighUnit.0') }}
+                {{ t('shared.altitude.referenceDatum.0') }}
+              </div>
+            }
 
-              @case ('altitudeFt') {
-                <div class="value">
-                  <span class="number">{{
-                    heighWithSettings.hasAltitude
-                      ? (heighWithSettings.altitudeObject
-                        | altitude: eHeightUnit.feet : 'value')
-                      : '--'
-                  }}</span
-                  >{{ t('shared.altitude.heighUnit.1') }}
-                  {{ t('shared.altitude.referenceDatum.1') }}
-                </div>
-              }
+            @case ('altitudeFt') {
+              <div class="value">
+                <span class="number">{{
+                  heighWithSettings().altitudeMetersGps !== undefined
+                    ? (heighWithSettings().altitudeObjectGps
+                      | altitude: eHeightUnit.feet : 'value')
+                    : '--'
+                }}</span
+                >{{ t('shared.altitude.heighUnit.1') }}
+                {{ t('shared.altitude.referenceDatum.1') }}
+              </div>
+            }
 
-              @case ('gndFt') {
-                <div class="value">
-                  <span class="number">{{
-                    heighWithSettings.hasAltitude
-                      ? (heighWithSettings.gndHeightObject
-                        | altitude: eHeightUnit.feet : 'value')
-                      : '--'
-                  }}</span
-                  >{{ t('shared.altitude.heighUnit.1') }}
-                  {{ t('shared.altitude.referenceDatum.0') }}
-                </div>
-              }
+            @case ('gndFt') {
+              <div class="value">
+                <span class="number">{{
+                  heighWithSettings().altitudeMetersGps !== undefined
+                    ? (heighWithSettings().gndHeightObjectGps
+                      | altitude: eHeightUnit.feet : 'value')
+                    : '--'
+                }}</span
+                >{{ t('shared.altitude.heighUnit.1') }}
+                {{ t('shared.altitude.referenceDatum.0') }}
+              </div>
+            }
+
+            @case ('pressureAltitudeM') {
+              <div class="value">
+                <span class="number">{{
+                  heighWithSettings().altitudeObjectPressure.realValue
+                    ? (heighWithSettings().altitudeObjectPressure
+                      | altitude: eHeightUnit.meter : 'value')
+                    : '--'
+                }}</span
+                >{{ t('shared.altitude.heighUnit.0') }}
+                {{ t('shared.altitude.referenceDatum.1') }}
+              </div>
+            }
+
+            @case ('pressureGndM') {
+              <div class="value">
+                <span class="number">{{
+                  heighWithSettings().gndHeightObjectPressure.realValue
+                    ? (heighWithSettings().gndHeightObjectPressure
+                      | altitude: eHeightUnit.meter : 'value')
+                    : '--'
+                }}</span
+                >{{ t('shared.altitude.heighUnit.0') }}
+                {{ t('shared.altitude.referenceDatum.0') }}
+              </div>
+            }
+
+            @case ('pressureAltitudeFt') {
+              <div class="value">
+                <span class="number">{{
+                  heighWithSettings().altitudeObjectPressure.realValue
+                    ? (heighWithSettings().altitudeObjectPressure
+                      | altitude: eHeightUnit.feet : 'value')
+                    : '--'
+                }}</span
+                >{{ t('shared.altitude.heighUnit.1') }}
+                {{ t('shared.altitude.referenceDatum.1') }}
+              </div>
+            }
+
+            @case ('pressureGndFt') {
+              <div class="value">
+                <span class="number">{{
+                  heighWithSettings().gndHeightObjectPressure.realValue
+                    ? (heighWithSettings().gndHeightObjectPressure
+                      | altitude: eHeightUnit.feet : 'value')
+                    : '--'
+                }}</span
+                >{{ t('shared.altitude.heighUnit.1') }}
+                {{ t('shared.altitude.referenceDatum.0') }}
+              </div>
             }
           }
-        </div>
+        }
       </div>
-    }
-  </ng-container>
+    </div>
+  }
 </ng-template>

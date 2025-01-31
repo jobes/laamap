@@ -15,8 +15,10 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { altitudeFromPressure } from '../../../helper';
 import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 import { varioMeterWidgetActions } from '../../../store/actions/widgets.actions';
+import { bleSensorsFeature } from '../../../store/features/ble-sensors.feature';
 import { mapFeature } from '../../../store/features/map.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 
@@ -42,18 +44,41 @@ export class VariometerWidgetComponent {
   private varioMeterSettings$ = this.store.select(
     instrumentsFeature.selectVarioMeter,
   );
+
+  private altitude$ = combineLatest([
+    this.store.select(instrumentsFeature.selectVarioMeter),
+    this.store.select(instrumentsFeature.selectAltimeter),
+    this.store.select(bleSensorsFeature.selectPressure),
+    this.store.select(mapFeature.selectGeoLocation),
+  ]).pipe(
+    map(([varioSetting, altimeterSettings, pressure, location]) =>
+      varioSetting.source === 'pressure' && pressure && altimeterSettings.qnh
+        ? {
+            altitude: altitudeFromPressure(
+              pressure ?? 0,
+              altimeterSettings.qnh,
+            ),
+            timestamp: new Date().getTime(),
+          }
+        : {
+            altitude: location?.coords.altitude,
+            timestamp: location?.timestamp ?? new Date().getTime(),
+          },
+    ),
+  );
+
   private climbingSpeedMs$ = this.varioMeterSettings$.pipe(
     switchMap((settings) =>
-      this.store.select(mapFeature.selectGeoLocation).pipe(
+      this.altitude$.pipe(
         auditTime(settings.diffTime),
         startWith(null),
         startWith(null),
         pairwise(),
         map(([prev, curr]) =>
-          (curr?.coords.altitude || curr?.coords.altitude === 0) &&
-          (prev?.coords.altitude || prev?.coords.altitude === 0)
+          (curr?.altitude || curr?.altitude === 0) &&
+          (prev?.altitude || prev?.altitude === 0)
             ? {
-                altDiff: curr.coords.altitude - prev.coords.altitude,
+                altDiff: curr.altitude - prev.altitude,
                 timeDiff: curr.timestamp - prev.timestamp,
               }
             : null,

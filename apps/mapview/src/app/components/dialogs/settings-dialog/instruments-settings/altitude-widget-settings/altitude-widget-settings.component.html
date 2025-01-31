@@ -2,47 +2,72 @@
   <mat-expansion-panel-header>
     <mat-panel-title>{{ t('altiMeter') }}</mat-panel-title>
   </mat-expansion-panel-header>
-  @if (settings$ | ngrxPush; as settings) {
-    <mat-form-field>
-      <mat-label>{{ t('gndAltitude') }}</mat-label>
-      <input
-        matInput
-        type="number"
-        [ngModel]="settings.gndAltitude"
-        (ngModelChange)="setGndAltitude($event)"
-      />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ t('bgColor') }}</mat-label>
-      <input
-        matInput
-        type="color"
-        [ngModel]="settings.bgColor"
-        (ngModelChange)="bgColorChanged($event)"
-      />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ t('textColor') }}</mat-label>
-      <input
-        matInput
-        type="color"
-        [ngModel]="settings.textColor"
-        (ngModelChange)="textColorChanged($event)"
-      />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ t('altitudeShowTypes') }}</mat-label>
-      <mat-select
-        [ngModel]="settings.show"
-        (ngModelChange)="showTypeChanged($event)"
-        multiple
-      >
-        @for (showType of showTypes; track showType) {
-          <mat-option [value]="showType">{{
-            t('altitudeShowTypeList.' + showType)
-          }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  }
+  <mat-form-field>
+    <mat-label>{{ t('gndAltitude') }}</mat-label>
+    <input
+      matInput
+      type="number"
+      [ngModel]="settings().gndAltitude"
+      (ngModelChange)="setGndAltitude($event)"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ t('gpsAltitudeError') }}</mat-label>
+    <input
+      matInput
+      type="number"
+      [ngModel]="settings().gpsAltitudeError"
+      (ngModelChange)="setAltitudeGpsErrorChanged($event)"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ t('bgColor') }}</mat-label>
+    <input
+      matInput
+      type="color"
+      [ngModel]="settings().bgColor"
+      (ngModelChange)="bgColorChanged($event)"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ t('textColor') }}</mat-label>
+    <input
+      matInput
+      type="color"
+      [ngModel]="settings().textColor"
+      (ngModelChange)="textColorChanged($event)"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ t('altitudeShowTypes') }}</mat-label>
+    <mat-select
+      [ngModel]="settings().show"
+      (ngModelChange)="showTypeChanged($event)"
+      multiple
+    >
+      @for (showType of showTypes; track showType) {
+        <mat-option [value]="showType">{{
+          t('altitudeShowTypeList.' + showType)
+        }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ t('qfe') }}</mat-label>
+    <input
+      matInput
+      type="number"
+      [ngModel]="settings().qfe"
+      (ngModelChange)="setQFE($event)"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ t('qnh') }}</mat-label>
+    <input
+      matInput
+      type="number"
+      [ngModel]="settings().qnh"
+      (ngModelChange)="setQNH($event)"
+    />
+  </mat-form-field>
 </mat-expansion-panel>
