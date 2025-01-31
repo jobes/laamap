@@ -21,13 +21,13 @@ describe(AltimeterWidgetComponent.name, () => {
                 position: { x: 0, y: 0 },
                 bgColor: 'cccccc',
                 textColor: '222222',
-                altitudeMeters: 5,
-                altitudeObject: {
+                altitudeMetersGps: 5,
+                altitudeObjectGps: {
                   value: 100,
                   unit: EHeightUnit.meter,
                   referenceDatum: EReferenceDatum.msl,
                 },
-                gndHeightObject: {
+                gndHeightObjectGps: {
                   value: 45,
                   unit: EHeightUnit.meter,
                   referenceDatum: EReferenceDatum.gnd,
