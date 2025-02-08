@@ -7,7 +7,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs/operators';
 
-import { bluetoothServiceIdFlyInstruments } from '../../../../helper';
+import { servicesDefinition } from '../../../../services/ble/ble-services-definition';
 import { bleSensorsSettingsActions } from '../../../../store/actions/settings.actions';
 import { bleSensorsFeature } from '../../../../store/features/ble-sensors.feature';
 import { bleSensorsSettingsFeature } from '../../../../store/features/settings/ble-sensors-settings.feature';
@@ -42,7 +42,16 @@ export class BleSettingsComponent {
   findDevice() {
     this.ble
       .discover$({
-        filters: [{ services: [bluetoothServiceIdFlyInstruments] }],
+        filters: [
+          {
+            services: Object.values(servicesDefinition)
+              .filter((value) => value.required)
+              .map((value) => value.id),
+          },
+        ],
+        optionalServices: Object.values(servicesDefinition)
+          .filter((value) => !value.required)
+          .map((value) => value.id),
       })
       .pipe(
         take(1),

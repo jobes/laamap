@@ -1,6 +1,8 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
 
+import { BleCharacteristicNames } from '../features/ble-sensors.initial-state';
+
 export const mapEffectsActions = createActionGroup({
   source: 'Map effects',
   events: {
@@ -33,10 +35,12 @@ export const navigationEffectsActions = createActionGroup({
 export const bleSensorsEffectsActions = createActionGroup({
   source: 'Ble sensors effects',
   events: {
-    'Pressure changed': props<{ value: number }>(),
-    'Temperature changed': props<{ value: number }>(),
     'Connect device': props<{ deviceId: string }>(),
     'Device disconnected': emptyProps(),
+    'Characteristic data changed': props<{
+      characteristicName: BleCharacteristicNames;
+      value: number | string | undefined;
+    }>(),
   },
 });
 

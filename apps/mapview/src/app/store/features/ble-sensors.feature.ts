@@ -2,35 +2,27 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 
 import { bleSensorsEffectsActions } from '../actions/effects.actions';
 import { bleSensorsSettingsActions } from '../actions/settings.actions';
-
-const initialState = {
-  pressure: undefined as number | undefined,
-  temperature: undefined as number | undefined,
-};
+import { bleSensorsInitialState } from './ble-sensors.initial-state';
 
 export const bleSensorsFeature = createFeature({
   name: 'bleSensors',
   reducer: createReducer(
-    initialState,
+    bleSensorsInitialState,
     on(
-      bleSensorsEffectsActions.pressureChanged,
-      (state, { value }): typeof initialState => ({
+      bleSensorsEffectsActions.characteristicDataChanged,
+      (
+        state,
+        { characteristicName, value },
+      ): typeof bleSensorsInitialState => ({
         ...state,
-        pressure: value,
-      }),
-    ),
-    on(
-      bleSensorsEffectsActions.temperatureChanged,
-      (state, { value }): typeof initialState => ({
-        ...state,
-        temperature: value,
+        [characteristicName]: value,
       }),
     ),
     on(
       bleSensorsEffectsActions.deviceDisconnected,
       bleSensorsSettingsActions.deviceChanged,
       bleSensorsSettingsActions.deviceDeleted,
-      (): typeof initialState => initialState,
+      (): typeof bleSensorsInitialState => bleSensorsInitialState,
     ),
   ),
 });
