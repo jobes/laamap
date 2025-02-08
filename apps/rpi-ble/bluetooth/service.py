@@ -22,11 +22,14 @@ SOFTWARE.
 import dbus
 import dbus.mainloop.glib
 import dbus.exceptions
+import threading
+import struct
 try:
   from gi.repository import GObject
 except ImportError:
     import gobject as GObject
-from bletools import BleTools
+from .bletools import BleTools
+from settings import config
 
 BLUEZ_SERVICE_NAME = "org.bluez"
 GATT_MANAGER_IFACE = "org.bluez.GattManager1"
@@ -60,6 +63,7 @@ class Application(dbus.service.Object):
 
     def add_service(self, service):
         self.services.append(service)
+        return len(self.services)
 
     @dbus.service.method(DBUS_OM_IFACE, out_signature = "a{oa{sa{sv}}}")
     def GetManagedObjects(self):
@@ -99,6 +103,8 @@ class Application(dbus.service.Object):
     def quit(self):
         print("\nGATT application terminated")
         self.mainloop.quit()
+        for serv in self.services:
+            serv.stop()
 
 class Service(dbus.service.Object):
     PATH_BASE = "/org/bluez/example/service"
@@ -110,6 +116,7 @@ class Service(dbus.service.Object):
         self.primary = primary
         self.characteristics = []
         self.next_index = 0
+        self.run = True
         dbus.service.Object.__init__(self, self.bus, self.path)
 
     def get_properties(self):
@@ -155,6 +162,9 @@ class Service(dbus.service.Object):
             raise InvalidArgsException()
 
         return self.get_properties()[GATT_SERVICE_IFACE]
+        
+    def stop(self):
+        self.run = False
 
 class Characteristic(dbus.service.Object):
     """
@@ -242,8 +252,57 @@ class Characteristic(dbus.service.Object):
     def get_next_index(self):
         idx = self.next_index
         self.next_index += 1
-
         return idx
+        
+    def _serializeString(self, data):
+        value = []
+        for c in str(data):
+            value.append(dbus.Byte(c.encode()))
+        return value
+    
+    def _deserializeString(self, data):
+        value = ''
+        for b in data:
+            value+=str(b)
+        return value
+        
+    def convertToDbus(self, byteData):
+        return [dbus.Byte(b) for b in byteData]
+        
+    def serialize(self, value, valueType):
+        result = []
+        if value == '' or value == None:
+            return result
+        
+        match valueType:
+            case 'string':
+                result = self._serializeString(value)
+            case 'uint8':
+                number = int(value)
+                result = self.convertToDbus(number.to_bytes(1, 'little', signed=False))
+            case 'uint16':
+                number = int(value)
+                result = self.convertToDbus(number.to_bytes(2, 'little', signed=False))
+            case 'uint32':
+                number = int(value)
+                result = self.convertToDbus(number.to_bytes(4, 'little', signed=False))
+            case 'sint8':
+                number = int(value)
+                result = self.convertToDbus(number.to_bytes(1, 'little', signed=True))
+            case 'sint16':
+                number = int(value)
+                result = self.convertToDbus(number.to_bytes(2, 'little', signed=True))
+            case 'sint32':
+                number = int(value)
+                result = self.convertToDbus(number.to_bytes(4, 'little', signed=True))
+            case 'float':
+                number = float(value)
+                result = self.convertToDbus(struct.pack("<f", number))
+            case 'double':
+                number = float(value)
+                result = self.convertToDbus(struct.pack("<d", number))
+                
+        return result
 
 class Descriptor(dbus.service.Object):
     def __init__(self, uuid, flags, characteristic):
@@ -309,31 +368,73 @@ class StaticDescriptor(Descriptor):
 
 class ServiceReadNotifyOnlyCharacteristic(Characteristic):
     notifyEnabled = False
-    def __init__(self, service, uuid, description, valueKey):
-        self.valueKey = valueKey
-
+    value = None
+    def __init__(self, service, uuid, description, valueType):
         Characteristic.__init__(
                 self, uuid,
                 ["notify", "read"], service)
+        self.type = valueType
         self.add_descriptor(StaticDescriptor("2901", description, self))
         
     def ReadValue(self, options):
-        return self._serialize(self.service.data[self.valueKey])
+        return self.serialize(self.value, self.type)
         
     def StartNotify(self):
         self.notifyEnabled = True
         
     def StopNotify(self):
         self.notifyEnabled = False
-        
-    def notify(self, value):
-        if self.notifyEnabled:
-            self.PropertiesChanged(GATT_CHRC_IFACE, {"Value": self._serialize(value)}, [])
 
-    def _serialize(self, data):
-        value = []
-        
-        for c in str(data):
-            value.append(dbus.Byte(c.encode()))
+    def setValue(self, value):
+        if self.value != value:
+            self.value = value
+            if self.notifyEnabled:
+                self.PropertiesChanged(GATT_CHRC_IFACE, {"Value": self.ReadValue(None)}, [])
 
-        return value
+class ServiceConfigCharacteristic(Characteristic):
+    def __init__(self, service, uuid, description, configKey, nativeType = 'string'):
+        self.configKey = configKey
+        self.nativeType = nativeType
+        Characteristic.__init__(
+                self, uuid,
+                ["write", "read"], service)
+        self.add_descriptor(StaticDescriptor("2901", description, self))
+        
+    def ReadValue(self, options):
+        return self.serialize(config['DEFAULT'][self.configKey], self.nativeType)
+
+    
+    def WriteValue(self, value, options):
+        res = ''
+        if len(value) != 0:
+            match self.nativeType:
+                case 'string':
+                    res = self._deserializeString(value)
+                case 'uint8' | 'uint16' | 'uint32':
+                    res = int.from_bytes(value, byteorder='little', signed=False)
+                case 'sint8' | 'sint16' | 'sint32':
+                    res = int.from_bytes(value, byteorder='little', signed=True)
+                case 'float':
+                    res = struct.unpack('<f', bytes(value))[0]
+                case 'double':
+                    res = struct.unpack('<d', bytes(value))[0]
+
+                
+        config['DEFAULT'][self.configKey] = str(res)
+        config.save()
+
+     
+class ThreadedService(Service):   
+    def __init__(self, index, uuid, primary):
+        Service.__init__(self, index, uuid, primary)
+        self.charasteristics = {}
+        
+    def start(self):
+        for charasteristic in self.charasteristics:
+            self.add_characteristic(self.charasteristics[charasteristic])
+
+        threading.Thread(target=self.threadWork).start()
+    
+    def threadWork(self):
+        pass
+        

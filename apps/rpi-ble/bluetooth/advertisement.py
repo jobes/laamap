@@ -22,7 +22,7 @@ SOFTWARE.
 import dbus
 import dbus.service
 
-from bletools import BleTools
+from .bletools import BleTools
 
 BLUEZ_SERVICE_NAME = "org.bluez"
 LE_ADVERTISING_MANAGER_IFACE = "org.bluez.LEAdvertisingManager1"
@@ -133,3 +133,9 @@ class Advertisement(dbus.service.Object):
         ad_manager.RegisterAdvertisement(self.get_path(), {},
                                      reply_handler=self.register_ad_callback,
                                      error_handler=self.register_ad_error_callback)
+
+class NameAdvertisement(Advertisement):
+    def __init__(self, index, name):
+        Advertisement.__init__(self, index, "peripheral")
+        self.add_local_name(name)
+        self.include_tx_power = True
