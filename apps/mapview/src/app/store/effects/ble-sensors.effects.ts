@@ -2,21 +2,9 @@ import { Injectable } from '@angular/core';
 import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import {
-  combineLatest,
-  filter,
-  forkJoin,
-  map,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs';
 
-import {
-  bluetoothFlyInstrumentPressureCharacteristic,
-  bluetoothFlyInstrumentTemperatureCharacteristic,
-  bluetoothServiceIdFlyInstruments,
-} from '../../helper';
+import { BleService } from '../../services/ble/ble.service';
 import { bleSensorsEffectsActions } from '../actions/effects.actions';
 import { bleSensorsSettingsActions } from '../actions/settings.actions';
 import { mapFeature } from '../features/map.feature';
@@ -43,71 +31,14 @@ export class BleSensorsEffects {
           bleSensorsSettingsActions.deviceChanged,
           bleSensorsEffectsActions.connectDevice,
         ),
-        switchMap((deviceId) =>
-          navigator.bluetooth
-            .getDevices()
-            // eslint-disable-next-line max-nested-callbacks
-            .then((devices) => devices.find((d) => d.id === deviceId.deviceId)),
-        ),
+        switchMap((deviceId) => this.getBleDevice(deviceId.deviceId)),
         filter((device) => !!device),
         tap((device) => {
           device.addEventListener('gattserverdisconnected', () => {
             this.store.dispatch(bleSensorsEffectsActions.deviceDisconnected());
           });
         }),
-        switchMap((device) => this.ble.connectDevice$(device)),
-        filter((gatt) => !!gatt),
-        switchMap((gatt) =>
-          forkJoin({
-            flyInstruments: this.ble.getPrimaryService$(
-              gatt,
-              bluetoothServiceIdFlyInstruments,
-            ),
-          }),
-        ),
-        switchMap(({ flyInstruments }) =>
-          forkJoin({
-            pressure: this.ble.getCharacteristic$(
-              flyInstruments,
-              bluetoothFlyInstrumentPressureCharacteristic,
-            ),
-            temperature: this.ble.getCharacteristic$(
-              flyInstruments,
-              bluetoothFlyInstrumentTemperatureCharacteristic,
-            ),
-          }),
-        ),
-        switchMap(({ pressure, temperature }) => {
-          const observables = [];
-          console.log('SUBSCRIBING to BLE characteristics');
-          if (pressure) {
-            observables.push(
-              this.ble.observeValue$(pressure).pipe(
-                tap((value) => {
-                  this.store.dispatch(
-                    bleSensorsEffectsActions.pressureChanged({
-                      value: this.toNumber(value),
-                    }),
-                  );
-                }),
-              ),
-            );
-          }
-          if (temperature) {
-            observables.push(
-              this.ble.observeValue$(temperature).pipe(
-                tap((value) => {
-                  this.store.dispatch(
-                    bleSensorsEffectsActions.temperatureChanged({
-                      value: this.toNumber(value),
-                    }),
-                  );
-                }),
-              ),
-            );
-          }
-          return combineLatest(observables);
-        }),
+        switchMap((device) => this.bleService.processDevice(device)),
       );
     },
     { dispatch: false },
@@ -124,18 +55,16 @@ export class BleSensorsEffects {
     },
     { dispatch: false },
   );
+
+  private getBleDevice(deviceId: string): Promise<BluetoothDevice | undefined> {
+    return navigator.bluetooth
+      .getDevices()
+      .then((devices) => devices.find((d) => d.id === deviceId));
+  }
   constructor(
     private readonly actions$: Actions,
     private readonly store: Store,
     private readonly ble: BluetoothCore,
+    private readonly bleService: BleService,
   ) {}
-
-  private enc = new TextDecoder('utf-8');
-
-  private toString(val: DataView): string {
-    return this.enc.decode(val);
-  }
-  private toNumber(val: DataView): number {
-    return parseFloat(this.toString(val));
-  }
 }
