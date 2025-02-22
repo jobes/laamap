@@ -34,7 +34,7 @@ class MglRdacVdService(ThreadedService):
             #'AFL2': ServiceReadNotifyOnlyCharacteristic(self,'3473113f-3622-4d60-92f0-1e235bc8f78e','Analog fuel level 2, uint16 l-endian', 'uint16'),
         }
 
-        self.add_characteristic(ServiceConfigCharacteristic(self,'a48bc93d-65e5-428b-a857-7afb11de3184','Number of pulses per revolutions', 'rdac.rev_factor', 'sint16'))
+        self.add_characteristic(ServiceConfigCharacteristic(self,'a48bc93d-65e5-428b-a857-7afb11de3184','Number of pulses per revolutions, float32', 'rdac.rev_factor', 'float'))
         self.start()
     
     def threadWork(self):

@@ -11,6 +11,7 @@ import { servicesDefinition } from '../../../../services/ble/ble-services-defini
 import { bleSensorsSettingsActions } from '../../../../store/actions/settings.actions';
 import { bleSensorsFeature } from '../../../../store/features/ble-sensors.feature';
 import { bleSensorsSettingsFeature } from '../../../../store/features/settings/ble-sensors-settings.feature';
+import { BleEditComponent } from './ble-edit/ble-edit.component';
 
 @Component({
   selector: 'laamap-ble-sensors-settings',
@@ -20,6 +21,7 @@ import { bleSensorsSettingsFeature } from '../../../../store/features/settings/b
     MatIconModule,
     TranslocoModule,
     MatButtonModule,
+    BleEditComponent,
   ],
   templateUrl: './ble-sensors-settings.component.html',
   styleUrls: ['./ble-sensors-settings.component.scss'],

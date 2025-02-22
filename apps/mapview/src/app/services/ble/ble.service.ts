@@ -1,4 +1,5 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Signal, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 import { Store } from '@ngrx/store';
 import {
@@ -7,6 +8,7 @@ import {
   combineLatest,
   filter,
   forkJoin,
+  map,
   of,
   startWith,
   switchMap,
@@ -19,7 +21,9 @@ import {
   BleBinaryDataType,
   CharacteristicDefinition,
   ServiceNames,
+  SettingsCharacteristicNames,
   servicesDefinition,
+  settingsCharacteristicsDefinition,
 } from './ble-services-definition';
 
 type GattCharacteristicDefinition = Record<
@@ -33,6 +37,7 @@ type GattCharacteristicDefinition = Record<
 export class BleService {
   store = inject(Store);
   ble = inject(BluetoothCore);
+  gatt = toSignal(this.ble.getGATT$(), { initialValue: null });
 
   // record service definition, [characteristic name]: characteristic definition
   private readonly characteristicsDefinition = Object.entries(
@@ -50,6 +55,37 @@ export class BleService {
     }),
     {} as Record<string, CharacteristicDefinition>,
   );
+
+  readSettingsValue(
+    name: SettingsCharacteristicNames,
+  ): Signal<string | number | undefined> {
+    const config = settingsCharacteristicsDefinition[name];
+    const serviceId = servicesDefinition[config.serviceName].id;
+
+    const result$ = this.ble.getPrimaryService$(this.gatt(), serviceId).pipe(
+      switchMap((service) => this.ble.getCharacteristic$(service, config.id)),
+      filter((characteristic) => !!characteristic),
+      switchMap((characteristic) => this.ble.readValue$(characteristic)),
+      map((dataView) => this.decodeValue(dataView, config.dataType)),
+    );
+    return toSignal(result$);
+  }
+
+  writeSettingsValue(
+    name: SettingsCharacteristicNames,
+    value: string | number,
+  ): Observable<unknown> {
+    const config = settingsCharacteristicsDefinition[name];
+    const serviceId = servicesDefinition[config.serviceName].id;
+    return this.ble.getPrimaryService$(this.gatt(), serviceId).pipe(
+      switchMap((service) => this.ble.getCharacteristic$(service, config.id)),
+      filter((characteristic) => !!characteristic),
+      switchMap((characteristic) => {
+        const buffer = this.encodeValue(value, config.dataType);
+        return this.ble.writeValue$(characteristic, buffer);
+      }),
+    );
+  }
 
   processDevice(device: BluetoothDevice): Observable<unknown> {
     return this.ble.connectDevice$(device).pipe(
@@ -85,8 +121,6 @@ export class BleService {
             {},
           ),
         );
-
-        // TODO add support for writing values
         return combineLatest(this.processCharacteristics(characteristics));
       }),
     );
@@ -185,6 +219,59 @@ export class BleService {
         return value.getFloat32(0, true);
       case BleBinaryDataType.double:
         return value.getFloat64(0, true);
+    }
+  }
+
+  private encodeValue(
+    value: string | number,
+    dataType: BleBinaryDataType,
+  ): ArrayBuffer {
+    let buffer = new ArrayBuffer(0);
+    let view = new DataView(buffer, 0);
+
+    switch (dataType) {
+      case BleBinaryDataType.uint32:
+        buffer = new ArrayBuffer(4);
+        view = new DataView(buffer, 0);
+        view.setUint32(0, value as number, true);
+        return view.buffer;
+      case BleBinaryDataType.uint16:
+        buffer = new ArrayBuffer(2);
+        view = new DataView(buffer, 0);
+        view.setUint16(0, value as number, true);
+        return view.buffer;
+      case BleBinaryDataType.uint8:
+        buffer = new ArrayBuffer(1);
+        view = new DataView(buffer, 0);
+        view.setUint8(0, value as number);
+        return view.buffer;
+      case BleBinaryDataType.sint32:
+        buffer = new ArrayBuffer(4);
+        view = new DataView(buffer, 0);
+        view.setInt32(0, value as number, true);
+        return view.buffer;
+      case BleBinaryDataType.sint16:
+        buffer = new ArrayBuffer(2);
+        view = new DataView(buffer, 0);
+        view.setInt16(0, value as number, true);
+        return view.buffer;
+      case BleBinaryDataType.sint8:
+        buffer = new ArrayBuffer(1);
+        view = new DataView(buffer, 0);
+        view.setInt8(0, value as number);
+        return view.buffer;
+      case BleBinaryDataType.string:
+        return new TextEncoder().encode(value as string);
+      case BleBinaryDataType.float:
+        buffer = new ArrayBuffer(4);
+        view = new DataView(buffer, 0);
+        view.setFloat32(0, value as number, true);
+        return view.buffer;
+      case BleBinaryDataType.double:
+        buffer = new ArrayBuffer(8);
+        view = new DataView(buffer, 0);
+        view.setFloat64(0, value as number, true);
+        return view.buffer;
     }
   }
 }

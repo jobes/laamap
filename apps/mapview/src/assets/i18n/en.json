@@ -178,7 +178,9 @@
       "findDevice": "Find device",
       "tip": "Pair your device with device of the plane in the operating system (android) otherwise communication will not work properly.",
       "sensor": "Sensor",
-      "value": "Value"
+      "value": "Value",
+      "bleInstrumentsSettings": "Plane instruments settings",
+      "bleInstrumentsSettingsDesc": "Dangerous settings: these values are changed directly in the plane"
     }
   },
   "navigationDialog": {
