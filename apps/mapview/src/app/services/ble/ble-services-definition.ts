@@ -2,6 +2,8 @@ import { BleCharacteristicNames } from '../../store/features/ble-sensors.initial
 
 export type ServiceNames = 'pressure' | 'rdac';
 
+export type SettingsCharacteristicNames = 'rpmFactor';
+
 export enum BleBinaryDataType {
   uint32 = 'uint32',
   uint16 = 'uint16',
@@ -155,5 +157,20 @@ export const servicesDefinition: ServiceDefinitionRecord = {
         dataType: BleBinaryDataType.uint16,
       },
     ],
+  },
+};
+
+export const settingsCharacteristicsDefinition: Record<
+  SettingsCharacteristicNames,
+  {
+    id: string;
+    serviceName: ServiceNames;
+    dataType: BleBinaryDataType;
+  }
+> = {
+  rpmFactor: {
+    id: 'a48bc93d-65e5-428b-a857-7afb11de3184',
+    serviceName: 'rdac',
+    dataType: BleBinaryDataType.float,
   },
 };

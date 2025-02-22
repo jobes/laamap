@@ -182,7 +182,9 @@
       "findDevice": "Nájst zariadenie",
       "tip": "Najprv spárujte vaše zariadenie so zariadením lietadla v operačnom systéme (android) inak komunikácia nemusí fungovať spolahlivo.",
       "sensor": "senzor",
-      "value": "hodnota"
+      "value": "hodnota",
+      "bleInstrumentsSettings": "Nastavenia zariadení lietadla",
+      "bleInstrumentsSettingsDesc": "Nebezpečenstvo: tu sa nemenia hodnoty tejto aplikácie ale priamo zariadenia v lietadle"
     }
   },
   "navigationDialog": {

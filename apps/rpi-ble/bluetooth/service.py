@@ -24,6 +24,7 @@ import dbus.mainloop.glib
 import dbus.exceptions
 import threading
 import struct
+
 try:
   from gi.repository import GObject
 except ImportError:
@@ -38,6 +39,7 @@ DBUS_PROP_IFACE =    "org.freedesktop.DBus.Properties"
 GATT_SERVICE_IFACE = "org.bluez.GattService1"
 GATT_CHRC_IFACE =    "org.bluez.GattCharacteristic1"
 GATT_DESC_IFACE =    "org.bluez.GattDescriptor1"
+BLUEZ_DEVICES =      "org.bluez.Device1"
 
 class InvalidArgsException(dbus.exceptions.DBusException):
     _dbus_error_name = "org.freedesktop.DBus.Error.InvalidArgs"
@@ -405,23 +407,31 @@ class ServiceConfigCharacteristic(Characteristic):
 
     
     def WriteValue(self, value, options):
-        res = ''
-        if len(value) != 0:
-            match self.nativeType:
-                case 'string':
-                    res = self._deserializeString(value)
-                case 'uint8' | 'uint16' | 'uint32':
-                    res = int.from_bytes(value, byteorder='little', signed=False)
-                case 'sint8' | 'sint16' | 'sint32':
-                    res = int.from_bytes(value, byteorder='little', signed=True)
-                case 'float':
-                    res = struct.unpack('<f', bytes(value))[0]
-                case 'double':
-                    res = struct.unpack('<d', bytes(value))[0]
+        bus = dbus.SystemBus()
+        manager = dbus.Interface(bus.get_object(BLUEZ_SERVICE_NAME, "/"), DBUS_OM_IFACE)
+        objects = manager.GetManagedObjects()        
+        name = objects[options['device']][BLUEZ_DEVICES]['Name']
+        trusted = objects[options['device']][BLUEZ_DEVICES]['Trusted'] == True
+        print('Writing value', options['device'], name, 'trusted:', trusted)
+        
+        if(trusted == True):
+            res = ''
+            if len(value) != 0:
+                match self.nativeType:
+                    case 'string':
+                        res = self._deserializeString(value)
+                    case 'uint8' | 'uint16' | 'uint32':
+                        res = int.from_bytes(value, byteorder='little', signed=False)
+                    case 'sint8' | 'sint16' | 'sint32':
+                        res = int.from_bytes(value, byteorder='little', signed=True)
+                    case 'float':
+                        res = struct.unpack('<f', bytes(value))[0]
+                    case 'double':
+                        res = struct.unpack('<d', bytes(value))[0]
 
-                
-        config['DEFAULT'][self.configKey] = str(res)
-        config.save()
+                    
+            config['DEFAULT'][self.configKey] = str(res)
+            config.save()
 
      
 class ThreadedService(Service):   
