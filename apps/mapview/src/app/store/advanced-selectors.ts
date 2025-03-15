@@ -8,9 +8,9 @@ import {
   EHeightUnit,
   EReferenceDatum,
 } from '../services/open-aip/airport.interfaces';
-import { bleSensorsFeature } from './features/ble-sensors.feature';
 import { mapFeature } from './features/map.feature';
 import { navigationFeature } from './features/navigation.feature';
+import { planeInstrumentsFeature } from './features/plane-instruments.feature';
 import { instrumentsFeature } from './features/settings/instruments.feature';
 import { navigationSettingsFeature } from './features/settings/navigation.feature';
 import { terrainFeature } from './features/settings/terrain.feature';
@@ -103,7 +103,7 @@ export const selectHeighSettings = createSelector(
   instrumentsFeature.selectAltimeter,
   terrainFeature['selectSettings.terrainState'],
   mapFeature.selectTerrainElevation,
-  bleSensorsFeature.selectPressure,
+  planeInstrumentsFeature.selectAirPressure,
   (geolocation, settings, terrain, terrainElevation, pressure) => ({
     bgColor: settings.bgColor,
     textColor: settings.textColor,

@@ -64,6 +64,9 @@ export const instrumentSettingsActions = createActionGroup({
     'Visible on gps tracking changed': props<{
       showOnlyOnActiveGps: boolean;
     }>(),
+    'Airplane instruments URL changed': props<{
+      url: string;
+    }>(),
   },
 });
 
@@ -202,14 +205,6 @@ export const terrainSettingsActions = createActionGroup({
     'Enabled changed': props<{ enabled: boolean }>(),
     'Gnd height calculate using terrain changed': props<{ enabled: boolean }>(),
     'Exaggeration changed': props<{ exaggeration: number }>(),
-  },
-});
-
-export const bleSensorsSettingsActions = createActionGroup({
-  source: 'Ble sensors Settings',
-  events: {
-    'Device changed': props<{ deviceId: string; deviceName: string }>(),
-    'Device deleted': emptyProps(),
   },
 });
 

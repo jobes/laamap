@@ -21,6 +21,7 @@ import {
 
 const initialState = {
   showOnlyOnActiveGps: true,
+  airplaneInstrumentsUrl: '',
   speedMeter: {
     position: { x: 0, y: 0 },
     colorsBySpeed: [
@@ -225,6 +226,13 @@ export const instrumentsFeature = createFeature({
       (state, { showOnlyOnActiveGps }): typeof initialState => ({
         ...state,
         showOnlyOnActiveGps,
+      }),
+    ),
+    on(
+      instrumentSettingsActions.airplaneInstrumentsURLChanged,
+      (state, { url }): typeof initialState => ({
+        ...state,
+        airplaneInstrumentsUrl: url,
       }),
     ),
     on(

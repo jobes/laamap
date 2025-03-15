@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslocoModule } from '@ngneat/transloco';
-import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { instrumentSettingsActions } from '../../../../store/actions/settings.actions';
+import { planeInstrumentsFeature } from '../../../../store/features/plane-instruments.feature';
 import { instrumentsFeature } from '../../../../store/features/settings/instruments.feature';
 import { AltitudeWidgetSettingsComponent } from './altitude-widget-settings/altitude-widget-settings.component';
 import { SpeedWidgetSettingsComponent } from './speed-widget-settings/speed-widget-settings.component';
@@ -22,7 +25,9 @@ import { VarioWidgetSettingsComponent } from './vario-widget-settings/vario-widg
     TranslocoModule,
     MatExpansionModule,
     MatIconModule,
-    LetDirective,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
     MatSlideToggleModule,
     SpeedWidgetSettingsComponent,
     AltitudeWidgetSettingsComponent,
@@ -31,8 +36,17 @@ import { VarioWidgetSettingsComponent } from './vario-widget-settings/vario-widg
   ],
 })
 export class InstrumentsSettingsComponent {
-  showOnlyOnActiveGps$ = this.store.select(
+  showOnlyOnActiveGps = this.store.selectSignal(
     instrumentsFeature.selectShowOnlyOnActiveGps,
+  );
+  airplaneInstrumentsUrl = this.store.selectSignal(
+    instrumentsFeature.selectAirplaneInstrumentsUrl,
+  );
+  airplaneInstrumentsCpuUsage = this.store.selectSignal(
+    planeInstrumentsFeature.selectCpuUsage,
+  );
+  airplaneInstrumentsConnected = computed(
+    () => this.airplaneInstrumentsCpuUsage() !== null,
   );
 
   constructor(private readonly store: Store) {}
@@ -41,6 +55,14 @@ export class InstrumentsSettingsComponent {
     this.store.dispatch(
       instrumentSettingsActions.visibleOnGpsTrackingChanged({
         showOnlyOnActiveGps,
+      }),
+    );
+  }
+
+  setAirplaneInstrumentsUrl(airplaneInstrumentsUrl: string): void {
+    this.store.dispatch(
+      instrumentSettingsActions.airplaneInstrumentsURLChanged({
+        url: airplaneInstrumentsUrl,
       }),
     );
   }

@@ -119,6 +119,7 @@
       "qnh": "QNH",
       "gpsAltitudeError": "Chyba výšky GPS v metroch",
       "relativeHeightSource": "Zdroj relatívnej výšky",
+      "airplaneInstrumentsUrl": "URL prístrojov lietadla",
       "altitudeShowTypeList": {
         "altitudeM": "Nadmorská výška v metroch (gps)",
         "gndM": "Výška nad zemou v metroch (gps)",
@@ -175,16 +176,6 @@
       "enable": "Povoliť",
       "gndHeightCalculateUsingTerrain": "Výpočet výšky nad zemou pomocou terénu",
       "exaggeration": "Zväčšenie/zvýraznenie výšky"
-    },
-    "ble": {
-      "title": "Bluetooth",
-      "description": "Externé senzory",
-      "findDevice": "Nájst zariadenie",
-      "tip": "Najprv spárujte vaše zariadenie so zariadením lietadla v operačnom systéme (android) inak komunikácia nemusí fungovať spolahlivo.",
-      "sensor": "senzor",
-      "value": "hodnota",
-      "bleInstrumentsSettings": "Nastavenia zariadení lietadla",
-      "bleInstrumentsSettingsDesc": "Nebezpečenstvo: tu sa nemenia hodnoty tejto aplikácie ale priamo zariadenia v lietadle"
     }
   },
   "navigationDialog": {

@@ -18,8 +18,8 @@ import {
 import { altitudeFromPressure } from '../../../helper';
 import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 import { varioMeterWidgetActions } from '../../../store/actions/widgets.actions';
-import { bleSensorsFeature } from '../../../store/features/ble-sensors.feature';
 import { mapFeature } from '../../../store/features/map.feature';
+import { planeInstrumentsFeature } from '../../../store/features/plane-instruments.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 
 @Component({
@@ -48,7 +48,7 @@ export class VariometerWidgetComponent {
   private altitude$ = combineLatest([
     this.store.select(instrumentsFeature.selectVarioMeter),
     this.store.select(instrumentsFeature.selectAltimeter),
-    this.store.select(bleSensorsFeature.selectPressure),
+    this.store.select(planeInstrumentsFeature.selectAirPressure),
     this.store.select(mapFeature.selectGeoLocation),
   ]).pipe(
     map(([varioSetting, altimeterSettings, pressure, location]) =>

@@ -7,13 +7,30 @@
       <mat-panel-description> {{ t('description') }}</mat-panel-description>
     </mat-expansion-panel-header>
 
-    <ng-container *ngrxLet="showOnlyOnActiveGps$ as showOnlyOnActiveGps">
-      <mat-slide-toggle
-        [checked]="showOnlyOnActiveGps"
-        (change)="setShowOnlyOnActiveGps($event.checked)"
-        >{{ t('showOnlyOnActiveGps') }}</mat-slide-toggle
+    <mat-slide-toggle
+      [checked]="showOnlyOnActiveGps()"
+      (change)="setShowOnlyOnActiveGps($event.checked)"
+      >{{ t('showOnlyOnActiveGps') }}</mat-slide-toggle
+    >
+    <div>
+      <mat-form-field>
+        <mat-label>{{ t('airplaneInstrumentsUrl') }}</mat-label>
+        <input
+          matInput
+          type="url"
+          [ngModel]="airplaneInstrumentsUrl()"
+          (ngModelChange)="setAirplaneInstrumentsUrl($event)"
+          [ngModelOptions]="{ updateOn: 'blur' }"
+        />
+      </mat-form-field>
+      <mat-icon
+        class="airplane-instruments-status"
+        [class.connected]="airplaneInstrumentsConnected()"
+        >{{
+          airplaneInstrumentsConnected() ? 'cloud_done' : 'cloud_off'
+        }}</mat-icon
       >
-    </ng-container>
+    </div>
     <mat-accordion>
       <laamap-speed-widget-settings></laamap-speed-widget-settings>
       <laamap-altitude-widget-settings></laamap-altitude-widget-settings>

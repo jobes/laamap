@@ -119,6 +119,7 @@
       "qnh": "QNH",
       "gpsAltitudeError": "GPS altitude errom in meter",
       "relativeHeightSource": "Relative altitude source",
+      "airplaneInstrumentsUrl": "Airplane instruments URL",
       "altitudeShowTypeList": {
         "altitudeM": "Altitude (meters GPSS)",
         "gndM": "Height (meters GPS)",
@@ -171,16 +172,6 @@
       "enable": "Enable",
       "gndHeightCalculateUsingTerrain": "Gnd computation using terrain",
       "exaggeration": "Terrain exaggeration"
-    },
-    "ble": {
-      "title": "Bluetooth",
-      "description": "External sensors",
-      "findDevice": "Find device",
-      "tip": "Pair your device with device of the plane in the operating system (android) otherwise communication will not work properly.",
-      "sensor": "Sensor",
-      "value": "Value",
-      "bleInstrumentsSettings": "Plane instruments settings",
-      "bleInstrumentsSettingsDesc": "Dangerous settings: these values are changed directly in the plane"
     }
   },
   "navigationDialog": {

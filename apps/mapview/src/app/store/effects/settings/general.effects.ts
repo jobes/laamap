@@ -22,8 +22,8 @@ import {
   altimeterQuickSettingsActions,
   generalSettingsActions,
 } from '../../actions/settings.actions';
-import { bleSensorsFeature } from '../../features/ble-sensors.feature';
 import { mapFeature } from '../../features/map.feature';
+import { planeInstrumentsFeature } from '../../features/plane-instruments.feature';
 import { generalFeature } from '../../features/settings/general.feature';
 import { instrumentsFeature } from '../../features/settings/instruments.feature';
 import { terrainFeature } from '../../features/settings/terrain.feature';
@@ -139,7 +139,7 @@ export class GeneralEffects {
       withLatestFrom(
         this.store.select(mapFeature.selectGeoLocation),
         this.store.select(mapFeature.selectTerrainElevation),
-        this.store.select(bleSensorsFeature.selectPressure),
+        this.store.select(planeInstrumentsFeature.selectAirPressure),
         this.store.select(
           terrainFeature.selectGndHeightCalculateUsingTerrainEnabled,
         ),
@@ -160,7 +160,9 @@ export class GeneralEffects {
   automaticQfeRequested$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(altimeterQuickSettingsActions.automaticQfeRequested),
-      withLatestFrom(this.store.select(bleSensorsFeature.selectPressure)),
+      withLatestFrom(
+        this.store.select(planeInstrumentsFeature.selectAirPressure),
+      ),
       map(([, pressure]) =>
         generalEffectsActions.automaticQfeSet({
           qfe: Math.round((pressure ?? 0) / 100),
