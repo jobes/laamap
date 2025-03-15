@@ -1,7 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { LngLat } from 'maplibre-gl';
 
-import { BleCharacteristicNames } from '../features/ble-sensors.initial-state';
+import { IPlaneInstruments } from '../features/plane-instruments.initial-state';
 
 export const mapEffectsActions = createActionGroup({
   source: 'Map effects',
@@ -32,15 +32,17 @@ export const navigationEffectsActions = createActionGroup({
   },
 });
 
-export const bleSensorsEffectsActions = createActionGroup({
-  source: 'Ble sensors effects',
+export const instrumentsEffectsActions = createActionGroup({
+  source: 'Instruments effects',
   events: {
-    'Connect device': props<{ deviceId: string }>(),
-    'Device disconnected': emptyProps(),
-    'Characteristic data changed': props<{
-      characteristicName: BleCharacteristicNames;
-      value: number | string | undefined;
+    'Plane instruments values changed': props<{
+      values: IPlaneInstruments;
     }>(),
+    'Plane instrument value changed': props<{
+      name: keyof IPlaneInstruments;
+      value: string | number | null;
+    }>(),
+    'Plane instruments disconnected': emptyProps(),
   },
 });
 

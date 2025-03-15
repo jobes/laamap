@@ -6,6 +6,15 @@ mat-slide-toggle {
   margin-bottom: 1rem;
 }
 
+.airplane-instruments-status {
+  margin-left: 1rem;
+  color: var(--non-active-color);
+
+  &.connected {
+    color: var(--active-color);
+  }
+}
+
 @media screen and (width > 500px) {
   mat-panel-description {
     display: flex;

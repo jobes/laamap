@@ -26,7 +26,7 @@ import {
   activeLang,
   languages,
 } from './services/transloco-loader.service';
-import { BleSensorsEffects } from './store/effects/ble-sensors.effects';
+import { InstrumentsEffects } from './store/effects/instruments.effects';
 import { MapEffects } from './store/effects/map.effects';
 import { NavigationEffects } from './store/effects/navigation.effects';
 import { AirSpacesEffects } from './store/effects/settings/air-spaces.effects';
@@ -34,11 +34,10 @@ import { GeneralEffects } from './store/effects/settings/general.effects';
 import { NotamsSettingsEffects } from './store/effects/settings/notams.effects';
 import { RadarSettingsEffects } from './store/effects/settings/radar.effects';
 import { TerrainEffects } from './store/effects/settings/terrain.effects';
-import { bleSensorsFeature } from './store/features/ble-sensors.feature';
 import { mapFeature } from './store/features/map.feature';
 import { navigationFeature } from './store/features/navigation.feature';
+import { planeInstrumentsFeature } from './store/features/plane-instruments.feature';
 import { airSpacesFeature } from './store/features/settings/air-spaces.feature';
-import { bleSensorsSettingsFeature } from './store/features/settings/ble-sensors-settings.feature';
 import { gamepadFeature } from './store/features/settings/gamepad.feature';
 import { generalFeature } from './store/features/settings/general.feature';
 import { instrumentsFeature } from './store/features/settings/instruments.feature';
@@ -67,8 +66,7 @@ export const appConfig: ApplicationConfig = {
           [generalFeature.name]: generalFeature.reducer,
           [gamepadFeature.name]: gamepadFeature.reducer,
           [terrainFeature.name]: terrainFeature.reducer,
-          [bleSensorsSettingsFeature.name]: bleSensorsSettingsFeature.reducer,
-          [bleSensorsFeature.name]: bleSensorsFeature.reducer,
+          [planeInstrumentsFeature.name]: planeInstrumentsFeature.reducer,
         },
         {
           runtimeChecks: {
@@ -90,7 +88,7 @@ export const appConfig: ApplicationConfig = {
         AirSpacesEffects,
         GeneralEffects,
         TerrainEffects,
-        BleSensorsEffects,
+        InstrumentsEffects,
       ]),
       StoreDevtoolsModule.instrument({
         maxAge: 500,

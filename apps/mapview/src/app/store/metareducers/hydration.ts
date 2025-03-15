@@ -4,7 +4,6 @@ import { ActionReducer } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
 
 import { airSpacesFeature } from '../features/settings/air-spaces.feature';
-import { bleSensorsSettingsFeature } from '../features/settings/ble-sensors-settings.feature';
 import { gamepadFeature } from '../features/settings/gamepad.feature';
 import { generalFeature } from '../features/settings/general.feature';
 import { instrumentsFeature } from '../features/settings/instruments.feature';
@@ -28,7 +27,6 @@ export function localStorageSyncReducer(
       generalFeature.name,
       gamepadFeature.name,
       terrainFeature.name,
-      bleSensorsSettingsFeature.name,
     ],
     rehydrate: true,
   })(reducer);

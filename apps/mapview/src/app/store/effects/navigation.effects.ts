@@ -30,9 +30,9 @@ import {
   globalSearchMenu,
   navigationDialogActions,
 } from '../actions/navigation.actions';
-import { bleSensorsFeature } from '../features/ble-sensors.feature';
 import { mapFeature } from '../features/map.feature';
 import { navigationFeature } from '../features/navigation.feature';
+import { planeInstrumentsFeature } from '../features/plane-instruments.feature';
 import { terrainFeature } from '../features/settings/terrain.feature';
 
 @Injectable()
@@ -188,7 +188,7 @@ export class NavigationEffects {
       take(1),
       withLatestFrom(
         this.store.select(mapFeature.selectTerrainElevation),
-        this.store.select(bleSensorsFeature.selectPressure),
+        this.store.select(planeInstrumentsFeature.selectAirPressure),
         this.store.select(
           terrainFeature.selectGndHeightCalculateUsingTerrainEnabled,
         ),

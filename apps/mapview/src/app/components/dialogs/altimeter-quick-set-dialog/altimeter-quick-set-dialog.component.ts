@@ -10,8 +10,8 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { altimeterQuickSettingsActions } from '../../../store/actions/settings.actions';
-import { bleSensorsFeature } from '../../../store/features/ble-sensors.feature';
 import { mapFeature } from '../../../store/features/map.feature';
+import { planeInstrumentsFeature } from '../../../store/features/plane-instruments.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 import { terrainFeature } from '../../../store/features/settings/terrain.feature';
 
@@ -44,7 +44,8 @@ export class AltimeterQuickSetDialogComponent {
   });
   pressureUsed = computed(
     () =>
-      this.store.selectSignal(bleSensorsFeature.selectPressure)() !== undefined,
+      this.store.selectSignal(planeInstrumentsFeature.selectAirPressure)() !==
+      undefined,
   );
   isGrounded = computed(
     () => !this.store.selectSignal(mapFeature.selectMinSpeedHit)(),

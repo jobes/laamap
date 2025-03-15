@@ -5,7 +5,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { AirspacesSettingsComponent } from './airspaces-settings/airspaces-settings.component';
-import { BleSettingsComponent } from './ble-sensors-settings/ble-sensors-settings.component';
 import { ContactMeComponent } from './contact-me/contact-me.component';
 import { GamepadSettingsComponent } from './gamepad-settings/gamepad-settings.component';
 import { GeneralSettingsComponent } from './general-settings/general-settings.component';
@@ -32,7 +31,6 @@ import { TerrainSettingsComponent } from './terrain-settings/terrain-settings.co
     MatButtonModule,
     ContactMeComponent,
     TerrainSettingsComponent,
-    BleSettingsComponent,
   ],
 })
 export class SettingsDialogComponent {}
