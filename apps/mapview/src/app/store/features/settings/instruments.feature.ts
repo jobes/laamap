@@ -1,10 +1,11 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import {
   generalEffectsActions,
   mapEffectsActions,
 } from '../../actions/effects.actions';
 import {
+  AircraftBarInstrumentWidgetSettingsActions,
   altimeterQuickSettingsActions,
   instrumentAltimeterSettingsActions,
   instrumentSettingsActions,
@@ -13,11 +14,14 @@ import {
   varioSettingsActions,
 } from '../../actions/settings.actions';
 import {
+  aircraftBarInstrumentsWidgetActions,
   altimeterWidgetActions,
   speedMeterWidgetActions,
   trackingWidgetActions,
   varioMeterWidgetActions,
 } from '../../actions/widgets.actions';
+import { barDefinition } from '../../selector-helpers';
+import { PlaneInstrumentsBarKeys } from '../plane-instruments.initial-state';
 
 const initialState = {
   showOnlyOnActiveGps: true,
@@ -95,6 +99,90 @@ const initialState = {
     inactiveBg: '#d3d3d3',
     activeText: '#000000',
     inactiveText: '#000000',
+  },
+  oilTemp: {
+    show: true,
+    position: { x: 0, y: 400 },
+    bgColor: '#ffffff',
+    textColor: '#000000',
+    minShownValue: 30,
+    maxShownValue: 150,
+    alertLower: 50,
+    alertUpper: 130,
+    cautionLower: 90,
+    cautionUpper: 110,
+  },
+  cht1Temp: {
+    show: true,
+    position: { x: 0, y: 430 },
+    bgColor: '#ffffff',
+    textColor: '#000000',
+    minShownValue: 30,
+    maxShownValue: 130,
+    alertLower: 40,
+    alertUpper: 120,
+    cautionLower: 60,
+    cautionUpper: 100,
+  },
+  cht2Temp: {
+    show: true,
+    position: { x: 0, y: 460 },
+    bgColor: '#ffffff',
+    textColor: '#000000',
+    minShownValue: 30,
+    maxShownValue: 130,
+    alertLower: 40,
+    alertUpper: 120,
+    cautionLower: 60,
+    cautionUpper: 100,
+  },
+  oilPressure: {
+    show: true,
+    position: { x: 0, y: 490 },
+    bgColor: '#ffffff',
+    textColor: '#000000',
+    minShownValue: 1,
+    maxShownValue: 8,
+    alertLower: 1.5,
+    alertUpper: 7,
+    cautionLower: 2,
+    cautionUpper: 5,
+  },
+  fuel1: {
+    show: true,
+    position: { x: 0, y: 520 },
+    bgColor: '#ffffff',
+    textColor: '#000000',
+    minShownValue: 0,
+    maxShownValue: 40,
+    alertLower: 5,
+    alertUpper: 42,
+    cautionLower: 15,
+    cautionUpper: 41,
+  },
+  fuel2: {
+    show: false,
+    position: { x: 0, y: 520 },
+    bgColor: '#ffffff',
+    textColor: '#000000',
+    minShownValue: 0,
+    maxShownValue: 40,
+    alertLower: 5,
+    alertUpper: 42,
+    cautionLower: 15,
+    cautionUpper: 41,
+  },
+  rpm: {
+    show: true,
+    position: { x: 0, y: 550 },
+    bgColor: '#ffffff',
+    textColor: '#000000',
+    minShownValue: 0,
+    maxShownValue: 6000,
+    alertLower: 1400,
+    alertUpper: 5800,
+    cautionLower: 2000,
+    cautionUpper: 5500,
   },
 };
 
@@ -270,5 +358,99 @@ export const instrumentsFeature = createFeature({
         tracking: { ...state.tracking, inactiveText },
       }),
     ),
+    on(
+      aircraftBarInstrumentsWidgetActions.positionMoved,
+      (state, { position, instrumentType }): typeof initialState => ({
+        ...state,
+        [instrumentType]: { ...state[instrumentType], position },
+      }),
+    ),
+    on(
+      AircraftBarInstrumentWidgetSettingsActions.textColorChanged,
+      (state, { textColor, instrumentType }): typeof initialState => ({
+        ...state,
+        [instrumentType]: { ...state[instrumentType], textColor },
+      }),
+    ),
+    on(
+      AircraftBarInstrumentWidgetSettingsActions.bgColorChanged,
+      (state, { instrumentType, bgColor }): typeof initialState => ({
+        ...state,
+        [instrumentType]: { ...state[instrumentType], bgColor },
+      }),
+    ),
+    on(
+      AircraftBarInstrumentWidgetSettingsActions.show,
+      (state, { instrumentType, show }): typeof initialState => ({
+        ...state,
+        [instrumentType]: { ...state[instrumentType], show },
+      }),
+    ),
+    on(
+      AircraftBarInstrumentWidgetSettingsActions.minShownValueChanged,
+      (state, { instrumentType, value }): typeof initialState => ({
+        ...state,
+        [instrumentType]: {
+          ...state[instrumentType],
+          minShownValue: value,
+        },
+      }),
+    ),
+    on(
+      AircraftBarInstrumentWidgetSettingsActions.maxShownValueChanged,
+      (state, { instrumentType, value }): typeof initialState => ({
+        ...state,
+        [instrumentType]: {
+          ...state[instrumentType],
+          maxShownValue: value,
+        },
+      }),
+    ),
+    on(
+      AircraftBarInstrumentWidgetSettingsActions.lowerAlertValueChanged,
+      (state, { instrumentType, value }): typeof initialState => ({
+        ...state,
+        [instrumentType]: {
+          ...state[instrumentType],
+          alertLower: value,
+        },
+      }),
+    ),
+    on(
+      AircraftBarInstrumentWidgetSettingsActions.upperAlertValueChanged,
+      (state, { instrumentType, value }): typeof initialState => ({
+        ...state,
+        [instrumentType]: {
+          ...state[instrumentType],
+          alertUpper: value,
+        },
+      }),
+    ),
+    on(
+      AircraftBarInstrumentWidgetSettingsActions.lowerCautionValueChanged,
+      (state, { instrumentType, value }): typeof initialState => ({
+        ...state,
+        [instrumentType]: {
+          ...state[instrumentType],
+          cautionLower: value,
+        },
+      }),
+    ),
+    on(
+      AircraftBarInstrumentWidgetSettingsActions.upperCautionValueChanged,
+      (state, { instrumentType, value }): typeof initialState => ({
+        ...state,
+        [instrumentType]: {
+          ...state[instrumentType],
+          cautionUpper: value,
+        },
+      }),
+    ),
   ),
+  extraSelectors: (selectors) => ({
+    selectAircraftInstrumentBars: (type: PlaneInstrumentsBarKeys) =>
+      createSelector(selectors['selectSettings.instrumentsState'], (settings) =>
+        barDefinition(settings[type]),
+      ),
+  }),
 });

@@ -176,6 +176,24 @@
       "enable": "Povoliť",
       "gndHeightCalculateUsingTerrain": "Výpočet výšky nad zemou pomocou terénu",
       "exaggeration": "Zväčšenie/zvýraznenie výšky"
+    },
+    "aircraftBarInstrument": {
+      "oilTemp": "Teplota oleja",
+      "cht1Temp": "Teplota CHT1",
+      "cht2Temp": "Teplota CHT2",
+      "oilPressure": "Tlak oleja",
+      "fuel1": "Palivo 1",
+      "fuel2": "Palivo 2",
+      "rpm": "Otáčky motora",
+      "show": "Zobraziť",
+      "minShownValue": "Minimálna zobrazená hodnota",
+      "lowerAlertValue": "Spodná hodnota varovania",
+      "lowerCautionValue": "Spodná hodnota upozornenia",
+      "upperCautionValue": "Vrchná hodnota upozornenia",
+      "upperAlertValue": "Vrchná hodnota varovania",
+      "maxShownValue": "Maximálna zobrazená hodnota",
+      "textColor": "Farba textu",
+      "bgColor": "Farba pozadia"
     }
   },
   "navigationDialog": {
@@ -774,6 +792,36 @@
       "distanceToGoal": "Vzdialenosť",
       "timeToGoal": "Trvanie do príletu",
       "arriveTimeToGoal": "Čas príletu"
+    },
+    "aircraftBarInstrument": {
+      "oilTemp": {
+        "header": "Teplota oleja",
+        "unit": "°C"
+      },
+      "cht1Temp": {
+        "header": "Teplota CHT1",
+        "unit": "°C"
+      },
+      "cht2Temp": {
+        "header": "Teplota CHT2",
+        "unit": "°C"
+      },
+      "rpm": {
+        "header": "RPM",
+        "unit": " "
+      },
+      "oilPressure": {
+        "header": "Tlak oleja",
+        "unit": "BAR"
+      },
+      "fuel1": {
+        "header": "Palivo 1",
+        "unit": "L"
+      },
+      "fuel2": {
+        "header": "Palivo 2",
+        "unit": "L"
+      }
     }
   },
   "mapLocationMenu": {

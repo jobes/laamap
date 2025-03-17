@@ -5,6 +5,7 @@ import {
   IGamePadActions,
 } from '../../services/gamepad-handler/gamepad-handler.types';
 import { EAirSpaceType } from '../../services/open-aip/airspaces.interfaces';
+import { PlaneInstrumentsBarKeys } from '../features/plane-instruments.initial-state';
 import {
   AllowedNavigationGoalWidgetRowType,
   AllowedNavigationNextPointWidgetRowType,
@@ -102,6 +103,45 @@ export const instrumentSpeedSettingsActions = createActionGroup({
   events: {
     'Widget Colors Changed': props<{
       colorsBySpeed: { minSpeed: number; bgColor: string; textColor: string }[];
+    }>(),
+  },
+});
+
+export const AircraftBarInstrumentWidgetSettingsActions = createActionGroup({
+  source: 'Aircraft bar instrument settings',
+  events: {
+    show: props<{ show: boolean; instrumentType: PlaneInstrumentsBarKeys }>(),
+    'Bg Color Changed': props<{
+      bgColor: string;
+      instrumentType: PlaneInstrumentsBarKeys;
+    }>(),
+    'Text Color Changed': props<{
+      textColor: string;
+      instrumentType: PlaneInstrumentsBarKeys;
+    }>(),
+    'Min shown value Changed': props<{
+      value: number;
+      instrumentType: PlaneInstrumentsBarKeys;
+    }>(),
+    'Max shown value Changed': props<{
+      value: number;
+      instrumentType: PlaneInstrumentsBarKeys;
+    }>(),
+    'Lower alert value Changed': props<{
+      value: number;
+      instrumentType: PlaneInstrumentsBarKeys;
+    }>(),
+    'Lower caution value Changed': props<{
+      value: number;
+      instrumentType: PlaneInstrumentsBarKeys;
+    }>(),
+    'Upper caution value Changed': props<{
+      value: number;
+      instrumentType: PlaneInstrumentsBarKeys;
+    }>(),
+    'Upper alert value Changed': props<{
+      value: number;
+      instrumentType: PlaneInstrumentsBarKeys;
     }>(),
   },
 });

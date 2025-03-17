@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { GlobalSearchComponent } from './global-search.component';
-import { GlobalSearchService } from '../../services/global-search/global-search.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { of } from 'rxjs';
+
+import { GlobalSearchService } from '../../services/global-search/global-search.service';
+import { GlobalSearchComponent } from './global-search.component';
 
 describe(GlobalSearchComponent.name, () => {
   beforeEach(() => {

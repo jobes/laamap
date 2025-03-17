@@ -26,7 +26,6 @@ import { radarFeature } from '../../features/settings/radar.feature';
 @Injectable()
 export class RadarSettingsEffects {
   showRainViewer$ = createEffect(
-    // eslint-disable-next-line max-lines-per-function
     () => {
       return this.store.select(mapFeature.selectLoaded).pipe(
         filter((loaded) => loaded),

@@ -3,11 +3,11 @@ import { Actions } from '@ngrx/effects';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Subject, of } from 'rxjs';
 
+import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 import { mapEffectsActions } from '../../../store/actions/effects.actions';
 import { mapFeature } from '../../../store/features/map.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 import { TrackingWidgetComponent } from './tracking-widget.component';
-import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 
 describe(TrackingWidgetComponent.name, () => {
   const detectChanges = () => {

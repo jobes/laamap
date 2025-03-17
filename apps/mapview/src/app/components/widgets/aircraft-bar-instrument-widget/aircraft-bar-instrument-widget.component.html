@@ -1,0 +1,49 @@
+<ng-template transloco let-t>
+  @if (extendedValue().show) {
+    <ng-container>
+      <div
+        class="container"
+        [class.alert]="extendedValue().alert"
+        [class.caution]="extendedValue().caution"
+        cdkDrag
+        (cdkDragEnded)="dragEnded($event)"
+        cdkDragBoundary="body"
+        [cdkDragFreeDragPosition]="safePosition()"
+        [cdkDragStartDelay]="1000"
+        [style.background]="barsDefs().bgColor"
+      >
+        <h6>{{ t('widgets.aircraftBarInstrument.' + type() + '.header') }}</h6>
+        <span class="value" [style.color]="barsDefs().textColor">
+          <span class="fixed-value">{{ extendedValue().currentValue }}</span
+          >{{ t('widgets.aircraftBarInstrument.' + type() + '.unit') }}</span
+        >
+        <div class="bar">
+          <div
+            class="lower-alert"
+            [style.width.%]="barsDefs().alertLowerPercentage"
+          ></div>
+          <div
+            class="lower-caution"
+            [style.width.%]="barsDefs().cautionLowerPercentage"
+          ></div>
+          <div class="good" [style.width.%]="barsDefs().goodPercentage"></div>
+          <div
+            class="upper-caution"
+            [style.width.%]="barsDefs().cautionUpperPercentage"
+          ></div>
+          <div
+            class="upper-alert"
+            [style.width.%]="barsDefs().alertUpperPercentage"
+          ></div>
+          <div
+            class="pointer"
+            [style.background]="barsDefs().textColor"
+            [style.left.%]="extendedValue().valuePercentage"
+          >
+            <i class="arrow" [style.border-color]="barsDefs().textColor"></i>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  }
+</ng-template>

@@ -1,9 +1,9 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { LngLat } from 'maplibre-gl';
 
 import { NotamsService } from './notams.service';
-import { APP_BASE_HREF } from '@angular/common';
 
 describe('NotamsService', () => {
   let service: NotamsService;

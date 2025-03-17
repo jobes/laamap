@@ -46,7 +46,6 @@ declare module window {
 type MountParams = Parameters<typeof mount>;
 Cypress.Commands.add(
   'mount',
-  // eslint-disable-next-line max-lines-per-function
   (component: MountParams[0], config: MountParams[1] = {}) => {
     return mount(component, {
       ...config,

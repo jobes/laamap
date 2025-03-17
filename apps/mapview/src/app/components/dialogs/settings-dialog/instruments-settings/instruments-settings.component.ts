@@ -1,4 +1,4 @@
-import { Component, computed } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { instrumentSettingsActions } from '../../../../store/actions/settings.actions';
 import { planeInstrumentsFeature } from '../../../../store/features/plane-instruments.feature';
 import { instrumentsFeature } from '../../../../store/features/settings/instruments.feature';
+import { AircraftBarInstrumentWidgetSettingsComponent } from './aircraft-bar-instrument-widget-settings/aircraft-bar-instrument-widget-settings.component';
 import { AltitudeWidgetSettingsComponent } from './altitude-widget-settings/altitude-widget-settings.component';
 import { SpeedWidgetSettingsComponent } from './speed-widget-settings/speed-widget-settings.component';
 import { TrackingWidgetSettingsComponent } from './tracking-widget-settings/tracking-widget-settings.component';
@@ -33,6 +34,7 @@ import { VarioWidgetSettingsComponent } from './vario-widget-settings/vario-widg
     AltitudeWidgetSettingsComponent,
     VarioWidgetSettingsComponent,
     TrackingWidgetSettingsComponent,
+    AircraftBarInstrumentWidgetSettingsComponent,
   ],
 })
 export class InstrumentsSettingsComponent {
@@ -42,11 +44,9 @@ export class InstrumentsSettingsComponent {
   airplaneInstrumentsUrl = this.store.selectSignal(
     instrumentsFeature.selectAirplaneInstrumentsUrl,
   );
-  airplaneInstrumentsCpuUsage = this.store.selectSignal(
-    planeInstrumentsFeature.selectCpuUsage,
-  );
-  airplaneInstrumentsConnected = computed(
-    () => this.airplaneInstrumentsCpuUsage() !== null,
+
+  airplaneInstrumentsConnected = this.store.selectSignal(
+    planeInstrumentsFeature.selectConnected,
   );
 
   constructor(private readonly store: Store) {}

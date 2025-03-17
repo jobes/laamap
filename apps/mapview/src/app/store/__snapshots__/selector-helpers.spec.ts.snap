@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Selector helpers barDefinition should define normal bars 1`] = `
+{
+  "alertLowerPercentage": 20,
+  "alertUpperPercentage": 20,
+  "bgColor": "red",
+  "cautionLowerPercentage": 20,
+  "cautionUpperPercentage": 10,
+  "goodPercentage": 30,
+  "position": {
+    "x": 20,
+    "y": 30,
+  },
+  "textColor": "black",
+}
+`;
+
+exports[`Selector helpers barDefinition should define normal bars overflowed alert 1`] = `
+{
+  "alertLowerPercentage": 33.33333333333333,
+  "alertUpperPercentage": 0,
+  "bgColor": "red",
+  "cautionLowerPercentage": 33.33333333333333,
+  "cautionUpperPercentage": 0,
+  "goodPercentage": 33.33333333333334,
+  "position": {
+    "x": 20,
+    "y": 30,
+  },
+  "textColor": "black",
+}
+`;
+
+exports[`Selector helpers barDefinition should define normal bars overflowed caution 1`] = `
+{
+  "alertLowerPercentage": 26.666666666666668,
+  "alertUpperPercentage": 0,
+  "bgColor": "red",
+  "cautionLowerPercentage": 26.666666666666668,
+  "cautionUpperPercentage": 6.666666666666671,
+  "goodPercentage": 39.99999999999999,
+  "position": {
+    "x": 20,
+    "y": 30,
+  },
+  "textColor": "black",
+}
+`;
+
+exports[`Selector helpers barExtraValues should be hidden when not connected 1`] = `
+{
+  "alert": false,
+  "caution": false,
+  "currentValue": 0,
+  "show": false,
+  "valuePercentage": 0,
+}
+`;
+
+exports[`Selector helpers barExtraValues should be hidden when not shown 1`] = `
+{
+  "alert": false,
+  "caution": false,
+  "currentValue": 0,
+  "show": false,
+  "valuePercentage": 0,
+}
+`;
+
+exports[`Selector helpers barExtraValues should be hidden when value null 1`] = `
+{
+  "alert": false,
+  "caution": false,
+  "currentValue": 0,
+  "show": false,
+  "valuePercentage": 0,
+}
+`;
+
+exports[`Selector helpers barExtraValues should map when value bigger than max bar 1`] = `
+{
+  "alert": true,
+  "caution": true,
+  "currentValue": 270,
+  "show": true,
+  "valuePercentage": 100,
+}
+`;
+
+exports[`Selector helpers barExtraValues should map when value lower than min bar 1`] = `
+{
+  "alert": true,
+  "caution": true,
+  "currentValue": 30,
+  "show": true,
+  "valuePercentage": 0,
+}
+`;
+
+exports[`Selector helpers barExtraValues should map with lower alert 1`] = `
+{
+  "alert": true,
+  "caution": true,
+  "currentValue": 60,
+  "show": true,
+  "valuePercentage": 5,
+}
+`;
+
+exports[`Selector helpers barExtraValues should map with lower caution 1`] = `
+{
+  "alert": false,
+  "caution": true,
+  "currentValue": 140,
+  "show": true,
+  "valuePercentage": 45,
+}
+`;
+
+exports[`Selector helpers barExtraValues should map with no caution and alert 1`] = `
+{
+  "alert": false,
+  "caution": false,
+  "currentValue": 170,
+  "show": true,
+  "valuePercentage": 60,
+}
+`;
+
+exports[`Selector helpers barExtraValues should map with upper alert 1`] = `
+{
+  "alert": true,
+  "caution": true,
+  "currentValue": 210,
+  "show": true,
+  "valuePercentage": 80,
+}
+`;
+
+exports[`Selector helpers barExtraValues should map with upper caution 1`] = `
+{
+  "alert": false,
+  "caution": true,
+  "currentValue": 190,
+  "show": true,
+  "valuePercentage": 70,
+}
+`;

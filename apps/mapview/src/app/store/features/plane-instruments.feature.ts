@@ -1,10 +1,14 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { instrumentsEffectsActions } from '../actions/effects.actions';
+import { barExtraValues } from '../selector-helpers';
 import {
   IPlaneInstruments,
+  IPlaneInstrumentsType,
+  PlaneInstrumentsBarKeys,
   planeInstrumentsInitialState,
 } from './plane-instruments.initial-state';
+import { instrumentsFeature } from './settings/instruments.feature';
 
 export const planeInstrumentsFeature = createFeature({
   name: 'planeInstruments',
@@ -28,4 +32,21 @@ export const planeInstrumentsFeature = createFeature({
       (): IPlaneInstruments => planeInstrumentsInitialState,
     ),
   ),
+  extraSelectors: ({ selectPlaneInstrumentsState, selectCpuUsage }) => ({
+    selectExtended: (type: IPlaneInstrumentsType) =>
+      createSelector(
+        selectPlaneInstrumentsState,
+        instrumentsFeature['selectSettings.instrumentsState'],
+        (state, settings) =>
+          barExtraValues(
+            state[type],
+            settings[type as PlaneInstrumentsBarKeys],
+            state.cpuUsage !== null && state.cpuUsage !== undefined,
+          ),
+      ),
+    selectConnected: createSelector(
+      selectCpuUsage,
+      (cpuUsage) => cpuUsage !== null && cpuUsage !== undefined,
+    ),
+  }),
 });

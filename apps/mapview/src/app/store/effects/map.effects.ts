@@ -241,7 +241,6 @@ export class MapEffects {
   );
 
   mapClicked$ = createEffect(
-    // eslint-disable-next-line max-lines-per-function
     () => {
       return this.actions$.pipe(
         ofType(mapActions.clicked),

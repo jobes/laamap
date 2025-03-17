@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule } from '@angular/material/dialog';
-import { TranslocoModule } from '@ngneat/transloco';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { CustomFlyRoutesService } from '../../../services/custom-fly-routes/custom-fly-routes.service';
+import { TranslocoModule } from '@ngneat/transloco';
 import { switchMap } from 'rxjs';
+
+import { CustomFlyRoutesService } from '../../../services/custom-fly-routes/custom-fly-routes.service';
 
 @Component({
   selector: 'laamap-custom-fly-route-create',

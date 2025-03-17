@@ -16,13 +16,13 @@ export class OnMapDirectionLineService {
 
   setSource(
     geoJson: GeoJSON.GeoJSON | null,
-    borderGeoJson: GeoJSON.GeoJSON | null
+    borderGeoJson: GeoJSON.GeoJSON | null,
   ): void {
     const source = this.mapService.instance.getSource(
-      'directionLineSource'
+      'directionLineSource',
     ) as GeoJSONSource;
     const borderSource = this.mapService.instance.getSource(
-      'directionLineBorderSource'
+      'directionLineBorderSource',
     ) as GeoJSONSource;
     if (geoJson && borderGeoJson) {
       source.setData(geoJson);

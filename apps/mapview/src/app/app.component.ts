@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { environment } from '../environments/environment';
 import { CenterIconComponent } from './components/center-icon/center-icon.component';
 import { GlobalSearchComponent } from './components/global-search/global-search.component';
+import { AircraftBarInstrumentWidgetComponent } from './components/widgets/aircraft-bar-instrument-widget/aircraft-bar-instrument-widget.component';
 import { AltimeterWidgetComponent } from './components/widgets/altimeter-widget/altimeter-widget.component';
 import { GamepadWidgetComponent } from './components/widgets/gamepad-widget/gamepad-widget.component';
 import { NavigationGoalWidgetComponent } from './components/widgets/navigation-goal-widget/navigation-goal-widget.component';
@@ -31,6 +32,7 @@ import { generalFeature } from './store/features/settings/general.feature';
     CenterIconComponent,
     GlobalSearchComponent,
     GamepadWidgetComponent,
+    AircraftBarInstrumentWidgetComponent,
   ],
 })
 export class AppComponent implements AfterViewInit {

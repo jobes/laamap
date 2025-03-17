@@ -27,7 +27,6 @@
         ],
         "max-depth": ["error", 4],
         "max-lines": "warn",
-        "max-lines-per-function": ["warn", 30],
         "max-nested-callbacks": ["error", 3],
         "max-statements": ["warn", 10]
       }
@@ -189,7 +188,6 @@
     {
       "files": ["*spec.ts"],
       "rules": {
-        "max-lines-per-function": "off",
         "max-statements": "off"
       }
     }

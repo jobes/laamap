@@ -11,7 +11,7 @@
       ],
       "rules": {
         "scale-unlimited/declaration-strict-value": "color",
-        "meowtec/no-px": [true, { "ignore": ["1px"] }],
+        "meowtec/no-px": [true, { "ignore": ["1px", "-1px"] }],
         "no-empty-source": null
       }
     }

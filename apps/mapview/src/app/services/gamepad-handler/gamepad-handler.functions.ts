@@ -10,10 +10,10 @@ export function actionDefToNumber(
   const axesVal =
     def.axes !== undefined &&
     Math.abs(active[def.index].axes[def.axes]) > (def.axesThreshold ?? 0.01)
-      ? active[def.index].axes[def.axes] ?? 0
+      ? (active[def.index].axes[def.axes] ?? 0)
       : 0;
   const buttonVal =
-    def.button !== undefined ? active[def.index].buttons[def.button] ?? 0 : 0;
+    def.button !== undefined ? (active[def.index].buttons[def.button] ?? 0) : 0;
   return (def.coefficient ?? 1) * (buttonVal + axesVal);
 }
 

@@ -63,7 +63,6 @@ export class InterestPointsService {
     await this.updateSource();
   }
 
-  // eslint-disable-next-line max-lines-per-function
   async createLayers(): Promise<void> {
     const interestGeoJson = await this.getGeoJson();
     this.mapService.instance.addSource('interestPointsSource', {

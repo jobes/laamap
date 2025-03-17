@@ -9,7 +9,7 @@ export default defineConfig({
         console.log('XXXXXXXXXXX', launchOptions);
         if (browser.name === 'chromium') {
           const newArgs = launchOptions.filter(
-            (launchOptions) => launchOptions !== '--disable-gpu'
+            (launchOptions) => launchOptions !== '--disable-gpu',
           );
           newArgs.push('--ignore-gpu-blacklist');
           return newArgs;
