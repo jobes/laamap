@@ -16,19 +16,19 @@ export const notamsFeature = createFeature({
         ...state.hiddenList.filter((nId) => nId !== notamId), // to avoid duplicity
         notamId,
       ],
-    }))
+    })),
   ),
   extraSelectors: ({ selectHiddenList }) => ({
     selectNonHiddenNotams: (notams: NotamGeoJson) =>
       createSelector(selectHiddenList, (hiddenNotamIds) => ({
         ...notams,
         features: notams.features.filter(
-          (n) => !(hiddenNotamIds ?? []).includes(n.properties.decoded.id)
+          (n) => !(hiddenNotamIds ?? []).includes(n.properties.decoded.id),
         ),
       })),
     selectNonHiddenDecodedNotams: (notams: INotamDecoded[]) =>
       createSelector(selectHiddenList, (hiddenNotamIds) =>
-        notams.filter((n) => !(hiddenNotamIds ?? []).includes(n.id))
+        notams.filter((n) => !(hiddenNotamIds ?? []).includes(n.id)),
       ),
   }),
 });

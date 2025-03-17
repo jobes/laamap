@@ -151,7 +151,6 @@ export class OnMapAirportsService {
     ];
   }
 
-  // eslint-disable-next-line max-lines-per-function
   private addOrientationLayer(): void {
     this.mapService.instance.addLayer({
       id: 'airportOrientationLayer',
@@ -204,7 +203,6 @@ export class OnMapAirportsService {
     });
   }
 
-  // eslint-disable-next-line max-lines-per-function
   private addAirportTypeLayer(): void {
     this.mapService.instance.addLayer({
       id: 'airportTypeLayer',

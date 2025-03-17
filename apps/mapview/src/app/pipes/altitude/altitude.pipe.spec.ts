@@ -28,8 +28,8 @@ describe('AltitudePipe', () => {
           referenceDatum: EReferenceDatum.msl,
         },
         EHeightUnit.meter,
-        'value'
-      )
+        'value',
+      ),
     ).toBe('5');
   });
 
@@ -43,8 +43,8 @@ describe('AltitudePipe', () => {
           referenceDatum: EReferenceDatum.msl,
         },
         EHeightUnit.meter,
-        'valueAndUnit'
-      )
+        'valueAndUnit',
+      ),
     ).toBe('5shared.altitude.heighUnit.0 shared.altitude.referenceDatum.1');
   });
 
@@ -58,8 +58,8 @@ describe('AltitudePipe', () => {
           referenceDatum: EReferenceDatum.std,
         },
         EHeightUnit.flightLevel,
-        'valueAndUnit'
-      )
+        'valueAndUnit',
+      ),
     ).toBe('shared.altitude.referenceDatum.2 5');
   });
 
@@ -73,8 +73,8 @@ describe('AltitudePipe', () => {
           referenceDatum: EReferenceDatum.msl,
         },
         EHeightUnit.flightLevel,
-        'value'
-      )
+        'value',
+      ),
     ).toBe('5');
   });
 
@@ -88,8 +88,8 @@ describe('AltitudePipe', () => {
           referenceDatum: EReferenceDatum.msl,
         },
         EHeightUnit.feet,
-        'value'
-      )
+        'value',
+      ),
     ).toBe('500');
   });
 
@@ -103,8 +103,8 @@ describe('AltitudePipe', () => {
           referenceDatum: EReferenceDatum.msl,
         },
         EHeightUnit.feet,
-        'value'
-      )
+        'value',
+      ),
     ).toBe('328');
   });
 
@@ -118,8 +118,8 @@ describe('AltitudePipe', () => {
           referenceDatum: EReferenceDatum.msl,
         },
         EHeightUnit.meter,
-        'value'
-      )
+        'value',
+      ),
     ).toBe('46');
   });
 
@@ -133,8 +133,8 @@ describe('AltitudePipe', () => {
           referenceDatum: EReferenceDatum.msl,
         },
         EHeightUnit.flightLevel,
-        'value'
-      )
+        'value',
+      ),
     ).toBe('3');
   });
 
@@ -148,8 +148,8 @@ describe('AltitudePipe', () => {
           referenceDatum: EReferenceDatum.msl,
         },
         EHeightUnit.meter,
-        'value'
-      )
+        'value',
+      ),
     ).toBe('4572');
   });
 });

@@ -128,7 +128,7 @@ export class NotamsService {
   /**
    * @param {number} [radius] Distance in meters from the center coordinates
    */
-  // eslint-disable-next-line max-lines-per-function, max-statements
+  // eslint-disable-next-line max-statements
   private allAroundPoint$(
     point: LngLat,
     radius: number,
@@ -193,7 +193,6 @@ export class NotamsService {
       );
   }
 
-  // eslint-disable-next-line max-lines-per-function
   private allIcaoCode$(
     icao: string[],
     offset = 0,
@@ -274,7 +273,6 @@ export class NotamsService {
     );
   }
 
-  // eslint-disable-next-line max-lines-per-function
   private parseQ(q: string): INotamQParsed {
     const [
       fir,

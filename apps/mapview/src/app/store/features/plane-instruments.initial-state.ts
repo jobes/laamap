@@ -1,32 +1,25 @@
+const planeInstrumentsBarInitialState = {
+  rpm: null as number | null,
+  cht1Temp: null as number | null,
+  cht2Temp: null as number | null,
+  oilTemp: null as number | null,
+  oilPressure: null as number | null,
+  fuel1: null as number | null,
+  fuel2: null as number | null,
+};
+
 export const planeInstrumentsInitialState = {
-  cpuUsage: null as number | null,
-  cpuTemp: null as number | null,
-  ramUsage: null as number | null,
+  ...planeInstrumentsBarInitialState,
+  cpuUsage: null as number | null, // for checking if instruments are connected
+  oilPressure: null as number | null,
+  outsideTemperature: null as number | null,
   airPressure: null as number | null,
   airPressureTemperature: null as number | null,
   ias: null as number | null,
-  rpm: null as number | null,
   thermoCouple1: null as number | null,
-  thermoCouple2: null as number | null,
-  thermoCouple3: null as number | null,
-  thermoCouple4: null as number | null,
-  um1: null as number | null,
-  um2: null as number | null,
-  um3: null as number | null,
-  um4: null as number | null,
-  um5: null as number | null,
-  um6: null as number | null,
-  analogTemp1: null as number | null,
-  analogTemp2: null as number | null,
-  analogTemp3: null as number | null,
-  analogTemp4: null as number | null,
-  au1: null as number | null,
-  au2: null as number | null,
-  au3: null as number | null,
-  outsideTemperature: null as number | null,
-  oilPressure: null as number | null,
-  fuelLevel1: null as number | null,
-  fuelLevel2: null as number | null,
 };
 
+export type PlaneInstrumentsBarKeys =
+  keyof typeof planeInstrumentsBarInitialState;
 export type IPlaneInstruments = typeof planeInstrumentsInitialState;
+export type IPlaneInstrumentsType = keyof IPlaneInstruments;

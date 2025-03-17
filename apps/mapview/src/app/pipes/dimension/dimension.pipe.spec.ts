@@ -17,7 +17,7 @@ describe('DimensionPipe', () => {
 
   it('show dimension', () => {
     expect(pipe.transform({ value: 5, unit: EHeightUnit.meter })).toBe(
-      '5shared.altitude.heighUnit.0'
+      '5shared.altitude.heighUnit.0',
     );
   });
 });

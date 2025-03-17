@@ -1,4 +1,5 @@
 import { Directive, ElementRef, Input, OnChanges } from '@angular/core';
+
 import { escapeStringRegexp } from '../helper';
 
 @Directive({

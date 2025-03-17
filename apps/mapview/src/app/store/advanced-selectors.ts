@@ -35,7 +35,6 @@ export const selectLineDefinitionSegmentGeoJson = createSelector(
   mapFeature.selectGeoLocation,
   navigationSettingsFeature.selectDirectionLineSegmentSeconds,
   navigationSettingsFeature.selectDirectionLineSegmentCount,
-  // eslint-disable-next-line max-lines-per-function
   (minSpeedHit, geoLocation, seconds, segmentCount) => {
     if (geoLocation && minSpeedHit) {
       const startPoint = [

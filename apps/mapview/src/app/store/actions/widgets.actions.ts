@@ -1,5 +1,7 @@
 import { createActionGroup, props } from '@ngrx/store';
 
+import { PlaneInstrumentsBarKeys } from '../features/plane-instruments.initial-state';
+
 export const altimeterWidgetActions = createActionGroup({
   source: 'Altimeter widget',
   events: {
@@ -40,6 +42,16 @@ export const speedMeterWidgetActions = createActionGroup({
   source: 'Speed meter widget',
   events: {
     'Position moved': props<{
+      position: { x: number; y: number };
+    }>(),
+  },
+});
+
+export const aircraftBarInstrumentsWidgetActions = createActionGroup({
+  source: 'Aircraft bar instrument widget',
+  events: {
+    'Position moved': props<{
+      instrumentType: PlaneInstrumentsBarKeys;
       position: { x: number; y: number };
     }>(),
   },

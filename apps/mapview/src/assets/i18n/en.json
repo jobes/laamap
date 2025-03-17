@@ -172,6 +172,24 @@
       "enable": "Enable",
       "gndHeightCalculateUsingTerrain": "Gnd computation using terrain",
       "exaggeration": "Terrain exaggeration"
+    },
+    "aircraftBarInstrument": {
+      "oilTemp": "Oil temperature",
+      "cht1Temp": "CHT1 temperature",
+      "cht2Temp": "CHT2 temperature",
+      "oilPressure": "Oil pressure",
+      "fuel1": "Fuel 1",
+      "fuel2": "Fuel 2",
+      "rpm": "Engine revolutions",
+      "show": "Show",
+      "minShownValue": "Minimum shown value",
+      "lowerAlertValue": "Lower alert value",
+      "lowerCautionValue": "Lower warning value",
+      "upperCautionValue": "Upper warning value",
+      "upperAlertValue": "Upper warning value",
+      "maxShownValue": "Maximum shown value",
+      "textColor": "Text color",
+      "bgColor": "Background color"
     }
   },
   "navigationDialog": {
@@ -770,6 +788,36 @@
       "distanceToGoal": "Distance",
       "timeToGoal": "Time to Arrival",
       "arriveTimeToGoal": "Arrival Time"
+    },
+    "aircraftBarInstrument": {
+      "oilTemp": {
+        "header": "Oil temp",
+        "unit": "°C"
+      },
+      "cht1Temp": {
+        "header": "CHT1 temp",
+        "unit": "°C"
+      },
+      "cht2Temp": {
+        "header": "CHT2 temp",
+        "unit": "°C"
+      },
+      "rpm": {
+        "header": "RPM",
+        "unit": " "
+      },
+      "oilPressure": {
+        "header": "Oil pressure",
+        "unit": "BAR"
+      },
+      "fuel1": {
+        "header": "Fuel 1",
+        "unit": "L"
+      },
+      "fuel2": {
+        "header": "Fuel 2",
+        "unit": "L"
+      }
     }
   },
   "mapLocationMenu": {

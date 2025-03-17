@@ -19,31 +19,30 @@ export class AltitudePipe implements PipeTransform {
       referenceDatum: EReferenceDatum;
     },
     outputUnit?: EHeightUnit,
-    output: 'value' | 'valueAndUnit' = 'valueAndUnit'
+    output: 'value' | 'valueAndUnit' = 'valueAndUnit',
   ): string {
     const convertedValue = Math.round(
-      this.convert(value.value, value.unit, outputUnit)
+      this.convert(value.value, value.unit, outputUnit),
     );
     if (output === 'value') {
       return `${convertedValue}`;
     }
     if ((outputUnit ?? value.unit) === EHeightUnit.flightLevel) {
       return `${this.transloco.translate(
-        `shared.altitude.referenceDatum.${value.referenceDatum}`
+        `shared.altitude.referenceDatum.${value.referenceDatum}`,
       )} ${convertedValue}`;
     }
     return `${convertedValue}${this.transloco.translate(
-      `shared.altitude.heighUnit.${outputUnit ?? value.unit}`
+      `shared.altitude.heighUnit.${outputUnit ?? value.unit}`,
     )} ${this.transloco.translate(
-      `shared.altitude.referenceDatum.${value.referenceDatum}`
+      `shared.altitude.referenceDatum.${value.referenceDatum}`,
     )}`;
   }
 
-  // eslint-disable-next-line max-lines-per-function, max-statements, complexity
   private convert(
     value: number,
     unit: EHeightUnit,
-    resultUnit?: EHeightUnit
+    resultUnit?: EHeightUnit,
   ): number {
     if (
       resultUnit === null ||

@@ -19,7 +19,7 @@ export class ScreenWakeLockService {
 
   constructor(
     private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
   ) {}
 
   lock(): void {
@@ -30,7 +30,7 @@ export class ScreenWakeLockService {
           (wakeLock) => {
             this.wakeLock = wakeLock;
           },
-          () => this.showErrorMsg('wakeLock.lockingError')
+          () => this.showErrorMsg('wakeLock.lockingError'),
         );
     } else {
       this.showErrorMsg('wakeLock.notSupported');

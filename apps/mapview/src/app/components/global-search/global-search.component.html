@@ -28,21 +28,25 @@
     [cdkConnectedOverlayOffsetY]="1"
     cdkConnectedOverlayPanelClass="global-search-bar-panel"
   >
-    @if(searchResults$ | async; as searchResults) { @if(searchResults.length >
-    0){
-    <mat-selection-list>
-      @for (group of searchResults; track group.label) {
-      <mat-optgroup [label]="t(group.label)">
-        @for (value of group.values; track value.name) {
-        <mat-option [value]="value.data" (click)="optionSelected(value.data)">
-          <span [laamapHighlightText]="searchControl.value">{{
-            value.name
-          }}</span>
-        </mat-option>
-        }
-      </mat-optgroup>
+    @if (searchResults$ | async; as searchResults) {
+      @if (searchResults.length > 0) {
+        <mat-selection-list>
+          @for (group of searchResults; track group.label) {
+            <mat-optgroup [label]="t(group.label)">
+              @for (value of group.values; track value.name) {
+                <mat-option
+                  [value]="value.data"
+                  (click)="optionSelected(value.data)"
+                >
+                  <span [laamapHighlightText]="searchControl.value">{{
+                    value.name
+                  }}</span>
+                </mat-option>
+              }
+            </mat-optgroup>
+          }
+        </mat-selection-list>
       }
-    </mat-selection-list>
-    } }
+    }
   </ng-template>
 </div>

@@ -11,7 +11,7 @@ export class MapHelperFunctionsService {
   constructor(private readonly mapService: MapService) {}
 
   decodeGeoJsonProperties(
-    data: import('geojson').GeoJsonProperties
+    data: import('geojson').GeoJsonProperties,
   ): object | null {
     if (data) {
       return Object.entries(data)
@@ -19,11 +19,11 @@ export class MapHelperFunctionsService {
           typeof value === 'string' &&
           (value.startsWith('[') || value.startsWith('{'))
             ? ([key, JSON.parse(value)] as const)
-            : ([key, value] as const)
+            : ([key, value] as const),
         )
         .reduce(
           (acc, [key, value]) => ({ ...acc, [key]: value as unknown }),
-          {} as object
+          {} as object,
         );
     }
     return data;
@@ -32,13 +32,13 @@ export class MapHelperFunctionsService {
   loadImageToMap$(
     mapInstance: Map,
     name: string,
-    url: string
+    url: string,
   ): Observable<true> {
     const img = new Image();
     const event$ = fromEvent(img, 'load').pipe(
       tap(() => mapInstance.addImage(name, img)),
       map(() => true as const),
-      take(1)
+      take(1),
     );
     img.src = url;
     return event$;

@@ -1,8 +1,8 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { OpenAipService } from './open-aip.service';
-import { APP_BASE_HREF } from '@angular/common';
 
 describe('OpenAipService', () => {
   let service: OpenAipService;

@@ -29,6 +29,7 @@ export class WidgetSafePositionService {
     });
   }
 
+  // @deprecated should use signal instead
   safePosition$(
     position$: Observable<{ x: number; y: number }>,
     widget$: Observable<readonly ElementRef<HTMLElement>[]>,
@@ -49,6 +50,7 @@ export class WidgetSafePositionService {
     );
   }
 
+  // @deprecated should use signal instead
   safePosition(
     position$: Observable<{ x: number; y: number }>,
     widget: Signal<readonly ElementRef<HTMLElement>[]>,
@@ -56,6 +58,18 @@ export class WidgetSafePositionService {
     return toSignal(this.safePosition$(position$, toObservable(widget)), {
       initialValue: { x: 0, y: 0 },
     });
+  }
+
+  safePositionSignal(
+    position: Signal<{ x: number; y: number }>,
+    widget: Signal<readonly ElementRef<HTMLElement>[]>,
+  ): Signal<{ x: number; y: number }> {
+    return toSignal(
+      this.safePosition$(toObservable(position), toObservable(widget)),
+      {
+        initialValue: { x: 0, y: 0 },
+      },
+    );
   }
 
   private getSafePosition(

@@ -6,8 +6,8 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Subject, of, takeUntil, toArray } from 'rxjs';
 
 import { MapService } from '../../../services/map/map.service';
-import { VariometerWidgetComponent } from './variometer-widget.component';
 import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
+import { VariometerWidgetComponent } from './variometer-widget.component';
 
 jest.useFakeTimers();
 describe('VariometerWidgetComponent', () => {

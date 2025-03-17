@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mapActions } from '../../actions/map.actions';
-import { filter, switchMap, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { terrainFeature } from '../../features/settings/terrain.feature';
-import { MapService } from '../../../services/map/map.service';
+import { filter, switchMap, tap } from 'rxjs';
+
 import { environment } from '../../../../environments/environment';
+import { MapService } from '../../../services/map/map.service';
+import { mapActions } from '../../actions/map.actions';
+import { terrainFeature } from '../../features/settings/terrain.feature';
 
 @Injectable()
 export class TerrainEffects {

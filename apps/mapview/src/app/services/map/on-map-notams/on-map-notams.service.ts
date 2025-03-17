@@ -15,7 +15,7 @@ export class OnMapNotamsService {
     private readonly mapService: MapService,
     private readonly snackBar: MatSnackBar,
     private readonly translocoService: TranslocoService,
-    private readonly store: Store
+    private readonly store: Store,
   ) {}
 
   createLayers(): void {
@@ -47,11 +47,11 @@ export class OnMapNotamsService {
       {
         duration: 5000,
         politeness: 'polite',
-      }
+      },
     );
 
     const source = this.mapService.instance.getSource(
-      'notamsSource'
+      'notamsSource',
     ) as GeoJSONSource;
     source.setData(geoJson);
   }
@@ -61,9 +61,9 @@ export class OnMapNotamsService {
       this.store.dispatch(
         layerNotamsActions.clicked({
           features: JSON.parse(
-            JSON.stringify(event.features ?? [])
+            JSON.stringify(event.features ?? []),
           ) as GeoJSON.Feature[],
-        })
+        }),
       );
     });
   }

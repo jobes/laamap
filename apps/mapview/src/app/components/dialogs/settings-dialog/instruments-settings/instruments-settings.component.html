@@ -36,6 +36,29 @@
       <laamap-altitude-widget-settings></laamap-altitude-widget-settings>
       <laamap-vario-widget-settings></laamap-vario-widget-settings>
       <laamap-tracking-widget-settings></laamap-tracking-widget-settings>
+      @if (airplaneInstrumentsConnected()) {
+        <laamap-aircraft-bar-instrument-widget-settings
+          type="cht1Temp"
+        ></laamap-aircraft-bar-instrument-widget-settings>
+        <laamap-aircraft-bar-instrument-widget-settings
+          type="cht2Temp"
+        ></laamap-aircraft-bar-instrument-widget-settings>
+        <laamap-aircraft-bar-instrument-widget-settings
+          type="oilTemp"
+        ></laamap-aircraft-bar-instrument-widget-settings>
+        <laamap-aircraft-bar-instrument-widget-settings
+          type="oilPressure"
+        ></laamap-aircraft-bar-instrument-widget-settings>
+        <laamap-aircraft-bar-instrument-widget-settings
+          type="fuel1"
+        ></laamap-aircraft-bar-instrument-widget-settings>
+        <laamap-aircraft-bar-instrument-widget-settings
+          type="fuel2"
+        ></laamap-aircraft-bar-instrument-widget-settings>
+        <laamap-aircraft-bar-instrument-widget-settings
+          type="rpm"
+        ></laamap-aircraft-bar-instrument-widget-settings>
+      }
     </mat-accordion>
   </mat-expansion-panel>
 </ng-template>

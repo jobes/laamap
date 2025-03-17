@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SwUpdate } from '@angular/service-worker';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 import maplibregl from 'maplibre-gl';
 
 import { GamepadHandlerService } from '../gamepad-handler/gamepad-handler.service';
 import { MapService } from './map.service';
-import { SwUpdate } from '@angular/service-worker';
 
 describe('MapService', () => {
   let service: MapService;
