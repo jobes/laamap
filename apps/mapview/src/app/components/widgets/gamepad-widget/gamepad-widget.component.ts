@@ -15,7 +15,6 @@ import { gamepadFeature } from '../../../store/features/settings/gamepad.feature
   selector: 'laamap-gamepad-widget',
   templateUrl: './gamepad-widget.component.html',
   styleUrls: ['./gamepad-widget.component.scss'],
-  standalone: true,
   imports: [TranslocoModule, CdkDrag, TranslocoLocaleModule, MatIconModule],
   host: { '[style.visibility]': 'gamePadService.gamePadVisibility()' },
 })

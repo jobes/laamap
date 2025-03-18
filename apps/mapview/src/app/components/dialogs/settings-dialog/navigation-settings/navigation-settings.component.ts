@@ -21,7 +21,6 @@ import {
   selector: 'laamap-navigation-settings',
   templateUrl: './navigation-settings.component.html',
   styleUrls: ['./navigation-settings.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatExpansionModule,

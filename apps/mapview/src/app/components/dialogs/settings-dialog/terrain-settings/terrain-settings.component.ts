@@ -14,7 +14,6 @@ import { terrainFeature } from '../../../../store/features/settings/terrain.feat
 
 @Component({
   selector: 'laamap-terrain-settings',
-  standalone: true,
   imports: [
     MatExpansionModule,
     MatIconModule,

@@ -14,12 +14,10 @@ describe('AltitudePipe', () => {
     } as TranslocoService);
   });
   it('create an instance', () => {
-    pipe;
     expect(pipe).toBeTruthy();
   });
 
   it('convert unit from meters to meters, no units', () => {
-    pipe;
     expect(
       pipe.transform(
         {
@@ -34,7 +32,6 @@ describe('AltitudePipe', () => {
   });
 
   it('convert unit from meters to meters, with units', () => {
-    pipe;
     expect(
       pipe.transform(
         {
@@ -49,7 +46,6 @@ describe('AltitudePipe', () => {
   });
 
   it('convert unit from FL to FL, with units', () => {
-    pipe;
     expect(
       pipe.transform(
         {
@@ -64,7 +60,6 @@ describe('AltitudePipe', () => {
   });
 
   it('convert feet to FL', () => {
-    pipe;
     expect(
       pipe.transform(
         {
@@ -79,7 +74,6 @@ describe('AltitudePipe', () => {
   });
 
   it('convert FL to feet', () => {
-    pipe;
     expect(
       pipe.transform(
         {
@@ -94,7 +88,6 @@ describe('AltitudePipe', () => {
   });
 
   it('convert meters to feet', () => {
-    pipe;
     expect(
       pipe.transform(
         {
@@ -109,7 +102,6 @@ describe('AltitudePipe', () => {
   });
 
   it('convert feet to meters', () => {
-    pipe;
     expect(
       pipe.transform(
         {
@@ -124,7 +116,6 @@ describe('AltitudePipe', () => {
   });
 
   it('convert meters to FL', () => {
-    pipe;
     expect(
       pipe.transform(
         {
@@ -139,7 +130,6 @@ describe('AltitudePipe', () => {
   });
 
   it('convert FL to meters', () => {
-    pipe;
     expect(
       pipe.transform(
         {

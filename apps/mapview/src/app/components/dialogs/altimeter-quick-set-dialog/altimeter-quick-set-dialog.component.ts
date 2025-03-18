@@ -19,7 +19,6 @@ import { terrainFeature } from '../../../store/features/settings/terrain.feature
   selector: 'laamap-altimeter-quick-set-dialog',
   templateUrl: './altimeter-quick-set-dialog.component.html',
   styleUrls: ['./altimeter-quick-set-dialog.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatDialogModule,

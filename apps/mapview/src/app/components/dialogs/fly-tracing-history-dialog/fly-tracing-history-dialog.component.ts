@@ -14,7 +14,6 @@ import { TracingService } from '../../../services/tracing/tracing.service';
   selector: 'laamap-fly-tracing-history-dialog',
   templateUrl: './fly-tracing-history-dialog.component.html',
   styleUrls: ['./fly-tracing-history-dialog.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatDialogModule,

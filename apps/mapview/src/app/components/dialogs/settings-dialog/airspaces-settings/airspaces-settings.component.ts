@@ -8,7 +8,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { AirspacesActivationStateService } from '../../../../services/airspaces-activation-state/airspaces-activation-state.service';
@@ -23,7 +22,6 @@ import { airSpacesFeature } from '../../../../store/features/settings/air-spaces
   selector: 'laamap-airspaces-settings',
   templateUrl: './airspaces-settings.component.html',
   styleUrls: ['./airspaces-settings.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatExpansionModule,
@@ -33,7 +31,6 @@ import { airSpacesFeature } from '../../../../store/features/settings/air-spaces
     MatFormFieldModule,
     MatInputModule,
     MatSliderModule,
-    PushPipe,
     MatSelectModule,
   ],
 })

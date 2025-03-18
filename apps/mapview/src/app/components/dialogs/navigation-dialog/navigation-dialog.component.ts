@@ -27,7 +27,6 @@ import { ListInterestPointsDialogComponent } from '../list-interest-points-dialo
   selector: 'laamap-navigation-dialog',
   templateUrl: './navigation-dialog.component.html',
   styleUrls: ['./navigation-dialog.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatDialogModule,

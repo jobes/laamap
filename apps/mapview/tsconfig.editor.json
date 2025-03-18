@@ -4,5 +4,5 @@
   "compilerOptions": {
     "types": ["jest", "node"]
   },
-  "exclude": ["./cypress.config.ts", "cypress"]
+  "exclude": ["./cypress.config.ts"]
 }

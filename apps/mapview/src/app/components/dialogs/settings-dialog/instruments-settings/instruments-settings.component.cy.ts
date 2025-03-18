@@ -81,8 +81,8 @@ describe(InstrumentsSettingsComponent.name, () => {
         }),
       ],
     });
-    cy.get('#mat-expansion-panel-header-0').click();
-    cy.get('#mat-mdc-slide-toggle-1-button').should(
+    cy.get('#mat-expansion-panel-header-a0').click();
+    cy.get('#mat-mdc-slide-toggle-a0-button').should(
       'have.attr',
       'aria-checked',
       'true',

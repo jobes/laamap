@@ -17,7 +17,6 @@ import { TerrainSettingsComponent } from './terrain-settings/terrain-settings.co
   selector: 'laamap-settings-dialog',
   templateUrl: './settings-dialog.component.html',
   styleUrls: ['./settings-dialog.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatDialogModule,

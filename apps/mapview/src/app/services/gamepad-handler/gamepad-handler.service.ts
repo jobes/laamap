@@ -319,6 +319,5 @@ export class GamepadHandlerService {
     ) {
       return;
     }
-    false;
   }
 }

@@ -244,7 +244,7 @@ export class MapService {
         speed: geoLocation.coords.speed,
       },
       timestamp: geoLocation.timestamp,
-    };
+    } as GeolocationPosition;
   }
 
   private addSettingsControl(): void {

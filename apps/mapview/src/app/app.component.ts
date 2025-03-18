@@ -20,7 +20,6 @@ import { generalFeature } from './store/features/settings/general.feature';
   selector: 'laamap-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: true,
   imports: [
     RadarWidgetComponent,
     SpeedMeterWidgetComponent,

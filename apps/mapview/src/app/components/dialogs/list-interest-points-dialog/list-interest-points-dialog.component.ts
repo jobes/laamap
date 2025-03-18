@@ -24,7 +24,6 @@ import {
 
 @Component({
   selector: 'laamap-list-interest-points-dialog',
-  standalone: true,
   imports: [
     TranslocoModule,
     MatDialogModule,

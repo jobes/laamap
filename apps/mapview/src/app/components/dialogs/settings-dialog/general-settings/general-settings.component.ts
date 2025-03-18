@@ -29,7 +29,6 @@ import { generalFeature } from '../../../../store/features/settings/general.feat
   selector: 'laamap-general-settings',
   templateUrl: './general-settings.component.html',
   styleUrls: ['./general-settings.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatExpansionModule,

@@ -20,7 +20,6 @@ import { instrumentsFeature } from '../../../store/features/settings/instruments
   selector: 'laamap-aircraft-bar-instrument-widget',
   templateUrl: './aircraft-bar-instrument-widget.component.html',
   styleUrls: ['./aircraft-bar-instrument-widget.component.scss'],
-  standalone: true,
   imports: [TranslocoModule, CdkDrag],
 })
 export class AircraftBarInstrumentWidgetComponent {

@@ -16,7 +16,6 @@ import { mapFeature } from '../../../store/features/map.feature';
   selector: 'laamap-speed-meter-widget',
   templateUrl: './speed-meter-widget.component.html',
   styleUrls: ['./speed-meter-widget.component.scss'],
-  standalone: true,
   imports: [TranslocoModule, LetDirective, CdkDrag, AsyncPipe],
 })
 export class SpeedMeterWidgetComponent {

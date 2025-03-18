@@ -28,7 +28,6 @@ import { NotamsDialogComponent } from '../dialogs/notams-dialog/notams-dialog.co
   selector: 'laamap-map-location-menu',
   templateUrl: './map-location-menu.component.html',
   styleUrls: ['./map-location-menu.component.scss'],
-  standalone: true,
   imports: [TranslocoModule, MatListModule, MatDialogModule],
 })
 export class MapLocationMenuComponent {

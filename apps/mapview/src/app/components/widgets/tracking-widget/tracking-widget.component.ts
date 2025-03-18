@@ -29,7 +29,6 @@ import { FlyTracingHistoryDialogComponent } from '../../dialogs/fly-tracing-hist
   selector: 'laamap-tracking-widget',
   templateUrl: './tracking-widget.component.html',
   styleUrls: ['./tracking-widget.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     LetDirective,

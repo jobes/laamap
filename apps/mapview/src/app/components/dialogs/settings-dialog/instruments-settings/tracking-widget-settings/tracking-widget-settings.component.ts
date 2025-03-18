@@ -14,7 +14,6 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
   selector: 'laamap-tracking-widget-settings',
   templateUrl: './tracking-widget-settings.component.html',
   styleUrls: ['./tracking-widget-settings.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatExpansionModule,

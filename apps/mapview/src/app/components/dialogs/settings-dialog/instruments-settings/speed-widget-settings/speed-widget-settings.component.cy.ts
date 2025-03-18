@@ -49,14 +49,14 @@ describe(SpeedWidgetSettingsComponent.name, () => {
         }),
       ],
     });
-    cy.get('#mat-expansion-panel-header-0').click();
-    cy.get('#mat-expansion-panel-header-2').contains('50 km/h');
-    cy.get('#mat-expansion-panel-header-2').should(
+    cy.get('#mat-expansion-panel-header-a0').click();
+    cy.get('#mat-expansion-panel-header-a2').contains('50 km/h');
+    cy.get('#mat-expansion-panel-header-a2').should(
       'have.css',
       'background-color',
       'rgb(230, 0, 0)',
     );
-    cy.get('#mat-expansion-panel-header-2').click();
-    cy.get('#mat-input-3').should('have.value', '50');
+    cy.get('#mat-expansion-panel-header-a2').click();
+    cy.get('#mat-input-a3').should('have.value', '50');
   });
 });

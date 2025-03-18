@@ -12,7 +12,6 @@ import { IAirspace } from '../../../services/open-aip/airspaces.interfaces';
   selector: 'laamap-airspaces-dialog',
   templateUrl: './airspaces-dialog.component.html',
   styleUrls: ['./airspaces-dialog.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatDialogModule,

@@ -34,8 +34,8 @@ describe(VarioWidgetSettingsComponent.name, () => {
         }),
       ],
     });
-    cy.get('#mat-expansion-panel-header-0').click();
-    cy.get('#mat-expansion-panel-header-2').click();
-    cy.get('#mat-input-4').should('have.value', -3);
+    cy.get('#mat-expansion-panel-header-a0').click();
+    cy.get('#mat-expansion-panel-header-a2').click();
+    cy.get('#mat-input-a4').should('have.value', -3);
   });
 });

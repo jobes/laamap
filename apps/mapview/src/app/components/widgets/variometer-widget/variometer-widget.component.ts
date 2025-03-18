@@ -26,7 +26,6 @@ import { instrumentsFeature } from '../../../store/features/settings/instruments
   selector: 'laamap-variometer-widget',
   templateUrl: './variometer-widget.component.html',
   styleUrls: ['./variometer-widget.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     LetDirective,
