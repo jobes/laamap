@@ -24,6 +24,7 @@ export class TerrainEffects {
               .addSource('terrainSource', {
                 type: 'raster-dem',
                 url: `https://api.maptiler.com/tiles/terrain-rgb/tiles.json?key=${environment.mapTilesKey}`,
+                tileSize: 256,
               })
               .setTerrain({
                 source: 'terrainSource',
