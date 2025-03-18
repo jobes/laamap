@@ -20,7 +20,6 @@ import { navigationSettingsFeature } from '../../../store/features/settings/navi
   selector: 'laamap-navigation-goal-widget',
   templateUrl: './navigation-goal-widget.component.html',
   styleUrls: ['./navigation-goal-widget.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     LetDirective,

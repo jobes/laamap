@@ -14,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { filter } from 'rxjs';
 
@@ -30,7 +29,6 @@ import { gamepadFeature } from '../../../../store/features/settings/gamepad.feat
 @UntilDestroy()
 @Component({
   selector: 'laamap-gamepad-settings',
-  standalone: true,
   imports: [
     TranslocoModule,
     MatExpansionModule,
@@ -38,7 +36,6 @@ import { gamepadFeature } from '../../../../store/features/settings/gamepad.feat
     MatFormFieldModule,
     FormsModule,
     MatInputModule,
-    LetDirective,
     AsyncPipe,
     KeyValuePipe,
     AsyncPipe,

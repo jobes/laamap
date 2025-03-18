@@ -24,7 +24,6 @@ import { radarFeature } from '../../../../store/features/settings/radar.feature'
   selector: 'laamap-radar-settings',
   templateUrl: './radar-settings.component.html',
   styleUrls: ['./radar-settings.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     LetDirective,

@@ -27,8 +27,8 @@ function geoLocationBySpeed(speed: number): GeolocationPosition {
       latitude: 12,
       longitude: 14,
       speed: speed / 3.6,
-    },
-  };
+    } as GeolocationPosition['coords'],
+  } as GeolocationPosition;
 }
 
 describe('TracingService', () => {

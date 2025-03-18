@@ -27,7 +27,7 @@ describe(AltitudeWidgetSettingsComponent.name, () => {
         }),
       ],
     });
-    cy.get('#mat-expansion-panel-header-0').click();
-    cy.get('#mat-input-0').should('have.value', '100');
+    cy.get('#mat-expansion-panel-header-a0').click();
+    cy.get('#mat-input-a0').should('have.value', '100');
   });
 });

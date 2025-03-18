@@ -17,7 +17,6 @@ import { radarFeature } from '../../../store/features/settings/radar.feature';
   selector: 'laamap-radar-widget',
   templateUrl: './radar-widget.component.html',
   styleUrls: ['./radar-widget.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     LetDirective,

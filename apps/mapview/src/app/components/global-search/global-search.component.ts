@@ -26,7 +26,6 @@ import { GlobalSearchMenuComponent } from '../global-search-menu/global-search-m
 
 @Component({
   selector: 'laamap-global-search',
-  standalone: true,
   imports: [
     MatIconModule,
     ReactiveFormsModule,

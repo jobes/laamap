@@ -31,10 +31,10 @@ describe(AirportDialogComponent.name, () => {
         data: airportsFixture,
       },
     });
-    cy.get('#mat-expansion-panel-header-0').click();
-    cy.get('#mat-expansion-panel-header-2').click();
+    cy.get('#mat-expansion-panel-header-a0').click();
+    cy.get('#mat-expansion-panel-header-a2').click();
     cy.get(
-      '#cdk-accordion-child-2 > .mat-expansion-panel-body > :nth-child(1) > .value',
+      '#cdk-accordion-child-a2 > .mat-expansion-panel-body > :nth-child(1) > .value',
     ).contains('1001m');
   });
 });

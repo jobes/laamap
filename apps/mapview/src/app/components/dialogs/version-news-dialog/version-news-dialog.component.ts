@@ -10,7 +10,6 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { NgxMarkdownItModule } from 'ngx-markdown-it';
 
 @Component({
-  standalone: true,
   imports: [
     TranslocoModule,
     MatDialogModule,

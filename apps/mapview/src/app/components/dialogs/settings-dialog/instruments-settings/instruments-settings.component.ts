@@ -21,7 +21,6 @@ import { VarioWidgetSettingsComponent } from './vario-widget-settings/vario-widg
   selector: 'laamap-instruments-settings',
   templateUrl: './instruments-settings.component.html',
   styleUrls: ['./instruments-settings.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatExpansionModule,

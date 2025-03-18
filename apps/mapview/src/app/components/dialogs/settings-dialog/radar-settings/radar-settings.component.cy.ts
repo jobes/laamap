@@ -31,13 +31,13 @@ describe(RadarSettingsComponent.name, () => {
         }),
       ],
     });
-    cy.get('#mat-expansion-panel-header-0').click();
-    cy.get('#mat-mdc-slide-toggle-1-button').should(
+    cy.get('#mat-expansion-panel-header-a0').click();
+    cy.get('#mat-mdc-slide-toggle-a0-button').should(
       'have.attr',
       'aria-checked',
       'true',
     );
-    cy.get('#mat-mdc-slide-toggle-3-button').should(
+    cy.get('#mat-mdc-slide-toggle-a2-button').should(
       'have.attr',
       'aria-checked',
       'false',

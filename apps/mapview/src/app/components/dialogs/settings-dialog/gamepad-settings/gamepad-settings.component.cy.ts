@@ -39,14 +39,14 @@ describe(GamepadSettingsComponent.name, () => {
 
     cy.get('html').invoke('attr', 'style', 'overflow: auto');
     cy.get(
-      '#mat-expansion-panel-header-0 > .mat-content > .mat-expansion-panel-header-title',
+      '#mat-expansion-panel-header-a0 > .mat-content > .mat-expansion-panel-header-title',
     ).click();
     cy.get(
-      '#mat-expansion-panel-header-7 > .mat-content > .mat-expansion-panel-header-title',
+      '#mat-expansion-panel-header-a7 > .mat-content > .mat-expansion-panel-header-title',
     ).click();
-    cy.get('#mat-input-31').should('have.value', 0); // init value
-    cy.get('#mat-input-31').click();
-    cy.get('#mat-input-31').should('have.value', 10); // value from gamepad
+    cy.get('#mat-input-a31').should('have.value', 0); // init value
+    cy.get('#mat-input-a31').click();
+    cy.get('#mat-input-a31').should('have.value', 10); // value from gamepad
 
     const dispatchValue = Object.entries(gamepadInitialState.shortCuts).reduce(
       (res, val) => ({

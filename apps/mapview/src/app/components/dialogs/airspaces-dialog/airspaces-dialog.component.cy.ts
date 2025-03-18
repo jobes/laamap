@@ -31,9 +31,9 @@ describe(AirspacesDialogComponent.name, () => {
         data: airspacesFixture,
       },
     });
-    cy.get('#mat-expansion-panel-header-1').click();
+    cy.get('#mat-expansion-panel-header-a1').click();
     cy.get(
-      '#cdk-accordion-child-1 > .mat-expansion-panel-body > :nth-child(1) > .value',
+      '#cdk-accordion-child-a1 > .mat-expansion-panel-body > :nth-child(1) > .value',
     ).contains('LZR60A');
   });
 });

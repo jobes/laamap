@@ -18,7 +18,6 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
   selector: 'laamap-vario-widget-settings',
   templateUrl: './vario-widget-settings.component.html',
   styleUrls: ['./vario-widget-settings.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatSnackBarModule,

@@ -26,7 +26,6 @@ import { IAirport } from '../../../services/open-aip/airport.interfaces';
   templateUrl: './airport-dialog.component.html',
   styleUrls: ['./airport-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     TranslocoModule,
     MatDialogModule,

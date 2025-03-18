@@ -17,7 +17,6 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
   selector: 'laamap-speed-widget-settings',
   templateUrl: './speed-widget-settings.component.html',
   styleUrls: ['./speed-widget-settings.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatSnackBarModule,

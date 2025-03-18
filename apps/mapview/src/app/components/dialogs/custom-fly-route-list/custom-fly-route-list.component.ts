@@ -13,7 +13,6 @@ import { customFlyRouteListDialogActions } from '../../../store/actions/navigati
 
 @Component({
   selector: 'laamap-custom-fly-route-list',
-  standalone: true,
   imports: [
     CommonModule,
     MatDialogModule,

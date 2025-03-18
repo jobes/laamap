@@ -20,7 +20,7 @@ describe(TrackingWidgetSettingsComponent.name, () => {
         }),
       ],
     });
-    cy.get('#mat-expansion-panel-header-0').click();
-    cy.get('#mat-input-2').should('have.value', '#d3d3d3');
+    cy.get('#mat-expansion-panel-header-a0').click();
+    cy.get('#mat-input-a2').should('have.value', '#d3d3d3');
   });
 });

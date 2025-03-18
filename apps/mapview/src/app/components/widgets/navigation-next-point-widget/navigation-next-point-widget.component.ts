@@ -20,7 +20,6 @@ import { navigationSettingsFeature } from '../../../store/features/settings/navi
   selector: 'laamap-navigation-next-point-widget',
   templateUrl: './navigation-next-point-widget.component.html',
   styleUrls: ['./navigation-next-point-widget.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     LetDirective,

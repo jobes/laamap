@@ -24,7 +24,6 @@ export type CreateInterestPointDialogInput =
 
 @Component({
   selector: 'laamap-create-interest-point-dialog',
-  standalone: true,
   imports: [
     TranslocoModule,
     MatDialogModule,

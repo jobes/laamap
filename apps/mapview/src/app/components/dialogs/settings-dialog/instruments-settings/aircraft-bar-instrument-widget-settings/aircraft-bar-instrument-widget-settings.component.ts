@@ -18,7 +18,6 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
   selector: 'laamap-aircraft-bar-instrument-widget-settings',
   templateUrl: './aircraft-bar-instrument-widget-settings.component.html',
   styleUrls: ['./aircraft-bar-instrument-widget-settings.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatSnackBarModule,

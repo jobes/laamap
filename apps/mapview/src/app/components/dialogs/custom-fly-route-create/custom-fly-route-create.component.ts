@@ -12,7 +12,6 @@ import { CustomFlyRoutesService } from '../../../services/custom-fly-routes/cust
 
 @Component({
   selector: 'laamap-custom-fly-route-create',
-  standalone: true,
   imports: [
     CommonModule,
     TranslocoModule,

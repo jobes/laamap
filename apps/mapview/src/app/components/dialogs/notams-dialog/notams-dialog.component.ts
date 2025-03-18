@@ -22,7 +22,6 @@ import { notamsFeature } from '../../../store/features/settings/notams.feature';
   selector: 'laamap-notams-dialog',
   templateUrl: './notams-dialog.component.html',
   styleUrls: ['./notams-dialog.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatDialogModule,

@@ -18,7 +18,6 @@ import { AltimeterQuickSetDialogComponent } from '../../dialogs/altimeter-quick-
   selector: 'laamap-altimeter-widget',
   templateUrl: './altimeter-widget.component.html',
   styleUrls: ['./altimeter-widget.component.scss'],
-  standalone: true,
   imports: [TranslocoModule, CdkDrag, AltitudePipe],
 })
 export class AltimeterWidgetComponent {

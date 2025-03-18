@@ -26,7 +26,6 @@ import {
 
 @Component({
   selector: 'laamap-global-search-menu',
-  standalone: true,
   imports: [TranslocoModule, MatListModule],
   templateUrl: './global-search-menu.component.html',
   styleUrl: './global-search-menu.component.scss',

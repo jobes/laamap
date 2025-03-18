@@ -30,16 +30,16 @@ describe(AircraftBarInstrumentWidgetSettingsComponent.name, () => {
         }),
       ],
     });
-    cy.get('#mat-expansion-panel-header-0').click();
-    cy.get('#mat-input-0').should('have.value', '#000000');
-    cy.get('#mat-input-1').should('have.value', '#ffffff');
-    cy.get('#mat-input-2').should('have.value', '30');
-    cy.get('#mat-input-3').should('have.value', '50');
-    cy.get('#mat-input-4').should('have.value', '90');
-    cy.get('#mat-input-5').should('have.value', '110');
-    cy.get('#mat-input-6').should('have.value', '130');
-    cy.get('#mat-input-7').should('have.value', '150');
-    cy.get('#mat-mdc-slide-toggle-1-button').should(
+    cy.get('#mat-expansion-panel-header-a0').click();
+    cy.get('#mat-input-a0').should('have.value', '#000000');
+    cy.get('#mat-input-a1').should('have.value', '#ffffff');
+    cy.get('#mat-input-a2').should('have.value', '30');
+    cy.get('#mat-input-a3').should('have.value', '50');
+    cy.get('#mat-input-a4').should('have.value', '90');
+    cy.get('#mat-input-a5').should('have.value', '110');
+    cy.get('#mat-input-a6').should('have.value', '130');
+    cy.get('#mat-input-a7').should('have.value', '150');
+    cy.get('#mat-mdc-slide-toggle-a0-button').should(
       'have.attr',
       'aria-checked',
       'true',

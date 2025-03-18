@@ -15,7 +15,6 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
   selector: 'laamap-altitude-widget-settings',
   templateUrl: './altitude-widget-settings.component.html',
   styleUrls: ['./altitude-widget-settings.component.scss'],
-  standalone: true,
   imports: [
     TranslocoModule,
     MatExpansionModule,

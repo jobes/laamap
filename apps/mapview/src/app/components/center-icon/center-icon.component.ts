@@ -7,7 +7,6 @@ import { GamepadHandlerService } from '../../services/gamepad-handler/gamepad-ha
   selector: 'laamap-center-icon',
   templateUrl: './center-icon.component.html',
   styleUrls: ['./center-icon.component.scss'],
-  standalone: true,
   imports: [MatIconModule],
   host: {
     '[style.visibility]': 'gamePadService.gamePadChangingViewVisibility()',

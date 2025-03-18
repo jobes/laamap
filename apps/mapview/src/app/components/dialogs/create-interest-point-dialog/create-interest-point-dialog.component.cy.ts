@@ -17,7 +17,7 @@ class WrapperAddPointComponent {
       maxWidth: '100%',
       closeOnNavigation: false,
       data: { mode: 'create', point: { lng: 5, lat: 7 } },
-    }).componentInstance;
+    });
   }
 }
 
@@ -44,7 +44,7 @@ class WrapperEditPointComponent {
           },
         },
       },
-    }).componentInstance;
+    });
   }
 }
 
@@ -66,15 +66,15 @@ describe(CreateInterestPointDialogComponent.name, () => {
       ],
     });
 
-    cy.get('#mat-input-0').click().wait(500).type('test');
+    cy.get('#mat-input-a0').click().wait(500).type('test');
     cy.get('.mat-mdc-select-placeholder').click();
-    cy.get('#mat-option-2').click();
+    cy.get('#mat-option-a2').click();
     cy.get('p').click().type('nice text');
     cy.get('.mat-mdc-dialog-actions > button:nth-of-type(1)').click();
     cy.get('@addPointSpy').should('have.been.calledWith', {
       name: 'test',
       icon: 'poi3',
-      description: '<p>nice text</p>',
+      description: '<p>nice&nbsp;text</p>',
       point: [5, 7],
     });
   });
@@ -98,15 +98,15 @@ describe(CreateInterestPointDialogComponent.name, () => {
     });
 
     cy.get('[data-cy="edit"]').click();
-    cy.get('#mat-input-1').click().type('test');
-    cy.get('#mat-select-value-3').click();
-    cy.get('#mat-option-28').click();
+    cy.get('#mat-input-a1').click().type('test');
+    cy.get('#mat-select-value-a1').click();
+    cy.get('#mat-option-a28').click();
     cy.get('p').click().type('. Nice text');
     cy.get('[data-cy="save"]').click();
     cy.get('@editPointSpy').should('have.been.calledWith', {
       name: 'initNametest',
       icon: 'poi3',
-      description: '<p>initDesc. Nice text</p>',
+      description: '<p>initDesc.&nbsp;Nice&nbsp;text</p>',
       id: '7887',
     });
   });
