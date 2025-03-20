@@ -1,0 +1,18 @@
+[Unit]
+Description=Aircraft instruments
+After=syslog.target network.target nss-lookup.target
+
+[Service]
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python /home/omh-737/instruments-server/main.py
+# Hardening
+ProtectSystem=full
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+SystemCallFilter=~@clock @cpu-emulation @debug @keyring @module @mount @obsolete @raw-io
+MemoryDenyWriteExecute=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

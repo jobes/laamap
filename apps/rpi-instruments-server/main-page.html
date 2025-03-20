@@ -1,0 +1,101 @@
+{% autoescape None %}
+<!doctype html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="{{ static_url('favicon.png') }}" />
+    <style>
+      table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      table td,
+      table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      table tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      table tr:hover {
+        background-color: #ddd;
+      }
+
+      table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04aa6d;
+        color: white;
+      }
+
+      #settingLink {
+        margin: 1rem;
+        display: block;
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{ title }} engine and instruments</h1>
+
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+      {% for key in items %}
+      <tr>
+        <td>{{ escape(key) }}</td>
+        <td>
+          <span id="{{ escape(key) }}_value"
+            >{{ '--' if items[key] == None else escape(str(items[key])) }}</span
+          ><span>{{ str(units[key]) }}</span>
+        </td>
+      </tr>
+      {% end %}
+    </table>
+
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+      {% for key in ignoredItems %}
+      <tr>
+        <td>{{ escape(key) }}</td>
+        <td>
+          <span id="{{ escape(key) }}_value"
+            >{{ '--' if ignoredItems[key] == None else
+            escape(str(ignoredItems[key])) }}</span
+          >
+          <span>{{ str(units[key]) }}</span>
+        </td>
+      </tr>
+      {% end %}
+    </table>
+    <a id="settingLink" href="./settings">Go to settings</a>
+  </body>
+</html>
+
+<script>
+  let wsProt = 'ws';
+  if (window.location.protocol === 'https:') {
+    wsProt = 'wss';
+  }
+  var ws = new WebSocket(
+    wsProt + '://' + window.location.host + '/instruments',
+  );
+  ws.onmessage = function (evt) {
+    const data = JSON.parse(evt.data);
+    console.log(data.name);
+    const elm = document.getElementById(data.name + '_value');
+    elm.textContent = data.value == null ? '--' : data.value;
+  };
+</script>

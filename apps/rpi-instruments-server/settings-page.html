@@ -1,0 +1,38 @@
+{% autoescape None %}
+<!doctype html>
+<html>
+  <head>
+    <title>Settings</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="{{ static_url('favicon.png') }}" />
+    <style>
+      form {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Settings</h1>
+    <form action="/settings" method="POST">
+      <div>RPM factor</div>
+      <input type="text" name="value" value="{{config['rdac.rev_factor']}}" />
+      <input type="hidden" name="setting" value="rdac.rev_factor" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <form action="/settings" method="POST">
+      <div>Fuel levels 1</div>
+      <textarea name="value">{{config['rdac.fuel_level_table1']}}</textarea>
+      <input type="hidden" name="setting" value="rdac.fuel_level_table1" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <form action="/settings" method="POST">
+      <div>Fuel levels 2</div>
+      <textarea name="value">{{config['rdac.fuel_level_table2']}}</textarea>
+      <input type="hidden" name="setting" value="rdac.fuel_level_table2" />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>
