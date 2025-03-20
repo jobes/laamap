@@ -69,7 +69,6 @@ export class GlobalSearchService {
           airports: Promise.resolve(
             this.onMapAirportsService.searchAirport(val),
           ),
-          // eslint-disable-next-line rxjs/finnish
           address: this.searchAddress$(val),
         }),
       ),

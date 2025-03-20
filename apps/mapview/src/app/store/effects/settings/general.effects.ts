@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
@@ -30,6 +30,11 @@ import { terrainFeature } from '../../features/settings/terrain.feature';
 
 @Injectable()
 export class GeneralEffects {
+  private readonly mapService = inject(MapService);
+  private readonly actions$ = inject(Actions);
+  private readonly store = inject(Store);
+  private readonly screenWakeLockService = inject(ScreenWakeLockService);
+
   private readonly visibilitySubj$ = fromEvent<DocumentVisibilityState>(
     document,
     'visibilitychange',
@@ -170,11 +175,4 @@ export class GeneralEffects {
       ),
     );
   });
-
-  constructor(
-    private readonly mapService: MapService,
-    private readonly actions$: Actions,
-    private readonly store: Store,
-    private readonly screenWakeLockService: ScreenWakeLockService,
-  ) {}
 }

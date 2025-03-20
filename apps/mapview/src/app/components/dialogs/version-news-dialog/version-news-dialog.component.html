@@ -2,8 +2,8 @@
   <h1 mat-dialog-title>{{ t('title') }}</h1>
 
   <div mat-dialog-content>
-    @for (message of markDownLocalizedMessages; track $index) {
-      <markdown-it [markdown]="message"></markdown-it>
+    @for (message of htmlLocalizedMsgs(); track $index) {
+      <div [innerHTML]="message"></div>
     } @empty {
       {{ t('emptyList') }}
     }

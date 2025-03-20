@@ -1,5 +1,5 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { feature, featureCollection, point } from '@turf/turf';
 import { FeatureCollection, Point } from 'geojson';
 import { GeoJSONSource } from 'maplibre-gl';
@@ -16,19 +16,19 @@ import { MapService } from '../map/map.service';
   providedIn: 'root',
 })
 export class InterestPointsService {
+  private readonly mapService = inject(MapService);
+  private readonly mapHelper = inject(MapHelperFunctionsService);
+  private readonly baseHref = inject(APP_BASE_HREF);
+  private readonly dexieDb = inject(DexieSyncService);
+
   imageList = Array(26)
     .fill({})
     .map((_, index) => ({
       name: `poi${index + 1}`,
-      src: `${this.baseHref}assets/poi/poi${index + 1}.png`,
+      src: `${this.baseHref}public/poi/poi${index + 1}.png`,
     }));
 
-  constructor(
-    private readonly mapService: MapService,
-    private readonly mapHelper: MapHelperFunctionsService,
-    @Inject(APP_BASE_HREF) private readonly baseHref: string,
-    private readonly dexieDb: DexieSyncService,
-  ) {
+  constructor() {
     this.dexieDb.changes$
       .pipe(filter((c) => c.tables.includes(this.dexieDb.interestPoints.name)))
       .subscribe(() => {

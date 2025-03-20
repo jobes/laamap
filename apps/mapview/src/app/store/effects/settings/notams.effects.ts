@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { createEffect } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
@@ -26,6 +26,12 @@ import { notamsFeature } from '../../features/settings/notams.feature';
 
 @Injectable()
 export class NotamsSettingsEffects {
+  private readonly store = inject(Store);
+  private readonly onMapNotamsService = inject(OnMapNotamsService);
+  private readonly notams = inject(NotamsService);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translocoService = inject(TranslocoService);
+
   loadFirNotams$ = createEffect(
     () => {
       return this.store.select(mapFeature.selectLoaded).pipe(
@@ -117,12 +123,4 @@ export class NotamsSettingsEffects {
       this.notams.loadAroundRoute$(points, radius).pipe(this.networkError),
     ),
   );
-
-  constructor(
-    private readonly store: Store,
-    private readonly onMapNotamsService: OnMapNotamsService,
-    private readonly notams: NotamsService,
-    private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService,
-  ) {}
 }

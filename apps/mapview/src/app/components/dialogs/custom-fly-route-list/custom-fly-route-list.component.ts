@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { IDbCustomRoute } from '../../../database/synced-db.service';
@@ -33,13 +33,9 @@ export class CustomFlyRouteListComponent {
   routeList = this.customFlyRoutesService.getAllRoutes();
 
   remove(route: IDbCustomRoute): void {
-    this.customFlyRoutesService.deleteRoute(route.id).then(
-      () => {
-        this.routeList = this.customFlyRoutesService.getAllRoutes();
-      },
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      () => {},
-    );
+    this.customFlyRoutesService.deleteRoute(route.id).then(() => {
+      this.routeList = this.customFlyRoutesService.getAllRoutes();
+    });
   }
 
   startNavigation(route: IDbCustomRoute): void {

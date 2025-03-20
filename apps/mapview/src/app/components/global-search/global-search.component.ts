@@ -14,7 +14,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatOption, MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 
 import { HighlightTextDirective } from '../../directives/highlight-text.directive';
 import { GamepadGlobalMenuHandler } from '../../services/gamepad-handler/gamepad-global-menu-handler';

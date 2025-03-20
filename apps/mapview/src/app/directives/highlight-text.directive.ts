@@ -4,7 +4,6 @@ import { escapeStringRegexp } from '../helper';
 
 @Directive({
   selector: '[laamapHighlightText]',
-  standalone: true,
 })
 export class HighlightTextDirective implements OnChanges {
   @Input() laamapHighlightText!: string | null;

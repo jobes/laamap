@@ -1,6 +1,6 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Feature } from 'geojson';
 import { Observable, catchError, forkJoin, map, of } from 'rxjs';
 
@@ -22,14 +22,11 @@ type GetAirportsResponse = Observable<
   providedIn: 'root',
 })
 export class OpenAipService {
+  private readonly http = inject(HttpClient);
+  private readonly baseHref = inject(APP_BASE_HREF);
   private readonly bucketUrl = `https://storage.googleapis.com/storage/v1/b/29f98e10-a489-4c82-ae5e-489dbcd4912f/o`;
   private readonly airspaceSuffix = `_asp.geojson?alt=media`;
   private readonly airportSuffix = `_apt.geojson?alt=media`;
-
-  constructor(
-    private readonly http: HttpClient,
-    @Inject(APP_BASE_HREF) private readonly baseHref: string,
-  ) {}
 
   getAirSpaces$(
     territories: string[],
@@ -70,7 +67,7 @@ export class OpenAipService {
   }
 
   getTerritories$(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseHref}assets/territories.json`);
+    return this.http.get<string[]>(`${this.baseHref}public/territories.json`);
   }
 
   private getAllAirports$(

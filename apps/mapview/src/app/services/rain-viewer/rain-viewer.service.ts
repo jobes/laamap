@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
@@ -18,6 +18,7 @@ import { IRainViewerUrls } from './rain-viewer.interface';
   providedIn: 'root',
 })
 export class RainViewerService {
+  private readonly http = inject(HttpClient);
   readonly tileSize = 256;
   currentAnimationFrame$: Observable<{
     frameNum: number;
@@ -33,7 +34,7 @@ export class RainViewerService {
     },
   );
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.currentAnimationFrame$ = this.animationChangeSubj$.asObservable().pipe(
       switchMap((def) =>
         def

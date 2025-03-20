@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { createEffect } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
@@ -25,6 +25,11 @@ import { radarFeature } from '../../features/settings/radar.feature';
 
 @Injectable()
 export class RadarSettingsEffects {
+  private readonly store = inject(Store);
+  private readonly rainViewer = inject(RainViewerService);
+  private readonly onMapRainViewerService = inject(OnMapRainViewerService);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translocoService = inject(TranslocoService);
   showRainViewer$ = createEffect(
     () => {
       return this.store.select(mapFeature.selectLoaded).pipe(
@@ -38,9 +43,7 @@ export class RadarSettingsEffects {
               startWith(0),
               switchMap(() =>
                 combineLatest({
-                  // eslint-disable-next-line rxjs/finnish
                   urls: this.rainViewer.getUrls$(),
-                  // eslint-disable-next-line rxjs/finnish
                   settings: this.store.select(
                     radarFeature['selectSettings.radarState'],
                   ),
@@ -81,12 +84,4 @@ export class RadarSettingsEffects {
   );
 
   private readonly radarReloadTime = 5 * 60 * 1000; // 5 minutes
-
-  constructor(
-    private readonly store: Store,
-    private readonly rainViewer: RainViewerService,
-    private readonly onMapRainViewerService: OnMapRainViewerService,
-    private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService,
-  ) {}
 }

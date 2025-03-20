@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, switchMap, tap, timer } from 'rxjs';
@@ -15,6 +15,16 @@ import { generalFeature } from '../../features/settings/general.feature';
 
 @Injectable()
 export class AirSpacesEffects {
+  private readonly store = inject(Store);
+  private readonly actions$ = inject(Actions);
+  private readonly openAip = inject(OpenAipService);
+  private readonly mapService = inject(MapService);
+  private readonly onMapAirSpacesService = inject(OnMapAirSpacesService);
+  private readonly onMapAirportsService = inject(OnMapAirportsService);
+  private readonly interestPointsService = inject(InterestPointsService);
+  private readonly airspacesActivationStateService = inject(
+    AirspacesActivationStateService,
+  );
   loadAirSpaces$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -101,15 +111,4 @@ export class AirSpacesEffects {
     },
     { dispatch: false },
   );
-
-  constructor(
-    private readonly store: Store,
-    private readonly actions$: Actions,
-    private readonly openAip: OpenAipService,
-    private readonly mapService: MapService,
-    private readonly onMapAirSpacesService: OnMapAirSpacesService,
-    private readonly onMapAirportsService: OnMapAirportsService,
-    private readonly interestPointsService: InterestPointsService,
-    private readonly airspacesActivationStateService: AirspacesActivationStateService,
-  ) {}
 }

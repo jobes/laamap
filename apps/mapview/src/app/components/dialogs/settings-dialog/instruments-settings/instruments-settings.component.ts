@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { instrumentSettingsActions } from '../../../../store/actions/settings.actions';
@@ -37,6 +37,7 @@ import { VarioWidgetSettingsComponent } from './vario-widget-settings/vario-widg
   ],
 })
 export class InstrumentsSettingsComponent {
+  private readonly store = inject(Store);
   showOnlyOnActiveGps = this.store.selectSignal(
     instrumentsFeature.selectShowOnlyOnActiveGps,
   );
@@ -47,8 +48,6 @@ export class InstrumentsSettingsComponent {
   airplaneInstrumentsConnected = this.store.selectSignal(
     planeInstrumentsFeature.selectConnected,
   );
-
-  constructor(private readonly store: Store) {}
 
   setShowOnlyOnActiveGps(showOnlyOnActiveGps: boolean): void {
     this.store.dispatch(

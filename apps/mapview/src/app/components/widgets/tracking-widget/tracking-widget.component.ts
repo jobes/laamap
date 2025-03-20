@@ -3,7 +3,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, ElementRef, inject, viewChildren } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { LetDirective } from '@ngrx/component';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -42,6 +42,9 @@ export class TrackingWidgetComponent {
   containers = viewChildren<CdkDrag, ElementRef<HTMLElement>>(CdkDrag, {
     read: ElementRef,
   });
+  private readonly store = inject(Store);
+  private readonly actions$ = inject(Actions);
+  private readonly dialog = inject(MatDialog);
   private readonly safePositionService = inject(WidgetSafePositionService);
   show$ = this.store.select(mapFeature.selectShowInstruments);
   tracking$ = this.store.select(instrumentsFeature.selectTracking);
@@ -54,7 +57,6 @@ export class TrackingWidgetComponent {
           seconds,
           active: true,
         })),
-        // eslint-disable-next-line rxjs/no-unsafe-takeuntil
         takeUntil(
           this.actions$.pipe(ofType(mapEffectsActions.trackSavingEnded)),
         ),
@@ -73,11 +75,6 @@ export class TrackingWidgetComponent {
   );
 
   private dragging = false;
-  constructor(
-    private readonly store: Store,
-    private readonly actions$: Actions,
-    private readonly dialog: MatDialog,
-  ) {}
   dragEnded(event: CdkDragEnd): void {
     setTimeout(() => {
       this.dragging = false;

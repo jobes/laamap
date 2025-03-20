@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { RadarSettings } from '../../../store/features/settings/radar.feature';
 import { IRainViewerUrls } from '../../rain-viewer/rain-viewer.interface';
@@ -9,11 +9,9 @@ import { MapService } from '../map.service';
   providedIn: 'root',
 })
 export class OnMapRainViewerService {
+  private readonly mapService = inject(MapService);
+  private readonly rainViewer = inject(RainViewerService);
   itemCounts = 0;
-  constructor(
-    private readonly mapService: MapService,
-    private readonly rainViewer: RainViewerService,
-  ) {}
 
   createLayers(urlsWithSettings?: {
     urls: IRainViewerUrls;

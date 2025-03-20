@@ -1,11 +1,11 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Translation,
   TranslocoLoader,
   getBrowserLang,
-} from '@ngneat/transloco';
+} from '@jsverse/transloco';
 
 export const languages = {
   en: 'en-US',
@@ -14,19 +14,16 @@ export const languages = {
 
 export const activeLang = (JSON.parse(
   localStorage.getItem('settings.general') || '{}',
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 )?.language || getBrowserLang()) as string;
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
-  constructor(
-    private http: HttpClient,
-    @Inject(APP_BASE_HREF) private readonly baseHref: string,
-  ) {}
+  private http = inject(HttpClient);
+  private readonly baseHref = inject(APP_BASE_HREF);
 
   getTranslation(lang: string) {
     return this.http.get<Translation>(
-      `${this.baseHref}assets/i18n/${lang}.json`,
+      `${this.baseHref}public/i18n/${lang}.json`,
     );
   }
 }

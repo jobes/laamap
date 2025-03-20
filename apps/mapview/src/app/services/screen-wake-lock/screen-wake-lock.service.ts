@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 interface IWakeLockReleaser {
   release: () => void;
@@ -14,13 +14,10 @@ type IWakeLock = {
   providedIn: 'root',
 })
 export class ScreenWakeLockService {
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translocoService = inject(TranslocoService);
   static supported = 'wakeLock' in navigator;
   private wakeLock?: IWakeLockReleaser;
-
-  constructor(
-    private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService,
-  ) {}
 
   lock(): void {
     if (ScreenWakeLockService.supported) {

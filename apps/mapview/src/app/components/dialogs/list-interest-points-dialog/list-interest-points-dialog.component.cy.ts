@@ -8,8 +8,6 @@ import { poiListDialogActions } from '../../../store/actions/navigation.actions'
 import { ListInterestPointsDialogComponent } from './list-interest-points-dialog.component';
 
 @Component({
-  template: '',
-  standalone: true,
   imports: [MatDialogModule],
 })
 class WrapperComponent {
@@ -68,5 +66,5 @@ const imageList = Array(26)
   .fill({})
   .map((_, index) => ({
     name: `poi${index + 1}`,
-    src: `assets/poi/poi${index + 1}.png`,
+    src: `public/poi/poi${index + 1}.png`,
   }));

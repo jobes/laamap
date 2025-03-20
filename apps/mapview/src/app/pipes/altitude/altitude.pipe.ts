@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { Pipe, PipeTransform, inject } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
 
 import {
   EHeightUnit,
@@ -8,10 +8,10 @@ import {
 
 @Pipe({
   name: 'altitude',
-  standalone: true,
 })
 export class AltitudePipe implements PipeTransform {
-  constructor(private transloco: TranslocoService) {}
+  private transloco = inject(TranslocoService);
+
   transform(
     value: {
       value: number;

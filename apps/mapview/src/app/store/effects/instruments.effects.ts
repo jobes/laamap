@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
@@ -22,6 +22,8 @@ import { instrumentsFeature } from '../features/settings/instruments.feature';
 
 @Injectable()
 export class InstrumentsEffects {
+  private readonly store = inject(Store);
+  private readonly http = inject(HttpClient);
   loadPlaneInstruments$ = createEffect(
     () => {
       return this.store.select(mapFeature.selectLoaded).pipe(
@@ -65,9 +67,4 @@ export class InstrumentsEffects {
     },
     { dispatch: false },
   );
-
-  constructor(
-    private readonly store: Store,
-    private readonly http: HttpClient,
-  ) {}
 }

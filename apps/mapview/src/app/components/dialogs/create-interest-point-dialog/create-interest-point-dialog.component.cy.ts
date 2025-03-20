@@ -6,8 +6,6 @@ import { InterestPointsService } from '../../../services/interest-points/interes
 import { CreateInterestPointDialogComponent } from './create-interest-point-dialog.component';
 
 @Component({
-  template: '',
-  standalone: true,
   imports: [MatDialogModule],
 })
 class WrapperAddPointComponent {
@@ -22,8 +20,6 @@ class WrapperAddPointComponent {
 }
 
 @Component({
-  template: '',
-  standalone: true,
   imports: [MatDialogModule],
 })
 class WrapperEditPointComponent {
@@ -136,5 +132,5 @@ const imageList = Array(26)
   .fill({})
   .map((_, index) => ({
     name: `poi${index + 1}`,
-    src: `assets/poi/poi${index + 1}.png`,
+    src: `public/poi/poi${index + 1}.png`,
   }));

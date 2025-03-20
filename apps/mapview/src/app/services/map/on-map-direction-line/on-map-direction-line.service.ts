@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GeoJSONSource } from 'maplibre-gl';
 
 import { MapService } from '../map.service';
@@ -7,7 +7,7 @@ import { MapService } from '../map.service';
   providedIn: 'root',
 })
 export class OnMapDirectionLineService {
-  constructor(private mapService: MapService) {}
+  private readonly mapService = inject(MapService);
 
   createLayers(): void {
     this.createBorderLayer();

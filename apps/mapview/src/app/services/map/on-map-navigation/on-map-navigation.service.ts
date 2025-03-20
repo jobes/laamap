@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import * as turf from '@turf/turf';
 import {
   Feature,
@@ -15,7 +15,7 @@ import { MapService } from '../map.service';
   providedIn: 'root',
 })
 export class OnMapNavigationService {
-  constructor(private readonly mapService: MapService) {}
+  private readonly mapService = inject(MapService);
 
   createLayers(): void {
     this.mapService.instance.addSource('navigationSource', {

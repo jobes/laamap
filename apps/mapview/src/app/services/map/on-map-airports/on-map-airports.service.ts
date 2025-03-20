@@ -1,5 +1,5 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ExpressionFilterSpecification, GeoJSONSource } from 'maplibre-gl';
 import { Observable, forkJoin } from 'rxjs';
@@ -16,6 +16,11 @@ import { MapService } from '../map.service';
   providedIn: 'root',
 })
 export class OnMapAirportsService {
+  private readonly mapService = inject(MapService);
+  private readonly store = inject(Store);
+  private readonly mapHelper = inject(MapHelperFunctionsService);
+  private readonly baseHref = inject(APP_BASE_HREF);
+
   readonly fontSize = 12;
   private imageList = {
     runwayPaved: 'runway_paved-small.svg',
@@ -29,13 +34,6 @@ export class OnMapAirportsService {
   };
 
   private airports?: GeoJSON.FeatureCollection<GeoJSON.Point, IAirport>;
-
-  constructor(
-    private readonly mapService: MapService,
-    private readonly store: Store,
-    private readonly mapHelper: MapHelperFunctionsService,
-    @Inject(APP_BASE_HREF) private readonly baseHref: string,
-  ) {}
 
   createLayers(): void {
     this.mapService.instance.addSource('airportSource', {
@@ -65,7 +63,7 @@ export class OnMapAirportsService {
         this.mapHelper.loadImageToMap$(
           this.mapService.instance,
           name,
-          `${this.baseHref}assets/open-aip-images/${src}`,
+          `${this.baseHref}public/open-aip-images/${src}`,
         ),
       ),
     );

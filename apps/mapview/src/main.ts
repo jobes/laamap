@@ -1,7 +1,5 @@
-/* eslint-disable no-console */
 import { isDevMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-// eslint-disable-next-line @typescript-eslint/naming-convention
 import LogRocket from 'logrocket';
 
 import { AppComponent } from './app/app.component';

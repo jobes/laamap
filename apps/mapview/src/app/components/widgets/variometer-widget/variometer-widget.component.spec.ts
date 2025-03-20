@@ -1,7 +1,6 @@
-/* eslint-disable max-statements */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslocoTestingModule } from '@ngneat/transloco';
-import { provideTranslocoLocale } from '@ngneat/transloco-locale';
+import { TranslocoTestingModule } from '@jsverse/transloco';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Subject, of, takeUntil, toArray } from 'rxjs';
 

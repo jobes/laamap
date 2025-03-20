@@ -5,8 +5,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { NotamsDialogComponent } from './notams-dialog.component';
 
 @Component({
-  template: '',
-  standalone: true,
   imports: [MatDialogModule],
 })
 class WrapperComponent implements OnInit {

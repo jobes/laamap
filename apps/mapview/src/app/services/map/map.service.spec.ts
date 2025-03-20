@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SwUpdate } from '@angular/service-worker';
-import { TranslocoTestingModule } from '@ngneat/transloco';
+import { TranslocoTestingModule } from '@jsverse/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 import maplibregl from 'maplibre-gl';
 
@@ -21,15 +21,11 @@ describe('MapService', () => {
       ],
     });
     const mockMapOn = jest.fn();
-    jest
-      .spyOn(maplibregl, 'Map')
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      .mockImplementation(() => {
-        return {
-          on: mockMapOn,
-        };
-      });
+    jest.spyOn(maplibregl, 'Map').mockImplementation((() => {
+      return {
+        on: mockMapOn,
+      };
+    }) as unknown as undefined);
 
     service = TestBed.inject(MapService);
   });

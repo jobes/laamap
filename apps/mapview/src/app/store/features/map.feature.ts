@@ -108,7 +108,6 @@ export const mapFeature = createFeature({
       (onlyOnActiveGps, trackingActive) => !onlyOnActiveGps || trackingActive,
     ),
     selectHeading: null as unknown as MemoizedSelector<
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       Record<string, any>,
       number | null,
       (s1: number, s2: number | null, s3: boolean) => number | null

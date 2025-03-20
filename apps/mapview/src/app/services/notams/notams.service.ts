@@ -1,7 +1,6 @@
-/* eslint-disable max-lines */
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import * as turf from '@turf/turf';
 import { FeatureCollection, Polygon } from 'geojson';
 import { LngLat } from 'maplibre-gl';
@@ -31,13 +30,10 @@ export type NotamGeoJson = FeatureCollection<
   providedIn: 'root',
 })
 export class NotamsService {
+  private readonly http = inject(HttpClient);
+  private readonly baseHref = inject(APP_BASE_HREF);
   firNotamsCache: INotamDecodedResponse['notamList'] = [];
   navigationCache: INotamDecodedResponse['notamList'] = [];
-
-  constructor(
-    private http: HttpClient,
-    @Inject(APP_BASE_HREF) private readonly baseHref: string,
-  ) {}
 
   getCachedNotams(): INotamDecodedResponse['notamList'] {
     return [...this.firNotamsCache, ...this.navigationCache];
@@ -122,13 +118,12 @@ export class NotamsService {
         name: string;
         country: string;
       }[]
-    >(`${this.baseHref}assets/firs.json`);
+    >(`${this.baseHref}public/firs.json`);
   }
 
   /**
    * @param {number} [radius] Distance in meters from the center coordinates
    */
-  // eslint-disable-next-line max-statements
   private allAroundPoint$(
     point: LngLat,
     radius: number,
@@ -233,7 +228,6 @@ export class NotamsService {
       );
   }
 
-  // eslint-disable-next-line complexity
   private separateToParts(notam: string): INotamParts {
     const qStart = notam.indexOf('Q)');
     const aStart = notam.indexOf('A)');

@@ -11,10 +11,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
-import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
-import { provideTransloco } from '@ngneat/transloco';
-import { provideTranslocoLocale } from '@ngneat/transloco-locale';
-import { provideTranslocoMessageformat } from '@ngneat/transloco-messageformat';
+import { provideTransloco } from '@jsverse/transloco';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -96,9 +95,6 @@ export const appConfig: ApplicationConfig = {
         connectInZone: true,
       }),
       LightgalleryModule,
-      WebBluetoothModule.forRoot({
-        enableTracing: false,
-      }),
     ),
     {
       provide: APP_BASE_HREF,

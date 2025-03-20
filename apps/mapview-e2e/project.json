@@ -1,54 +1,10 @@
 {
   "name": "mapview-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/mapview-e2e/src",
   "projectType": "application",
+  "sourceRoot": "apps/mapview-e2e/src",
   "tags": [],
   "implicitDependencies": ["mapview"],
-  "targets": {
-    "e2e": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [],
-        "parallel": false
-      },
-      "configurations": {
-        "production": {
-          "commands": [
-            "nx run mapview:preprocess_env",
-            "nx run mapview-e2e:real_e2e:production"
-          ]
-        },
-        "development": {
-          "commands": [
-            "nx run mapview:preprocess_env",
-            "nx run mapview-e2e:real_e2e:development"
-          ]
-        }
-      },
-      "defaultConfiguration": "development"
-    },
-    "real_e2e": {
-      "executor": "@nx/cypress:cypress",
-      "options": {
-        "cypressConfig": "apps/mapview-e2e/cypress.config.ts",
-        "devServerTarget": "mapview:real_serve:development",
-        "testingType": "e2e",
-        "watch": true
-      },
-      "configurations": {
-        "production": {
-          "devServerTarget": "mapview:real_serve:production",
-          "watch": false
-        },
-        "ci": {
-          "devServerTarget": "mapview:serve-static",
-          "watch": false
-        }
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    }
-  }
+  "// targets": "to see all targets run: nx show project mapview-e2e --web",
+  "targets": {}
 }

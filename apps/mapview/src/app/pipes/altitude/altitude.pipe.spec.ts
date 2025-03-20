@@ -1,4 +1,5 @@
-import { TranslocoService } from '@ngneat/transloco';
+import { TestBed } from '@angular/core/testing';
+import { TranslocoTestingModule } from '@jsverse/transloco';
 
 import {
   EHeightUnit,
@@ -9,9 +10,11 @@ import { AltitudePipe } from './altitude.pipe';
 describe('AltitudePipe', () => {
   let pipe: AltitudePipe;
   beforeEach(() => {
-    pipe = new AltitudePipe({
-      translate: (input) => input as string,
-    } as TranslocoService);
+    TestBed.configureTestingModule({
+      imports: [TranslocoTestingModule.forRoot({ langs: {} })],
+      providers: [AltitudePipe],
+    }).compileComponents();
+    pipe = TestBed.inject(AltitudePipe);
   });
   it('create an instance', () => {
     expect(pipe).toBeTruthy();
@@ -42,7 +45,9 @@ describe('AltitudePipe', () => {
         EHeightUnit.meter,
         'valueAndUnit',
       ),
-    ).toBe('5shared.altitude.heighUnit.0 shared.altitude.referenceDatum.1');
+    ).toBe(
+      '5en.shared.altitude.heighUnit.0 en.shared.altitude.referenceDatum.1',
+    );
   });
 
   it('convert unit from FL to FL, with units', () => {
@@ -56,7 +61,7 @@ describe('AltitudePipe', () => {
         EHeightUnit.flightLevel,
         'valueAndUnit',
       ),
-    ).toBe('shared.altitude.referenceDatum.2 5');
+    ).toBe('en.shared.altitude.referenceDatum.2 5');
   });
 
   it('convert feet to FL', () => {
