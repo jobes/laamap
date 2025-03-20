@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'digitalTime',
-  standalone: true,
 })
 export class DigitalTimePipe implements PipeTransform {
   transform(inputSecs = 0, showSeconds = true): string {

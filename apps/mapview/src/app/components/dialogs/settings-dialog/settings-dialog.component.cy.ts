@@ -5,8 +5,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { SettingsDialogComponent } from './settings-dialog.component';
 
 @Component({
-  template: '',
-  standalone: true,
   imports: [MatDialogModule],
 })
 class WrapperComponent {

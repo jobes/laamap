@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { switchMap } from 'rxjs';
 
 import { CustomFlyRoutesService } from '../../../services/custom-fly-routes/custom-fly-routes.service';
@@ -30,7 +30,6 @@ export class CustomFlyRouteCreateComponent {
 
   name = new FormControl('', {
     nonNullable: true,
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     validators: [Validators.required],
   });
 

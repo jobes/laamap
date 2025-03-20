@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
@@ -30,14 +30,12 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
   ],
 })
 export class SpeedWidgetSettingsComponent {
+  private readonly store = inject(Store);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translocoService = inject(TranslocoService);
   speedWidgetColorsSettings$ = this.store.select(
     instrumentsFeature.selectSpeedMeter,
   );
-  constructor(
-    private readonly store: Store,
-    private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService,
-  ) {}
 
   setMinSpeed(
     array: { minSpeed: number; bgColor: string; textColor: string }[],

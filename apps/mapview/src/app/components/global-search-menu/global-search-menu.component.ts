@@ -5,7 +5,7 @@ import {
 } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import { Point, Position } from 'geojson';
 import { LngLat } from 'maplibre-gl';

@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
@@ -37,6 +37,13 @@ import { terrainFeature } from '../features/settings/terrain.feature';
 
 @Injectable()
 export class NavigationEffects {
+  private readonly actions$ = inject(Actions);
+  private readonly store = inject(Store);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly onMapNavigation = inject(OnMapNavigationService);
+  private readonly customFlyRoutes = inject(CustomFlyRoutesService);
+
   init$ = createEffect(
     () => {
       return this.store.select(mapFeature.selectLoaded).pipe(
@@ -86,11 +93,9 @@ export class NavigationEffects {
 
   removeReachedPoint$ = createEffect(() => {
     return combineLatest({
-      /* eslint-disable rxjs/finnish */
       geoLocation: this.actions$.pipe(ofType(mapActions.geolocationChanged)),
       navigationRunning: this.store.select(navigationFeature.selectRunning),
       route: this.store.select(navigationFeature.selectRoute),
-      /* eslint-enable rxjs/finnish */
     }).pipe(
       filter(
         ({ geoLocation, navigationRunning, route }) =>
@@ -113,11 +118,9 @@ export class NavigationEffects {
   recalculateNavigationLine$ = createEffect(
     () => {
       return combineLatest({
-        /* eslint-disable rxjs/finnish */
         geoLocation: this.actions$.pipe(ofType(mapActions.geolocationChanged)),
         navigationRunning: this.store.select(navigationFeature.selectRunning),
         route: this.store.select(navigationFeature.selectRoute),
-        /* eslint-enable rxjs/finnish */
       }).pipe(
         tap(({ geoLocation, navigationRunning, route }) => {
           if (
@@ -211,15 +214,6 @@ export class NavigationEffects {
       }),
     );
   });
-
-  constructor(
-    private readonly actions$: Actions,
-    private readonly store: Store,
-    private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService,
-    private readonly onMapNavigation: OnMapNavigationService,
-    private readonly customFlyRoutes: CustomFlyRoutesService,
-  ) {}
 
   private showNavigationPointReachedMessage(routeLength: number): void {
     this.snackBar.open(

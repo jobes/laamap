@@ -93,7 +93,6 @@ const initIndexDb = (tracingService: TracingService) => {
 };
 @Component({
   template: '<button (click)="start()">click me</button>',
-  standalone: true,
   imports: [MatDialogModule],
 })
 class WrapperComponent {

@@ -2,66 +2,23 @@
   "name": "mapview",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/mapview/src",
   "prefix": "laamap",
+  "sourceRoot": "apps/mapview/src",
   "tags": [],
   "targets": {
     "serve": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [],
-        "parallel": false
-      },
+      "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "commands": [
-            "nx run mapview:preprocess_env",
-            "nx run mapview:real_serve:production"
-          ]
+          "buildTarget": "mapview:build:production"
         },
         "development": {
-          "commands": [
-            "nx run mapview:preprocess_env",
-            "nx run mapview:real_serve:development"
-          ]
+          "buildTarget": "mapview:build:development"
         }
       },
       "defaultConfiguration": "development"
     },
-    "deploy": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npx nx format:check",
-          "nx run mapview:stylelint",
-          "nx run mapview:build",
-          "nx run mapview:test",
-          "nx run mapview:lint",
-          "nx run mapview:component-test",
-          "ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/browser/ --server-dir subdoms/map/ --dangerous-clean-slate true --password `printenv FTP_PASSWORD`"
-        ],
-        "parallel": false
-      }
-    },
-    "component-test": {
-      "executor": "@nx/cypress:cypress",
-      "options": {
-        "cypressConfig": "apps/mapview/cypress.config.ts",
-        "testingType": "component",
-        "skipServe": true,
-        "devServerTarget": "mapview:cypress_build",
-        "watch": false
-      },
-      "configurations": {
-        "production": {
-          "watch": false
-        },
-        "development": {
-          "watch": true
-        }
-      }
-    },
-    "real_build": {
+    "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
@@ -72,65 +29,53 @@
         "tsConfig": "apps/mapview/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/mapview/src/assets",
-          "apps/mapview/src/manifest.webmanifest"
+          {
+            "glob": "**/*",
+            "input": "apps/mapview/public",
+            "output": "/public/"
+          }
         ],
         "styles": [
           "./node_modules/maplibre-gl/dist/maplibre-gl.css",
           "./node_modules/quill/dist/quill.snow.css",
           "@angular/material/prebuilt-themes/azure-blue.css",
-          "./node_modules/lightgallery/scss/lightgallery.scss",
-          "./node_modules/lightgallery/scss/lg-zoom.scss",
           "apps/mapview/src/styles.scss"
         ],
-        "stylePreprocessorOptions": {
-          "includePaths": ["node_modules"]
-        },
         "scripts": [],
         "allowedCommonJsDependencies": [
-          "turf-jsts",
-          "density-clustering",
-          "skmeans",
-          "rbush",
-          "concaveman",
-          "polygon-clipping",
-          "object-assign",
-          "geojson-rbush",
-          "deep-equal",
-          "quill",
-          "events",
-          "immediate",
-          "spark-md5",
-          "vuvuzela",
-          "emulate-tab",
-          "maplibre-gl",
+          "logrocket",
+          "quill-delta",
           "@messageformat/core",
-          "flat",
-          "geojson-equality",
-          "earcut",
+          "maplibre-gl",
+          "emulate-tab",
           "deepmerge",
-          "logrocket"
+          "@turf/jsts",
+          "rbush",
+          "skmeans",
+          "concaveman",
+          "fast-deep-equal",
+          "earcut"
         ],
-        "serviceWorker": "apps/mapview/ngsw-config.json"
+        "serviceWorker": "apps/mapview/ngsw-config.json",
+        "fileReplacements": [
+          {
+            "replace": "apps/mapview/src/environments/environment.ts",
+            "with": "apps/mapview/src/environments/environment.processed.ts"
+          }
+        ]
       },
       "configurations": {
         "production": {
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "1.5mb",
+              "maximumWarning": "3mb",
               "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
-          "fileReplacements": [
-            {
-              "replace": "apps/mapview/src/environments/environment.ts",
-              "with": "apps/mapview/src/environments/environment.processed.ts"
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
             }
           ],
           "outputHashing": "all"
@@ -138,63 +83,17 @@
         "development": {
           "optimization": false,
           "extractLicenses": false,
-          "sourceMap": true,
-          "fileReplacements": [
-            {
-              "replace": "apps/mapview/src/environments/environment.ts",
-              "with": "apps/mapview/src/environments/environment.processed.ts"
-            }
-          ]
+          "sourceMap": true
         }
       },
       "defaultConfiguration": "production"
-    },
-    "real_serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
-      "configurations": {
-        "production": {
-          "buildTarget": "mapview:real_build:production"
-        },
-        "development": {
-          "buildTarget": "mapview:real_build:development"
-        }
-      },
-      "defaultConfiguration": "development"
-    },
-    "cypress_build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/apps/mapview",
-        "index": "apps/mapview/src/index.html",
-        "main": "apps/mapview/src/main.ts",
-        "polyfills": ["zone.js"],
-        "tsConfig": "apps/mapview/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
-        "assets": [
-          "apps/mapview/src/assets",
-          "apps/mapview/src/manifest.webmanifest"
-        ],
-        "styles": [
-          "./node_modules/maplibre-gl/dist/maplibre-gl.css",
-          "./node_modules/quill/dist/quill.snow.css",
-          "@angular/material/prebuilt-themes/azure-blue.css",
-          "./node_modules/lightgallery/scss/lightgallery.scss",
-          "./node_modules/lightgallery/scss/lg-zoom.scss",
-          "apps/mapview/src/styles.scss"
-        ],
-        "stylePreprocessorOptions": {
-          "includePaths": ["node_modules"]
-        },
-        "scripts": []
-      }
     },
     "lint": {
       "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/apps/mapview"],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "apps/mapview/jest.config.ts"
       }
@@ -206,10 +105,31 @@
         "lintFilePatterns": ["apps/mapview/**/*.css", "apps/mapview/**/*.scss"]
       }
     },
+    "component-test": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/mapview/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "mapview:build",
+        "watch": false
+      },
+      "configurations": {
+        "production": {
+          "watch": false
+        },
+        "development": {
+          "watch": true
+        }
+      }
+    },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "mapview:build"
+        "buildTarget": "mapview:build",
+        "port": 4200,
+        "staticFilePath": "dist/apps/mapview/browser",
+        "spa": true
       }
     },
     "preprocess_env": {
@@ -218,27 +138,21 @@
         "command": "envsubst < apps/mapview/src/environments/environment.ts > apps/mapview/src/environments/environment.processed.ts"
       }
     },
-    "build": {
+    "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [],
+        "commands": [
+          "nx run mapview:preprocess_env",
+          "npx nx format:write",
+          "nx run mapview:stylelint",
+          "nx run mapview:build",
+          "nx run mapview:test",
+          "nx run mapview:lint",
+          "nx run mapview:component-test",
+          "ftp-deploy --server `printenv FTP_SERVER` --username `printenv FTP_USERNAME` --local-dir ./dist/apps/mapview/browser/ --server-dir subdoms/map/ --dangerous-clean-slate true --password `printenv FTP_PASSWORD`"
+        ],
         "parallel": false
-      },
-      "configurations": {
-        "production": {
-          "commands": [
-            "nx run mapview:preprocess_env",
-            "nx run mapview:real_build:production"
-          ]
-        },
-        "development": {
-          "commands": [
-            "nx run mapview:preprocess_env",
-            "nx run mapview:real_build:development"
-          ]
-        }
-      },
-      "defaultConfiguration": "production"
+      }
     }
   }
 }

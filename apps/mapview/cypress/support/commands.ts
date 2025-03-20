@@ -7,9 +7,9 @@ import {
 } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { provideTransloco } from '@ngneat/transloco';
-import { provideTranslocoLocale } from '@ngneat/transloco-locale';
-import { provideTranslocoMessageformat } from '@ngneat/transloco-messageformat';
+import { provideTransloco } from '@jsverse/transloco';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 import '@this-dot/cypress-indexeddb';
 import { mount } from 'cypress/angular';
 

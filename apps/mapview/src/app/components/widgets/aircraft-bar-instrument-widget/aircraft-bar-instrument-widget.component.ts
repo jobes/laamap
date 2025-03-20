@@ -7,7 +7,7 @@ import {
   input,
   viewChildren,
 } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';

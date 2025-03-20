@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, switchMap, tap } from 'rxjs';
@@ -10,6 +10,9 @@ import { terrainFeature } from '../../features/settings/terrain.feature';
 
 @Injectable()
 export class TerrainEffects {
+  private readonly store = inject(Store);
+  private readonly actions$ = inject(Actions);
+  private readonly mapService = inject(MapService);
   loadTerrain$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -54,10 +57,4 @@ export class TerrainEffects {
     },
     { dispatch: false },
   );
-
-  constructor(
-    private readonly store: Store,
-    private readonly actions$: Actions,
-    private readonly mapService: MapService,
-  ) {}
 }

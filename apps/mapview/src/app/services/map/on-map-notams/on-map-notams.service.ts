@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import { GeoJSONSource } from 'maplibre-gl';
 
@@ -11,12 +11,10 @@ import { MapService } from '../map.service';
   providedIn: 'root',
 })
 export class OnMapNotamsService {
-  constructor(
-    private readonly mapService: MapService,
-    private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService,
-    private readonly store: Store,
-  ) {}
+  private readonly mapService = inject(MapService);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly store = inject(Store);
 
   createLayers(): void {
     this.mapService.instance.addSource('notamsSource', {

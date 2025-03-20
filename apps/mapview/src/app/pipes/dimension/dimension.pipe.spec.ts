@@ -1,4 +1,5 @@
-import { TranslocoService } from '@ngneat/transloco';
+import { TestBed } from '@angular/core/testing';
+import { TranslocoTestingModule } from '@jsverse/transloco';
 
 import { EHeightUnit } from '../../services/open-aip/airport.interfaces';
 import { DimensionPipe } from './dimension.pipe';
@@ -6,9 +7,11 @@ import { DimensionPipe } from './dimension.pipe';
 describe('DimensionPipe', () => {
   let pipe: DimensionPipe;
   beforeEach(() => {
-    pipe = new DimensionPipe({
-      translate: (input) => input as string,
-    } as TranslocoService);
+    TestBed.configureTestingModule({
+      imports: [TranslocoTestingModule.forRoot({ langs: {} })],
+      providers: [DimensionPipe],
+    }).compileComponents();
+    pipe = TestBed.inject(DimensionPipe);
   });
 
   it('create an instance', () => {
@@ -17,7 +20,7 @@ describe('DimensionPipe', () => {
 
   it('show dimension', () => {
     expect(pipe.transform({ value: 5, unit: EHeightUnit.meter })).toBe(
-      '5shared.altitude.heighUnit.0',
+      '5en.shared.altitude.heighUnit.0',
     );
   });
 });

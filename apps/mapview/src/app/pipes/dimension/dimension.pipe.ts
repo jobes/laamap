@@ -1,14 +1,14 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { Pipe, PipeTransform, inject } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { EHeightUnit } from '../../services/open-aip/airport.interfaces';
 
 @Pipe({
   name: 'dimension',
-  standalone: true,
 })
 export class DimensionPipe implements PipeTransform {
-  constructor(private transloco: TranslocoService) {}
+  private transloco = inject(TranslocoService);
+
   transform(value: { value: number; unit: EHeightUnit }): unknown {
     return `${value.value}${this.transloco.translate(
       `shared.altitude.heighUnit.${value.unit}`,

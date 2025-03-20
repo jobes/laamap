@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { fromEvent } from 'rxjs';
 
@@ -20,10 +20,8 @@ declare class AbsoluteOrientationSensor {
   providedIn: 'root',
 })
 export class CompassService {
-  constructor(
-    private readonly logger: LoggerService,
-    private readonly store: Store,
-  ) {}
+  private readonly logger = inject(LoggerService);
+  private readonly store = inject(Store);
 
   public init(): void {
     this.requestPermission()

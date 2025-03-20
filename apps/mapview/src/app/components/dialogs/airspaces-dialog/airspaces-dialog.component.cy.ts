@@ -4,8 +4,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AirspacesDialogComponent } from './airspaces-dialog.component';
 
 @Component({
-  template: '',
-  standalone: true,
   imports: [MatDialogModule],
 })
 class WrapperComponent implements OnInit {

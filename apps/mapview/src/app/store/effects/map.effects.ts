@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -43,6 +43,14 @@ import { generalFeature } from '../features/settings/general.feature';
 
 @Injectable()
 export class MapEffects {
+  private readonly actions$ = inject(Actions);
+  private readonly store = inject(Store);
+  private readonly mapService = inject(MapService);
+  private readonly tracing = inject(TracingService);
+  private readonly onMapDirectionLine = inject(OnMapDirectionLineService);
+  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly dialog = inject(MatDialog);
+
   mapRotated$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -246,7 +254,6 @@ export class MapEffects {
         ofType(mapActions.clicked),
         switchMap((click) =>
           combineLatest({
-            // eslint-disable-next-line rxjs/finnish
             lngLat: of(click.lngLat),
             ...this.layerClicks,
           }).pipe(sampleTime(500)),
@@ -309,7 +316,6 @@ export class MapEffects {
   private startGpsTracking = false;
   private animationInProgress = false;
 
-  /* eslint-disable rxjs/finnish */
   private layerClicks = {
     airport: this.actions$.pipe(
       ofType(layerAirportActions.clicked),
@@ -329,17 +335,6 @@ export class MapEffects {
       startWith(null),
     ),
   };
-  /* eslint-enable rxjs/finnish */
-
-  constructor(
-    private readonly actions$: Actions,
-    private readonly store: Store,
-    private readonly mapService: MapService,
-    private readonly tracing: TracingService,
-    private readonly onMapDirectionLine: OnMapDirectionLineService,
-    private readonly bottomSheet: MatBottomSheet,
-    private readonly dialog: MatDialog,
-  ) {}
 
   private trackingActive(params: {
     geoLocation: GeolocationPosition | null;

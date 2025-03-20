@@ -25,11 +25,16 @@
             <img
               class="selected-image"
               [src]="interestPointsService.getSrcFromIconName(icon.value)"
+              alt="selected point of interest"
             />
           </mat-select-trigger>
           @for (img of interestPointsService.imageList; track img.name) {
             <mat-option [value]="img.name">
-              <img class="option-image" [src]="img.src" />
+              <img
+                class="option-image"
+                [src]="img.src"
+                [alt]="'selected point of interest ' + img.name"
+              />
             </mat-option>
           }
         </mat-select>
@@ -41,6 +46,7 @@
       {{ data.value.properties.name }}
       <img
         class="selected-image"
+        alt="selected point of interest"
         [src]="
           interestPointsService.getSrcFromIconName(data.value.properties.icon)
         "

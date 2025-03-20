@@ -3,19 +3,15 @@ import {
   Component,
   OnInit,
   inject,
+  signal,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { NgxMarkdownItModule } from 'ngx-markdown-it';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import markdownit from 'markdown-it';
 
 @Component({
-  imports: [
-    TranslocoModule,
-    MatDialogModule,
-    NgxMarkdownItModule,
-    MatButtonModule,
-  ],
+  imports: [TranslocoModule, MatDialogModule, MatButtonModule],
   templateUrl: './version-news-dialog.component.html',
   styleUrls: ['./version-news-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,12 +19,16 @@ import { NgxMarkdownItModule } from 'ngx-markdown-it';
 export class VersionNewsDialogComponent implements OnInit {
   private transloco = inject(TranslocoService);
   private data = inject(MAT_DIALOG_DATA) as { [language: string]: string }[];
-  markDownLocalizedMessages: string[] = [];
+  htmlLocalizedMsgs = signal<string[]>([]);
 
   ngOnInit(): void {
-    this.markDownLocalizedMessages = this.data
-      .map((langData) => langData[this.transloco.getActiveLang()])
-      .reverse();
+    const md = markdownit();
+    this.htmlLocalizedMsgs.set(
+      this.data
+        .map((langData) => langData[this.transloco.getActiveLang()])
+        .map((markDownMessage) => md.render(markDownMessage))
+        .reverse(),
+    );
   }
 
   restart(): void {

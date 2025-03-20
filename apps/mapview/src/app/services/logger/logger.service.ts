@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { VersionNewsDialogComponent } from '../../components/dialogs/version-news-dialog/version-news-dialog.component';
 
@@ -15,12 +14,12 @@ interface INewsDef {
   providedIn: 'root',
 })
 export class LoggerService {
-  constructor(
-    private readonly updates: SwUpdate,
-    private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService,
-    private readonly dialog: MatDialog,
-  ) {
+  private readonly updates = inject(SwUpdate);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly dialog = inject(MatDialog);
+
+  constructor() {
     if (this.updates.isEnabled) {
       this.logPwaEvents();
     }

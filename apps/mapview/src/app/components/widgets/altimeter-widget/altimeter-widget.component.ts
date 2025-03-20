@@ -2,7 +2,7 @@ import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, inject, viewChildren } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
 
@@ -24,6 +24,7 @@ export class AltimeterWidgetComponent {
   containers = viewChildren<CdkDrag, ElementRef<HTMLElement>>(CdkDrag, {
     read: ElementRef,
   });
+  private readonly store = inject(Store);
   private readonly dialog = inject(MatDialog);
   private readonly safePositionService = inject(WidgetSafePositionService);
   show = this.store.selectSignal(mapFeature.selectShowInstruments);
@@ -35,7 +36,6 @@ export class AltimeterWidgetComponent {
   );
 
   private dragging = false;
-  constructor(private readonly store: Store) {}
 
   dragStarted(): void {
     this.dragging = true;

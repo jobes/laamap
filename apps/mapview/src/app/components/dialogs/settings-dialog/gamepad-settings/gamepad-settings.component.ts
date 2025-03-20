@@ -12,10 +12,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { TranslocoModule } from '@ngneat/transloco';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
-import { filter } from 'rxjs';
+import { Subject, filter, takeUntil } from 'rxjs';
 
 import { GamepadHandlerService } from '../../../../services/gamepad-handler/gamepad-handler.service';
 import {
@@ -26,7 +25,6 @@ import {
 import { gamePadSettingsActions } from '../../../../store/actions/settings.actions';
 import { gamepadFeature } from '../../../../store/features/settings/gamepad.feature';
 
-@UntilDestroy()
 @Component({
   selector: 'laamap-gamepad-settings',
   imports: [
@@ -45,6 +43,7 @@ import { gamepadFeature } from '../../../../store/features/settings/gamepad.feat
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamepadSettingsComponent implements OnInit, OnDestroy {
+  private readonly destroyer$ = new Subject();
   private readonly gamepadService = inject(GamepadHandlerService);
   private readonly store = inject(Store);
   private readonly ref = inject(ElementRef);
@@ -72,7 +71,7 @@ export class GamepadSettingsComponent implements OnInit, OnDestroy {
     this.gamepadService.gamePadActive$
       .pipe(
         filter((val) => !!val && this.gamepadService.settingMode()),
-        untilDestroyed(this),
+        takeUntil(this.destroyer$),
       )
       .subscribe({
         next: (input) => this.processGamePadInput(input),
@@ -81,6 +80,8 @@ export class GamepadSettingsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.gamepadService.settingMode.set(false);
+    this.destroyer$.next(null);
+    this.destroyer$.complete();
   }
 
   expandedChange(value: boolean) {

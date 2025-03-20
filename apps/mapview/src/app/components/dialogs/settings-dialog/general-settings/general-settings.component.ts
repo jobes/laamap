@@ -1,5 +1,5 @@
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -10,11 +10,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslocoModule } from '@ngneat/transloco';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslocoModule } from '@jsverse/transloco';
 import { LetDirective } from '@ngrx/component';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { Subject, takeUntil } from 'rxjs';
 
 import { NotamsService } from '../../../../services/notams/notams.service';
 import { OpenAipService } from '../../../../services/open-aip/open-aip.service';
@@ -24,7 +24,6 @@ import { account } from '../../../../store/actions/init.actions';
 import { generalSettingsActions } from '../../../../store/actions/settings.actions';
 import { generalFeature } from '../../../../store/features/settings/general.feature';
 
-@UntilDestroy()
 @Component({
   selector: 'laamap-general-settings',
   templateUrl: './general-settings.component.html',
@@ -46,7 +45,13 @@ import { generalFeature } from '../../../../store/features/settings/general.feat
     UpperCasePipe,
   ],
 })
-export class GeneralSettingsComponent implements AfterViewInit {
+export class GeneralSettingsComponent implements AfterViewInit, OnDestroy {
+  private readonly destroyer$ = new Subject();
+  private readonly store = inject(Store);
+  private readonly notams = inject(NotamsService);
+  private readonly openAip = inject(OpenAipService);
+  private readonly dialogRef = inject(MatDialogRef<unknown>);
+  private readonly actions$ = inject(Actions);
   screenWakeLockEnabled$ = this.store.select(
     generalFeature.selectScreenWakeLockEnabled,
   );
@@ -66,14 +71,6 @@ export class GeneralSettingsComponent implements AfterViewInit {
   loggedInUser$ = this.store.select(generalFeature.selectLoginObject);
   loggedInUserToken$ = this.store.select(generalFeature.selectLoginToken);
 
-  constructor(
-    private readonly store: Store,
-    private readonly notams: NotamsService,
-    private readonly openAip: OpenAipService,
-    private readonly dialogRef: MatDialogRef<unknown>,
-    private readonly actions$: Actions,
-  ) {}
-
   ngAfterViewInit(): void {
     window.google.accounts.id.renderButton(
       document.getElementById('googleLoginButton')!,
@@ -81,7 +78,7 @@ export class GeneralSettingsComponent implements AfterViewInit {
     );
 
     this.actions$
-      .pipe(ofType(account.loggedIn), untilDestroyed(this))
+      .pipe(ofType(account.loggedIn), takeUntil(this.destroyer$))
       .subscribe(() => {
         this.dialogRef.close(); // because google button does not disappear
       });
@@ -133,5 +130,10 @@ export class GeneralSettingsComponent implements AfterViewInit {
   logout(): void {
     this.store.dispatch(generalSettingsActions.logOut());
     this.dialogRef.close(); // behavior to be same as login
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer$.next(null);
+    this.destroyer$.complete();
   }
 }

@@ -6,8 +6,6 @@ import { navigationFeature } from '../../../store/features/navigation.feature';
 import { NavigationDialogComponent } from './navigation-dialog.component';
 
 @Component({
-  template: '',
-  standalone: true,
   imports: [MatDialogModule],
 })
 class WrapperComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
@@ -32,17 +32,14 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
   ],
 })
 export class VarioWidgetSettingsComponent {
+  private readonly store = inject(Store);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translocoService = inject(TranslocoService);
   varioWidgetColorsSettings$ = this.store.select(
     instrumentsFeature.selectVarioMeter,
   );
 
   sourceValues = ['gps', 'pressure'];
-
-  constructor(
-    private readonly store: Store,
-    private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService,
-  ) {}
 
   setTimeDifference(diffTime: number): void {
     this.store.dispatch(varioSettingsActions.diffTimeChanged({ diffTime }));

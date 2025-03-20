@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { navigationSettingsActions } from '../../../../store/actions/settings.actions';
@@ -34,6 +34,7 @@ import {
   ],
 })
 export class NavigationSettingsComponent {
+  private readonly store = inject(Store);
   minActivationSpeed$ = this.store.select(
     navigationSettingsFeature.selectMinActivationSpeedKpH,
   );
@@ -58,8 +59,6 @@ export class NavigationSettingsComponent {
   widgetNextPoint$ = this.store.select(
     navigationSettingsFeature.selectWidgetNextPoint,
   );
-
-  constructor(private readonly store: Store) {}
 
   setMinActivationSpeed(minActivationSpeedKpH: number): void {
     this.store.dispatch(

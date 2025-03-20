@@ -2,8 +2,8 @@ import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AsyncPipe } from '@angular/common';
 import { Component, ElementRef, inject, viewChildren } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { TranslocoModule } from '@ngneat/transloco';
-import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoLocaleModule } from '@jsverse/transloco-locale';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import {
@@ -38,6 +38,7 @@ export class VariometerWidgetComponent {
   containers = viewChildren<CdkDrag, ElementRef<HTMLElement>>(CdkDrag, {
     read: ElementRef,
   });
+  private readonly store = inject(Store);
   private readonly safePositionService = inject(WidgetSafePositionService);
   show$ = this.store.select(mapFeature.selectShowInstruments);
   private varioMeterSettings$ = this.store.select(
@@ -114,8 +115,6 @@ export class VariometerWidgetComponent {
     this.varioMeterSettings$.pipe(map((val) => val.position)),
     toObservable(this.containers),
   );
-
-  constructor(private readonly store: Store) {}
 
   dragEnded(event: CdkDragEnd): void {
     this.store.dispatch(

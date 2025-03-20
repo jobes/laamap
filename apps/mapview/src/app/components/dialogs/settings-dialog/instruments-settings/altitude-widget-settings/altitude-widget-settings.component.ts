@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { instrumentAltimeterSettingsActions } from '../../../../../store/actions/settings.actions';
@@ -26,6 +26,7 @@ import { instrumentsFeature } from '../../../../../store/features/settings/instr
   ],
 })
 export class AltitudeWidgetSettingsComponent {
+  private readonly store = inject(Store);
   showTypes = [
     'altitudeM',
     'gndM',
@@ -37,8 +38,6 @@ export class AltitudeWidgetSettingsComponent {
     'pressureGndFt',
   ];
   settings = this.store.selectSignal(instrumentsFeature.selectAltimeter);
-
-  constructor(private readonly store: Store) {}
 
   setGndAltitude(gndAltitude: number): void {
     this.store.dispatch(

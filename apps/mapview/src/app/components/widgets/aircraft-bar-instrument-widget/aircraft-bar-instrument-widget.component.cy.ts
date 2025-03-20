@@ -1,8 +1,6 @@
-import { input, signal } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { signal } from '@angular/core';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { instrumentsEffectsActions } from '../../../store/actions/effects.actions';
 import { AircraftBarInstrumentWidgetComponent } from './aircraft-bar-instrument-widget.component';
 
 const mockState = (oilTemp: number) => ({
@@ -44,7 +42,7 @@ describe(AircraftBarInstrumentWidgetComponent.name, () => {
 
     // 80
     cy.get('.fixed-value').contains('80');
-    cy.get('.pointer').and('have.css', 'left').should('equal', '58.3281px');
+    cy.get('.pointer').and('have.css', 'left').should('equal', '66.6562px');
     cy.get('.container.alert').should('not.exist');
     cy.get('.container.caution')
       .should('exist')
@@ -84,7 +82,7 @@ describe(AircraftBarInstrumentWidgetComponent.name, () => {
 
     //40
     cy.get('.fixed-value').contains('40');
-    cy.get('.pointer').and('have.css', 'left').should('equal', '11.6562px');
+    cy.get('.pointer').and('have.css', 'left').should('equal', '13.3281px');
     cy.get('.container.alert').should('exist');
     cy.get('.container.caution')
       .should('exist')
@@ -92,7 +90,7 @@ describe(AircraftBarInstrumentWidgetComponent.name, () => {
 
     //60
     cy.get('.fixed-value').contains('60');
-    cy.get('.pointer').and('have.css', 'left').should('equal', '35px');
+    cy.get('.pointer').and('have.css', 'left').should('equal', '40px');
     cy.get('.container.alert').should('not.exist');
     cy.get('.container.caution')
       .should('exist')
@@ -100,7 +98,7 @@ describe(AircraftBarInstrumentWidgetComponent.name, () => {
 
     //100
     cy.get('.fixed-value').contains('100');
-    cy.get('.pointer').and('have.css', 'left').should('equal', '81.6562px');
+    cy.get('.pointer').and('have.css', 'left').should('equal', '93.3281px');
     cy.get('.container.alert').should('not.exist');
     cy.get('.container.caution')
       .should('not.exist')
@@ -108,7 +106,7 @@ describe(AircraftBarInstrumentWidgetComponent.name, () => {
 
     //120
     cy.get('.fixed-value').contains('120');
-    cy.get('.pointer').and('have.css', 'left').should('equal', '105px');
+    cy.get('.pointer').and('have.css', 'left').should('equal', '120px');
     cy.get('.container.alert').should('not.exist');
     cy.get('.container.caution')
       .should('exist')
@@ -116,7 +114,7 @@ describe(AircraftBarInstrumentWidgetComponent.name, () => {
 
     //140
     cy.get('.fixed-value').contains('140');
-    cy.get('.pointer').and('have.css', 'left').should('equal', '128.328px');
+    cy.get('.pointer').and('have.css', 'left').should('equal', '146.656px');
     cy.get('.container.alert').should('exist');
     cy.get('.container.caution')
       .should('exist')
@@ -124,7 +122,7 @@ describe(AircraftBarInstrumentWidgetComponent.name, () => {
 
     //160
     cy.get('.fixed-value').contains('160');
-    cy.get('.pointer').and('have.css', 'left').should('equal', '140px');
+    cy.get('.pointer').and('have.css', 'left').should('equal', '160px');
     cy.get('.container.alert').should('exist');
     cy.get('.container.caution')
       .should('exist')
@@ -132,7 +130,7 @@ describe(AircraftBarInstrumentWidgetComponent.name, () => {
 
     //180
     cy.get('.fixed-value').contains('180');
-    cy.get('.pointer').and('have.css', 'left').should('equal', '140px');
+    cy.get('.pointer').and('have.css', 'left').should('equal', '160px');
     cy.get('.container.alert').should('exist');
     cy.get('.container.caution')
       .should('exist')
@@ -140,7 +138,7 @@ describe(AircraftBarInstrumentWidgetComponent.name, () => {
 
     //200
     cy.get('.fixed-value').contains('200');
-    cy.get('.pointer').and('have.css', 'left').should('equal', '140px');
+    cy.get('.pointer').and('have.css', 'left').should('equal', '160px');
     cy.get('.container.alert').should('exist');
     cy.get('.container.caution').should('exist');
   });

@@ -6,9 +6,7 @@
       "files": ["**/*.scss"],
       "customSyntax": "postcss-scss",
       "plugins": ["stylelint-declaration-strict-value", "stylelint-no-px"],
-      "extends": [
-        "stylelint-config-standard-scss"
-      ],
+      "extends": ["stylelint-config-standard-scss"],
       "rules": {
         "scale-unlimited/declaration-strict-value": "color",
         "meowtec/no-px": [true, { "ignore": ["1px", "-1px"] }],

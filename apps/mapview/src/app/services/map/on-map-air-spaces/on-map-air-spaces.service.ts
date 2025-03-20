@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Feature, GeoJsonProperties, Geometry } from 'geojson';
 import {
@@ -18,10 +18,8 @@ import { MapService } from '../map.service';
   providedIn: 'root',
 })
 export class OnMapAirSpacesService {
-  constructor(
-    private readonly mapService: MapService,
-    private store: Store,
-  ) {}
+  private readonly mapService = inject(MapService);
+  private store = inject(Store);
 
   createLayers(): void {
     this.mapService.instance.addSource('airspacesSource', {

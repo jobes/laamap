@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Map } from 'maplibre-gl';
 import { Observable, fromEvent, map, take, tap } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { MapService } from '../map/map.service';
   providedIn: 'root',
 })
 export class MapHelperFunctionsService {
-  constructor(private readonly mapService: MapService) {}
+  private readonly mapService = inject(MapService);
 
   decodeGeoJsonProperties(
     data: import('geojson').GeoJsonProperties,

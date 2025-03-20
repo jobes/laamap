@@ -1,6 +1,6 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import maplibregl from 'maplibre-gl';
 import { Map } from 'maplibre-gl';
@@ -16,19 +16,19 @@ import { MapFontSizeService } from './map-font-size.service';
   providedIn: 'root',
 })
 export class MapService {
+  private readonly transloco = inject(TranslocoService);
+  private readonly compassService = inject(CompassService);
+  private readonly store = inject(Store);
+  private readonly mapFontSize = inject(MapFontSizeService);
+  private readonly gamepadHandlerService = inject(GamepadHandlerService);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly zone = inject(NgZone);
+
   instance: Map;
   private tileStyleUrl = `https://api.maptiler.com/maps/openstreetmap/style.json?key=${environment.mapTilesKey}`;
 
-  constructor(
-    private readonly transloco: TranslocoService,
-    private readonly compassService: CompassService,
-    private readonly store: Store,
-    private readonly mapFontSize: MapFontSizeService,
-    private readonly gamepadHandlerService: GamepadHandlerService,
-    private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService,
-    private readonly zone: NgZone,
-  ) {
+  constructor() {
     this.instance = new Map({
       container: 'map',
       style: this.tileStyleUrl,
@@ -105,8 +105,6 @@ export class MapService {
       .pipe(take(1))
       .subscribe({
         next: (translations) => {
-          /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-          /* eslint-disable @typescript-eslint/no-unsafe-assignment */
           const locale = {
             ...this.instance._locale,
             'GeolocateControl.FindMyLocation': translations.findMyLocation,
@@ -122,8 +120,6 @@ export class MapService {
           this.addControlsToMap();
         },
       });
-    /* eslint-enable @typescript-eslint/no-unsafe-assignment */
-    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
   }
 
   private addControlsToMap(): void {
@@ -250,7 +246,6 @@ export class MapService {
   private addSettingsControl(): void {
     const button = this.createButton();
     button.textContent = 'settings';
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     button.title = this.instance._getUIString(
       'SettingControl.Settings' as 'FullscreenControl.Enter',
     );
@@ -261,7 +256,6 @@ export class MapService {
     const button = this.createButton();
     button.textContent = 'navigation';
     button.setAttribute('navigation-dialog', '');
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     button.title = this.instance._getUIString(
       'NavigationControl.Navigation' as 'FullscreenControl.Enter',
     );
