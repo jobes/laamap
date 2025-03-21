@@ -69,3 +69,7 @@ body {
     display: block;
   }
 }
+
+.mat-mdc-dialog-container-with-actions .mat-mdc-dialog-content {
+  padding-bottom: 0.1rem !important;
+}
