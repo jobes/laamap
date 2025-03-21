@@ -7,30 +7,12 @@ from numpy import log as ln
 
 initValues = {
     "rpm":None,
-    "thermoCouple1":None,
-    "thermoCouple2":None,
-    "thermoCouple3":None,
-    "thermoCouple4":None,
-    "um1":None,
-    "um2":None,
-    "um3":None,
-    "um4":None,
-    "um5":None,
-    "um6":None,
-    "analogTemp1":None,
-    "analogTemp2":None,
-    "analogTemp3":None,
-    "analogTemp4":None,
-    "au4":None,
     "cht1Temp":None,
     "cht2Temp":None,
     "oilTemp":None,
     "oilPressure":None,
-    "outsideTemperature":None,
-    "fuelLevel1":None,
-    "fuelLevel2":None,
-    "fuel1":None,
-    "fuel2":None,
+    #"outsideTemperature":None,
+    "fuelLevel":None,
 }
 
 def init():
@@ -38,30 +20,12 @@ def init():
     
     units.update({
         "rpm":" &nbsp;RPM",
-        "thermoCouple1":"&nbsp;&deg;C",
-        "thermoCouple2":"&nbsp;&deg;C",
-        "thermoCouple3":"&nbsp;&deg;C",
-        "thermoCouple4":"&nbsp;&deg;C",
-        "um1":"&nbsp;&deg;C",
-        "um2":"&nbsp;&deg;C",
-        "um3":"&nbsp;&deg;C",
-        "um4":"&nbsp;&deg;C",
-        "um5":"",
-        "um6":"",
-        "analogTemp1":"&nbsp;&deg;C",
-        "analogTemp2":"&nbsp;&deg;C",
-        "analogTemp3":"&nbsp;&deg;C",
-        "analogTemp4":"&nbsp;&deg;C",
-        "au4":"",
         "cht1Temp":"&nbsp;&deg;C",
         "cht2Temp":"&nbsp;&deg;C",
         "oilTemp":"&nbsp;&deg;C",
-        "oilPressure":" BAR",
-        "outsideTemperature":"&nbsp;&deg;C",
-        "fuelLevel1":"&nbsp;L",
-        "fuelLevel2":"&nbsp;L",
-        "fuel1":"",
-        "fuel2":"",
+        "oilPressure":"&nbsp;BAR",
+        #"outsideTemperature":"&nbsp;&deg;C",
+        "fuelLevel":"&nbsp;L",
     })
     
 lastValidReading = int(time())
@@ -85,15 +49,18 @@ async def processRdacInfo():
                 else:
                     msg_type = ser.read()
                     if msg_type == b'\x01':
-                        fuel(read_data(msg_type, 6, ser))
+                        #fuel flow - ignore
+                        read_data(msg_type, 6, ser)
                     elif msg_type == b'\x02':
                         analogMeasures(read_data(msg_type, 24, ser))
                     elif msg_type == b'\x03':
                         rpm(read_data(msg_type, 4, ser))
                     elif msg_type == b'\x04':
-                        thermocouple(read_data(msg_type, 10, ser))
+                        #thermocouple - ignore
+                        read_data(msg_type, 10, ser)
                     elif msg_type == b'\x05':
-                        unknownMsg(read_data(msg_type, 14, ser))
+                        # unknown - ignore
+                        read_data(msg_type, 14, ser)
                     else:
                         raise Exception('unknown msg type')
             else:
@@ -162,6 +129,10 @@ def getChtTemp(value):
 def getOilTemp(value):
     return round(268.2977 - 35.32168*ln(value/1.2))
     
+def getOilpressure(value):
+    rawPressure = 0.0000166377*value*value+0.0145214*value-0.467939
+    return round(max(0, rawPressure), 1)
+    
 def rpm(data):
     revFactor = float(config['DEFAULT']['rdac.rev_factor'])
     rdacVal = int.from_bytes(data[0:2], 'little')
@@ -172,31 +143,7 @@ def rpm(data):
         
     setValue("rpm", int(round(rpm)))
         
-def fuel(data):
-    setValue("fuel1", int.from_bytes(data[0:2], 'little'))
-    setValue("fuel2", int.from_bytes(data[2:4], 'little'))
-        
-def thermocouple(data):
-    setValue("thermoCouple1", int.from_bytes(data[0:2], 'little'))
-    setValue("thermoCouple2", int.from_bytes(data[2:4], 'little'))
-    setValue("thermoCouple3", int.from_bytes(data[4:6], 'little'))
-    setValue("thermoCouple4", int.from_bytes(data[6:8], 'little'))
-        
-def unknownMsg(data):
-    setValue('um1', int.from_bytes(data[0:2], 'little'))
-    setValue('um2', int.from_bytes(data[2:4], 'little'))
-    setValue('um3', int.from_bytes(data[4:6], 'little'))
-    setValue('um4', int.from_bytes(data[6:8], 'little'))
-    setValue('um5', int.from_bytes(data[8:10], 'little'))
-    setValue('um6', int.from_bytes(data[10:12], 'little'))
-        
-def analogMeasures(data):
-    setValue('analogTemp1', int.from_bytes(data[0:2], 'little'))
-    setValue('analogTemp2', int.from_bytes(data[2:4], 'little'))
-    setValue('analogTemp3', int.from_bytes(data[4:6], 'little'))
-    setValue('analogTemp4', int.from_bytes(data[6:8], 'little'))
-    setValue('au4', int.from_bytes(data[16:18], 'little'))
-    
+def analogMeasures(data):   
     oilTempData = int.from_bytes(data[8:10], 'little')
     oilTemp = getOilTemp(oilTempData)
     setValue('oilTemp', oilTemp)
@@ -209,14 +156,15 @@ def analogMeasures(data):
     cht2Temp = getChtTemp(cht2Data)
     setValue('cht2Temp', cht2Temp)
         
-    temperatureData = int.from_bytes(data[18:20], 'little')
-    temperatureVoltage = temperatureData / 4095 * 5
-    temperatureC = temperatureVoltage / 0.01 - 273.15
-    setValue("outsideTemperature", int(round(temperatureC)))
+    #temperatureData = int.from_bytes(data[18:20], 'little')
+    #temperatureVoltage = temperatureData / 4095 * 5
+    #temperatureC = temperatureVoltage / 0.01 - 273.15
+    #setValue("outsideTemperature", int(round(temperatureC)))
     
-    fuelLevelTable1 = ast.literal_eval(config['DEFAULT']['rdac.fuel_level_table1'])
-    fuelLevelTable2 = ast.literal_eval(config['DEFAULT']['rdac.fuel_level_table2'])
-    fuel1 = int(round(linearly_approx_from_dict(int.from_bytes(data[14:16], 'little'), fuelLevelTable1), 0))
-    fuel2 = int(round(linearly_approx_from_dict(int.from_bytes(data[12:14], 'little'), fuelLevelTable2), 0))
-    setValue("fuelLevel1", fuel1)
-    setValue("fuelLevel2", fuel2)
+    fuelLevelTable = ast.literal_eval(config['DEFAULT']['rdac.fuel_level_table'])
+    fuelLevel = int(round(linearly_approx_from_dict(int.from_bytes(data[14:16], 'little'), fuelLevelTable), 0))
+    setValue("fuelLevel", fuelLevel)
+    
+    oilPressureData = int.from_bytes(data[12:14], 'little')
+    oilPressure = getOilpressure(oilPressureData)
+    setValue('oilPressure', oilPressure)

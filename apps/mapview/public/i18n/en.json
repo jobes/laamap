@@ -178,8 +178,7 @@
       "cht1Temp": "CHT1 temperature",
       "cht2Temp": "CHT2 temperature",
       "oilPressure": "Oil pressure",
-      "fuel1": "Fuel 1",
-      "fuel2": "Fuel 2",
+      "fuelLevel": "Fuel Level",
       "rpm": "Engine revolutions",
       "show": "Show",
       "minShownValue": "Minimum shown value",
@@ -810,12 +809,8 @@
         "header": "Oil pressure",
         "unit": "BAR"
       },
-      "fuel1": {
-        "header": "Fuel 1",
-        "unit": "L"
-      },
-      "fuel2": {
-        "header": "Fuel 2",
+      "fuelLevel": {
+        "header": "Fuel level",
         "unit": "L"
       }
     }

@@ -8,13 +8,13 @@ from settings import handlers, values, units, setValue
 def init():
     values.update({
         "airPressure":None,
-        "airPressureTemperature":None,
+        #"airPressureTemperature":None,
         "ias":None
     })
     
     units.update({
         "airPressure":"&nbsp;Pa",
-        "airPressureTemperature":"&nbsp;&deg;C",
+        #"airPressureTemperature":"&nbsp;&deg;C",
         "ias":" m/s"
     })
 
@@ -28,7 +28,7 @@ async def processPressure():
     while True:
         currentPressure, currentTemperature = sensor1.values
         setValue("airPressure", currentPressure)
-        setValue("airPressureTemperature", currentTemperature)
+        #setValue("airPressureTemperature", currentTemperature)
         
         currentPressure2, currentTemperature2 = sensor2.values
         
