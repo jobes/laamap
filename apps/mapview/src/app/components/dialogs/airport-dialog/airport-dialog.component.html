@@ -117,7 +117,7 @@
           </mat-accordion>
         </mat-expansion-panel>
       }
-      @if (data.images) {
+      @if (allowImages && data.images) {
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title> {{ t('images') }} </mat-panel-title>

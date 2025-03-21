@@ -46,6 +46,7 @@ export class AirportDialogComponent implements OnDestroy {
     plugins: [lgZoom],
     licenseKey: environment.galleryLicenseKey,
   };
+  allowImages = false; // openAPI does not support free airport images anymore so disable them, maybe in future  we will have new provider
   private lightGallery?: LightGallery;
 
   constructor(
