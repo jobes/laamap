@@ -182,8 +182,7 @@
       "cht1Temp": "Teplota CHT1",
       "cht2Temp": "Teplota CHT2",
       "oilPressure": "Tlak oleja",
-      "fuel1": "Palivo 1",
-      "fuel2": "Palivo 2",
+      "fuelLevel": "Hladina paliva",
       "rpm": "Otáčky motora",
       "show": "Zobraziť",
       "minShownValue": "Minimálna zobrazená hodnota",
@@ -814,12 +813,8 @@
         "header": "Tlak oleja",
         "unit": "BAR"
       },
-      "fuel1": {
-        "header": "Palivo 1",
-        "unit": "L"
-      },
-      "fuel2": {
-        "header": "Palivo 2",
+      "fuelLevel": {
+        "header": "Hladina paliva",
         "unit": "L"
       }
     }

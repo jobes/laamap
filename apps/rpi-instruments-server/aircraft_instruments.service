@@ -4,7 +4,7 @@ After=syslog.target network.target nss-lookup.target
 
 [Service]
 Environment=PYTHONUNBUFFERED=1
-ExecStart=/usr/bin/python /home/omh-737/instruments-server/main.py
+ExecStart=/usr/bin/python /usr/local/bin/instruments-server/main.py
 # Hardening
 ProtectSystem=full
 ProtectKernelTunables=yes

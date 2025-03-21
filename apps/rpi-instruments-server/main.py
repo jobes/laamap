@@ -5,9 +5,11 @@ import tornado
 import tornado.web
 import tornado.websocket
 from settings import initSettings, config, handlers, values, units, log
+import psutil
 from rpi_info import processRpiInfo
 from pressure.pressure import processPressure
 from rdac import processRdacInfo
+import ssl
 
 class InstrumentsWebSocket(tornado.websocket.WebSocketHandler):
     async def open(self):
@@ -24,11 +26,9 @@ class InstrumentsWebSocket(tornado.websocket.WebSocketHandler):
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        canBeIgnored = ['thermoCouple1', 'thermoCouple2', 'thermoCouple3', 'thermoCouple4', 'um1', 'um2', 'um3', 'um4', 'analogTemp1', 'analogTemp2', 'analogTemp3', 'analogTemp4', 'fuelLevel2', 'um5', 'um6']
-        needed_dict = {k:v for (k,v) in values.items() if k not in canBeIgnored}
-        ignored_dict = {k:v for (k,v) in values.items() if k in canBeIgnored}
+        items_dict = {k:v for (k,v) in values.items()}
 
-        self.render("main-page.html", title=config['DEFAULT']['name'], items=needed_dict, ignoredItems = ignored_dict, units=units)
+        self.render("main-page.html", title=config['DEFAULT']['name'], items=items_dict, units=units)
         
 class AllValuesHandler(tornado.web.RequestHandler):
     def get(self):

@@ -148,20 +148,8 @@ const initialState = {
     cautionLower: 2,
     cautionUpper: 5,
   },
-  fuel1: {
+  fuelLevel: {
     show: true,
-    position: { x: 0, y: 520 },
-    bgColor: '#ffffff',
-    textColor: '#000000',
-    minShownValue: 0,
-    maxShownValue: 40,
-    alertLower: 5,
-    alertUpper: 42,
-    cautionLower: 15,
-    cautionUpper: 41,
-  },
-  fuel2: {
-    show: false,
     position: { x: 0, y: 520 },
     bgColor: '#ffffff',
     textColor: '#000000',

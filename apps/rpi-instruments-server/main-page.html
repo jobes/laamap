@@ -61,25 +61,6 @@
       </tr>
       {% end %}
     </table>
-
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Value</th>
-      </tr>
-      {% for key in ignoredItems %}
-      <tr>
-        <td>{{ escape(key) }}</td>
-        <td>
-          <span id="{{ escape(key) }}_value"
-            >{{ '--' if ignoredItems[key] == None else
-            escape(str(ignoredItems[key])) }}</span
-          >
-          <span>{{ str(units[key]) }}</span>
-        </td>
-      </tr>
-      {% end %}
-    </table>
     <a id="settingLink" href="./settings">Go to settings</a>
   </body>
 </html>
