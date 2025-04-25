@@ -813,6 +813,10 @@
         "header": "Fuel level",
         "unit": "L"
       }
+    },
+    "radio": {
+      "title": "Radio",
+      "error": "Error"
     }
   },
   "mapLocationMenu": {

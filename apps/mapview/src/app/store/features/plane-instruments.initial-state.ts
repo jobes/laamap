@@ -14,6 +14,13 @@ export const planeInstrumentsInitialState = {
   cpuTemp: null as number | null,
   airPressure: null as number | null,
   ias: null as number | null,
+  radioActiveFreq: null as number | null,
+  radioActiveFreqName: null as string | null,
+  radioStandbyFreq: null as number | null,
+  radioStandbyFreqName: null as string | null,
+  radioError: null as null | boolean,
+  radioRxState: null as null | boolean,
+  radioTxState: null as null | boolean,
 };
 
 export type PlaneInstrumentsBarKeys =

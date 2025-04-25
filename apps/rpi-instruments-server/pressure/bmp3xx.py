@@ -8,17 +8,8 @@ import asyncio
 import spidev
 import RPi.GPIO as GPIO
 
-import logging
 from ctypes import *
-from settings import log 
-
-logger = logging.getLogger()
-# logger.setLevel(logging.INFO)   # Display all print information
-logger.setLevel(logging.FATAL)   # If you don?t want to display too many prints, only print errors, please use this option
-ph = logging.StreamHandler()
-formatter = logging.Formatter("%(asctime)s - [%(filename)s %(funcName)s]:%(lineno)d - %(levelname)s: %(message)s")
-ph.setFormatter(formatter) 
-logger.addHandler(ph)
+from settings import log as logger
 
 ## I2C communication address when SDO is grounded
 DFROBOT_BMP3XX_I2C_ADDR_SDO_GND = 0x76
@@ -180,13 +171,13 @@ class BMP3XX(object):
         
     async def start(self):
         while (self.begin() == False):
-          log.info('Please check that the device is properly connected')
+          logger.info('Please check that the device is properly connected')
           await asyncio.sleep(3)
 
         while(self.set_common_sampling_mode(self._precision) == False):
-          log.info('Set samping mode fail, retrying...')
+          logger.info('Set samping mode fail, retrying...')
           await asyncio.sleep(3)
-        log.info("pressure sensor with cs " + str(self._cs)+"  begin successfully!!!")
+        logger.info("pressure sensor with cs " + str(self._cs)+"  begin successfully!!!")
 
     def begin(self):
         ret = True

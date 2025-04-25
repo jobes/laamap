@@ -1,0 +1,30 @@
+@if (activeFreq()) {
+  <ng-template transloco let-t translocoRead="widgets.radio">
+    <div
+      class="container"
+      cdkDrag
+      (cdkDragEnded)="dragEnded($event)"
+      cdkDragBoundary="body"
+      [cdkDragFreeDragPosition]="safePosition()"
+      [cdkDragStartDelay]="1000"
+      [style.background]="'white'"
+    >
+      <h6>
+        {{ t('title') }}
+        <span class="frequency">{{ activeFreq() }}</span>
+        @if (rxState()) {
+          <span class="state rx">rx</span>
+        }
+        @if (txState()) {
+          <span class="state tx">tx</span>
+        }
+        @if (errorState()) {
+          <span class="state error">{{ t('error') }}</span>
+        }
+      </h6>
+      <div class="value">
+        {{ activeName() }}
+      </div>
+    </div>
+  </ng-template>
+}

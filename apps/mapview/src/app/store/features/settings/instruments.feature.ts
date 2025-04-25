@@ -16,6 +16,7 @@ import {
 import {
   aircraftBarInstrumentsWidgetActions,
   altimeterWidgetActions,
+  radioWidgetActions,
   speedMeterWidgetActions,
   trackingWidgetActions,
   varioMeterWidgetActions,
@@ -171,6 +172,9 @@ const initialState = {
     alertUpper: 5800,
     cautionLower: 2000,
     cautionUpper: 5500,
+  },
+  radio: {
+    position: { x: 0, y: 600 },
   },
 };
 
@@ -351,6 +355,13 @@ export const instrumentsFeature = createFeature({
       (state, { position, instrumentType }): typeof initialState => ({
         ...state,
         [instrumentType]: { ...state[instrumentType], position },
+      }),
+    ),
+    on(
+      radioWidgetActions.positionMoved,
+      (state, { position }): typeof initialState => ({
+        ...state,
+        radio: { ...state.radio, position },
       }),
     ),
     on(

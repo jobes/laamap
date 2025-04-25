@@ -1,0 +1,46 @@
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0.3rem;
+  padding: 0.25rem 0.75rem;
+  cursor: move;
+  z-index: 2;
+  min-width: 10rem;
+
+  h6 {
+    margin: 0;
+    font-size: calc(0.625rem * var(--widget-font-size-ratio));
+    line-height: 100%;
+  }
+
+  .state {
+    font-size: calc(0.85rem * var(--widget-font-size-ratio));
+
+    &::before {
+      content: ' ';
+    }
+
+    &.rx {
+      color: var(--rx-color);
+    }
+
+    &.tx {
+      color: var(--tx-color);
+    }
+
+    &.error {
+      color: var(--radio-error);
+    }
+  }
+
+  .value {
+    font-size: calc(1rem * var(--widget-font-size-ratio));
+    font-weight: 500;
+    line-height: 100%;
+
+    .frequency {
+      font-size: calc(0.75rem * var(--widget-font-size-ratio));
+    }
+  }
+}
