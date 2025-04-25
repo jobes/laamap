@@ -5,10 +5,10 @@ import tornado
 import tornado.web
 import tornado.websocket
 from settings import initSettings, config, handlers, values, units, log
-import psutil
 from rpi_info import processRpiInfo
 from pressure.pressure import processPressure
 from rdac import processRdacInfo
+from radio_krt2 import processRadio
 import ssl
 
 class InstrumentsWebSocket(tornado.websocket.WebSocketHandler):
@@ -72,6 +72,7 @@ async def main():
     asyncio.create_task(processRpiInfo())
     asyncio.create_task(processPressure())
     asyncio.create_task(processRdacInfo())
+    asyncio.create_task(processRadio())
     await asyncio.Event().wait()
 
 if __name__ == "__main__":

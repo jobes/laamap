@@ -41,6 +41,8 @@ async def processRdacInfo():
         logger.error('RDAC error' + str(err))
     while True:
         try:
+            while ser.in_waiting < 1:
+                await asyncio.sleep(0.01)
             dle = ser.read()
             if dle == b'\xd5':
                 start = ser.read()
@@ -141,6 +143,7 @@ def rpm(data):
     if rdacVal <=30000 and rdacVal != 0:
         rpm=revFudge/rdacVal
         
+    logger.debug("rpm:"+ str(int(round(rpm))))
     setValue("rpm", int(round(rpm)))
         
 def analogMeasures(data):   
@@ -168,3 +171,5 @@ def analogMeasures(data):
     oilPressureData = int.from_bytes(data[12:14], 'little')
     oilPressure = getOilpressure(oilPressureData)
     setValue('oilPressure', oilPressure)
+    
+    logger.debug("oilTemp:"+ str(oilTemp)+", oilPressure:"+str(oilPressure)+", fualLevel: "+str(fuelLevel)+", cht1Temp: "+str(cht1Temp)+", cht2Temp: "+str(cht2Temp))

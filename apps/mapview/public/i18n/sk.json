@@ -817,6 +817,10 @@
         "header": "Hladina paliva",
         "unit": "L"
       }
+    },
+    "radio": {
+      "title": "Rádio",
+      "error": "Chyba"
     }
   },
   "mapLocationMenu": {

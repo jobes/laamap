@@ -1,6 +1,6 @@
 import asyncio
 import psutil
-from settings import values, units, setValue
+from settings import handlers, values, units, setValue, log as logger
 
 def init():
     values.update({
@@ -21,4 +21,5 @@ async def processRpiInfo():
         setValue("cpuUsage", round(psutil.cpu_percent()))
         setValue("ramUsage", round(psutil.virtual_memory().percent))
         setValue("cpuTemp", round(psutil.sensors_temperatures(fahrenheit=False)['cpu_thermal'][0].current))
+        logger.debug("cpuUsage:"+ str(round(psutil.cpu_percent()))+", ramUsage:"+str(round(psutil.virtual_memory().percent))+", cpuTemp:"+str(round(psutil.sensors_temperatures(fahrenheit=False)['cpu_thermal'][0].current)))
         await asyncio.sleep(1)

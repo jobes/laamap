@@ -4,7 +4,6 @@ import { instrumentsEffectsActions } from '../actions/effects.actions';
 import { barExtraValues } from '../selector-helpers';
 import {
   IPlaneInstruments,
-  IPlaneInstrumentsType,
   PlaneInstrumentsBarKeys,
   planeInstrumentsInitialState,
 } from './plane-instruments.initial-state';
@@ -33,14 +32,14 @@ export const planeInstrumentsFeature = createFeature({
     ),
   ),
   extraSelectors: ({ selectPlaneInstrumentsState, selectCpuUsage }) => ({
-    selectExtended: (type: IPlaneInstrumentsType) =>
+    selectExtended: (type: PlaneInstrumentsBarKeys) =>
       createSelector(
         selectPlaneInstrumentsState,
         instrumentsFeature['selectSettings.instrumentsState'],
         (state, settings) =>
           barExtraValues(
             state[type],
-            settings[type as PlaneInstrumentsBarKeys],
+            settings[type],
             state.cpuUsage !== null && state.cpuUsage !== undefined,
           ),
       ),

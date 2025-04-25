@@ -10,6 +10,7 @@ import { GamepadWidgetComponent } from './components/widgets/gamepad-widget/game
 import { NavigationGoalWidgetComponent } from './components/widgets/navigation-goal-widget/navigation-goal-widget.component';
 import { NavigationNextPointWidgetComponent } from './components/widgets/navigation-next-point-widget/navigation-next-point-widget.component';
 import { RadarWidgetComponent } from './components/widgets/radar-widget/radar-widget.component';
+import { RadioWidgetComponent } from './components/widgets/radio-widget/radio-widget.component';
 import { SpeedMeterWidgetComponent } from './components/widgets/speed-meter-widget/speed-meter-widget.component';
 import { TrackingWidgetComponent } from './components/widgets/tracking-widget/tracking-widget.component';
 import { VariometerWidgetComponent } from './components/widgets/variometer-widget/variometer-widget.component';
@@ -32,6 +33,7 @@ import { generalFeature } from './store/features/settings/general.feature';
     GlobalSearchComponent,
     GamepadWidgetComponent,
     AircraftBarInstrumentWidgetComponent,
+    RadioWidgetComponent,
   ],
 })
 export class AppComponent implements AfterViewInit {

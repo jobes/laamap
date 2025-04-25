@@ -57,6 +57,15 @@ export const aircraftBarInstrumentsWidgetActions = createActionGroup({
   },
 });
 
+export const radioWidgetActions = createActionGroup({
+  source: 'Radio widget',
+  events: {
+    'Position moved': props<{
+      position: { x: number; y: number };
+    }>(),
+  },
+});
+
 export const trackingWidgetActions = createActionGroup({
   source: 'Tracking widget',
   events: {
