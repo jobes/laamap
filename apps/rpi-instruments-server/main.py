@@ -4,12 +4,12 @@ import socket
 import tornado
 import tornado.web
 import tornado.websocket
-from settings import initSettings, config, handlers, values, units, log
+from settings import initSettings, config, handlers, values, units, log, gotValue
 from rpi_info import processRpiInfo
 from pressure.pressure import processPressure
 from rdac import processRdacInfo
 from radio_krt2 import processRadio
-import ssl
+import json
 
 class InstrumentsWebSocket(tornado.websocket.WebSocketHandler):
     async def open(self):
@@ -20,6 +20,11 @@ class InstrumentsWebSocket(tornado.websocket.WebSocketHandler):
     def on_close(self):
         handlers.remove(self)
         log.info("WebSocket closed")
+        
+    def on_message(self, message):
+        log.debug('websocket arrived message:'+str(message))
+        parsed = json.loads(message)
+        gotValue(parsed['name'], parsed['value'])
         
     def check_origin(self, origin):
         return True

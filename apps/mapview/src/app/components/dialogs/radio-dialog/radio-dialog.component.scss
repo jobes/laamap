@@ -1,0 +1,28 @@
+.set-frequency {
+  * {
+    margin-right: 1rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  button {
+    margin-bottom: 1rem;
+  }
+}
+
+.selectable-frequency {
+  &:hover {
+    cursor: pointer;
+    background-color: var(--hover-color);
+  }
+
+  mat-icon {
+    float: inline-end;
+  }
+}
+
+.search {
+  width: 100%;
+}

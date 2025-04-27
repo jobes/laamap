@@ -718,6 +718,17 @@
     "gpsAltitudeError": "GPS altitude error in meter",
     "gpsAltitudeErrorTip": "Sets GPS altitude error in meter. Only use on ground."
   },
+  "radioDialog": {
+    "title": "Radio",
+    "close": "Close",
+    "frequency": "Frequency",
+    "name": "Name",
+    "set": "Set",
+    "required": "Required",
+    "invalidFrequency": "Invalid frequency",
+    "nameTooShort": "Too short",
+    "filter": "Filter"
+  },
   "shared": {
     "altitude": {
       "heighUnit": {

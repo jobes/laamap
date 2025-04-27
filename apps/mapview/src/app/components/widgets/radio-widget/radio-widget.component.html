@@ -4,10 +4,12 @@
       class="container"
       cdkDrag
       (cdkDragEnded)="dragEnded($event)"
+      (cdkDragStarted)="dragStarted()"
       cdkDragBoundary="body"
       [cdkDragFreeDragPosition]="safePosition()"
       [cdkDragStartDelay]="1000"
       [style.background]="'white'"
+      (click)="openRadioDialog()"
     >
       <h6>
         {{ t('title') }}
