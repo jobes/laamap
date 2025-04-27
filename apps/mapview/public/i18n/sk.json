@@ -722,6 +722,17 @@
     "gpsAltitudeError": "Chyba výšky GPS",
     "gpsAltitudeErrorTip": "Nastaví chybu výšky GPS podľa údajov z GPS. Použi len na zemy."
   },
+  "radioDialog": {
+    "title": "Radio",
+    "close": "Zavrieť",
+    "frequency": "Frekvencia",
+    "name": "Názov",
+    "set": "Nastavit",
+    "required": "Povinné",
+    "invalidFrequency": "Neplatná frekvencia",
+    "nameTooShort": "Príliž krátke",
+    "filter": "Filter"
+  },
   "shared": {
     "altitude": {
       "heighUnit": {

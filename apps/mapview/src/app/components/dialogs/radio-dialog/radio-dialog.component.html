@@ -1,0 +1,74 @@
+<ng-template transloco let-t translocoRead="radioDialog">
+  <h1 mat-dialog-title>{{ t('title') }}</h1>
+
+  <div mat-dialog-content>
+    <form
+      class="set-frequency"
+      [formGroup]="frequencyForm"
+      (ngSubmit)="setFrequency()"
+    >
+      <mat-form-field>
+        <mat-label>{{ t('frequency') }}</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="frequency"
+          min="118"
+          max="136.99"
+          step="0.005"
+        />
+        @if (frequencyForm.hasError('required', 'frequency')) {
+          <mat-error>{{ t('required') }}</mat-error>
+        } @else if (
+          frequencyForm.hasError('invalidFreq', 'frequency') ||
+          frequencyForm.hasError('min', 'frequency') ||
+          frequencyForm.hasError('max', 'frequency')
+        ) {
+          <mat-error>{{ t('invalidFrequency') }}</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t('name') }}</mat-label>
+        <input matInput type="text" formControlName="name" />
+        @if (frequencyForm.hasError('required', 'name')) {
+          <mat-error>{{ t('required') }}</mat-error>
+        } @else if (frequencyForm.hasError('minlength', 'name')) {
+          <mat-error>{{ t('nameTooShort') }}</mat-error>
+        }
+      </mat-form-field>
+      <button mat-raised-button type="submit">{{ t('set') }}</button>
+    </form>
+
+    <mat-form-field class="search">
+      <mat-label>{{ t('filter') }}</mat-label>
+      <input matInput type="text" [(ngModel)]="filterText" />
+    </mat-form-field>
+    <mat-list>
+      @for (airport of airports(); track airport.name) {
+        <mat-list-item>
+          <span matListItemTitle>{{ airport.name }}</span>
+
+          @for (frequency of airport.frequencies; track frequency.value) {
+            <span
+              class="selectable-frequency"
+              matListItemLine
+              tabindex="0"
+              (keydown.enter)="setSelectedFrequency(frequency)"
+              (click)="setSelectedFrequency(frequency)"
+              >{{ frequency.name }} {{ frequency.value
+              }}<mat-icon>upload</mat-icon></span
+            >
+          }
+        </mat-list-item>
+
+        <mat-divider></mat-divider>
+      }
+    </mat-list>
+  </div>
+
+  <div mat-dialog-actions [align]="'end'">
+    <button mat-button [mat-dialog-close]="false" cdkFocusInitial>
+      {{ t('close') }}
+    </button>
+  </div>
+</ng-template>

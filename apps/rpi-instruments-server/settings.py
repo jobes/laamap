@@ -8,6 +8,7 @@ log.addHandler(JournalHandler())
 log.setLevel(logging.INFO)
 
 handlers = []
+arrivalMessagesHandlers = []
 values = {}
 units = {}
 config = configparser.ConfigParser()
@@ -17,6 +18,11 @@ def setValue(name, value):
         values[name] = value
         for handler in handlers:
             handler.write_message({"name":name, "value":value})
+            
+def gotValue(name, value):
+    for handler in arrivalMessagesHandlers:
+        handler(name, value)
+        
 
 def initConfigparser():
     global config

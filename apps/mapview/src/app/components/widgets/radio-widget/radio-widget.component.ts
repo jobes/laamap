@@ -6,6 +6,7 @@ import {
   inject,
   viewChildren,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslocoModule } from '@jsverse/transloco';
 import { TranslocoLocaleModule } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -14,6 +15,7 @@ import { WidgetSafePositionService } from '../../../services/widget-safe-positio
 import { radioWidgetActions } from '../../../store/actions/widgets.actions';
 import { planeInstrumentsFeature } from '../../../store/features/plane-instruments.feature';
 import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
+import { RadioDialogComponent } from '../../dialogs/radio-dialog/radio-dialog.component';
 
 @Component({
   selector: 'laamap-radio-widget',
@@ -27,6 +29,8 @@ export class RadioWidgetComponent {
   });
   private readonly safePositionService = inject(WidgetSafePositionService);
   private readonly store = inject(Store);
+  private readonly dialog = inject(MatDialog);
+  private dragging = false;
 
   safePosition = this.safePositionService.safePositionSignal(
     computed(
@@ -48,6 +52,10 @@ export class RadioWidgetComponent {
   );
 
   dragEnded(event: CdkDragEnd): void {
+    setTimeout(() => {
+      this.dragging = false;
+    }, 50);
+
     this.store.dispatch(
       radioWidgetActions.positionMoved({
         position: {
@@ -56,5 +64,22 @@ export class RadioWidgetComponent {
         },
       }),
     );
+  }
+
+  dragStarted(): void {
+    this.dragging = true;
+  }
+
+  openRadioDialog(): void {
+    if (this.dragging) {
+      return;
+    }
+
+    this.dialog
+      .open(RadioDialogComponent, {
+        maxWidth: '100%',
+        id: 'altimeterQuickSet',
+      })
+      .afterClosed();
   }
 }

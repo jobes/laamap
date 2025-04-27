@@ -1,14 +1,31 @@
 import serial
 import asyncio
-from settings import values, units, setValue, log as logger
+import math
+from settings import values, units, setValue, log as logger, arrivalMessagesHandlers
 
 radioActiveFreq = None
 radioActiveFreqName = None
 radioStandbyFreq = None
 radioStandbyFreqName = None
 ser = None
+dataInProgress = None
+
+def arrivalMessagesHandler(name, msg):
+	global dataInProgress
+	if name == 'radioActiveFreq':
+		if ser:
+			freq, name = msg.split(':', 1)
+			name8chars = "{:<8}".format(name[0:8]) # exactly 8 chars
+			freqKhz, freqMhz = math.modf(float(freq))
+			freqMhz = int(freqMhz)
+			channel = int(freqKhz * 1000 / 5)
+			data = b'\x02\x55'+freqMhz.to_bytes()+channel.to_bytes()+name8chars.encode()+(freqMhz^channel).to_bytes()
+			logger.debug('[radio] send to radio active freq '+str(name8chars)+ '; '+str(freqMhz)+'; '+str(channel)+ ';'+str(data))
+			ser.write(data)
+			dataInProgress = [{'name': 'radioActiveFreq', 'value':float(freq)},{'name': 'radioActiveFreqName', 'value':name}]
 
 def init():
+	arrivalMessagesHandlers.append(arrivalMessagesHandler)
 	values.update({
 		"radioActiveFreq":None,
 		"radioActiveFreqName":None,
@@ -101,6 +118,7 @@ def intercomVolume():
 
 async def processRadio():
 	global ser
+	global dataInProgress
 	
 	init()
 	while True:
@@ -189,8 +207,13 @@ async def processRadio():
 						
 				elif msgStart == b'\x06':
 					logger.debug('[radio] ACK')
+					if dataInProgress:
+						for data in dataInProgress:
+							setValue(data['name'], data['value'])
+						dataInProgress = None
 				elif msgStart == b'\x15':
 					logger.debug('[radio] NACK')
+					dataInProgress = None
 				elif msgStart == b'\x01':
 					logger.debug('[radio] connection ACK')
 				else:
