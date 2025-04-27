@@ -1,23 +1,27 @@
 import asyncio
 import psutil
-from settings import handlers, values, units, setValue, log as logger
+import time
+from settings import values, units, setValue, log as logger
 
 def init():
     values.update({
         "cpuUsage":None,
         "cpuTemp":None,
-        "ramUsage":None
+        "ramUsage":None,
+        "currentTime":None
     })
     
     units.update({
         "cpuUsage":"%",
         "cpuTemp":"&nbsp;&deg;C",
-        "ramUsage":"%"
+        "ramUsage":"%",
+        "currentTime":""
     })
 
 async def processRpiInfo():
     init()
     while True:
+        setValue("currentTime", time.strftime("%H:%M:%S"))
         setValue("cpuUsage", round(psutil.cpu_percent()))
         setValue("ramUsage", round(psutil.virtual_memory().percent))
         setValue("cpuTemp", round(psutil.sensors_temperatures(fahrenheit=False)['cpu_thermal'][0].current))
