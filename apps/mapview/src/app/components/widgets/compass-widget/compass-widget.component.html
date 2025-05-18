@@ -1,0 +1,15 @@
+@if (show() && settings().widgetEnabled) {
+  <ng-template transloco let-t translocoRead="widgets.compass">
+    <div
+      class="container"
+      cdkDrag
+      (cdkDragEnded)="dragEnded($event)"
+      cdkDragBoundary="body"
+      [cdkDragFreeDragPosition]="safePosition()"
+      [cdkDragStartDelay]="1000"
+    >
+      <h6>{{ t('header') }}</h6>
+      <div class="value">{{ heading() }}°</div>
+    </div>
+  </ng-template>
+}

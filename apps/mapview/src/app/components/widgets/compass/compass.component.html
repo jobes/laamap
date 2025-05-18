@@ -1,0 +1,84 @@
+<div
+  [style.transform]="
+    'translate(0%, ' + settings().circleRelativePositionFromBottom + '%)'
+  "
+>
+  @if (show() && settings().circleEnabled) {
+    <div class="circle" [style.rotate.deg]="-relativeHeading()">
+      <div class="line">
+        <div class="big"></div>
+        <div class="description">0</div>
+      </div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="medium"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="medium"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line">
+        <div class="big"></div>
+        <div class="description">90</div>
+      </div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="medium"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="medium"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line">
+        <div class="big"></div>
+        <div class="description">180</div>
+      </div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="medium"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="medium"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line">
+        <div class="big"></div>
+        <div class="description">270</div>
+      </div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="medium"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="medium"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+      <div class="line"><div class="small"></div></div>
+    </div>
+    <div class="pointer"></div>
+    <div class="numeric">{{ heading() }}</div>
+  }
+</div>

@@ -1,0 +1,81 @@
+@use 'sass:math';
+
+:host {
+  position: absolute;
+  overflow: hidden;
+  transform-origin: bottom;
+  bottom: 0;
+  left: 50%;
+  font-size: calc(1rem * var(--widget-font-size-ratio));
+
+  height: var(--compass-size);
+  width: var(--compass-size);
+  pointer-events: none;
+  color: var(--label-color);
+}
+
+.numeric {
+  font-size: calc(1rem * var(--widget-font-size-ratio));
+  font-weight: bold;
+  transform: translateX(-50%);
+  background: var(--base-color);
+  position: absolute;
+  top: calc(var(--compass-size) / 5);
+  left: calc(var(--compass-size) / 2 + 1px);
+  color: initial;
+}
+
+.pointer {
+  position: absolute;
+  top: calc(var(--compass-size) / 20);
+  left: calc(var(--compass-size) / 2 - 1px);
+  background-color: var(--compass-pointer-color);
+  width: 5px;
+  height: calc(var(--compass-size) / 2 - var(--compass-size) / 20);
+}
+
+.circle {
+  background-color: var(--base-color);
+  height: var(--compass-size);
+  border: 1px solid var(--strong-border-color);
+  border-radius: 50%;
+  transition: rotate 1s;
+
+  .line {
+    width: 0;
+    height: 50%;
+    transform-origin: bottom;
+    position: absolute;
+
+    $child-count: 4 * (2+1) * (4+1); // 4 big, 2 medium, 4 small
+    @for $i from 0 through $child-count {
+      &:nth-child(#{$i}) {
+        transform: translateX(calc(var(--compass-size) / 2))
+          rotateZ(math.div(360deg, $child-count) * ($i - 1));
+      }
+    }
+
+    .big {
+      border-left: 3px solid var(--strong-border-color);
+      height: 30%;
+    }
+
+    .medium {
+      border-left: 2px solid var(--strong-border-color);
+      height: 15%;
+    }
+
+    .small {
+      border-left: 1px solid var(--label-color);
+      height: 5%;
+    }
+
+    .description {
+      display: table-caption;
+      position: relative;
+      left: -50%;
+      top: calc(var(--compass-size) / -10);
+      background: var(--base-color);
+    }
+  }
+}

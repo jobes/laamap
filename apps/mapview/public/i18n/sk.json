@@ -134,7 +134,13 @@
       "relativeHeightSourceList": {
         "gps": "GPS",
         "pressure": "Tlak"
-      }
+      },
+      "compass": "Kompas",
+      "enableWidget": "Povoliť widget",
+      "enableCircle": "Povoliť kruhové zobrazenie",
+      "circlePositionFromBottom": "Posun kruhu od spodku",
+      "circlePositionFromCenter": "Posun kruhu od stredu",
+      "circleSize": "Veľkosť kruhu"
     },
     "gamepad": {
       "title": "Gamepad",
@@ -832,6 +838,9 @@
     "radio": {
       "title": "Rádio",
       "error": "Chyba"
+    },
+    "compass": {
+      "header": "Kurz"
     }
   },
   "mapLocationMenu": {

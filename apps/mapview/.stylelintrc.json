@@ -1,6 +1,6 @@
 {
   "extends": ["../../.stylelintrc.json"],
-  "ignoreFiles": ["!**/*"],
+  "ignoreFiles": ["!**/*", "**/*compass.component.scss"],
   "overrides": [
     {
       "files": ["**/*.scss"],
