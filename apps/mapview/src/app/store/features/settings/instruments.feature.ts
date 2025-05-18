@@ -7,6 +7,7 @@ import {
 import {
   AircraftBarInstrumentWidgetSettingsActions,
   altimeterQuickSettingsActions,
+  compassSettingsActions,
   instrumentAltimeterSettingsActions,
   instrumentSettingsActions,
   instrumentSpeedSettingsActions,
@@ -16,6 +17,7 @@ import {
 import {
   aircraftBarInstrumentsWidgetActions,
   altimeterWidgetActions,
+  compassWidgetActions,
   radioWidgetActions,
   speedMeterWidgetActions,
   trackingWidgetActions,
@@ -175,6 +177,14 @@ const initialState = {
   },
   radio: {
     position: { x: 0, y: 600 },
+  },
+  compass: {
+    widgetEnabled: true,
+    circleEnabled: false,
+    circleRelativePositionFromBottom: 65,
+    circleRelativePositionFromCenter: -50,
+    circleRelativeSize: 1.5,
+    widgetPosition: { x: 0, y: 650 },
   },
 };
 
@@ -443,6 +453,48 @@ export const instrumentsFeature = createFeature({
           ...state[instrumentType],
           cautionUpper: value,
         },
+      }),
+    ),
+    on(
+      compassSettingsActions.widgetEnabledChanged,
+      (state, { enabled }): typeof initialState => ({
+        ...state,
+        compass: { ...state.compass, widgetEnabled: enabled },
+      }),
+    ),
+    on(
+      compassSettingsActions.circleEnabledChanged,
+      (state, { enabled }): typeof initialState => ({
+        ...state,
+        compass: { ...state.compass, circleEnabled: enabled },
+      }),
+    ),
+    on(
+      compassSettingsActions.circleMovedFromBottom,
+      (state, { value }): typeof initialState => ({
+        ...state,
+        compass: { ...state.compass, circleRelativePositionFromBottom: value },
+      }),
+    ),
+    on(
+      compassSettingsActions.circleMovedFromCenter,
+      (state, { value }): typeof initialState => ({
+        ...state,
+        compass: { ...state.compass, circleRelativePositionFromCenter: value },
+      }),
+    ),
+    on(
+      compassSettingsActions.circleRelativeSizeChanged,
+      (state, { value }): typeof initialState => ({
+        ...state,
+        compass: { ...state.compass, circleRelativeSize: value },
+      }),
+    ),
+    on(
+      compassWidgetActions.positionMoved,
+      (state, { position }): typeof initialState => ({
+        ...state,
+        compass: { ...state.compass, widgetPosition: position },
       }),
     ),
   ),

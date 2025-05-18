@@ -43,10 +43,14 @@ export const mapFeature = createFeature({
     ),
     on(
       compassActions.headingChanged,
-      (state, { heading }): typeof initialState => ({
-        ...state,
-        compassHeading: heading,
-      }),
+      (state, { heading }): typeof initialState => {
+        let h = heading % 360;
+        h = h < 0 ? h + 360 : h;
+        return {
+          ...state,
+          compassHeading: h,
+        };
+      },
     ),
     on(mapActions.moved, (state, { center }): typeof initialState => ({
       ...state,

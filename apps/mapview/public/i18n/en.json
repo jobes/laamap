@@ -130,7 +130,17 @@
         "pressureAltitudeFt": "Altitude (feet QFE)",
         "pressureGndFt": "Height (feet QNH)",
         "auto": "Sutomatic altitude/height  (QNH, QFE, standard)"
-      }
+      },
+      "relativeHeightSourceList": {
+        "gps": "GPS",
+        "pressure": "Pressure"
+      },
+      "compass": "Compass",
+      "enableWidget": "Enable widget",
+      "enableCircle": "Enable circle graphics",
+      "circlePositionFromBottom": "Circle movement from bottom",
+      "circlePositionFromCenter": "Circle movement from center",
+      "circleSize": "Circle size"
     },
     "gamepad": {
       "title": "Gamepad",
@@ -828,6 +838,9 @@
     "radio": {
       "title": "Radio",
       "error": "Error"
+    },
+    "compass": {
+      "header": "Course"
     }
   },
   "mapLocationMenu": {

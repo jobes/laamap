@@ -1,0 +1,50 @@
+<mat-expansion-panel *transloco="let t; read: 'settingDialog.instruments'">
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ t('compass') }}</mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-slide-toggle
+    [ngModel]="settings().widgetEnabled"
+    (ngModelChange)="enableWidget($event)"
+  >
+    {{ t('enableWidget') }}
+  </mat-slide-toggle>
+  <mat-slide-toggle
+    [ngModel]="settings().circleEnabled"
+    (ngModelChange)="enableCircle($event)"
+  >
+    {{ t('enableCircle') }}
+  </mat-slide-toggle>
+
+  @if (settings().circleEnabled) {
+    <div class="fields">
+      <mat-form-field>
+        <mat-label>{{ t('circlePositionFromBottom') }}</mat-label>
+        <input
+          matInput
+          type="number"
+          [ngModel]="settings().circleRelativePositionFromBottom"
+          (ngModelChange)="moveFromBottom($event)"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t('circlePositionFromCenter') }}</mat-label>
+        <input
+          matInput
+          type="number"
+          [ngModel]="settings().circleRelativePositionFromCenter"
+          (ngModelChange)="moveFromCenter($event)"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t('circleSize') }}</mat-label>
+        <input
+          matInput
+          type="number"
+          step="0.1"
+          [ngModel]="settings().circleRelativeSize"
+          (ngModelChange)="circleSizeChange($event)"
+        />
+      </mat-form-field>
+    </div>
+  }
+</mat-expansion-panel>

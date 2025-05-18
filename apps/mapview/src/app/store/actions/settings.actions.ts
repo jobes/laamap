@@ -261,3 +261,14 @@ export const altimeterQuickSettingsActions = createActionGroup({
     'Automatic Gps altitude error requested': emptyProps(),
   },
 });
+
+export const compassSettingsActions = createActionGroup({
+  source: 'Compass Settings',
+  events: {
+    'Widget enabled changed': props<{ enabled: boolean }>(),
+    'Circle enabled changed': props<{ enabled: boolean }>(),
+    'Circle moved from bottom': props<{ value: number }>(),
+    'Circle moved from center': props<{ value: number }>(),
+    'Circle relative size changed': props<{ value: number }>(),
+  },
+});

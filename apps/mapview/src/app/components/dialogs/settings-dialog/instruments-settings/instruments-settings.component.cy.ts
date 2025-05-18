@@ -70,6 +70,14 @@ const initialState = {
     activeText: '#000000',
     inactiveText: '#000000',
   },
+  compass: {
+    widgetEnabled: true,
+    circleEnabled: false,
+    circleRelativePositionFromBottom: 65,
+    circleRelativePositionFromCenter: -50,
+    circleRelativeSize: 1.5,
+    widgetPosition: { x: 0, y: 650 },
+  },
 };
 
 describe(InstrumentsSettingsComponent.name, () => {

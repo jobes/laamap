@@ -6,6 +6,8 @@ import { CenterIconComponent } from './components/center-icon/center-icon.compon
 import { GlobalSearchComponent } from './components/global-search/global-search.component';
 import { AircraftBarInstrumentWidgetComponent } from './components/widgets/aircraft-bar-instrument-widget/aircraft-bar-instrument-widget.component';
 import { AltimeterWidgetComponent } from './components/widgets/altimeter-widget/altimeter-widget.component';
+import { CompassWidgetComponent } from './components/widgets/compass-widget/compass-widget.component';
+import { CompassComponent } from './components/widgets/compass/compass.component';
 import { GamepadWidgetComponent } from './components/widgets/gamepad-widget/gamepad-widget.component';
 import { NavigationGoalWidgetComponent } from './components/widgets/navigation-goal-widget/navigation-goal-widget.component';
 import { NavigationNextPointWidgetComponent } from './components/widgets/navigation-next-point-widget/navigation-next-point-widget.component';
@@ -34,6 +36,8 @@ import { generalFeature } from './store/features/settings/general.feature';
     GamepadWidgetComponent,
     AircraftBarInstrumentWidgetComponent,
     RadioWidgetComponent,
+    CompassComponent,
+    CompassWidgetComponent,
   ],
 })
 export class AppComponent implements AfterViewInit {
