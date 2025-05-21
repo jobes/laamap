@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { instrumentSettingsActions } from '../../../../store/actions/settings.actions';
 import { planeInstrumentsFeature } from '../../../../store/features/plane-instruments.feature';
 import { instrumentsFeature } from '../../../../store/features/settings/instruments.feature';
+import { AirTemperatureSettingsComponent } from './air-temperature-settings/air-temperature-settings.component';
 import { AircraftBarInstrumentWidgetSettingsComponent } from './aircraft-bar-instrument-widget-settings/aircraft-bar-instrument-widget-settings.component';
 import { AltitudeWidgetSettingsComponent } from './altitude-widget-settings/altitude-widget-settings.component';
 import { CompassSettingsComponent } from './compass-settings/compass-settings.component';
@@ -36,6 +37,7 @@ import { VarioWidgetSettingsComponent } from './vario-widget-settings/vario-widg
     TrackingWidgetSettingsComponent,
     AircraftBarInstrumentWidgetSettingsComponent,
     CompassSettingsComponent,
+    AirTemperatureSettingsComponent,
   ],
 })
 export class InstrumentsSettingsComponent {

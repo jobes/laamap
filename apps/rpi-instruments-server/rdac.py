@@ -11,7 +11,6 @@ initValues = {
     "cht2Temp":None,
     "oilTemp":None,
     "oilPressure":None,
-    #"outsideTemperature":None,
     "fuelLevel":None,
 }
 
@@ -24,7 +23,6 @@ def init():
         "cht2Temp":"&nbsp;&deg;C",
         "oilTemp":"&nbsp;&deg;C",
         "oilPressure":"&nbsp;BAR",
-        #"outsideTemperature":"&nbsp;&deg;C",
         "fuelLevel":"&nbsp;L",
     })
     
@@ -34,7 +32,7 @@ async def processRdacInfo():
     global lastValidReading
     try:
         init()
-        serialPort = '/dev/ttyS0'
+        serialPort = '/dev/ttyS0' # serialPort = '/dev/ttyAMA2'
         ser = serial.Serial(serialPort, 1250, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=0.5)
         logger.info('RDAC serial opened')
     except Exception as err:
@@ -158,11 +156,16 @@ def analogMeasures(data):
     cht2Data = int.from_bytes(data[20:22], 'little')
     cht2Temp = getChtTemp(cht2Data)
     setValue('cht2Temp', cht2Temp)
+    
+    if config['DEFAULT']['outside_temp_source'] == 'rdac1':
+        temperatureData = int.from_bytes(data[18:20], 'little')
+        temperatureVoltage = temperatureData / 4095 * 5
+        temperatureC = temperatureVoltage / 0.01 - 273.15
+        setValue("airTemperature", (round(temperatureC, 2)))
         
-    #temperatureData = int.from_bytes(data[18:20], 'little')
-    #temperatureVoltage = temperatureData / 4095 * 5
-    #temperatureC = temperatureVoltage / 0.01 - 273.15
-    #setValue("outsideTemperature", int(round(temperatureC)))
+    if config['DEFAULT']['outside_temp_source'] == 'rdac2':
+        s2Temp = int.from_bytes(data[0:2], 'little')
+        setValue('airTemperature', s2Temp)
     
     fuelLevelTable = ast.literal_eval(config['DEFAULT']['rdac.fuel_level_table'])
     fuelLevel = int(round(linearly_approx_from_dict(int.from_bytes(data[14:16], 'little'), fuelLevelTable), 0))

@@ -3,7 +3,7 @@
     'translate(0%, ' + settings().circleRelativePositionFromBottom + '%)'
   "
 >
-  @if (show() && settings().circleEnabled) {
+  @if (show() && settings().showCircle) {
     <div class="circle" [style.rotate.deg]="-relativeHeading()">
       <div class="line">
         <div class="big"></div>

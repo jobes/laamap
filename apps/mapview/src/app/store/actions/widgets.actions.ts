@@ -101,3 +101,12 @@ export const compassWidgetActions = createActionGroup({
     }>(),
   },
 });
+
+export const airTemperatureWidgetActions = createActionGroup({
+  source: 'Air temperature widget',
+  events: {
+    'Position moved': props<{
+      position: { x: number; y: number };
+    }>(),
+  },
+});

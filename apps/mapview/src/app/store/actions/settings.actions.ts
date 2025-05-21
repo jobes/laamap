@@ -272,3 +272,10 @@ export const compassSettingsActions = createActionGroup({
     'Circle relative size changed': props<{ value: number }>(),
   },
 });
+
+export const airTemperatureSettingsActions = createActionGroup({
+  source: 'Air temperature Settings',
+  events: {
+    'Enabled changed': props<{ enabled: boolean }>(),
+  },
+});

@@ -1,0 +1,11 @@
+<mat-expansion-panel *transloco="let t; read: 'settingDialog.instruments'">
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ t('airTemperature') }}</mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-slide-toggle
+    [ngModel]="settings().show"
+    (ngModelChange)="enableWidget($event)"
+  >
+    {{ t('enableWidget') }}
+  </mat-slide-toggle>
+</mat-expansion-panel>
