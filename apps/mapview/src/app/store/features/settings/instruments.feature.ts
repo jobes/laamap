@@ -6,6 +6,7 @@ import {
 } from '../../actions/effects.actions';
 import {
   AircraftBarInstrumentWidgetSettingsActions,
+  airTemperatureSettingsActions,
   altimeterQuickSettingsActions,
   compassSettingsActions,
   instrumentAltimeterSettingsActions,
@@ -15,6 +16,7 @@ import {
   varioSettingsActions,
 } from '../../actions/settings.actions';
 import {
+  airTemperatureWidgetActions,
   aircraftBarInstrumentsWidgetActions,
   altimeterWidgetActions,
   compassWidgetActions,
@@ -179,12 +181,16 @@ const initialState = {
     position: { x: 0, y: 600 },
   },
   compass: {
-    widgetEnabled: true,
-    circleEnabled: false,
+    showWidget: true,
+    showCircle: false,
     circleRelativePositionFromBottom: 65,
     circleRelativePositionFromCenter: -50,
     circleRelativeSize: 1.5,
     widgetPosition: { x: 0, y: 650 },
+  },
+  airTemperature: {
+    show: true,
+    widgetPosition: { x: 0, y: 700 },
   },
 };
 
@@ -459,14 +465,14 @@ export const instrumentsFeature = createFeature({
       compassSettingsActions.widgetEnabledChanged,
       (state, { enabled }): typeof initialState => ({
         ...state,
-        compass: { ...state.compass, widgetEnabled: enabled },
+        compass: { ...state.compass, showWidget: enabled },
       }),
     ),
     on(
       compassSettingsActions.circleEnabledChanged,
       (state, { enabled }): typeof initialState => ({
         ...state,
-        compass: { ...state.compass, circleEnabled: enabled },
+        compass: { ...state.compass, showCircle: enabled },
       }),
     ),
     on(
@@ -495,6 +501,20 @@ export const instrumentsFeature = createFeature({
       (state, { position }): typeof initialState => ({
         ...state,
         compass: { ...state.compass, widgetPosition: position },
+      }),
+    ),
+    on(
+      airTemperatureWidgetActions.positionMoved,
+      (state, { position }): typeof initialState => ({
+        ...state,
+        airTemperature: { ...state.airTemperature, widgetPosition: position },
+      }),
+    ),
+    on(
+      airTemperatureSettingsActions.enabledChanged,
+      (state, { enabled }): typeof initialState => ({
+        ...state,
+        airTemperature: { ...state.airTemperature, show: enabled },
       }),
     ),
   ),

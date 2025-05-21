@@ -9,8 +9,8 @@ log.setLevel(logging.INFO)
 
 handlers = []
 arrivalMessagesHandlers = []
-values = {}
-units = {}
+values = {"airTemperature":None, }
+units = {"airTemperature":"&nbsp;&deg;C",}
 config = configparser.ConfigParser()
 
 def setValue(name, value):

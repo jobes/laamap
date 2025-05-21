@@ -140,7 +140,8 @@
       "enableCircle": "Povoliť kruhové zobrazenie",
       "circlePositionFromBottom": "Posun kruhu od spodku",
       "circlePositionFromCenter": "Posun kruhu od stredu",
-      "circleSize": "Veľkosť kruhu"
+      "circleSize": "Veľkosť kruhu",
+      "airTemperature": "Teplota vzduchu"
     },
     "gamepad": {
       "title": "Gamepad",
@@ -841,6 +842,9 @@
     },
     "compass": {
       "header": "Kurz"
+    },
+    "airTemperature": {
+      "header": "Teplota vzduchu"
     }
   },
   "mapLocationMenu": {

@@ -23,16 +23,23 @@
 
     <form action="/settings" method="POST">
       <div>Fuel levels 1</div>
-      <textarea name="value">{{config['rdac.fuel_level_table1']}}</textarea>
-      <input type="hidden" name="setting" value="rdac.fuel_level_table1" />
+      <textarea name="value">{{config['rdac.fuel_level_table']}}</textarea>
+      <input type="hidden" name="setting" value="rdac.fuel_level_table" />
       <input type="submit" value="Submit" />
     </form>
 
     <form action="/settings" method="POST">
-      <div>Fuel levels 2</div>
-      <textarea name="value">{{config['rdac.fuel_level_table2']}}</textarea>
-      <input type="hidden" name="setting" value="rdac.fuel_level_table2" />
+      <div>Outside temperature sensor</div>
+      <select name="value">
+        <option value="pressure1" {{config['outside_temp_source'] == 'pressure1' and 'selected'}}>Static pressure sensor</option>
+        <option value="pressure2" {{config['outside_temp_source'] == 'pressure2' and 'selected'}} >Speed pressure sensor</option>
+        <option value="rdac1" {{config['outside_temp_source'] == 'rdac1' and 'selected'}}>RDAC temp sensor</option>
+        <option value="rdac2" {{config['outside_temp_source'] == 'rdac2' and 'selected'}}>RDAC digital temp sensor</option>
+      </select>
+      <input type="hidden" name="setting" value="outside_temp_source" />
       <input type="submit" value="Submit" />
     </form>
+    
+    <a href="{{ static_url('omh-737-CA.pem') }}">HTTPS certificate authority</a>
   </body>
 </html>

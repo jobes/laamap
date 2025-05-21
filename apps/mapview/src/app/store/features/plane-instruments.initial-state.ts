@@ -21,6 +21,7 @@ export const planeInstrumentsInitialState = {
   radioError: null as null | boolean,
   radioRxState: null as null | boolean,
   radioTxState: null as null | boolean,
+  airTemperature: null as number | null,
 };
 
 export type PlaneInstrumentsBarKeys =

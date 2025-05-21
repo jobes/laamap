@@ -1,5 +1,5 @@
-@if (show() && settings().showWidget) {
-  <ng-template transloco let-t translocoRead="widgets.compass">
+@if (show()) {
+  <ng-template transloco let-t translocoRead="widgets.airTemperature">
     <div
       class="container"
       cdkDrag
@@ -9,7 +9,7 @@
       [cdkDragStartDelay]="1000"
     >
       <h6>{{ t('header') }}</h6>
-      <div class="value">{{ heading() }}°</div>
+      <div class="value">{{ temperature() }}°</div>
     </div>
   </ng-template>
 }

@@ -3,19 +3,19 @@
     <mat-panel-title>{{ t('compass') }}</mat-panel-title>
   </mat-expansion-panel-header>
   <mat-slide-toggle
-    [ngModel]="settings().widgetEnabled"
+    [ngModel]="settings().showWidget"
     (ngModelChange)="enableWidget($event)"
   >
     {{ t('enableWidget') }}
   </mat-slide-toggle>
   <mat-slide-toggle
-    [ngModel]="settings().circleEnabled"
+    [ngModel]="settings().showCircle"
     (ngModelChange)="enableCircle($event)"
   >
     {{ t('enableCircle') }}
   </mat-slide-toggle>
 
-  @if (settings().circleEnabled) {
+  @if (settings().showCircle) {
     <div class="fields">
       <mat-form-field>
         <mat-label>{{ t('circlePositionFromBottom') }}</mat-label>

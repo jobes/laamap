@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { environment } from '../environments/environment';
 import { CenterIconComponent } from './components/center-icon/center-icon.component';
 import { GlobalSearchComponent } from './components/global-search/global-search.component';
+import { AirTemperatureWidgetComponent } from './components/widgets/air-temperature-widget/air-temperature-widget.component';
 import { AircraftBarInstrumentWidgetComponent } from './components/widgets/aircraft-bar-instrument-widget/aircraft-bar-instrument-widget.component';
 import { AltimeterWidgetComponent } from './components/widgets/altimeter-widget/altimeter-widget.component';
 import { CompassWidgetComponent } from './components/widgets/compass-widget/compass-widget.component';
@@ -38,6 +39,7 @@ import { generalFeature } from './store/features/settings/general.feature';
     RadioWidgetComponent,
     CompassComponent,
     CompassWidgetComponent,
+    AirTemperatureWidgetComponent,
   ],
 })
 export class AppComponent implements AfterViewInit {

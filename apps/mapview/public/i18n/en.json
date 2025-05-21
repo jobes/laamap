@@ -140,7 +140,8 @@
       "enableCircle": "Enable circle graphics",
       "circlePositionFromBottom": "Circle movement from bottom",
       "circlePositionFromCenter": "Circle movement from center",
-      "circleSize": "Circle size"
+      "circleSize": "Circle size",
+      "airTemperature": "Air temperature"
     },
     "gamepad": {
       "title": "Gamepad",
@@ -841,6 +842,9 @@
     },
     "compass": {
       "header": "Course"
+    },
+    "airTemperature": {
+      "header": "Air temperature"
     }
   },
   "mapLocationMenu": {
