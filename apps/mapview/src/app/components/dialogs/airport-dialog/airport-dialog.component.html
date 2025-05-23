@@ -123,7 +123,7 @@
           </mat-accordion>
         </mat-expansion-panel>
       }
-      @if (allowImages && data.images) {
+      @if (data.images) {
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title> {{ t('images') }} </mat-panel-title>
@@ -136,14 +136,14 @@
           >
             @for (image of data.images; track image.filename) {
               <a
-                href="https://www.openaip.net/api/core/files/images/{{
+                href="https://api.core.openaip.net/api/files/images/{{
                   image.filename
-                }}"
+                }}?apiKey={{ openAipKey }}"
               >
                 <img
-                  src="https://www.openaip.net/api/core/files/images/{{
+                  src="https://api.core.openaip.net/api/files/images/{{
                     image.filename
-                  }}?width=200&height=200"
+                  }}?width=200&height=200&apiKey={{ openAipKey }}"
                   title="{{ image.description }}"
                   alt="{{ image.description }}"
                 />

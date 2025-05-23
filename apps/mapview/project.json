@@ -39,7 +39,8 @@
           "./node_modules/maplibre-gl/dist/maplibre-gl.css",
           "./node_modules/quill/dist/quill.snow.css",
           "@angular/material/prebuilt-themes/azure-blue.css",
-          "apps/mapview/src/styles.scss"
+          "apps/mapview/src/styles.scss",
+          "./node_modules/lightgallery/scss/lightgallery.scss"
         ],
         "scripts": [],
         "allowedCommonJsDependencies": [
