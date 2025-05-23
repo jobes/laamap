@@ -121,4 +121,12 @@ export class NavigationDialogComponent {
   routeTrack(index: number, item: { name: string; point: LngLat }): string {
     return `${index}${item.point.lat};${item.point.lng}`;
   }
+
+  routeToWindyUrl(currentRoute: { name: string; point: LngLat }[]): string {
+    if (!currentRoute || currentRoute.length < 1) return '';
+    const points = currentRoute
+      .map((item) => `${item.point.lat},${item.point.lng}`)
+      .join(';');
+    return `https://www.windy.com/route-planner/vfr/${points}`;
+  }
 }

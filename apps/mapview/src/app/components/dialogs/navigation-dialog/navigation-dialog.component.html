@@ -36,10 +36,19 @@
         mat-mini-fab
         [disabled]="currentRoute.length < 1"
         (click)="saveRoute()"
-        class="margin-right"
       >
         <mat-icon>save</mat-icon>
       </button>
+      @if (currentRoute.length > 0) {
+        <a
+          mat-mini-fab
+          [href]="routeToWindyUrl(currentRoute)"
+          target="_blank"
+          class="margin-right"
+          [title]="t('checkWeather')"
+          ><mat-icon>air</mat-icon></a
+        >
+      }
       @if (!running) {
         <button
           mat-mini-fab
