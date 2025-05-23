@@ -52,6 +52,12 @@
       </div>
     }
 
+    <a
+      href="{{ 'https://www.openaip.net/data/airports/' + data._id }}"
+      target="_blank"
+      >{{ t('viewInOpenAIP') }}</a
+    >
+
     <mat-accordion>
       @if (data.runways) {
         <mat-expansion-panel>

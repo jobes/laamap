@@ -243,6 +243,7 @@
     "private": "Súkomné",
     "skydiveActivity": "Zoskok padákom",
     "images": "Obrázky",
+    "viewInOpenAIP": "Zobraz v OpenAIP",
     "types": {
       "0": "Letisko",
       "1": "Letisko pre klzáky",
@@ -328,6 +329,11 @@
     "onRequest": "Na žiadosť",
     "requestCompliance": "Žiadosť o súlad",
     "specialAgreement": "Špeciálny súhlas",
+    "activationStatus": "Aktivácia",
+    "activationStatusDeactivated": "Východzia",
+    "activationStatusActivated": "Aktivované",
+    "activationStatusundefined": "Neznámá",
+    "viewInOpenAIP": "Zobraz v OpenAIP",
     "class": {
       "0": "A",
       "1": "B",
