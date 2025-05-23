@@ -208,7 +208,8 @@
     "noItemInList": "Žiadne body v navigácii",
     "trackingHistory": "Záznamy letov",
     "POIList": "Body záujmu",
-    "customFlyRoutes": "Trasy"
+    "customFlyRoutes": "Trasy",
+    "checkWeather": "Zobrazit počasie"
   },
   "customFlyRouteDialog": {
     "title": "Názov trasy",
