@@ -22,5 +22,8 @@ import { IAirspace } from '../../../services/open-aip/airspaces.interfaces';
 })
 export class AirspacesDialogComponent {
   eHeightUnit = EHeightUnit;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: IAirspace[]) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: (IAirspace & { activityState: 'Activated' | 'Deactivated' })[],
+  ) {}
 }

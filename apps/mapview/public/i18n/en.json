@@ -243,6 +243,7 @@
     "private": "Private",
     "skydiveActivity": "Skydive activity",
     "images": "Images",
+    "viewInOpenAIP": "View in OpenAIP",
     "types": {
       "0": "Airport",
       "1": "Airport for gliders",
@@ -328,6 +329,11 @@
     "onRequest": "On Request",
     "requestCompliance": "Request Compliance",
     "specialAgreement": "Special Agreement",
+    "activationStatus": "Activation Status",
+    "activationStatusDeactivated": "Default",
+    "activationStatusActivated": "Activated",
+    "activationStatusundefined": "Unknown",
+    "viewInOpenAIP": "View in OpenAIP",
     "class": {
       "0": "A",
       "1": "B",

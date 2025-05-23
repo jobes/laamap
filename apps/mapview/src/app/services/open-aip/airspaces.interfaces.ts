@@ -54,6 +54,7 @@ enum EAirSpaceActivity {
   hangParaglider = 5, // Hang Gliding/Paragliding
 }
 export interface IAirspaceResponse {
+  _id: string;
   approved: boolean;
   name: string;
   type: EAirSpaceType;

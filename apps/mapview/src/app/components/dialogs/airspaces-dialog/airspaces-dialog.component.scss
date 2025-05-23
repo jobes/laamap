@@ -12,6 +12,20 @@
   }
 }
 
+.activation {
+  &.activated {
+    color: var(--activation-alert-color);
+  }
+
+  &.deactivated {
+    color: var(--label-color);
+  }
+
+  &.unknown {
+    color: var(--alert-color);
+  }
+}
+
 mat-accordion {
   display: block;
   padding-top: 1rem;

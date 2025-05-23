@@ -1,7 +1,7 @@
 <ng-template transloco let-t translocoRead="airspaceDialog">
   <h1 mat-dialog-title>{{ t('title', data) }}</h1>
   <mat-accordion mat-dialog-content>
-    @for (airSpace of data; track airSpace.name) {
+    @for (airSpace of data; track airSpace._id) {
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -12,6 +12,19 @@
             {{ t('types.' + airSpace.type) }}
             {{ airSpace.lowerLimit | altitude }} -
             {{ airSpace.upperLimit | altitude }}
+            @if (airSpace.activityState === 'Activated') {
+              <span class="activation activated">{{
+                t('activationStatus' + airSpace.activityState)
+              }}</span>
+            } @else if (airSpace.activityState === 'Deactivated') {
+              <span class="activation deactivated">{{
+                t('activationStatus' + airSpace.activityState)
+              }}</span>
+            } @else {
+              <span class="activation unknown">{{
+                t('activationStatus' + airSpace.activityState)
+              }}</span>
+            }
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="info">
@@ -21,6 +34,12 @@
         <div class="info">
           <span class="mat-caption">{{ t('icaoClass') }}</span>
           <span class="value">{{ t('class.' + airSpace.icaoClass) }}</span>
+        </div>
+        <div class="info">
+          <span class="mat-caption">{{ t('activationStatus') }}</span>
+          <span class="value">{{
+            t('activationStatus' + airSpace.activityState)
+          }}</span>
         </div>
         <div class="info">
           <span class="mat-caption">{{ t('lowerLimit') }}</span>
@@ -77,6 +96,11 @@
             t('boolean.' + airSpace.specialAgreement)
           }}</span>
         </div>
+        <a
+          href="{{ 'https://www.openaip.net/data/airspaces/' + airSpace._id }}"
+          target="_blank"
+          >{{ t('viewInOpenAIP') }}</a
+        >
       </mat-expansion-panel>
     }
   </mat-accordion>
