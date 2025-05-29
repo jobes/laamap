@@ -5,4 +5,5 @@ export const environment = {
   clientId: '${NX_OAUTH_CLIENT_ID}',
   dexieWordpressSyncUrl: '${NX_DEXIE_WORDPRESS_SYNC_URL}',
   openAipKey: '${OPENAIP_KEY}',
+  pureTrackKey: '${PURETRACK_KEY}',
 };

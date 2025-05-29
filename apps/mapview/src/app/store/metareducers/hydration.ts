@@ -10,6 +10,7 @@ import { navigationSettingsFeature } from '../features/settings/navigation.featu
 import { notamsFeature } from '../features/settings/notams.feature';
 import { radarFeature } from '../features/settings/radar.feature';
 import { terrainFeature } from '../features/settings/terrain.feature';
+import { trafficFeature } from '../features/settings/traffic.feature';
 import { logRocketMiddleware } from './logrocket';
 
 export function localStorageSyncReducer(
@@ -26,6 +27,7 @@ export function localStorageSyncReducer(
       generalFeature.name,
       gamepadFeature.name,
       terrainFeature.name,
+      trafficFeature.name,
     ],
     rehydrate: true,
   })(reducer);

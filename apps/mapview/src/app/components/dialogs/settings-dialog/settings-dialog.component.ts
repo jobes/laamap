@@ -12,6 +12,7 @@ import { InstrumentsSettingsComponent } from './instruments-settings/instruments
 import { NavigationSettingsComponent } from './navigation-settings/navigation-settings.component';
 import { RadarSettingsComponent } from './radar-settings/radar-settings.component';
 import { TerrainSettingsComponent } from './terrain-settings/terrain-settings.component';
+import { TrafficSettingsComponent } from './traffic-settings/traffic-settings.component';
 
 @Component({
   selector: 'laamap-settings-dialog',
@@ -30,6 +31,7 @@ import { TerrainSettingsComponent } from './terrain-settings/terrain-settings.co
     MatButtonModule,
     ContactMeComponent,
     TerrainSettingsComponent,
+    TrafficSettingsComponent,
   ],
 })
 export class SettingsDialogComponent {}
