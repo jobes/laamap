@@ -18,7 +18,8 @@
     "widgets",
     "map",
     "sync",
-    "hardware"
+    "hardware",
+    "traffic"
   ],
   "stylelint.validate": ["css", "scss"],
   "files.exclude": {

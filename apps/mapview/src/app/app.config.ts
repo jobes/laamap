@@ -33,6 +33,7 @@ import { GeneralEffects } from './store/effects/settings/general.effects';
 import { NotamsSettingsEffects } from './store/effects/settings/notams.effects';
 import { RadarSettingsEffects } from './store/effects/settings/radar.effects';
 import { TerrainEffects } from './store/effects/settings/terrain.effects';
+import { TrafficEffects } from './store/effects/traffic.effects';
 import { mapFeature } from './store/features/map.feature';
 import { navigationFeature } from './store/features/navigation.feature';
 import { planeInstrumentsFeature } from './store/features/plane-instruments.feature';
@@ -44,6 +45,7 @@ import { navigationSettingsFeature } from './store/features/settings/navigation.
 import { notamsFeature } from './store/features/settings/notams.feature';
 import { radarFeature } from './store/features/settings/radar.feature';
 import { terrainFeature } from './store/features/settings/terrain.feature';
+import { trafficFeature } from './store/features/settings/traffic.feature';
 import { metaReducers } from './store/metareducers/hydration';
 
 export const appConfig: ApplicationConfig = {
@@ -65,6 +67,7 @@ export const appConfig: ApplicationConfig = {
           [generalFeature.name]: generalFeature.reducer,
           [gamepadFeature.name]: gamepadFeature.reducer,
           [terrainFeature.name]: terrainFeature.reducer,
+          [trafficFeature.name]: trafficFeature.reducer,
           [planeInstrumentsFeature.name]: planeInstrumentsFeature.reducer,
         },
         {
@@ -88,6 +91,7 @@ export const appConfig: ApplicationConfig = {
         GeneralEffects,
         TerrainEffects,
         InstrumentsEffects,
+        TrafficEffects,
       ]),
       StoreDevtoolsModule.instrument({
         maxAge: 500,

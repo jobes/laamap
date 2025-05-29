@@ -248,6 +248,16 @@ export const terrainSettingsActions = createActionGroup({
   },
 });
 
+export const trafficSettingsActions = createActionGroup({
+  source: 'Traffic Settings',
+  events: {
+    'Enabled changed': props<{ enabled: boolean }>(),
+    'Is rego changed': props<{ isRego: boolean }>(),
+    'Rego or label changed': props<{ regoOrLabel: string }>(),
+    'Aircraft type changed': props<{ aircraftType: number }>(),
+  },
+});
+
 export const altimeterQuickSettingsActions = createActionGroup({
   source: 'Altimeter Quick Settings',
   events: {
