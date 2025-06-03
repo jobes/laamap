@@ -55,3 +55,10 @@ export const generalEffectsActions = createActionGroup({
     'Automatic Qfe set': props<{ qfe: number }>(),
   },
 });
+
+export const trafficEffectsActions = createActionGroup({
+  source: 'Traffic effects',
+  events: {
+    Unauthorized: emptyProps(),
+  },
+});

@@ -4,6 +4,7 @@ import {
   GamePadShortCutName,
   IGamePadActions,
 } from '../../services/gamepad-handler/gamepad-handler.types';
+import { EHeightUnit } from '../../services/open-aip/airport.interfaces';
 import { EAirSpaceType } from '../../services/open-aip/airspaces.interfaces';
 import { PlaneInstrumentsBarKeys } from '../features/plane-instruments.initial-state';
 import {
@@ -255,6 +256,14 @@ export const trafficSettingsActions = createActionGroup({
     'Is rego changed': props<{ isRego: boolean }>(),
     'Rego or label changed': props<{ regoOrLabel: string }>(),
     'Aircraft type changed': props<{ aircraftType: number }>(),
+    'Puretrack key set': props<{ accessKey: string }>(),
+    'Puretrack key deleted': emptyProps(),
+    'Max age changed': props<{ maxAge: number }>(),
+    'Max height above me changed': props<{ maxHeightAboveMe: number }>(),
+    'Altitude display unit changed': props<{
+      altitudeDisplayUnit: EHeightUnit;
+    }>(),
+    'Actualization period changed': props<{ actualizationPeriod: number }>(),
   },
 });
 

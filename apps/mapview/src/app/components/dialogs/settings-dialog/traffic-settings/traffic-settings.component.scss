@@ -9,3 +9,15 @@
   gap: 1rem;
   margin-top: 1rem;
 }
+
+form,
+.form {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.error {
+  color: var(--alert-color);
+}

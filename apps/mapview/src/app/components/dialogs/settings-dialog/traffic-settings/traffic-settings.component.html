@@ -62,6 +62,103 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ t('displayTraffic') }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          @if (!accessKey()) {
+            <div class="description">{{ t('loginRequired') }}</div>
+            <form [formGroup]="loginForm" (submit)="login()">
+              <mat-form-field>
+                <mat-label>{{ t('email') }}</mat-label>
+                <input matInput type="email" formControlName="email" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>{{ t('password') }}</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  formControlName="password"
+                  (ngModelChange)="passwordChanged()"
+                />
+                @if (loginFailed()) {
+                  <mat-hint class="error">{{ t('passwordError') }}</mat-hint>
+                }
+                @if (!pro()) {
+                  <mat-hint class="error">{{ t('proRequired') }}</mat-hint>
+                }
+              </mat-form-field>
+              <button
+                mat-button
+                [disabled]="!loginForm.valid || loginInProgress()"
+                type="submit"
+              >
+                {{ t('login') }}
+              </button>
+            </form>
+          } @else {
+            <button mat-button (click)="logout()">{{ t('logout') }}</button>
+            <div class="form">
+              <mat-form-field>
+                <mat-label>{{ t('maxAge') }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  step="1"
+                  min="1"
+                  max="360"
+                  [ngModel]="maxAge()"
+                  (ngModelChange)="setMaxAge($event)"
+                />
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>{{ t('maxHeightAboveMe') }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  step="1"
+                  min="0"
+                  max="5000"
+                  [ngModel]="maxHeightAboveMe()"
+                  (ngModelChange)="setMaxHeightAboveMe($event)"
+                />
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>{{ t('altitudeDisplayUnit') }}</mat-label>
+                <mat-select
+                  [ngModel]="altitudeDisplayUnit()"
+                  (ngModelChange)="setAltitudeDisplayUnit($event)"
+                >
+                  <mat-option [value]="EHeightUnit.meter">{{
+                    t('altitudeUnit.meter')
+                  }}</mat-option>
+                  <mat-option [value]="EHeightUnit.feet">{{
+                    t('altitudeUnit.feet')
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>{{ t('actualizationPeriod') }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  step="1"
+                  min="1"
+                  max="600"
+                  [ngModel]="actualizationPeriod()"
+                  (ngModelChange)="setActualizationPeriod($event)"
+                />
+              </mat-form-field>
+            </div>
+          }
+        </mat-expansion-panel>
+      </mat-accordion>
     }
   </mat-expansion-panel>
 </ng-template>

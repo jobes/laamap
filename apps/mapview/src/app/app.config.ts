@@ -20,6 +20,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LightgalleryModule } from 'lightgallery/angular';
 import { provideQuillConfig } from 'ngx-quill/config';
 
+import { AltitudePipe } from './pipes/altitude/altitude.pipe';
 import {
   TranslocoHttpLoader,
   activeLang,
@@ -100,6 +101,7 @@ export const appConfig: ApplicationConfig = {
       }),
       LightgalleryModule,
     ),
+    AltitudePipe,
     {
       provide: APP_BASE_HREF,
       useFactory: (platformLocation: PlatformLocation) =>

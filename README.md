@@ -6,8 +6,8 @@
 [![deploy mapview](https://github.com/jobes/laamap/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/jobes/laamap/actions/workflows/gh-pages.yml)
 
 - weather radar for storms (using [rainviewer](https://www.rainviewer.com/))
-- airspaces for Slovakia (using [openaip.net](https://www.openaip.net/))
-- airports for Slovakia (using [openaip.net](https://www.openaip.net/))
+- airspaces (using [openaip.net](https://www.openaip.net/))
+- airports (using [openaip.net](https://www.openaip.net/))
 - image gallery (used for some airports) powered by [lightgallery](https://www.lightgalleryjs.com/)
 - notams (using [notams.aim.faa.gov](https://notams.aim.faa.gov))
 - compass and position visualization
@@ -22,6 +22,7 @@
 - support for terrain, it is visible on map and altitude above ground is calculated using MSL altitude (from GPS) and terrain elevation
 - slovak and english language, world wide notams, AIP, address search
 - sync interest point to / from server, google login required
+- puretrack integration, live traffic on map
 
 ### Secrets and keys
 
@@ -103,3 +104,5 @@ https://www.freepik.com/icon/restaurant_7616087
 https://www.freepik.com/icon/favourite_7616072
 
 https://www.freepik.com/icon/home-address_7616069
+
+traffic icon from: https://www.onlinewebfonts.com/icon"
