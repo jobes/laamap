@@ -1,32 +1,65 @@
 import { Injectable, inject } from '@angular/core';
-import { createEffect } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
   EMPTY,
   catchError,
   combineLatest,
+  delay,
   filter,
   map,
   switchMap,
   tap,
   timer,
+  withLatestFrom,
 } from 'rxjs';
 
+import { MapService } from '../../services/map/map.service';
+import { OnMapAirportsService } from '../../services/map/on-map-airports/on-map-airports.service';
+import { OnMapTrafficService } from '../../services/map/on-map-traffic/on-map-traffic';
 import { TrafficService } from '../../services/traffic/traffic.service';
+import { trafficEffectsActions } from '../actions/effects.actions';
+import { mapActions } from '../actions/map.actions';
 import { mapFeature } from '../features/map.feature';
+import { generalFeature } from '../features/settings/general.feature';
 import { trafficFeature } from '../features/settings/traffic.feature';
 
 @Injectable()
 export class TrafficEffects {
   private readonly store = inject(Store);
   private readonly trafficService = inject(TrafficService);
+  private readonly actions$ = inject(Actions);
+  private readonly onMapTrafficService = inject(OnMapTrafficService);
+  private readonly mapService = inject(MapService);
+  private readonly onMapAirportsService = inject(OnMapAirportsService);
+
+  createLayer$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(mapActions.loaded),
+        tap(() => this.onMapTrafficService.createLayers()),
+        switchMap(() => this.onMapTrafficService.addRequiredImages$()),
+        switchMap(() =>
+          this.store.select(generalFeature.selectMapFontSizeRatio),
+        ),
+        tap((ratio) =>
+          this.mapService.instance.setLayoutProperty(
+            'trafficLayer',
+            'text-size',
+            ratio * this.onMapAirportsService.fontSize,
+          ),
+        ),
+      );
+    },
+    { dispatch: false },
+  );
 
   // when enabled and GPS available
   // 5 sec - if flying and course changed more than 30deg
   // 30 sec - if flying straight
   // 60 sec - on ground
 
-  traffic$ = createEffect(
+  trafficInsert$ = createEffect(
     () => {
       return combineLatest([
         this.store.select(trafficFeature.selectEnabled),
@@ -85,6 +118,66 @@ export class TrafficEffects {
         }),
         switchMap((flightState) =>
           this.trafficService.insert(flightState).pipe(catchError(() => EMPTY)),
+        ),
+      );
+    },
+    { dispatch: false },
+  );
+
+  trafficGet$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(mapActions.loaded),
+        delay(5000), // for performance delay traffic showing
+        switchMap(() =>
+          combineLatest([
+            this.store.select(trafficFeature.selectEnabled),
+            this.store.select(trafficFeature.selectAccessKey),
+            this.store.select(trafficFeature.selectActualizationPeriod),
+          ]),
+        ),
+        switchMap(([enabled, accessKey, period]) => {
+          if (!enabled || !accessKey) {
+            return EMPTY;
+          }
+          return timer(0, period * 1000);
+        }),
+        withLatestFrom(
+          this.store.select(trafficFeature.selectMaxAge),
+          this.store.select(trafficFeature.selectMaxHeightAboveMe),
+          this.store.select(mapFeature.selectGeoLocation),
+          this.store.select(trafficFeature.selectAltitudeDisplayUnit),
+          this.store.select(trafficFeature.selectActualizationPeriod),
+          this.store.select(trafficFeature.selectDeviceId),
+        ),
+        switchMap(
+          ([
+            ,
+            maxAge,
+            maxHeightAboveMe,
+            geolocation,
+            heighUnit,
+            actualizationPeriod,
+            deviceId,
+          ]) =>
+            this.trafficService.liveTraffic(maxAge, heighUnit).pipe(
+              map((data) =>
+                data.filter(
+                  (d) =>
+                    d.alt - (geolocation?.coords?.altitude ?? 0) <
+                      maxHeightAboveMe && d.trackerId !== deviceId,
+                ),
+              ),
+              tap((data) =>
+                this.onMapTrafficService.setData(data, actualizationPeriod),
+              ),
+              catchError((error) => {
+                if (error.status === 401) {
+                  this.store.dispatch(trafficEffectsActions.unauthorized());
+                }
+                return EMPTY;
+              }),
+            ),
         ),
       );
     },

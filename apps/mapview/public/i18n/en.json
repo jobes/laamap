@@ -223,6 +223,22 @@
         "56": "Turboprop Medium",
         "57": "Turboprop Light",
         "58": "Plane Twin Engine"
+      },
+      "displayTraffic": "Display traffic",
+      "loginRequired": "Login required to puretrack.io with premium account",
+      "email": "E-mail",
+      "password": "Password",
+      "login": "Login",
+      "logout": "Logout",
+      "passwordError": "Wrong password",
+      "proRequired": "Premium account is required",
+      "maxAge": "Last update (minutes)",
+      "maxHeightAboveMe": "Max height above me (meters)",
+      "altitudeDisplayUnit": "Altitude units",
+      "actualizationPeriod": "Actualization period (seconds)",
+      "altitudeUnit": {
+        "meter": "meter",
+        "feet": "feet"
       }
     },
     "aircraftBarInstrument": {

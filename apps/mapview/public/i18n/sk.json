@@ -223,6 +223,22 @@
         "56": "Stredný turbovrtuľový motor",
         "57": "Ľahký turbovrtuľový motor",
         "58": "Dvojmotorové lietadlo"
+      },
+      "displayTraffic": "Zobrazenie premávky",
+      "loginRequired": "Vyžaduje prihlásenie do puretrack.io s prémiovým účtom",
+      "email": "E-mail",
+      "password": "Heslo",
+      "login": "Prihlásit",
+      "logout": "Odhlasit",
+      "passwordError": "Nesprávne heslo",
+      "proRequired": "Prémiový účet je vyžadovaný",
+      "maxAge": "Posledná aktualizácia (minúty)",
+      "maxHeightAboveMe": "Maximalná výška nado mnou (metre)",
+      "altitudeDisplayUnit": "Jednotky výšky",
+      "actualizationPeriod": "Perióda aktualizácie (s)",
+      "altitudeUnit": {
+        "meter": "meter",
+        "feet": "feet"
       }
     },
     "aircraftBarInstrument": {

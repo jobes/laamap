@@ -1,5 +1,7 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 
+import { EHeightUnit } from '../../../services/open-aip/airport.interfaces';
+import { trafficEffectsActions } from '../../actions/effects.actions';
 import { trafficSettingsActions } from '../../actions/settings.actions';
 
 function makeId(length: number) {
@@ -19,6 +21,11 @@ const initialState = {
   regoOrLabel: '',
   aircraftType: null as null | number,
   deviceId: makeId(6),
+  accessKey: null as null | string,
+  maxAge: 5,
+  maxHeightAboveMe: 1000,
+  altitudeDisplayUnit: EHeightUnit.meter,
+  actualizationPeriod: 10,
 };
 
 export const trafficFeature = createFeature({
@@ -51,6 +58,49 @@ export const trafficFeature = createFeature({
       (state, { aircraftType }): typeof initialState => ({
         ...state,
         aircraftType,
+      }),
+    ),
+    on(
+      trafficSettingsActions.puretrackKeySet,
+      (state, { accessKey }): typeof initialState => ({
+        ...state,
+        accessKey,
+      }),
+    ),
+    on(
+      trafficEffectsActions.unauthorized,
+      trafficSettingsActions.puretrackKeyDeleted,
+      (state): typeof initialState => ({
+        ...state,
+        accessKey: null,
+      }),
+    ),
+    on(
+      trafficSettingsActions.maxAgeChanged,
+      (state, { maxAge }): typeof initialState => ({
+        ...state,
+        maxAge,
+      }),
+    ),
+    on(
+      trafficSettingsActions.maxHeightAboveMeChanged,
+      (state, { maxHeightAboveMe }): typeof initialState => ({
+        ...state,
+        maxHeightAboveMe,
+      }),
+    ),
+    on(
+      trafficSettingsActions.altitudeDisplayUnitChanged,
+      (state, { altitudeDisplayUnit }): typeof initialState => ({
+        ...state,
+        altitudeDisplayUnit,
+      }),
+    ),
+    on(
+      trafficSettingsActions.actualizationPeriodChanged,
+      (state, { actualizationPeriod }): typeof initialState => ({
+        ...state,
+        actualizationPeriod,
       }),
     ),
   ),
