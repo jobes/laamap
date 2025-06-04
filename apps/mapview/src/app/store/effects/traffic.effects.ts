@@ -33,6 +33,10 @@ export class TrafficEffects {
   private readonly mapService = inject(MapService);
   private readonly onMapAirportsService = inject(OnMapAirportsService);
 
+  private readonly refreshRateGrounded = 30000;
+  private readonly refreshRateFlyingTurn = 5000;
+  private readonly refreshRateFlyingStraight = 15000;
+
   createLayer$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -54,11 +58,6 @@ export class TrafficEffects {
     { dispatch: false },
   );
 
-  // when enabled and GPS available
-  // 5 sec - if flying and course changed more than 30deg
-  // 30 sec - if flying straight
-  // 60 sec - on ground
-
   trafficInsert$ = createEffect(
     () => {
       return combineLatest([
@@ -72,13 +71,15 @@ export class TrafficEffects {
           }
           if (!minSpeedHit) {
             // on ground send position every minute; first sending when GPS signal is not yet obtained is ignored
-            return timer(0, 60000).pipe(map(() => 'grounded' as const));
+            return timer(0, this.refreshRateGrounded).pipe(
+              map(() => 'grounded' as const),
+            );
           }
 
           let geolocation = this.store.selectSignal(
             mapFeature.selectGeoLocation,
           )();
-          return timer(0, 5000).pipe(
+          return timer(0, this.refreshRateFlyingTurn).pipe(
             filter(() => {
               const currentGeolocation = this.store.selectSignal(
                 mapFeature.selectGeoLocation,
@@ -93,7 +94,7 @@ export class TrafficEffects {
               }
               if (
                 currentGeolocation.timestamp - geolocation.timestamp >
-                30000
+                this.refreshRateFlyingStraight
               ) {
                 return true; // every 30s send position while flying straight
               }
