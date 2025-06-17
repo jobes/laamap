@@ -16,7 +16,8 @@
           "buildTarget": "mapview:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "build": {
       "executor": "@angular-devkit/build-angular:application",

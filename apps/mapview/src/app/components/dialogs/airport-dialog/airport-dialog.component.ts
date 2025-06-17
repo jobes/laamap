@@ -2,8 +2,8 @@ import { Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -40,6 +40,13 @@ import { IAirport } from '../../../services/open-aip/airport.interfaces';
   ],
 })
 export class AirportDialogComponent implements OnDestroy {
+  data = inject<IAirport>(MAT_DIALOG_DATA);
+  private dialogRef =
+    inject<MatDialogRef<AirportDialogComponent>>(MatDialogRef);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private location = inject(Location);
+
   private readonly destroyer$ = new Subject();
   gallerySettings = {
     counter: false,
@@ -49,14 +56,8 @@ export class AirportDialogComponent implements OnDestroy {
   private lightGallery?: LightGallery;
   openAipKey = environment.openAipKey;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: IAirport,
-    private dialogRef: MatDialogRef<AirportDialogComponent>,
-    private router: Router,
-    private route: ActivatedRoute,
-    private location: Location,
-  ) {
-    route.fragment
+  constructor() {
+    this.route.fragment
       .pipe(
         filter((fragment) => !fragment),
         takeUntil(this.destroyer$),

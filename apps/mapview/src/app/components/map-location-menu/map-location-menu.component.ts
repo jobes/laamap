@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheetRef,
@@ -31,24 +31,26 @@ import { NotamsDialogComponent } from '../dialogs/notams-dialog/notams-dialog.co
   imports: [TranslocoModule, MatListModule, MatDialogModule],
 })
 export class MapLocationMenuComponent {
-  constructor(
-    private readonly bottomSheetRef: MatBottomSheetRef<MapLocationMenuComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA)
-    public data: {
-      airport?: {
-        features: GeoJSON.Feature<Point, IAirportResponse>[];
-      };
-      airspace?: { features: GeoJSON.Feature[] };
-      lngLat: LngLat;
-      notams?: { features: GeoJSON.Feature[] };
-      interestPoint?: {
-        features: GeoJSON.Feature<Point, IDbInterestPoint>[];
-      };
-    },
-    private readonly mapHelper: MapHelperFunctionsService,
-    private readonly dialog: MatDialog,
-    private readonly store: Store,
-  ) {}
+  private readonly bottomSheetRef =
+    inject<MatBottomSheetRef<MapLocationMenuComponent>>(MatBottomSheetRef);
+  data = inject<{
+    airport?: {
+      features: GeoJSON.Feature<Point, IAirportResponse>[];
+    };
+    airspace?: {
+      features: GeoJSON.Feature[];
+    };
+    lngLat: LngLat;
+    notams?: {
+      features: GeoJSON.Feature[];
+    };
+    interestPoint?: {
+      features: GeoJSON.Feature<Point, IDbInterestPoint>[];
+    };
+  }>(MAT_BOTTOM_SHEET_DATA);
+  private readonly mapHelper = inject(MapHelperFunctionsService);
+  private readonly dialog = inject(MatDialog);
+  private readonly store = inject(Store);
 
   showAirport(features: GeoJSON.Feature[]): void {
     this.bottomSheetRef.dismiss();
