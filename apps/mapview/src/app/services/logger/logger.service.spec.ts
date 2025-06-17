@@ -88,47 +88,59 @@ describe('LoggerService', () => {
   it('should have no news after first install', () => {
     global.localStorage = new LocalStorageMock();
     service.logPwaEvents();
-    expect(dialogService.open).toBeCalledWith(VersionNewsDialogComponent, {
-      maxWidth: '100%',
-      data: [],
-    });
+    expect(dialogService.open).toHaveBeenCalledWith(
+      VersionNewsDialogComponent,
+      {
+        maxWidth: '100%',
+        data: [],
+      },
+    );
   });
 
   it('should have no news when all news already showed', () => {
     global.localStorage = new LocalStorageMock();
     global.localStorage.setItem('installed_version', '7');
     service.logPwaEvents();
-    expect(dialogService.open).toBeCalledWith(VersionNewsDialogComponent, {
-      maxWidth: '100%',
-      data: [],
-    });
+    expect(dialogService.open).toHaveBeenCalledWith(
+      VersionNewsDialogComponent,
+      {
+        maxWidth: '100%',
+        data: [],
+      },
+    );
   });
 
   it('should have unread news', () => {
     global.localStorage = new LocalStorageMock();
     global.localStorage.setItem('installed_version', '4');
     service.logPwaEvents();
-    expect(dialogService.open).toBeCalledWith(VersionNewsDialogComponent, {
-      maxWidth: '100%',
-      data: [{ sk: 'markdown5' }, { sk: 'markdown6' }, { sk: 'markdown7' }],
-    });
+    expect(dialogService.open).toHaveBeenCalledWith(
+      VersionNewsDialogComponent,
+      {
+        maxWidth: '100%',
+        data: [{ sk: 'markdown5' }, { sk: 'markdown6' }, { sk: 'markdown7' }],
+      },
+    );
   });
 
   it('should have unread news sorted', () => {
     global.localStorage = new LocalStorageMock();
     global.localStorage.setItem('installed_version', '0');
     service.logPwaEvents();
-    expect(dialogService.open).toBeCalledWith(VersionNewsDialogComponent, {
-      maxWidth: '100%',
-      data: [
-        { sk: 'markdown1' },
-        { sk: 'markdown2' },
-        { sk: 'markdown3' },
-        { sk: 'markdown4' },
-        { sk: 'markdown5' },
-        { sk: 'markdown6' },
-        { sk: 'markdown7' },
-      ],
-    });
+    expect(dialogService.open).toHaveBeenCalledWith(
+      VersionNewsDialogComponent,
+      {
+        maxWidth: '100%',
+        data: [
+          { sk: 'markdown1' },
+          { sk: 'markdown2' },
+          { sk: 'markdown3' },
+          { sk: 'markdown4' },
+          { sk: 'markdown5' },
+          { sk: 'markdown6' },
+          { sk: 'markdown7' },
+        ],
+      },
+    );
   });
 });
