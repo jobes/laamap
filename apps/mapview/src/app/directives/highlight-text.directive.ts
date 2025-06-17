@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnChanges } from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, inject } from '@angular/core';
 
 import { escapeStringRegexp } from '../helper';
 
@@ -6,9 +6,9 @@ import { escapeStringRegexp } from '../helper';
   selector: '[laamapHighlightText]',
 })
 export class HighlightTextDirective implements OnChanges {
-  @Input() laamapHighlightText!: string | null;
+  private el = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  constructor(private el: ElementRef<HTMLElement>) {}
+  @Input() laamapHighlightText!: string | null;
 
   ngOnChanges() {
     setTimeout(() => {

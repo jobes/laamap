@@ -12,7 +12,7 @@ import { TrackingWidgetComponent } from './tracking-widget.component';
 describe(TrackingWidgetComponent.name, () => {
   const detectChanges = () => {
     cy.get('.cdk-drag .value').click();
-    cy.get('[ng-reflect-dialog-result="false"]').click();
+    cy.get('[cdkfocusinitial]').click();
   };
   it('renders', () => {
     cy.clock();
