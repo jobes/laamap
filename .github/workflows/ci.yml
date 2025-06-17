@@ -5,6 +5,8 @@ on:
 
 jobs:
   main:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,7 +17,7 @@ jobs:
         with:
           node-version: 21
           cache: 'npm'
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
       - uses: nrwl/nx-set-shas@v3
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track main origin/main
