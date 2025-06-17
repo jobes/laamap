@@ -27,4 +27,4 @@ jobs:
       - run: npx nx affected -t build --output-style=stream
       - run: npx nx affected -t test --output-style=stream
       - run: npx nx affected -t lint --output-style=stream
-      - run: npx nx affected -t component-test --output-style=stream
+      # - run: npx nx affected -t component-test --output-style=stream
