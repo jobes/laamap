@@ -1,4 +1,6 @@
 name: deploy navigation to stork web
+permissions:
+  contents: read
 on:
   push:
     branches:
