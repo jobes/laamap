@@ -751,13 +751,21 @@
   },
   "flyHistoryDialog": {
     "title": "História letov",
+    "titleRename": "Premenovať",
+    "titleDelete": "Zmazať",
     "close": "Zavrieť",
     "today": "Dnes",
     "month": "Tento mesiac",
     "year": "Tento rok",
     "all": "Od začiatku merania",
     "name": "Názov",
-    "duration": "Trvanie"
+    "duration": "Trvanie",
+    "downloadGPX": "Stiahnuť GPX",
+    "rename": "Premenovať",
+    "delete": "Zmazať",
+    "merge": "Zlúčiť",
+    "notAvailable": "Trasa bola zaznamenaná na inom zariadení",
+    "messageDelete": "Ste si istý, že chcete zmazat tento let?"
   },
   "interestPointDialog": {
     "title": "Pridať bod záujmu",

@@ -265,7 +265,8 @@
     "noItemInList": "No item in navigation list",
     "trackingHistory": "Tracking history",
     "POIList": "Points of interest",
-    "customFlyRoutes": "Flight routes"
+    "customFlyRoutes": "Flight routes",
+    "checkWeather": "Check weather"
   },
   "customFlyRouteDialog": {
     "title": "Route name",
@@ -750,13 +751,21 @@
   },
   "flyHistoryDialog": {
     "title": "Flight History",
+    "titleRename": "Rename",
+    "titleDelete": "Delete",
     "close": "Close",
     "today": "Today",
     "month": "This Month",
     "year": "This Year",
     "all": "From the Beginning",
     "name": "Name",
-    "duration": "Duration"
+    "duration": "Duration",
+    "downloadGPX": "Download GPX",
+    "rename": "Rename",
+    "delete": "Delete",
+    "merge": "Merge",
+    "notAvailable": "The track was recorded on another device",
+    "messageDelete": "Are you sure you want to delete this flight?"
   },
   "interestPointDialog": {
     "title": "Add Point of Interest",
