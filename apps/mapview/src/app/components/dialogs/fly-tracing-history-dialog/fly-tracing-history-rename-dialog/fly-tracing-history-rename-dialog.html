@@ -1,0 +1,25 @@
+<ng-template transloco let-t translocoRead="flyHistoryDialog">
+  <h1 mat-dialog-title>{{ t('titleRename') }}</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field>
+        <mat-label>{{ t('name') }}</mat-label>
+        <input matInput type="text" formControlName="name" cdkFocusInitial />
+        <mat-error>{{ t('required') }}</mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions [align]="'end'">
+    <button
+      mat-button
+      [mat-dialog-close]="form.controls.name.value"
+      [disabled]="!form.controls.name.valid"
+      data-cy="save"
+    >
+      {{t('rename')}}
+    </button>
+    <button mat-button [mat-dialog-close]="false" data-cy="cancel">
+      {{ t('close') }}
+    </button>
+  </div>
+</ng-template>
