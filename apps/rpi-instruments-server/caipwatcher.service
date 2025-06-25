@@ -1,0 +1,19 @@
+[Unit]
+Description=Certificate IP watcher
+After=syslog.target network.target nss-lookup.target
+
+[Service]
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python /usr/local/bin/instruments-server/ipwatcher.py
+# Hardening
+ProtectSystem=full
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+SystemCallFilter=~@clock @cpu-emulation @debug @keyring @module @mount @obsolete @raw-io
+MemoryDenyWriteExecute=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictRealtime=yes
+Environment="MYCAPASS=<PASS>"
+
+[Install]
+WantedBy=multi-user.target

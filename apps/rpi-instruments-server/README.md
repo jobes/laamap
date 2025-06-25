@@ -94,10 +94,22 @@ Start the server
 
 ```
 sudo cp aircraft_instruments.service /etc/systemd/system
-sudo chown root:root /etc/systemd/system/aircraft_instruments.sudo
+sudo chown root:root /etc/systemd/system/aircraft_instruments.service
 sudo chmod 644 /etc/systemd/system/aircraft_instruments.service
 sudo systemctl start aircraft_instruments.service
 sudo systemctl enable aircraft_instruments_service
 ```
 
 Your aircraft instrument server should be accessible from your local network where your Raspberry Pi is connected. You can connect to the IP of your raspberry Pi, https on port 443 and http on ports 80 and 888 should be working now.
+
+# Create new certificate when IP changes
+
+in caipwatcher.service change <PASS> to your CA password
+
+```
+sudo cp caipwatcher.service /etc/systemd/system
+sudo chown root:root /etc/systemd/system/caipwatcher.service
+sudo chmod 644 /etc/systemd/system/caipwatcher.service
+sudo systemctl start caipwatcher.service
+sudo systemctl enable caipwatcher
+```
