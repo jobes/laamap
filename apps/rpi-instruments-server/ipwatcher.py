@@ -49,6 +49,6 @@ while True:
         f.close()
         print('IP added to list')
 
-        os.system('openssl x509 -req -in omh737.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out omh737.crt -days 3650 -sha256 -extfile omh737.ext -d -passin env:MYCAPASS')
+        os.system('openssl x509 -req -in omh737.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out omh737.crt -days 3650 -sha256 -extfile omh737.ext -passin env:MYCAPASS')
         os.system('systemctl restart nginx')
     time.sleep(60)
