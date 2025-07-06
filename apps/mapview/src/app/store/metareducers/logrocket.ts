@@ -1,7 +1,29 @@
 import { ActionReducer } from '@ngrx/store';
 import LogRocket from 'logrocket';
 
-const reduxMiddleware = LogRocket.reduxMiddleware();
+const reduxMiddleware = LogRocket.reduxMiddleware({
+  actionSanitizer: (action: any) => {
+    return {
+      ...action,
+      ...(action.jwtToken ? { jwtToken: '***' } : {}),
+      ...(action.accessKey ? { accessKey: '***' } : {}),
+    };
+  },
+  stateSanitizer: (state: any) => {
+    return {
+      ...state,
+      'settings.general': {
+        ...state['settings.general'],
+        loginToken: state['settings.general'].loginToken ? '***' : '',
+        loginObject: state['settings.general'].loginObject ? '***' : '',
+      },
+      'settings.traffic': {
+        ...state['settings.traffic'],
+        accessKey: state['settings.traffic'].accessKey ? '***' : '',
+      },
+    };
+  },
+});
 
 export function logRocketMiddleware(
   reducer: ActionReducer<any>,
