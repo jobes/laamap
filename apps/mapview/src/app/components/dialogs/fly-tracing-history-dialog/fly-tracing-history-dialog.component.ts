@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -6,6 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoLocaleModule } from '@jsverse/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 import { BehaviorSubject, forkJoin, switchMap } from 'rxjs';
 
@@ -19,6 +21,7 @@ import { FlyTracingHistoryRenameDialog } from './fly-tracing-history-rename-dial
   templateUrl: './fly-tracing-history-dialog.component.html',
   styleUrls: ['./fly-tracing-history-dialog.component.scss'],
   imports: [
+    CommonModule,
     TranslocoModule,
     MatDialogModule,
     MatTableModule,
@@ -28,6 +31,7 @@ import { FlyTracingHistoryRenameDialog } from './fly-tracing-history-rename-dial
     DigitalTimePipe,
     MatMenuModule,
     MatIconModule,
+    TranslocoLocaleModule,
   ],
 })
 export class FlyTracingHistoryDialogComponent {
@@ -46,7 +50,7 @@ export class FlyTracingHistoryDialogComponent {
     ),
   );
 
-  displayedColumns: string[] = ['name', 'flightTime', 'actions'];
+  displayedColumns: string[] = ['name', 'startTime', 'flightTime', 'actions'];
   items$ = this.pageSizeSubj$.pipe(
     switchMap((pageSize) =>
       this.tracingService.getFlyHistoryListWithTime(
