@@ -34,6 +34,16 @@
             </td>
           </ng-container>
 
+          <ng-container matColumnDef="startTime">
+            <th mat-header-cell *matHeaderCellDef>{{ t('start') }}</th>
+            <td mat-cell *matCellDef="let element">
+              {{
+                element.startTime
+                  | translocoDate: { dateStyle: 'short', timeStyle: 'short' }
+              }}
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>{{ t('name') }}</th>
             <td mat-cell *matCellDef="let element">

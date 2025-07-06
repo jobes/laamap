@@ -760,6 +760,7 @@
     "all": "Od začiatku merania",
     "name": "Názov",
     "duration": "Trvanie",
+    "start": "Začiatok",
     "downloadGPX": "Stiahnuť GPX",
     "rename": "Premenovať",
     "delete": "Zmazať",

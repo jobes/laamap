@@ -760,6 +760,7 @@
     "all": "From the Beginning",
     "name": "Name",
     "duration": "Duration",
+    "start": "Start",
     "downloadGPX": "Download GPX",
     "rename": "Rename",
     "delete": "Delete",
