@@ -39,7 +39,7 @@ import {
   selectTrackInProgressWithMinSpeed,
 } from '../advanced-selectors';
 import { mapFeature } from '../features/map.feature';
-import { generalFeature } from '../features/settings/general.feature';
+import { trafficFeature } from '../features/settings/traffic.feature';
 
 @Injectable()
 export class MapEffects {
@@ -192,7 +192,7 @@ export class MapEffects {
     () => {
       return this.actions$.pipe(
         ofType(mapEffectsActions.trackSavingStarted),
-        switchMap(() => this.store.select(generalFeature.selectAirplaneName)),
+        switchMap(() => this.store.select(trafficFeature.selectRegoOrLabel)),
         switchMap((airPlaneName) =>
           this.tracing.createFlyTrace(airPlaneName, new Date().toISOString()),
         ),

@@ -10,7 +10,6 @@ const initialState = {
   },
   widgetFontSizeRatio: 1.5,
   mapFontSizeRatio: 1.5,
-  airplaneName: 'OMH-XXX (John Doe)',
   notamFirs: [] as string[],
   notamRadius: 25000,
   territories: ['sk'],
@@ -45,13 +44,6 @@ export const generalFeature = createFeature({
       (state, { value }): typeof initialState => ({
         ...state,
         mapFontSizeRatio: value,
-      }),
-    ),
-    on(
-      generalSettingsActions.airplaneNameChanged,
-      (state, { airplaneName }): typeof initialState => ({
-        ...state,
-        airplaneName,
       }),
     ),
     on(
