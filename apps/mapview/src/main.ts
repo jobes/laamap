@@ -16,8 +16,15 @@ const generalSettings = JSON.parse(
 ) as {
   loginToken: string;
   loginObject: { name: string; email: string };
-  airplaneName: string;
 };
+
+const trafficSettings = JSON.parse(
+  localStorage.getItem('settings.traffic') || '{}',
+) as {
+  regoOrLabel: string;
+  deviceId: string;
+};
+
 const tokenData = JSON.parse(
   atob(generalSettings.loginToken?.split('.')?.[1] ?? '') || '{}',
 ) as { exp: number };
@@ -34,8 +41,9 @@ if (tokenData.exp < Date.now() / 1000) {
 
 if (!isDevMode()) {
   LogRocket.init('mnkoap/laamap');
-  const airPlaneName = generalSettings?.airplaneName ?? 'unknown';
-  LogRocket.identify(airPlaneName);
+  const deviceId = trafficSettings?.deviceId;
+  const airPlaneName = trafficSettings?.regoOrLabel ?? 'unknown';
+  LogRocket.identify(deviceId, { name: airPlaneName });
   console.log('PWA installed:', isPwa());
 }
 

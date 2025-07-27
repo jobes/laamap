@@ -51,7 +51,6 @@ export const generalSettingsActions = createActionGroup({
     'Screen wake lock Enable changed': props<{ enabled: boolean }>(),
     'Widget font size ratio changed': props<{ value: number }>(),
     'Map font size ratio changed': props<{ value: number }>(),
-    'Airplane name changed': props<{ airplaneName: string }>(),
     'Notam FIR changed': props<{ firs: string[] }>(),
     'Notam radius changed': props<{ radius: number }>(),
     'Territories changed': props<{ territories: string[] }>(),

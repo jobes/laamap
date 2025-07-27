@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { provideAppInitializer } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
@@ -131,7 +131,7 @@ describe(FlyTracingHistoryDialogComponent.name, () => {
     cy.mount(WrapperComponent, {
       providers: [
         provideMockStore({
-          initialState: { 'settings.general': { airplaneName } },
+          initialState: { 'settings.traffic': { regoOrLabel: airplaneName } },
         }),
         provideNoopAnimations(),
         { provide: Actions, useValue: new Subject() },

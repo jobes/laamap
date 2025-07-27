@@ -60,7 +60,6 @@ export class GeneralSettingsComponent implements AfterViewInit, OnDestroy {
     generalFeature.selectWidgetFontSizeRatio,
   );
   mapFontSizeRatio$ = this.store.select(generalFeature.selectMapFontSizeRatio);
-  airplaneName$ = this.store.select(generalFeature.selectAirplaneName);
   notamFirs$ = this.store.select(generalFeature.selectNotamFirs);
   notamRadius$ = this.store.select(generalFeature.selectNotamRadius);
   firList$ = this.notams.getFirList();
@@ -99,12 +98,6 @@ export class GeneralSettingsComponent implements AfterViewInit, OnDestroy {
   mapFontSizeRatioChanged(value: number) {
     this.store.dispatch(
       generalSettingsActions.mapFontSizeRatioChanged({ value }),
-    );
-  }
-
-  airplaneNameChanged(airplaneName: string) {
-    this.store.dispatch(
-      generalSettingsActions.airplaneNameChanged({ airplaneName }),
     );
   }
 

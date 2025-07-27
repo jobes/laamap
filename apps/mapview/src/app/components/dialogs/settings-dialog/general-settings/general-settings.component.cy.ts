@@ -17,7 +17,6 @@ describe(GeneralSettingsComponent.name, () => {
               },
               widgetFontSizeRatio: 1.5,
               mapFontSizeRatio: 1.5,
-              airplaneName: 'OMH-XXX (John Doe)',
             },
           },
         }),

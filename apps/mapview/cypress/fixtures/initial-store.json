@@ -321,7 +321,6 @@
       "enabled": true
     },
     "widgetFontSizeRatio": 1.5,
-    "mapFontSizeRatio": 1.5,
-    "airplaneName": "OMH-XXX (John Doe)"
+    "mapFontSizeRatio": 1.5
   }
 }
