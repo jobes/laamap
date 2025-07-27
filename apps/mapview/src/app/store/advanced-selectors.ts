@@ -139,10 +139,14 @@ export const selectHeighSettings = createSelector(
     gndHeightObjectPressure: {
       realValue: !!(pressure && settings.qfe),
       value:
-        (pressure &&
-          settings.qfe &&
-          altitudeFromPressure(pressure, settings.qfe)) ??
-        0,
+        !pressure || !settings.qfe
+          ? 0
+          : terrain.enabled &&
+              terrain.gndHeightCalculateUsingTerrain &&
+              terrainElevation &&
+              settings.qnh
+            ? altitudeFromPressure(pressure, settings.qnh) - terrainElevation
+            : altitudeFromPressure(pressure, settings.qfe),
       unit: EHeightUnit.meter,
       referenceDatum: EReferenceDatum.gnd,
     },

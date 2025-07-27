@@ -16,9 +16,11 @@ export function isPwa() {
 export const flyAnimationDuration = 3000;
 export const compassDuration = 1000;
 
+// pressure in Pa, altitude in meters; return HPa
 export const pressureOnSeaLevel = (pressure: number, altitude: number) =>
   Math.round((pressure ?? 0) / Math.pow(1.0 - altitude / 44330.0, 5.255) / 100);
 
+// pressure in Pa, qnh in HPa; return altitude in meters
 export const altitudeFromPressure = (pressure: number, qnh: number) =>
   Math.round(
     ((1.0 - Math.pow(pressure / (qnh * 100), 0.190284)) * 287.15) / 0.0065,

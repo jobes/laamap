@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`advanced-selectors selectLineDefinitionBorderGeoJson should build border geojson feature collection 1`] = `
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            0,
+            0,
+          ],
+          [
+            0,
+            0.00027,
+          ],
+        ],
+        "type": "LineString",
+      },
+      "properties": {},
+      "type": "Feature",
+    },
+  ],
+  "type": "FeatureCollection",
+}
+`;
+
+exports[`advanced-selectors selectLineDefinitionSegmentGeoJson should build segment geojson feature collection 1`] = `
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            0,
+            0,
+          ],
+          [
+            0,
+            0.00009,
+          ],
+        ],
+        "type": "LineString",
+      },
+      "properties": {
+        "color": "white",
+      },
+      "type": "Feature",
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            0,
+            0.00009,
+          ],
+          [
+            0,
+            0.00018,
+          ],
+        ],
+        "type": "LineString",
+      },
+      "properties": {
+        "color": "black",
+      },
+      "type": "Feature",
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            0,
+            0.00018,
+          ],
+          [
+            0,
+            0.00027,
+          ],
+        ],
+        "type": "LineString",
+      },
+      "properties": {
+        "color": "white",
+      },
+      "type": "Feature",
+    },
+  ],
+  "type": "FeatureCollection",
+}
+`;
