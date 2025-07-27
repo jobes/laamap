@@ -28,7 +28,25 @@ const initIndexDb = (tracingService: TracingService) => {
     .then(
       () =>
         tracingService.addTraceItem(
-          new Date().getTime() + 8000,
+          new Date().getTime(),
+          {} as GeolocationCoordinates,
+        ), // + 8s
+    )
+    .then(() =>
+      tracingService.createFlyTrace(airplaneName, '2023-05-16T13:22:22.288'),
+    )
+    .then(() =>
+      tracingService.addTraceItem(
+        new Date().getTime(),
+        {} as GeolocationCoordinates,
+      ),
+    );
+  cy.clock()
+    .then((clock) => clock.tick(21000))
+    .then(
+      () =>
+        tracingService.addTraceItem(
+          new Date().getTime(),
           {} as GeolocationCoordinates,
         ), // + 8s
     );
@@ -47,7 +65,7 @@ const initIndexDb = (tracingService: TracingService) => {
     .then((clock) => clock.tick(5000))
     .then(() =>
       tracingService.addTraceItem(
-        new Date().getTime() + 5000, // +5s
+        new Date().getTime(), // +5s
         {} as GeolocationCoordinates,
       ),
     )
@@ -56,7 +74,7 @@ const initIndexDb = (tracingService: TracingService) => {
     .then((clock) => clock.tick(6000))
     .then(() =>
       tracingService.addTraceItem(
-        new Date().getTime() + 6000,
+        new Date().getTime(),
         {} as GeolocationCoordinates,
       ),
     );
@@ -65,7 +83,7 @@ const initIndexDb = (tracingService: TracingService) => {
     .then(
       () =>
         tracingService.addTraceItem(
-          new Date().getTime() + 8000,
+          new Date().getTime(),
           {} as GeolocationCoordinates,
         ), // + 0s as after end fly do not save
     );
@@ -85,7 +103,7 @@ const initIndexDb = (tracingService: TracingService) => {
     .then(
       () =>
         tracingService.addTraceItem(
-          new Date().getTime() + 8000,
+          new Date().getTime(),
           {} as GeolocationCoordinates,
         ), // + 8s
     );
@@ -126,14 +144,12 @@ describe(FlyTracingHistoryDialogComponent.name, () => {
     cy.get('button').click();
     cy.get(':nth-child(1) > .value').contains('0:00:08');
     cy.get(':nth-child(2) > .value').contains('0:00:13');
-    cy.get(':nth-child(3) > .value').contains('0:00:21');
-    cy.get(':nth-child(4) > .value').contains('0:00:21');
-    cy.get(
-      '.mdc-data-table__content > :nth-child(1) > .cdk-column-flightTime',
-    ).contains('0:00:08');
+    cy.get(':nth-child(3) > .value').contains('0:00:42');
+    cy.get(':nth-child(4) > .value').contains('0:00:42');
+    cy.get(':nth-child(1) > .cdk-column-flightTime').contains('0:00:08');
     cy.get(':nth-child(2) > .cdk-column-flightTime').contains('0:00:05');
-    cy.get(':nth-child(3) > .cdk-column-flightTime').contains('0:00:08');
-    cy.clock().invoke('restore');
+    cy.get(':nth-child(3) > .cdk-column-flightTime').contains('0:00:21');
+    cy.get(':nth-child(4) > .cdk-column-flightTime').contains('0:00:08');
 
     // rename route
     cy.contains('2023-05-05T03:22:14.288Z')
@@ -147,17 +163,43 @@ describe(FlyTracingHistoryDialogComponent.name, () => {
 
     cy.get(':nth-child(1) > .value').contains('0:00:08');
     cy.get(':nth-child(2) > .value').contains('0:00:13');
-    cy.get(':nth-child(3) > .value').contains('0:00:21');
-    cy.get(':nth-child(4) > .value').contains('0:00:21');
+    cy.get(':nth-child(3) > .value').contains('0:00:42');
+    cy.get(':nth-child(4) > .value').contains('0:00:42');
+    cy.get(':nth-child(1) > .cdk-column-flightTime').contains('0:00:08');
+    cy.get(':nth-child(2) > .cdk-column-flightTime').contains('0:00:05');
+    cy.get(':nth-child(3) > .cdk-column-flightTime').contains('0:00:21');
+    cy.get(':nth-child(4) > .cdk-column-flightTime').contains('0:00:08');
 
     // delete route
     cy.contains('newVal').parent().find('[data-cy="fly-history-menu"]').click();
     cy.get('[data-cy="delete"]').click();
-    cy.get('[data-cy="delete"]').click();
+    cy.get('button[data-cy="delete-do"]').click();
 
     cy.get(':nth-child(1) > .value').contains('0:00:00');
-    cy.get(':nth-child(2) > .value').contains('0:00:00');
-    cy.get(':nth-child(3) > .value').contains('0:00:00');
-    cy.get(':nth-child(4) > .value').contains('0:00:13');
+    cy.get(':nth-child(2) > .value').contains('0:00:05');
+    cy.get(':nth-child(3) > .value').contains('0:00:34');
+    cy.get(':nth-child(4) > .value').contains('0:00:34');
+    cy.get(':nth-child(1) > .cdk-column-flightTime').contains('0:00:05');
+    cy.get(':nth-child(2) > .cdk-column-flightTime').contains('0:00:21');
+    cy.get(':nth-child(3) > .cdk-column-flightTime').contains('0:00:08');
+
+    // merge routes
+    cy.contains('2023-05-16T13:22:22.288')
+      .parent()
+      .find('[data-cy="fly-history-menu"]')
+      .click();
+    cy.get('[data-cy="join"]').click();
+    cy.get('#mat-select-value-a1').click();
+    cy.get('#mat-option-a4').click();
+    cy.get('[data-cy="join-do"]').click();
+
+    cy.get(':nth-child(1) > .value').contains('0:00:00');
+    cy.get(':nth-child(2) > .value').contains('0:00:05');
+    cy.get(':nth-child(3) > .value').contains('0:00:34');
+    cy.get(':nth-child(4) > .value').contains('0:00:34');
+    cy.get(':nth-child(1) > .cdk-column-flightTime').contains('0:00:05');
+    cy.get(':nth-child(2) > .cdk-column-flightTime').contains('0:00:29');
+
+    cy.clock().invoke('restore');
   });
 });

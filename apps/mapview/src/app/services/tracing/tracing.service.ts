@@ -125,6 +125,32 @@ export class TracingService {
     await this.dexieDb.trackingRoutes.delete(id);
   }
 
+  async joinFlyTraces(fromId: string, toId: string): Promise<void> {
+    const fromRoute = await this.dexieDb.trackingRoutes.get(fromId);
+    const toRoute = await this.dexieDb.trackingRoutes.get(toId);
+    if (!fromRoute || !toRoute) return;
+
+    await this.dexieDb.trackingPoints
+      .where('trackStatsId')
+      .equals(fromId)
+      .modify({
+        trackStatsId: toId,
+      });
+
+    const points = await this.dexieDb.trackingPoints
+      .where('trackStatsId')
+      .equals(toId)
+      .sortBy('timestamp');
+    const startTime = points[0].timestamp;
+    const endTime = points[points.length - 1].timestamp;
+
+    await this.dexieDb.trackingRoutes.update(toId, {
+      flightTime: endTime - startTime,
+    });
+
+    await this.dexieDb.trackingRoutes.delete(fromId);
+  }
+
   private generateGPX(route: IDbTrackingPoint[], name: string): string {
     return (
       `<?xml version="1.0" encoding="UTF-8"?>\n` +

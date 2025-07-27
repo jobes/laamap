@@ -14,6 +14,7 @@ import { BehaviorSubject, forkJoin, switchMap } from 'rxjs';
 import { DigitalTimePipe } from '../../../pipes/digital-time/digital-time.pipe';
 import { TracingService } from '../../../services/tracing/tracing.service';
 import { FlyTracingHistoryDeleteDialog } from './fly-tracing-history-delete-dialog/fly-tracing-history-delete-dialog';
+import { FlyTracingHistoryJoinDialog } from './fly-tracing-history-join-dialog/fly-tracing-history-join-dialog';
 import { FlyTracingHistoryRenameDialog } from './fly-tracing-history-rename-dialog/fly-tracing-history-rename-dialog';
 
 @Component({
@@ -111,6 +112,20 @@ export class FlyTracingHistoryDialogComponent {
             this.pageSizeSubj$.next(this.pageSizeSubj$.value);
           });
           this.statisticSubj$.next(undefined);
+        }
+      });
+  }
+
+  joinRoutesDialog(id: string) {
+    this.dialog
+      .open(FlyTracingHistoryJoinDialog, { data: { id } })
+      .afterClosed()
+      .subscribe((toId) => {
+        if (toId) {
+          this.tracingService.joinFlyTraces(id, toId).then(() => {
+            this.pageSizeSubj$.next(this.pageSizeSubj$.value);
+            this.statisticSubj$.next(undefined);
+          });
         }
       });
   }
