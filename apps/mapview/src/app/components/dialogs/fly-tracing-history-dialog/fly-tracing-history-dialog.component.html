@@ -94,6 +94,10 @@
               <mat-icon>delete_forever</mat-icon>
               <span>{{ t('delete') }}</span>
             </button>
+            <button mat-menu-item (click)="joinRoutesDialog(id)" data-cy="join">
+              <mat-icon>merge</mat-icon>
+              <span>{{ t('joinTo') }}</span>
+            </button>
             <button
               mat-menu-item
               (click)="downloadGpx(id, name)"

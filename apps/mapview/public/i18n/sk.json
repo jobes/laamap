@@ -766,7 +766,11 @@
     "delete": "Zmazať",
     "merge": "Zlúčiť",
     "notAvailable": "Trasa bola zaznamenaná na inom zariadení",
-    "messageDelete": "Ste si istý, že chcete zmazat tento let?"
+    "messageDelete": "Ste si istý, že chcete zmazat tento let?",
+    "joinTo": "Zlúčiť do",
+    "titleJoin": "Zlúčiť do",
+    "join": "Zlúčiť",
+    "required": "Povinné"
   },
   "interestPointDialog": {
     "title": "Pridať bod záujmu",

@@ -1,0 +1,29 @@
+<ng-template transloco let-t translocoRead="flyHistoryDialog">
+  <h1 mat-dialog-title>{{ t('titleJoin') }}</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ t('joinTo') }}</mat-label>
+        <mat-select formControlName="toId">
+          @for (route of routes | async; track route.id) {
+          <mat-option [value]="route.id"> {{ route.name }} </mat-option>
+          }
+        </mat-select>
+        <mat-error>{{ t('required') }}</mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions [align]="'end'">
+    <button
+      mat-button
+      [disabled]="!form.valid"
+      (click)="submit()"
+      data-cy="join-do"
+    >
+      {{ t('join') }}
+    </button>
+    <button mat-button [mat-dialog-close]="false" data-cy="cancel">
+      {{ t('close') }}
+    </button>
+  </div>
+</ng-template>
