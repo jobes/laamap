@@ -119,6 +119,11 @@
       "gpsAltitudeError": "GPS altitude errom in meter",
       "relativeHeightSource": "Relative altitude source",
       "airplaneInstrumentsUrl": "Airplane instruments URL",
+      "getIpFromBle": "Get IP from aircraft bluetooth",
+      "ble": {
+        "notSupported": "Web Bluetooth is not supported in your browser",
+        "connectionError": "Failed to connect to aircraft bluetooth"
+      },
       "altitudeShowTypeList": {
         "altitudeM": "Altitude (meters GPSS)",
         "gndM": "Height (meters GPS)",
