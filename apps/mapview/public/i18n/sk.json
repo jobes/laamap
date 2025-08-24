@@ -119,6 +119,11 @@
       "gpsAltitudeError": "Chyba výšky GPS v metroch",
       "relativeHeightSource": "Zdroj relatívnej výšky",
       "airplaneInstrumentsUrl": "URL prístrojov lietadla",
+      "getIpFromBle": "Načítaj IP z bluetooth lietadla",
+      "ble": {
+        "notSupported": "Bluetooth nie je podporovaný",
+        "connectionError": "Nepodarilo sa pripojiť na bluetooth lietadla"
+      },
       "altitudeShowTypeList": {
         "altitudeM": "Nadmorská výška v metroch (gps)",
         "gndM": "Výška nad zemou v metroch (gps)",

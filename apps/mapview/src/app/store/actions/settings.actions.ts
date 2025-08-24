@@ -68,6 +68,9 @@ export const instrumentSettingsActions = createActionGroup({
     'Airplane instruments URL changed': props<{
       url: string;
     }>(),
+    'Airplane instruments URL from ble changed': props<{
+      url: string;
+    }>(),
   },
 });
 

@@ -326,6 +326,7 @@ export const instrumentsFeature = createFeature({
     ),
     on(
       instrumentSettingsActions.airplaneInstrumentsURLChanged,
+      instrumentSettingsActions.airplaneInstrumentsURLFromBleChanged,
       (state, { url }): typeof initialState => ({
         ...state,
         airplaneInstrumentsUrl: url,

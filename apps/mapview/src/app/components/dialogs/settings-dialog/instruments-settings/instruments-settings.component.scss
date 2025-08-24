@@ -4,10 +4,33 @@ mat-panel-description {
 
 mat-slide-toggle {
   margin-bottom: 1rem;
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+
+  mat-label {
+    margin-left: 2rem;
+  }
+}
+
+.url-input-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .url-input {
+    flex: 1;
+  }
+
+  button {
+    flex-shrink: 0;
+    margin-top: -0.5rem; // Align with input field
+  }
 }
 
 .airplane-instruments-status {
-  margin-left: 1rem;
   color: var(--non-active-color);
 
   &.connected {

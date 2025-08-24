@@ -12,25 +12,37 @@
       (change)="setShowOnlyOnActiveGps($event.checked)"
       >{{ t('showOnlyOnActiveGps') }}</mat-slide-toggle
     >
-    <div>
-      <mat-form-field>
-        <mat-label>{{ t('airplaneInstrumentsUrl') }}</mat-label>
+    <mat-form-field>
+      <mat-label>{{ t('airplaneInstrumentsUrl') }}</mat-label>
+      <div class="url-input-container">
+        <mat-icon
+          class="airplane-instruments-status"
+          [class.connected]="airplaneInstrumentsConnected()"
+          >{{
+            airplaneInstrumentsConnected() ? 'cloud_done' : 'cloud_off'
+          }}</mat-icon
+        >
         <input
           matInput
           type="url"
           [ngModel]="airplaneInstrumentsUrl()"
           (ngModelChange)="setAirplaneInstrumentsUrl($event)"
           [ngModelOptions]="{ updateOn: 'blur' }"
+          class="url-input"
         />
-      </mat-form-field>
-      <mat-icon
-        class="airplane-instruments-status"
-        [class.connected]="airplaneInstrumentsConnected()"
-        >{{
-          airplaneInstrumentsConnected() ? 'cloud_done' : 'cloud_off'
-        }}</mat-icon
-      >
-    </div>
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="getIpFromBle()"
+          [disabled]="isBleLoading()"
+          matTooltip="{{ t('getIpFromBle') }}"
+        >
+          <mat-icon>{{
+            isBleLoading() ? 'bluetooth_searching' : 'bluetooth'
+          }}</mat-icon>
+        </button>
+      </div>
+    </mat-form-field>
     <mat-accordion>
       <laamap-speed-widget-settings></laamap-speed-widget-settings>
       <laamap-altitude-widget-settings></laamap-altitude-widget-settings>
