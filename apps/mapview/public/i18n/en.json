@@ -862,7 +862,8 @@
     "mapError": "Map loading error - weak internet connection",
     "radarError": "Radar loading error - weak internet connection",
     "pwaRestartToUpdate": "Update installed, please restart the application",
-    "pwaRestartToUpdateDetails": "Details"
+    "pwaRestartToUpdateDetails": "Details",
+    "instrumentsConnectionLost": "Instruments: connection lost"
   },
   "wakeLock": {
     "lockingError": "Error locking the screen",

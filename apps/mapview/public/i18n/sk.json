@@ -862,7 +862,8 @@
     "mapError": "Chyba načítania mapy - slabé internetové pripojenie",
     "radarError": "Chyba načítania radaru - slabé internetové pripojenie",
     "pwaRestartToUpdate": "Aktualizácia nainštalovaná, prosím reštartujte aplikáciu",
-    "pwaRestartToUpdateDetails": "Detaily"
+    "pwaRestartToUpdateDetails": "Detaily",
+    "instrumentsConnectionLost": "Prístroje: pripojenie zlyhalo"
   },
   "wakeLock": {
     "lockingError": "Chyba pri zakazovaní vypínania obrazovky",
