@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslocoService } from '@jsverse/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
@@ -12,6 +14,7 @@ import {
   switchMap,
   take,
   tap,
+  timeout,
 } from 'rxjs';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 
@@ -26,6 +29,8 @@ export class InstrumentsEffects {
   private readonly store = inject(Store);
   private readonly http = inject(HttpClient);
   private readonly actions$ = inject(Actions);
+  private readonly transloco = inject(TranslocoService);
+  private readonly snackBar = inject(MatSnackBar);
   private instrumentWebSocket = null as null | WebSocketSubject<{
     name: keyof IPlaneInstruments;
     value: string | number | null;
@@ -54,18 +59,30 @@ export class InstrumentsEffects {
         ),
         switchMap((url) => {
           this.instrumentWebSocket = webSocket(`wss://${url}/instruments`);
-          return this.instrumentWebSocket;
+          return this.instrumentWebSocket.pipe(
+            timeout(3000),
+            catchError((e) => {
+              this.snackBar.open(
+                this.transloco.translate('mapView.instrumentsConnectionLost'),
+                undefined,
+                { duration: 5000 },
+              );
+              throw e;
+            }),
+          );
         }),
         tap((value) =>
           this.store.dispatch(
             instrumentsEffectsActions.planeInstrumentValueChanged(value),
           ),
         ),
-        finalize(() =>
+        finalize(() => {
+          this.instrumentWebSocket = null;
+
           this.store.dispatch(
             instrumentsEffectsActions.planeInstrumentsDisconnected(),
-          ),
-        ),
+          );
+        }),
         retry({ delay: 1000 }),
         catchError(() => of(null)),
       );
