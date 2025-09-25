@@ -107,6 +107,7 @@ const initialState = {
   },
   oilTemp: {
     show: true,
+    compact: false,
     position: { x: 0, y: 400 },
     bgColor: '#ffffff',
     textColor: '#000000',
@@ -119,6 +120,7 @@ const initialState = {
   },
   cht1Temp: {
     show: true,
+    compact: false,
     position: { x: 0, y: 430 },
     bgColor: '#ffffff',
     textColor: '#000000',
@@ -131,6 +133,7 @@ const initialState = {
   },
   cht2Temp: {
     show: true,
+    compact: false,
     position: { x: 0, y: 460 },
     bgColor: '#ffffff',
     textColor: '#000000',
@@ -143,6 +146,7 @@ const initialState = {
   },
   oilPressure: {
     show: true,
+    compact: false,
     position: { x: 0, y: 490 },
     bgColor: '#ffffff',
     textColor: '#000000',
@@ -155,6 +159,7 @@ const initialState = {
   },
   fuelLevel: {
     show: true,
+    compact: false,
     position: { x: 0, y: 520 },
     bgColor: '#ffffff',
     textColor: '#000000',
@@ -167,6 +172,7 @@ const initialState = {
   },
   rpm: {
     show: true,
+    compact: false,
     position: { x: 0, y: 550 },
     bgColor: '#ffffff',
     textColor: '#000000',
@@ -400,6 +406,13 @@ export const instrumentsFeature = createFeature({
       (state, { instrumentType, show }): typeof initialState => ({
         ...state,
         [instrumentType]: { ...state[instrumentType], show },
+      }),
+    ),
+    on(
+      AircraftBarInstrumentWidgetSettingsActions.compactChanged,
+      (state, { instrumentType, compact }): typeof initialState => ({
+        ...state,
+        [instrumentType]: { ...state[instrumentType], compact },
       }),
     ),
     on(

@@ -49,6 +49,15 @@ export class AircraftBarInstrumentWidgetSettingsComponent {
     );
   }
 
+  setCompact(compact: boolean): void {
+    this.store.dispatch(
+      AircraftBarInstrumentWidgetSettingsActions.compactChanged({
+        compact,
+        instrumentType: this.type(),
+      }),
+    );
+  }
+
   setTextColor(textColor: string): void {
     this.store.dispatch(
       AircraftBarInstrumentWidgetSettingsActions.textColorChanged({

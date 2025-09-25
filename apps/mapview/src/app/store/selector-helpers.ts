@@ -63,6 +63,7 @@ export function barExtraValues(
     minShownValue: number;
     maxShownValue: number;
     show: boolean;
+    compact: boolean;
   },
   instrumentsConnected: boolean,
 ) {
@@ -86,6 +87,7 @@ export function barExtraValues(
     100;
   return {
     show: true,
+    compact: settings.compact,
     alert:
       currentValue < settings.alertLower || currentValue > settings.alertUpper,
     caution:

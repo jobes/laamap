@@ -82,6 +82,7 @@ exports[`Selector helpers barExtraValues should map when value bigger than max b
 {
   "alert": true,
   "caution": true,
+  "compact": false,
   "currentValue": 270,
   "show": true,
   "valuePercentage": 100,
@@ -92,6 +93,7 @@ exports[`Selector helpers barExtraValues should map when value lower than min ba
 {
   "alert": true,
   "caution": true,
+  "compact": false,
   "currentValue": 30,
   "show": true,
   "valuePercentage": 0,
@@ -102,6 +104,7 @@ exports[`Selector helpers barExtraValues should map with lower alert 1`] = `
 {
   "alert": true,
   "caution": true,
+  "compact": false,
   "currentValue": 60,
   "show": true,
   "valuePercentage": 5,
@@ -112,6 +115,7 @@ exports[`Selector helpers barExtraValues should map with lower caution 1`] = `
 {
   "alert": false,
   "caution": true,
+  "compact": false,
   "currentValue": 140,
   "show": true,
   "valuePercentage": 45,
@@ -122,6 +126,7 @@ exports[`Selector helpers barExtraValues should map with no caution and alert 1`
 {
   "alert": false,
   "caution": false,
+  "compact": false,
   "currentValue": 170,
   "show": true,
   "valuePercentage": 60,
@@ -132,6 +137,7 @@ exports[`Selector helpers barExtraValues should map with upper alert 1`] = `
 {
   "alert": true,
   "caution": true,
+  "compact": false,
   "currentValue": 210,
   "show": true,
   "valuePercentage": 80,
@@ -142,6 +148,7 @@ exports[`Selector helpers barExtraValues should map with upper caution 1`] = `
 {
   "alert": false,
   "caution": true,
+  "compact": false,
   "currentValue": 190,
   "show": true,
   "valuePercentage": 70,

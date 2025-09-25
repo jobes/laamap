@@ -114,6 +114,10 @@ export const AircraftBarInstrumentWidgetSettingsActions = createActionGroup({
   source: 'Aircraft bar instrument settings',
   events: {
     show: props<{ show: boolean; instrumentType: PlaneInstrumentsBarKeys }>(),
+    'Compact Changed': props<{
+      compact: boolean;
+      instrumentType: PlaneInstrumentsBarKeys;
+    }>(),
     'Bg Color Changed': props<{
       bgColor: string;
       instrumentType: PlaneInstrumentsBarKeys;

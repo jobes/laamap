@@ -37,15 +37,19 @@ export class AirTemperatureWidgetComponent {
     this.containers,
   );
 
-  show = computed(
-    () =>
-      this.store.selectSignal(instrumentsFeature.selectAirTemperature)().show &&
-      this.store.selectSignal(planeInstrumentsFeature.selectConnected)(),
-  );
-  settings = this.store.selectSignal(instrumentsFeature.selectAirTemperature);
   temperature = this.store.selectSignal(
     planeInstrumentsFeature.selectAirTemperature,
   );
+
+  hasTemperature = computed(() => this.temperature() !== null);
+
+  show = computed(
+    () =>
+      this.store.selectSignal(instrumentsFeature.selectAirTemperature)().show &&
+      this.store.selectSignal(planeInstrumentsFeature.selectConnected)() &&
+      this.hasTemperature(),
+  );
+  settings = this.store.selectSignal(instrumentsFeature.selectAirTemperature);
 
   dragEnded(event: CdkDragEnd): void {
     this.store.dispatch(
