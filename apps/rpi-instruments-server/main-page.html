@@ -59,7 +59,7 @@
       requestWakeLock();
       // Re-request wake lock on visibility change
       document.addEventListener('visibilitychange', () => {
-        if (wakeLock !== null && document.visibilityState === 'visible') {
+        if (document.visibilityState === 'visible') {
           requestWakeLock();
         }
       });
