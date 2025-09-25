@@ -260,7 +260,8 @@
       "upperAlertValue": "Upper warning value",
       "maxShownValue": "Maximum shown value",
       "textColor": "Text color",
-      "bgColor": "Background color"
+      "bgColor": "Background color",
+      "compact": "Compact mode"
     }
   },
   "navigationDialog": {

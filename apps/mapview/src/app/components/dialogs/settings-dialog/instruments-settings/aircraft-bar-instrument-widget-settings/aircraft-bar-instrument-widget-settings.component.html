@@ -4,87 +4,94 @@
   <mat-expansion-panel-header>
     <mat-panel-title>{{ t(type()) }}</mat-panel-title>
   </mat-expansion-panel-header>
-  <mat-slide-toggle
-    [ngModel]="settings().show"
-    (ngModelChange)="setShow($event)"
-    >{{ t('show') }}
-  </mat-slide-toggle>
-  <mat-form-field>
-    <mat-label>{{ t('textColor') }}</mat-label>
-    <input
-      matInput
-      type="color"
-      [ngModel]="settings().textColor"
-      (ngModelChange)="setTextColor($event)"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>{{ t('bgColor') }}</mat-label>
-    <input
-      matInput
-      type="color"
-      [ngModel]="settings().bgColor"
-      (ngModelChange)="setBgColor($event)"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>{{ t('minShownValue') }}</mat-label>
-    <input
-      matInput
-      type="number"
-      [ngModel]="settings().minShownValue"
-      (ngModelChange)="setMinShownValue($event)"
-      [ngModelOptions]="{ updateOn: 'blur' }"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>{{ t('lowerAlertValue') }}</mat-label>
-    <input
-      matInput
-      type="number"
-      [ngModel]="settings().alertLower"
-      (ngModelChange)="setLowerAlertValue($event)"
-      [ngModelOptions]="{ updateOn: 'blur' }"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>{{ t('lowerCautionValue') }}</mat-label>
-    <input
-      matInput
-      type="number"
-      [ngModel]="settings().cautionLower"
-      (ngModelChange)="setLowerCautionValue($event)"
-      [ngModelOptions]="{ updateOn: 'blur' }"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>{{ t('upperCautionValue') }}</mat-label>
-    <input
-      matInput
-      type="number"
-      [ngModel]="settings().cautionUpper"
-      (ngModelChange)="setUpperCautionValue($event)"
-      [ngModelOptions]="{ updateOn: 'blur' }"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>{{ t('upperAlertValue') }}</mat-label>
-    <input
-      matInput
-      type="number"
-      [ngModel]="settings().alertUpper"
-      (ngModelChange)="setUpperAlertValue($event)"
-      [ngModelOptions]="{ updateOn: 'blur' }"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>{{ t('maxShownValue') }}</mat-label>
-    <input
-      matInput
-      type="number"
-      [ngModel]="settings().maxShownValue"
-      (ngModelChange)="setMaxShownValue($event)"
-      [ngModelOptions]="{ updateOn: 'blur' }"
-    />
-  </mat-form-field>
+  <div class="content">
+    <mat-slide-toggle
+      [ngModel]="settings().show"
+      (ngModelChange)="setShow($event)"
+      >{{ t('show') }}
+    </mat-slide-toggle>
+    <mat-slide-toggle
+      [ngModel]="settings().compact"
+      (ngModelChange)="setCompact($event)"
+      >{{ t('compact') }}
+    </mat-slide-toggle>
+    <mat-form-field>
+      <mat-label>{{ t('textColor') }}</mat-label>
+      <input
+        matInput
+        type="color"
+        [ngModel]="settings().textColor"
+        (ngModelChange)="setTextColor($event)"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('bgColor') }}</mat-label>
+      <input
+        matInput
+        type="color"
+        [ngModel]="settings().bgColor"
+        (ngModelChange)="setBgColor($event)"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('minShownValue') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="settings().minShownValue"
+        (ngModelChange)="setMinShownValue($event)"
+        [ngModelOptions]="{ updateOn: 'blur' }"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('lowerAlertValue') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="settings().alertLower"
+        (ngModelChange)="setLowerAlertValue($event)"
+        [ngModelOptions]="{ updateOn: 'blur' }"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('lowerCautionValue') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="settings().cautionLower"
+        (ngModelChange)="setLowerCautionValue($event)"
+        [ngModelOptions]="{ updateOn: 'blur' }"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('upperCautionValue') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="settings().cautionUpper"
+        (ngModelChange)="setUpperCautionValue($event)"
+        [ngModelOptions]="{ updateOn: 'blur' }"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('upperAlertValue') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="settings().alertUpper"
+        (ngModelChange)="setUpperAlertValue($event)"
+        [ngModelOptions]="{ updateOn: 'blur' }"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('maxShownValue') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        [ngModel]="settings().maxShownValue"
+        (ngModelChange)="setMaxShownValue($event)"
+        [ngModelOptions]="{ updateOn: 'blur' }"
+      />
+    </mat-form-field>
+  </div>
 </mat-expansion-panel>

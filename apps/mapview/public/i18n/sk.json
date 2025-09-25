@@ -260,7 +260,8 @@
       "upperAlertValue": "Vrchná hodnota varovania",
       "maxShownValue": "Maximálna zobrazená hodnota",
       "textColor": "Farba textu",
-      "bgColor": "Farba pozadia"
+      "bgColor": "Farba pozadia",
+      "compact": "Kompaktný režim"
     }
   },
   "navigationDialog": {
