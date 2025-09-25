@@ -43,6 +43,27 @@
     </style>
   </head>
   <body>
+    <script>
+      // Prevent display from sleeping using Wake Lock API if available
+      let wakeLock = null;
+      async function requestWakeLock() {
+        try {
+          if ('wakeLock' in navigator) {
+            wakeLock = await navigator.wakeLock.request('screen');
+          }
+        } catch (err) {
+          // Wake Lock request failed - ignore
+        }
+      }
+      // Request wake lock on page load
+      requestWakeLock();
+      // Re-request wake lock on visibility change
+      document.addEventListener('visibilitychange', () => {
+        if (wakeLock !== null && document.visibilityState === 'visible') {
+          requestWakeLock();
+        }
+      });
+    </script>
     <h1>{{ title }} engine and instruments</h1>
 
     <table>
