@@ -58,9 +58,16 @@
       // Request wake lock on page load
       requestWakeLock();
       // Re-request wake lock on visibility change
-      document.addEventListener('visibilitychange', () => {
+      document.addEventListener('visibilitychange', async () => {
         if (document.visibilityState === 'visible') {
           requestWakeLock();
+        } else if (document.visibilityState === 'hidden' && wakeLock) {
+          try {
+            await wakeLock.release();
+          } catch (err) {
+            // Ignore release errors
+          }
+          wakeLock = null;
         }
       });
     </script>
