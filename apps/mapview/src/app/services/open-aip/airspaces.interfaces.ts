@@ -1,4 +1,8 @@
-import { EHeightUnit, EReferenceDatum } from './airport.interfaces';
+import {
+  EFrequencyUnit,
+  EHeightUnit,
+  EReferenceDatum,
+} from './airport.interfaces';
 import { ECountries } from './country.interface';
 
 export enum EAirSpaceType {
@@ -78,7 +82,7 @@ export interface IAirspaceResponse {
   };
   frequencies: {
     value: string;
-    unit: 2;
+    unit: EFrequencyUnit.mhz;
     primary: boolean;
   }[];
 }

@@ -23,7 +23,7 @@ export enum EHeightUnit {
   flightLevel = 6,
 }
 
-enum EFrequencyUnit {
+export enum EFrequencyUnit {
   mhz = 2,
 }
 
