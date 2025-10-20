@@ -12,6 +12,7 @@ import {
   instrumentAltimeterSettingsActions,
   instrumentSettingsActions,
   instrumentSpeedSettingsActions,
+  radioSettingsActions,
   trackingSettingsActions,
   varioSettingsActions,
 } from '../../actions/settings.actions';
@@ -184,7 +185,9 @@ const initialState = {
     cautionUpper: 5500,
   },
   radio: {
+    show: true,
     position: { x: 0, y: 600 },
+    favorites: [{ frequency: 121.5, name: 'Emergency' }],
   },
   compass: {
     showWidget: true,
@@ -530,6 +533,67 @@ export const instrumentsFeature = createFeature({
         ...state,
         airTemperature: { ...state.airTemperature, show: enabled },
       }),
+    ),
+    on(
+      radioSettingsActions.enabledChanged,
+      (state, { enabled }): typeof initialState => ({
+        ...state,
+        radio: { ...state.radio, show: enabled },
+      }),
+    ),
+    on(
+      radioSettingsActions.favoriteFrequencyAdded,
+      (state, { frequency, name }): typeof initialState => ({
+        ...state,
+        radio: {
+          ...state.radio,
+          favorites: [...state.radio.favorites, { frequency, name }],
+        },
+      }),
+    ),
+    on(
+      radioSettingsActions.favoriteFrequencyRemoved,
+      (state, { index }): typeof initialState => ({
+        ...state,
+        radio: {
+          ...state.radio,
+          favorites: state.radio.favorites.filter((_, i) => i !== index),
+        },
+      }),
+    ),
+    on(
+      radioSettingsActions.favoriteFrequencyMovedUp,
+      (state, { index }): typeof initialState => {
+        if (index === 0) return state; // Can't move first item up
+        const newFavorites = [...state.radio.favorites];
+        const temp = newFavorites[index];
+        newFavorites[index] = newFavorites[index - 1];
+        newFavorites[index - 1] = temp;
+        return {
+          ...state,
+          radio: {
+            ...state.radio,
+            favorites: newFavorites,
+          },
+        };
+      },
+    ),
+    on(
+      radioSettingsActions.favoriteFrequencyMovedDown,
+      (state, { index }): typeof initialState => {
+        if (index === state.radio.favorites.length - 1) return state; // Can't move last item down
+        const newFavorites = [...state.radio.favorites];
+        const temp = newFavorites[index];
+        newFavorites[index] = newFavorites[index + 1];
+        newFavorites[index + 1] = temp;
+        return {
+          ...state,
+          radio: {
+            ...state.radio,
+            favorites: newFavorites,
+          },
+        };
+      },
     ),
   ),
   extraSelectors: (selectors) => ({

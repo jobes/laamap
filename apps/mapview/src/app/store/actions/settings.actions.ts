@@ -304,3 +304,14 @@ export const airTemperatureSettingsActions = createActionGroup({
     'Enabled changed': props<{ enabled: boolean }>(),
   },
 });
+
+export const radioSettingsActions = createActionGroup({
+  source: 'Radio Settings',
+  events: {
+    'Enabled changed': props<{ enabled: boolean }>(),
+    'Favorite frequency added': props<{ frequency: number; name: string }>(),
+    'Favorite frequency removed': props<{ index: number }>(),
+    'Favorite frequency moved up': props<{ index: number }>(),
+    'Favorite frequency moved down': props<{ index: number }>(),
+  },
+});

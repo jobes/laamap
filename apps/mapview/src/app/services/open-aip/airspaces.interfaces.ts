@@ -76,6 +76,11 @@ export interface IAirspaceResponse {
     unit: EHeightUnit;
     referenceDatum: EReferenceDatum;
   };
+  frequencies: {
+    value: string;
+    unit: 2;
+    primary: boolean;
+  }[];
 }
 
 export interface IAirspace extends IAirspaceResponse {

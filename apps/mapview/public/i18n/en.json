@@ -145,7 +145,18 @@
       "circlePositionFromBottom": "Circle movement from bottom",
       "circlePositionFromCenter": "Circle movement from center",
       "circleSize": "Circle size",
-      "airTemperature": "Air temperature"
+      "airTemperature": "Air temperature",
+      "radio": "Radio",
+      "radioFavorites": "Favorite Frequencies",
+      "radioFrequency": "Frequency (MHz)",
+      "radioName": "Radio Name",
+      "radioSave": "Save",
+      "required": "Required",
+      "nameTooShort": "Name too short",
+      "invalidFrequency": "Invalid frequency",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "delete": "Delete"
     },
     "gamepad": {
       "title": "Gamepad",
@@ -820,7 +831,10 @@
     "required": "Required",
     "invalidFrequency": "Invalid frequency",
     "nameTooShort": "Too short",
-    "filter": "Filter"
+    "filter": "Filter",
+    "airspace": "Airspace",
+    "airport": "Airport",
+    "favorite": "Favorite"
   },
   "shared": {
     "altitude": {

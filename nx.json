@@ -74,6 +74,7 @@
       "unitTestRunner": "jest"
     },
     "@nx/angular:component": {
+      "style": "scss",
       "type": "component"
     },
     "@schematics/angular:component": {

@@ -46,17 +46,64 @@
     <mat-list>
       @for (airport of airports(); track airport.name) {
         <mat-list-item>
-          <span matListItemTitle>{{ airport.name }}</span>
+          <span matListItemTitle>{{ t('airport') }} {{ airport.name }}</span>
 
           @for (frequency of airport.frequencies; track frequency.value) {
             <span
               class="selectable-frequency"
               matListItemLine
               tabindex="0"
-              (keydown.enter)="setSelectedFrequency(frequency)"
-              (click)="setSelectedFrequency(frequency)"
+              (keydown.enter)="setSelectedAirportFrequency(frequency)"
+              (click)="setSelectedAirportFrequency(frequency)"
               >{{ frequency.name }} {{ frequency.value
               }}<mat-icon>upload</mat-icon></span
+            >
+          }
+        </mat-list-item>
+
+        <mat-divider></mat-divider>
+      }
+      @for (favorite of favorites(); track $index) {
+        <mat-list-item>
+          <span matListItemTitle>{{ t('favorite') }} {{ favorite.name }}</span>
+          <span
+            class="selectable-frequency"
+            matListItemLine
+            tabindex="0"
+            (keydown.enter)="setSelectedFavoriteFrequency(favorite)"
+            (click)="setSelectedFavoriteFrequency(favorite)"
+            >{{ favorite.frequency }}<mat-icon>upload</mat-icon></span
+          >
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      }
+      @for (airspace of airspaces(); track airspace.id) {
+        <mat-list-item>
+          <span matListItemTitle
+            >{{ t('airspace') }} {{ airspace.properties.name }}</span
+          >
+
+          @for (
+            frequency of airspace.properties.frequencies;
+            track frequency.value
+          ) {
+            <span
+              class="selectable-frequency"
+              matListItemLine
+              tabindex="0"
+              (keydown.enter)="
+                setSelectedAirspaceFrequency(
+                  airspace.properties.name,
+                  frequency
+                )
+              "
+              (click)="
+                setSelectedAirspaceFrequency(
+                  airspace.properties.name,
+                  frequency
+                )
+              "
+              >{{ frequency.value }}<mat-icon>upload</mat-icon></span
             >
           }
         </mat-list-item>
