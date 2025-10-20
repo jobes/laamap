@@ -145,7 +145,18 @@
       "circlePositionFromBottom": "Posun kruhu od spodku",
       "circlePositionFromCenter": "Posun kruhu od stredu",
       "circleSize": "Veľkosť kruhu",
-      "airTemperature": "Teplota vzduchu"
+      "airTemperature": "Teplota vzduchu",
+      "radio": "Rádio",
+      "radioFavorites": "Obľúbené Frekvence",
+      "radioFrequency": "Frekvencia (MHz)",
+      "radioName": "Názov Rádia",
+      "radioSave": "Uložiť",
+      "required": "Povinné",
+      "nameTooShort": "Názov je príliš krátky",
+      "invalidFrequency": "Neplatná frekvencia",
+      "moveUp": "Posunúť hore",
+      "moveDown": "Posunúť dole",
+      "delete": "Vymazať"
     },
     "gamepad": {
       "title": "Gamepad",
@@ -820,7 +831,10 @@
     "required": "Povinné",
     "invalidFrequency": "Neplatná frekvencia",
     "nameTooShort": "Príliž krátke",
-    "filter": "Filter"
+    "filter": "Filter",
+    "airspace": "Vzdušný priestor",
+    "airport": "Letisko",
+    "favorite": "Obľúbené"
   },
   "shared": {
     "altitude": {

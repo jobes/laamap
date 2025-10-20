@@ -50,6 +50,9 @@ export class RadioWidgetComponent {
   errorState = this.store.selectSignal(
     planeInstrumentsFeature.selectRadioError,
   );
+  enabled = computed(
+    () => this.store.selectSignal(instrumentsFeature.selectRadio)().show,
+  );
 
   dragEnded(event: CdkDragEnd): void {
     setTimeout(() => {

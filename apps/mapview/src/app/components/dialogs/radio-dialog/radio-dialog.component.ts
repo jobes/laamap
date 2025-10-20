@@ -1,12 +1,10 @@
 import { Component, computed, inject, model } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +17,7 @@ import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import * as turf from '@turf/turf';
-import { FeatureCollection, Point } from 'geojson';
+import { Feature, FeatureCollection, Point, Polygon } from 'geojson';
 import { GeoJSONSource } from 'maplibre-gl';
 import { combineLatest, from, map } from 'rxjs';
 
@@ -28,9 +26,12 @@ import {
   IAirport,
   IAirportFrequency,
 } from '../../../services/open-aip/airport.interfaces';
+import { IAirspace } from '../../../services/open-aip/airspaces.interfaces';
+import { radioFrequencyValidator } from '../../../services/validators/radio.validators';
 import { radioActions } from '../../../store/actions/instrument.actions';
 import { mapFeature } from '../../../store/features/map.feature';
 import { planeInstrumentsFeature } from '../../../store/features/plane-instruments.feature';
+import { instrumentsFeature } from '../../../store/features/settings/instruments.feature';
 
 @Component({
   selector: 'laamap-radio-dialog',
@@ -101,8 +102,46 @@ export class RadioDialogComponent {
                   .includes(filterText.toUpperCase()),
               ),
           )
-          .sort((a, b) => this.sortFrequencies(a, b, filterText))
-          .slice(0, 10),
+          .sort((a, b) => this.sortAirportFrequencies(a, b, filterText))
+          .slice(0, 5),
+      ),
+    ),
+  );
+
+  airspaces = toSignal(
+    combineLatest({
+      filterText: toObservable(this.filterText),
+      airspaces: from(
+        (
+          this.mapService.instance.getSource('airspacesSource') as GeoJSONSource
+        ).getData() as Promise<FeatureCollection<Polygon, IAirspace>>,
+      ),
+    }).pipe(
+      map(({ airspaces, filterText }) =>
+        airspaces.features
+          .filter((feature) => feature.properties?.frequencies?.length > 0)
+          .filter((airspaces) =>
+            airspaces.properties.name
+              .toUpperCase()
+              .includes(filterText.toUpperCase()),
+          )
+          .sort((a, b) => this.sortAirspaceFrequencies(a, b, filterText))
+          .slice(0, 5),
+      ),
+    ),
+  );
+
+  favorites = toSignal(
+    combineLatest({
+      filterText: toObservable(this.filterText),
+      radio: this.store.select(instrumentsFeature.selectRadio),
+    }).pipe(
+      map(({ filterText, radio }) =>
+        radio.favorites
+          .filter((fav) =>
+            fav.name.toUpperCase().includes(filterText.toUpperCase()),
+          )
+          .slice(0, 5),
       ),
     ),
   );
@@ -114,7 +153,7 @@ export class RadioDialogComponent {
         Validators.required,
         Validators.min(118),
         Validators.max(136.99),
-        this.freqValidator,
+        radioFrequencyValidator,
       ],
     }),
     name: new FormControl(this.activeFreqName(), {
@@ -132,7 +171,7 @@ export class RadioDialogComponent {
     }
   }
 
-  setSelectedFrequency(data: IAirportFrequency): void {
+  setSelectedAirportFrequency(data: IAirportFrequency): void {
     this.store.dispatch(
       radioActions.setFrequency({
         frequency: +data.value,
@@ -142,7 +181,33 @@ export class RadioDialogComponent {
     this.dialogRef.close();
   }
 
-  private sortFrequencies(
+  setSelectedFavoriteFrequency(data: {
+    frequency: number;
+    name: string;
+  }): void {
+    this.store.dispatch(
+      radioActions.setFrequency({
+        frequency: data.frequency,
+        name: data.name,
+      }),
+    );
+    this.dialogRef.close();
+  }
+
+  setSelectedAirspaceFrequency(
+    name: string,
+    data: { value: string; unit: 2; primary: boolean },
+  ): void {
+    this.store.dispatch(
+      radioActions.setFrequency({
+        frequency: +data.value,
+        name: name,
+      }),
+    );
+    this.dialogRef.close();
+  }
+
+  private sortAirportFrequencies(
     a: {
       name: string;
       frequencies: IAirportFrequency[];
@@ -187,19 +252,38 @@ export class RadioDialogComponent {
     return 0;
   }
 
-  private freqValidator(
-    control: AbstractControl<number, number>,
-  ): ValidationErrors | null {
-    const value = control.value;
-    if (+value === value) {
-      const kHz = Math.round((value - Math.floor(value)) * 1000);
-      if ((value * 1000) % 5 === 0 && (kHz + 5) % 25 !== 0) {
-        return null;
+  private sortAirspaceFrequencies(
+    a: Feature<Polygon, IAirspace>,
+    b: Feature<Polygon, IAirspace>,
+    filterText: string,
+  ): number {
+    const gpsLocation = this.location();
+    if (gpsLocation && !filterText) {
+      // sort by distance
+      const pointCurrent = turf.point([
+        gpsLocation.coords.longitude,
+        gpsLocation.coords.latitude,
+      ]);
+      const distanceA = turf.pointToPolygonDistance(pointCurrent, a.geometry);
+      const distanceB = turf.pointToPolygonDistance(pointCurrent, b.geometry);
+      if (distanceA < distanceB) {
+        return -1;
       }
+      if (distanceA > distanceB) {
+        return 1;
+      }
+      return 0;
     }
 
-    return {
-      invalidFreq: true,
-    };
+    //sort alphabetically
+    const nameA = a.properties.name.toUpperCase();
+    const nameB = b.properties.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
   }
 }

@@ -19,6 +19,7 @@ import { AirTemperatureSettingsComponent } from './air-temperature-settings/air-
 import { AircraftBarInstrumentWidgetSettingsComponent } from './aircraft-bar-instrument-widget-settings/aircraft-bar-instrument-widget-settings.component';
 import { AltitudeWidgetSettingsComponent } from './altitude-widget-settings/altitude-widget-settings.component';
 import { CompassSettingsComponent } from './compass-settings/compass-settings.component';
+import { RadioSettingsComponent } from './radio-settings/radio-settings.component';
 import { SpeedWidgetSettingsComponent } from './speed-widget-settings/speed-widget-settings.component';
 import { TrackingWidgetSettingsComponent } from './tracking-widget-settings/tracking-widget-settings.component';
 import { VarioWidgetSettingsComponent } from './vario-widget-settings/vario-widget-settings.component';
@@ -44,6 +45,7 @@ import { VarioWidgetSettingsComponent } from './vario-widget-settings/vario-widg
     TrackingWidgetSettingsComponent,
     AircraftBarInstrumentWidgetSettingsComponent,
     CompassSettingsComponent,
+    RadioSettingsComponent,
     AirTemperatureSettingsComponent,
   ],
 })

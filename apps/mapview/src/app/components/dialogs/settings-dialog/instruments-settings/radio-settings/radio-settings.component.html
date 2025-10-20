@@ -1,0 +1,93 @@
+<mat-expansion-panel *transloco="let t; prefix: 'settingDialog.instruments'">
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ t('radio') }}</mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-slide-toggle
+    [ngModel]="settings().show"
+    (ngModelChange)="enableWidget($event)"
+  >
+    {{ t('enableWidget') }}
+  </mat-slide-toggle>
+
+  <h4>{{ t('radioFavorites') }}</h4>
+
+  <!-- Form to add favorite frequency -->
+  <form [formGroup]="favoriteForm" (ngSubmit)="addFavorite()">
+    <mat-form-field>
+      <mat-label>{{ t('radioFrequency') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="frequency"
+        min="118"
+        max="136.99"
+        step="0.005"
+      />
+      @if (favoriteForm.hasError('required', 'frequency')) {
+        <mat-error>{{ t('required') }}</mat-error>
+      } @else if (
+        favoriteForm.hasError('invalidFreq', 'frequency') ||
+        favoriteForm.hasError('min', 'frequency') ||
+        favoriteForm.hasError('max', 'frequency')
+      ) {
+        <mat-error>{{ t('invalidFrequency') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{ t('radioName') }}</mat-label>
+      <input matInput type="text" formControlName="name" />
+      @if (favoriteForm.hasError('required', 'name')) {
+        <mat-error>{{ t('required') }}</mat-error>
+      } @else if (favoriteForm.hasError('minlength', 'name')) {
+        <mat-error>{{ t('nameTooShort') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <button mat-raised-button type="submit" [disabled]="!favoriteForm.valid">
+      {{ t('radioSave') }}
+    </button>
+  </form>
+
+  <!-- List of favorite frequencies -->
+  @if (settings().favorites && settings().favorites.length > 0) {
+    <mat-list>
+      @for (favorite of settings().favorites; track $index) {
+        <mat-list-item>
+          <span matListItemTitle>{{ favorite.name }}</span>
+          <span matListItemLine>{{ favorite.frequency }} MHz</span>
+          <div matListItemMeta>
+            <div class="frequency-controls">
+              <button
+                mat-icon-button
+                (click)="removeFavorite($index)"
+                [matTooltip]="t('delete')"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+              <div class="move-icons">
+                <button
+                  mat-icon-button
+                  (click)="moveFavoriteUp($index)"
+                  [disabled]="$index === 0"
+                  [matTooltip]="t('moveUp')"
+                >
+                  <mat-icon>keyboard_arrow_up</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  (click)="moveFavoriteDown($index)"
+                  [disabled]="$index === settings().favorites.length - 1"
+                  [matTooltip]="t('moveDown')"
+                >
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-list-item>
+      }
+    </mat-list>
+  }
+</mat-expansion-panel>

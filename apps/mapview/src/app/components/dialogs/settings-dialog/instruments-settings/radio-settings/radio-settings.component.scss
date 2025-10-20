@@ -1,0 +1,34 @@
+mat-list-item {
+  &:hover {
+    background-color: var(--hover-color);
+  }
+}
+
+.frequency-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  .move-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  button {
+    min-width: 2.25rem;
+    width: 2.25rem;
+    height: 2.25rem;
+
+    mat-icon {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.mdc-list-item--with-trailing-meta.mdc-list-item--with-two-lines
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mdc-list-item__end::before {
+  display: none;
+}
