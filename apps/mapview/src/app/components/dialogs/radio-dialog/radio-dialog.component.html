@@ -63,7 +63,7 @@
 
         <mat-divider></mat-divider>
       }
-      @for (favorite of favorites(); track $index) {
+      @for (favorite of favorites(); track favorite) {
         <mat-list-item>
           <span matListItemTitle>{{ t('favorite') }} {{ favorite.name }}</span>
           <span

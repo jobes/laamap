@@ -566,9 +566,10 @@ export const instrumentsFeature = createFeature({
       (state, { index }): typeof initialState => {
         if (index === 0) return state; // Can't move first item up
         const newFavorites = [...state.radio.favorites];
-        const temp = newFavorites[index];
-        newFavorites[index] = newFavorites[index - 1];
-        newFavorites[index - 1] = temp;
+        [newFavorites[index - 1], newFavorites[index]] = [
+          newFavorites[index],
+          newFavorites[index - 1],
+        ];
         return {
           ...state,
           radio: {
