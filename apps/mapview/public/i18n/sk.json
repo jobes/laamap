@@ -937,7 +937,8 @@
     },
     "radio": {
       "title": "Rádio",
-      "error": "Chyba"
+      "error": "Chyba",
+      "unknown": "Neznáme"
     },
     "compass": {
       "header": "Kurz"

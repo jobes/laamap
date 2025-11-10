@@ -937,7 +937,8 @@
     },
     "radio": {
       "title": "Radio",
-      "error": "Error"
+      "error": "Error",
+      "unknown": "Unknown"
     },
     "compass": {
       "header": "Course"

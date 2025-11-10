@@ -1,4 +1,4 @@
-@if (activeFreq() && enabled()) {
+@if (enabled() && show()) {
   <ng-template transloco let-t translocoRead="widgets.radio">
     <div
       class="container"
@@ -25,7 +25,7 @@
         }
       </h6>
       <div class="value">
-        {{ activeName() }}
+        {{ activeName() || t('unknown') }}
       </div>
     </div>
   </ng-template>
