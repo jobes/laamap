@@ -1,6 +1,7 @@
 import serial
 import asyncio
 import math
+import RPi.GPIO as GPIO
 from settings import values, units, setValue, log as logger, arrivalMessagesHandlers
 
 radioActiveFreq = None
@@ -9,6 +10,7 @@ radioStandbyFreq = None
 radioStandbyFreqName = None
 ser = None
 dataInProgress = None
+transmissionRelayPin = 16  # GPIO pin for transmit control
 
 def arrivalMessagesHandler(name, msg):
 	global dataInProgress
@@ -23,8 +25,22 @@ def arrivalMessagesHandler(name, msg):
 			logger.debug('[radio] send to radio active freq '+str(name8chars)+ '; '+str(freqMhz)+'; '+str(channel)+ ';'+str(data))
 			ser.write(data)
 			dataInProgress = [{'name': 'radioActiveFreq', 'value':float(freq)},{'name': 'radioActiveFreqName', 'value':name}]
+	elif name == 'radioTxState':
+		if msg == 1:
+			logger.debug('[radio] start transmit')
+			GPIO.output(transmissionRelayPin, GPIO.LOW)
+		else:
+			logger.debug('[radio] stop transmit')
+			GPIO.output(transmissionRelayPin, GPIO.HIGH)
 
 def init():
+	logger.debug('[radio] starting RADIO')
+	GPIO.setmode(GPIO.BCM)
+	GPIO.setwarnings(False)
+	GPIO.setup(transmissionRelayPin, GPIO.OUT)
+	GPIO.output(transmissionRelayPin, GPIO.HIGH)
+	logger.debug('[radio] relay initialized')
+
 	arrivalMessagesHandlers.append(arrivalMessagesHandler)
 	values.update({
 		"radioActiveFreq":None,

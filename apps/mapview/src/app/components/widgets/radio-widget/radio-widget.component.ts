@@ -32,6 +32,7 @@ export class RadioWidgetComponent {
   private readonly dialog = inject(MatDialog);
   private dragging = false;
 
+  show = this.store.selectSignal(planeInstrumentsFeature.selectConnected);
   safePosition = this.safePositionService.safePositionSignal(
     computed(
       () => this.store.selectSignal(instrumentsFeature.selectRadio)().position,
