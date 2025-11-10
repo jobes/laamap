@@ -18,6 +18,7 @@ import {
 } from 'rxjs';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 
+import { GamepadHandlerService } from '../../services/gamepad-handler/gamepad-handler.service';
 import { instrumentsEffectsActions } from '../actions/effects.actions';
 import { radioActions } from '../actions/instrument.actions';
 import { mapFeature } from '../features/map.feature';
@@ -31,6 +32,7 @@ export class InstrumentsEffects {
   private readonly actions$ = inject(Actions);
   private readonly transloco = inject(TranslocoService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly gamepadHandlerService = inject(GamepadHandlerService);
   private instrumentWebSocket = null as null | WebSocketSubject<{
     name: keyof IPlaneInstruments;
     value: string | number | null;
@@ -98,6 +100,20 @@ export class InstrumentsEffects {
           this.instrumentWebSocket?.next({
             name: 'radioActiveFreq',
             value: `${frequency}:${name}`,
+          }),
+        ),
+      );
+    },
+    { dispatch: false },
+  );
+
+  radioTransmissionRequested$ = createEffect(
+    () => {
+      return this.gamepadHandlerService.radioTransmissionRequested$.pipe(
+        tap((radioTransmit) =>
+          this.instrumentWebSocket?.next({
+            name: 'radioTxState',
+            value: radioTransmit ? 1 : 0,
           }),
         ),
       );

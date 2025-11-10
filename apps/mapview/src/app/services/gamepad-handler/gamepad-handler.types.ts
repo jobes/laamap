@@ -32,4 +32,5 @@ export type GamePadShortCutName =
   | 'nextField'
   | 'disabled'
   | 'previousField'
-  | 'radioDialog';
+  | 'radioDialog'
+  | 'radioTransmit';

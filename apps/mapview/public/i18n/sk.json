@@ -186,7 +186,8 @@
       "zoomOut": "Vzdialiť",
       "openGlobalSearch": "Otvor globálne hladanie",
       "disabled": "Blokovanie/Odblokovanie",
-      "radioDialog": "Rádio frekvencie"
+      "radioDialog": "Rádio frekvencie",
+      "radioTransmit": "Rádio vysielanie"
     },
     "contactMe": {
       "title": "Kontakt",
