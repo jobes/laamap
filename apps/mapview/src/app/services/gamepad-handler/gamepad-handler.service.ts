@@ -157,6 +157,9 @@ export class GamepadHandlerService {
     if (this.globalMenuHandler.processGlobalSearch(old, active, definition)) {
       return;
     }
+    if (this.globalMenuHandler.processRadioDialog(old, active, definition)) {
+      return;
+    }
     if (
       actionFirstTime(definition.openNavigation, active, old, () => {
         (
@@ -222,9 +225,6 @@ export class GamepadHandlerService {
             clientY: this.map._canvas.offsetHeight / 2,
           }),
         );
-        setTimeout(() => {
-          emulateTab.backwards();
-        }, 1000);
       })
     ) {
       return true;
