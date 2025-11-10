@@ -31,4 +31,5 @@ export type GamePadShortCutName =
   | 'dialogDo'
   | 'nextField'
   | 'disabled'
-  | 'previousField';
+  | 'previousField'
+  | 'radioDialog';

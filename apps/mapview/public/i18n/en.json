@@ -185,7 +185,8 @@
       "xMoveTop": "Move up",
       "zoomOut": "Zoom out",
       "openGlobalSearch": "Open global search",
-      "disabled": "Block/Unblock"
+      "disabled": "Block/Unblock",
+      "radioDialog": "Radio frequencies"
     },
     "contactMe": {
       "title": "Contact",

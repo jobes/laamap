@@ -81,7 +81,7 @@ export class RadioWidgetComponent {
     this.dialog
       .open(RadioDialogComponent, {
         maxWidth: '100%',
-        id: 'altimeterQuickSet',
+        id: 'radioFrequencySet',
       })
       .afterClosed();
   }

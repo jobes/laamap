@@ -118,6 +118,10 @@ export const gamepadInitialState: {
       index: 0,
       button: 3,
     },
+    radioDialog: {
+      index: 0,
+      button: 8,
+    },
   },
   widget: {
     position: {

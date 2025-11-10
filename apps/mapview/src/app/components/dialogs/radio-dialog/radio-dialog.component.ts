@@ -1,4 +1,4 @@
-import { Component, computed, inject, model } from '@angular/core';
+import { Component, OnInit, computed, inject, model } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -8,7 +8,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -50,10 +54,11 @@ import { instrumentsFeature } from '../../../store/features/settings/instruments
     ReactiveFormsModule,
   ],
 })
-export class RadioDialogComponent {
+export class RadioDialogComponent implements OnInit {
   private readonly store = inject(Store);
   private readonly dialogRef = inject(MatDialogRef<RadioDialogComponent>);
   private readonly mapService = inject(MapService);
+  private readonly fromGamepad = inject(MAT_DIALOG_DATA)?.fromGamepad;
 
   activeFreq = computed(
     () =>
@@ -161,6 +166,17 @@ export class RadioDialogComponent {
       validators: [Validators.required, Validators.minLength(3)],
     }),
   });
+
+  ngOnInit(): void {
+    if (this.fromGamepad) {
+      // focus first frequency in list, has to wait until dialog is fully opened, animation ended
+      setTimeout(() => {
+        const focusElm: HTMLInputElement | null =
+          document.querySelector('[matListItemLine]');
+        focusElm?.focus();
+      }, 250);
+    }
+  }
 
   setFrequency(): void {
     if (this.frequencyForm.valid) {
