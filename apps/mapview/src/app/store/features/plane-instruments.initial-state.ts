@@ -9,13 +9,13 @@ const planeInstrumentsBarInitialState = {
 
 export const planeInstrumentsInitialState = {
   ...planeInstrumentsBarInitialState,
-  cpuUsage: 12 as number | null, // for checking if instruments are connected
-  ramUsage: 8 as number | null,
-  cpuTemp: 45 as number | null,
-  airPressure: 1013 as number | null,
-  ias: 250 as number | null,
-  radioActiveFreq: 121.5 as number | null,
-  radioActiveFreqName: 'Emergency' as string | null,
+  cpuUsage: null as number | null, // for checking if instruments are connected
+  ramUsage: null as number | null,
+  cpuTemp: null as number | null,
+  airPressure: null as number | null,
+  ias: null as number | null,
+  radioActiveFreq: null as number | null,
+  radioActiveFreqName: null as string | null,
   radioStandbyFreq: null as number | null,
   radioStandbyFreqName: null as string | null,
   radioError: null as null | boolean,

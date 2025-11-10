@@ -1,4 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { concatLatestFrom } from '@ngrx/operators';
@@ -21,6 +22,7 @@ import {
 import { gamepadFeature } from '../../store/features/settings/gamepad.feature';
 import { GamepadGlobalMenuHandler } from './gamepad-global-menu-handler';
 import {
+  actionActive,
   actionDefToNumber,
   actionFirstTime,
 } from './gamepad-handler.functions';
@@ -41,6 +43,7 @@ export class GamepadHandlerService {
   private readonly gamePadSubj$ = new Subject<Gamepad[]>();
 
   disabled = signal(true);
+  disabled$ = toObservable(this.disabled);
   settingMode = signal(false);
   gamePadChangingView = signal(false);
   gamePadChangingViewVisibility = computed(() =>
@@ -88,6 +91,18 @@ export class GamepadHandlerService {
     ),
   );
 
+  radioTransmissionRequested$ = this.gamePadActive$.pipe(
+    concatLatestFrom(() => [
+      this.store.select(gamepadFeature.selectShortCuts),
+      this.disabled$,
+    ]),
+    map(
+      ([actions, definition, disabled]) =>
+        actionActive(definition.radioTransmit, actions) && !disabled,
+    ),
+    distinctUntilChanged(),
+  );
+
   private map!: Map;
 
   init(map: Map) {
@@ -110,7 +125,10 @@ export class GamepadHandlerService {
       )
       .subscribe({
         next: ([[old, active], definition]) => {
-          if (this.disabled()) {
+          if (
+            this.disabled() ||
+            actionActive(definition.radioTransmit, active)
+          ) {
             this.tryUnblock(old, active, definition);
           } else if (this.globalMenuHandler.searchComponent?.isOpen()) {
             this.globalMenuHandler.reactOnGlobalSearchEvents(

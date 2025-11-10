@@ -186,7 +186,8 @@
       "zoomOut": "Zoom out",
       "openGlobalSearch": "Open global search",
       "disabled": "Block/Unblock",
-      "radioDialog": "Radio frequencies"
+      "radioDialog": "Radio frequencies",
+      "radioTransmit": "Radio transmit"
     },
     "contactMe": {
       "title": "Contact",

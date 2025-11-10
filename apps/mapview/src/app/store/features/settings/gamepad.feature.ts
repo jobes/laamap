@@ -122,6 +122,10 @@ export const gamepadInitialState: {
       index: 0,
       button: 8,
     },
+    radioTransmit: {
+      index: 0,
+      button: 4,
+    },
   },
   widget: {
     position: {
