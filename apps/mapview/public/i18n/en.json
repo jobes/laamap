@@ -99,6 +99,7 @@
       "description": "Measurements",
       "showOnlyOnActiveGps": "Show only on active GPS",
       "speedMeter": "Speed meter",
+      "speedSource": "Speed source",
       "altiMeter": "Altimeter",
       "varioMeter": "Variometer",
       "minSpeedKph": "Minimal speed (kph)",
@@ -120,6 +121,10 @@
       "relativeHeightSource": "Relative altitude source",
       "airplaneInstrumentsUrl": "Airplane instruments URL",
       "getIpFromBle": "Get IP from aircraft bluetooth",
+      "speedSourceType": {
+        "gps": "GPS",
+        "ias": "IAS"
+      },
       "ble": {
         "notSupported": "Web Bluetooth is not supported in your browser",
         "connectionError": "Failed to connect to aircraft bluetooth"
@@ -888,7 +893,8 @@
   },
   "widgets": {
     "speedMeter": {
-      "header": "Speed"
+      "groundSpeed": "Ground Speed",
+      "airSpeed": "Indicated Airspeed"
     },
     "altimeter": {
       "header": "Altitude"

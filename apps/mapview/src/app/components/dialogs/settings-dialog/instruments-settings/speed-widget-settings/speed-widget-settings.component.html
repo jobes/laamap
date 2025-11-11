@@ -7,6 +7,17 @@
       <ng-container
         *ngrxLet="speedWidgetColorsSettings$ as speedWidgetColorsSettings"
       >
+        <mat-form-field>
+          <mat-label>{{ t('speedSource') }}</mat-label>
+          <mat-select
+            multiple
+            [ngModel]="speedWidgetColorsSettings.selectedSources"
+            (ngModelChange)="setSelectedSpeedSources($event)"
+          >
+            <mat-option value="gps">{{ t('speedSourceType.gps') }}</mat-option>
+            <mat-option value="ias">{{ t('speedSourceType.ias') }}</mat-option>
+          </mat-select>
+        </mat-form-field>
         @for (
           speed of speedWidgetColorsSettings.colorsBySpeed;
           track speed.minSpeed;

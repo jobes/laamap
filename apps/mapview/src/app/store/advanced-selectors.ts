@@ -41,7 +41,7 @@ export const selectLineDefinitionSegmentGeoJson = createSelector(
         geoLocation.coords.longitude,
         geoLocation.coords.latitude,
       ];
-      const distanceKm = ((geoLocation.coords.speed ?? 0) * seconds) / 1000;
+      const distanceKm = ((geoLocation.coords.speed ?? 0) * seconds) / 1000; // GPS speed has to be used as this is for line on ground
       const pointList = Array.from(Array(segmentCount).keys()).reduce(
         (acc, index) => [
           ...acc,
@@ -81,7 +81,7 @@ export const selectLineDefinitionBorderGeoJson = createSelector(
   (minSpeedHit, geoLocation, seconds, segmentCount) => {
     if (geoLocation && minSpeedHit) {
       const distanceKm =
-        ((geoLocation.coords.speed ?? 0) * seconds * segmentCount) / 1000;
+        ((geoLocation.coords.speed ?? 0) * seconds * segmentCount) / 1000; // GPS speed has to be used as this is for line on ground
       const startPoint = [
         geoLocation.coords.longitude,
         geoLocation.coords.latitude,
@@ -159,8 +159,14 @@ export const selectHeighSettings = createSelector(
 export const selectColorsBySpeed = createSelector(
   mapFeature.selectGeoLocation,
   instrumentsFeature.selectSpeedMeter,
-  (geoLocation, speedSettings) => {
-    const speedKph = Math.round((geoLocation?.coords.speed ?? 0) * 3.6);
+  planeInstrumentsFeature.selectConnected,
+  planeInstrumentsFeature.selectIas,
+  (geoLocation, speedSettings, isConnected, ias) => {
+    const speedKph = Math.round(
+      ((isConnected && ias !== null && ias !== undefined
+        ? ias
+        : geoLocation?.coords.speed) ?? 0) * 3.6,
+    );
     const selectedSetting =
       [...speedSettings.colorsBySpeed]
         .reverse()
@@ -168,8 +174,10 @@ export const selectColorsBySpeed = createSelector(
     return {
       textColor: selectedSetting?.textColor || 'black',
       bgColor: selectedSetting?.bgColor || 'white',
-      speedKph,
+      groundSpeed: geoLocation?.coords.speed,
+      airSpeed: isConnected ? ias : null,
       position: speedSettings.position,
+      selectedSources: speedSettings.selectedSources,
     };
   },
 );
@@ -213,7 +221,7 @@ export const selectRouteNavigationStats = createSelector(
     );
     const durationList = minSpeedHit
       ? distanceList.map(
-          (distance) => (1000 * distance) / (geoLocation?.coords.speed ?? 1),
+          (distance) => (1000 * distance) / (geoLocation?.coords.speed ?? 1), // GPS speed has to be used as this is for ground speed
         )
       : distanceList.map(
           (distance) => (1000 * distance) / (averageSpeed / 3.6),

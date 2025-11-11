@@ -16,11 +16,13 @@ describe(SpeedMeterWidgetComponent.name, () => {
               value: {
                 textColor: '#00cc00',
                 bgColor: '#000044',
-                speedKph: 100,
+                groundSpeed: 100 / 3.6,
+                airSpeed: 150 / 3.6,
                 position: {
                   x: 30,
                   y: 50,
                 },
+                selectedSources: ['gps', 'ias'],
               },
             },
           ],
@@ -28,5 +30,6 @@ describe(SpeedMeterWidgetComponent.name, () => {
       ],
     });
     cy.get('.value').contains('100 km/h');
+    cy.get('.value').contains('150 km/h');
   });
 });

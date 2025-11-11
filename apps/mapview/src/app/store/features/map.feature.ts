@@ -9,6 +9,7 @@ import { LngLatLike } from 'maplibre-gl';
 
 import { mapEffectsActions } from '../actions/effects.actions';
 import { compassActions, mapActions } from '../actions/map.actions';
+import { planeInstrumentsFeature } from './plane-instruments.feature';
 import { instrumentsFeature } from './settings/instruments.feature';
 import { navigationSettingsFeature } from './settings/navigation.feature';
 
@@ -103,8 +104,14 @@ export const mapFeature = createFeature({
     selectMinSpeedHit: createSelector(
       navigationSettingsFeature.selectMinActivationSpeedKpH,
       selectGeoLocation,
-      (minSpeed, geolocation) =>
-        minSpeed <= (geolocation?.coords.speed ?? 0) * 3.6,
+      planeInstrumentsFeature.selectConnected,
+      planeInstrumentsFeature.selectIas,
+      (minSpeed, geolocation, isConnected, ias) =>
+        minSpeed <=
+        ((isConnected && ias !== null && ias !== undefined
+          ? ias
+          : geolocation?.coords.speed) ?? 0) *
+          3.6,
     ),
     selectShowInstruments: createSelector(
       instrumentsFeature.selectShowOnlyOnActiveGps,

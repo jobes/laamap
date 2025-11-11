@@ -34,6 +34,7 @@ const initialState = {
   airplaneInstrumentsUrl: '',
   speedMeter: {
     position: { x: 0, y: 0 },
+    selectedSources: ['gps'] as ('gps' | 'ias')[],
     colorsBySpeed: [
       {
         minSpeed: 0,
@@ -212,6 +213,13 @@ export const instrumentsFeature = createFeature({
       (state, { position }): typeof initialState => ({
         ...state,
         speedMeter: { ...state.speedMeter, position },
+      }),
+    ),
+    on(
+      instrumentSpeedSettingsActions.widgetSelectedSourcesChanged,
+      (state, { selectedSources }): typeof initialState => ({
+        ...state,
+        speedMeter: { ...state.speedMeter, selectedSources },
       }),
     ),
     on(
