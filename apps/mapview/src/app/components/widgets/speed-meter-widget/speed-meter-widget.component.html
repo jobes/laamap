@@ -10,11 +10,24 @@
         [cdkDragStartDelay]="1000"
         [style.background]="colorsBySpeed.bgColor"
       >
-        <h6>{{ t('widgets.speedMeter.header') }}</h6>
-        <span class="value" [style.color]="colorsBySpeed.textColor">
-          <span class="fixed-value">{{ colorsBySpeed.speedKph }}</span>
-          {{ t('shared.speed.kph') }}</span
-        >
+        @if (colorsBySpeed.selectedSources.includes('gps')) {
+          <h6>{{ t('widgets.speedMeter.groundSpeed') }}</h6>
+          <span class="value" [style.color]="colorsBySpeed.textColor">
+            <span class="fixed-value">{{
+              (colorsBySpeed.groundSpeed ?? 0) * 3.6
+            }}</span>
+            {{ t('shared.speed.kph') }}</span
+          >
+        }
+        @if (colorsBySpeed.selectedSources.includes('ias')) {
+          <h6>{{ t('widgets.speedMeter.airSpeed') }}</h6>
+          <span class="value" [style.color]="colorsBySpeed.textColor">
+            <span class="fixed-value">{{
+              (colorsBySpeed.airSpeed ?? 0) * 3.6
+            }}</span>
+            {{ t('shared.speed.kph') }}</span
+          >
+        }
       </div>
     }
   </ng-container>

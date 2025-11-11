@@ -158,15 +158,87 @@ describe('advanced-selectors', () => {
           { minSpeed: 30, textColor: 'green', bgColor: 'yellow' },
           { minSpeed: 50, textColor: 'red', bgColor: 'pink' },
         ],
+        selectedSources: ['gps'],
       } as any;
 
-      const result = selectColorsBySpeed.projector(geoLocation, speedSettings);
+      const result = selectColorsBySpeed.projector(
+        geoLocation,
+        speedSettings,
+        false,
+        null,
+      );
 
       expect(result).toEqual({
         textColor: 'green',
         bgColor: 'yellow',
-        speedKph: 36,
         position: 'top-left',
+        airSpeed: null,
+        groundSpeed: 10,
+        selectedSources: ['gps'],
+      });
+    });
+
+    it('should return correct colors when instruments are connected, but no IAS', () => {
+      const geoLocation = {
+        coords: { speed: 10 }, // m/s => 36 km/h
+      } as any;
+
+      const speedSettings = {
+        position: 'top-left',
+        colorsBySpeed: [
+          { minSpeed: 0, textColor: 'black', bgColor: 'white' },
+          { minSpeed: 30, textColor: 'green', bgColor: 'yellow' },
+          { minSpeed: 50, textColor: 'red', bgColor: 'pink' },
+        ],
+        selectedSources: ['gps'],
+      } as any;
+
+      const result = selectColorsBySpeed.projector(
+        geoLocation,
+        speedSettings,
+        true,
+        null,
+      );
+
+      expect(result).toEqual({
+        textColor: 'green',
+        bgColor: 'yellow',
+        position: 'top-left',
+        airSpeed: null,
+        groundSpeed: 10,
+        selectedSources: ['gps'],
+      });
+    });
+
+    it('should return correct colors when instruments are connected with IAS', () => {
+      const geoLocation = {
+        coords: { speed: 10 }, // m/s => 36 km/h
+      } as any;
+
+      const speedSettings = {
+        position: 'top-left',
+        colorsBySpeed: [
+          { minSpeed: 0, textColor: 'black', bgColor: 'white' },
+          { minSpeed: 30, textColor: 'green', bgColor: 'yellow' },
+          { minSpeed: 50, textColor: 'red', bgColor: 'pink' },
+        ],
+        selectedSources: ['gps'],
+      } as any;
+
+      const result = selectColorsBySpeed.projector(
+        geoLocation,
+        speedSettings,
+        true,
+        20,
+      );
+
+      expect(result).toEqual({
+        textColor: 'red',
+        bgColor: 'pink',
+        position: 'top-left',
+        airSpeed: 20,
+        groundSpeed: 10,
+        selectedSources: ['gps'],
       });
     });
   });

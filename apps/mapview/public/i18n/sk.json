@@ -99,6 +99,7 @@
       "description": "Meranie",
       "showOnlyOnActiveGps": "Zobraz len pri aktivovanom GPS",
       "speedMeter": "Rýchlomer",
+      "speedSource": "Zdroj rýchlosti",
       "altiMeter": "Výškomer",
       "varioMeter": "Variometer",
       "minSpeedKph": "Minimálna rýchlosť (km/h)",
@@ -120,6 +121,10 @@
       "relativeHeightSource": "Zdroj relatívnej výšky",
       "airplaneInstrumentsUrl": "URL prístrojov lietadla",
       "getIpFromBle": "Načítaj IP z bluetooth lietadla",
+      "speedSourceType": {
+        "gps": "GPS",
+        "ias": "IAS"
+      },
       "ble": {
         "notSupported": "Bluetooth nie je podporovaný",
         "connectionError": "Nepodarilo sa pripojiť na bluetooth lietadla"
@@ -888,7 +893,8 @@
   },
   "widgets": {
     "speedMeter": {
-      "header": "Rýchlosť"
+      "groundSpeed": "Rýchlosť GPS",
+      "airSpeed": "Rýchlosť letu"
     },
     "altimeter": {
       "header": "Výška"

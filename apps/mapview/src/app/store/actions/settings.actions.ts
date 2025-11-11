@@ -107,6 +107,9 @@ export const instrumentSpeedSettingsActions = createActionGroup({
     'Widget Colors Changed': props<{
       colorsBySpeed: { minSpeed: number; bgColor: string; textColor: string }[];
     }>(),
+    'Widget Selected Sources Changed': props<{
+      selectedSources: ('gps' | 'ias')[];
+    }>(),
   },
 });
 
