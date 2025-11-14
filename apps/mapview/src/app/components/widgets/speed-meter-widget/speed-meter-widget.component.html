@@ -14,16 +14,19 @@
           <h6>{{ t('widgets.speedMeter.groundSpeed') }}</h6>
           <span class="value" [style.color]="colorsBySpeed.textColor">
             <span class="fixed-value">{{
-              (colorsBySpeed.groundSpeed ?? 0) * 3.6
+              colorsBySpeed.groundSpeed * 3.6 | number: '1.0-0'
             }}</span>
             {{ t('shared.speed.kph') }}</span
           >
         }
-        @if (colorsBySpeed.selectedSources.includes('ias')) {
+        @if (
+          colorsBySpeed.selectedSources.includes('ias') &&
+          colorsBySpeed.instrumentIasConnected
+        ) {
           <h6>{{ t('widgets.speedMeter.airSpeed') }}</h6>
           <span class="value" [style.color]="colorsBySpeed.textColor">
             <span class="fixed-value">{{
-              (colorsBySpeed.airSpeed ?? 0) * 3.6
+              colorsBySpeed.airSpeed * 3.6 | number: '1.0-0'
             }}</span>
             {{ t('shared.speed.kph') }}</span
           >

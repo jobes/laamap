@@ -172,8 +172,9 @@ describe('advanced-selectors', () => {
         textColor: 'green',
         bgColor: 'yellow',
         position: 'top-left',
-        airSpeed: null,
+        airSpeed: 0,
         groundSpeed: 10,
+        instrumentIasConnected: false,
         selectedSources: ['gps'],
       });
     });
@@ -204,8 +205,9 @@ describe('advanced-selectors', () => {
         textColor: 'green',
         bgColor: 'yellow',
         position: 'top-left',
-        airSpeed: null,
+        airSpeed: 0,
         groundSpeed: 10,
+        instrumentIasConnected: false,
         selectedSources: ['gps'],
       });
     });
@@ -238,6 +240,7 @@ describe('advanced-selectors', () => {
         position: 'top-left',
         airSpeed: 20,
         groundSpeed: 10,
+        instrumentIasConnected: true,
         selectedSources: ['gps'],
       });
     });
