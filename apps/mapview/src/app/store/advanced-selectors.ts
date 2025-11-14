@@ -174,8 +174,11 @@ export const selectColorsBySpeed = createSelector(
     return {
       textColor: selectedSetting?.textColor || 'black',
       bgColor: selectedSetting?.bgColor || 'white',
-      groundSpeed: (geoLocation?.coords.speed ?? 0) > 2 ? (geoLocation?.coords.speed ?? 0) : 0,
-      airSpeed: (isConnected && (ias ?? 0) > 2) ? (ias ?? 0) : 0,
+      groundSpeed:
+        (geoLocation?.coords.speed ?? 0) > 2
+          ? (geoLocation?.coords.speed ?? 0)
+          : 0,
+      airSpeed: isConnected && (ias ?? 0) > 2 ? (ias ?? 0) : 0,
       position: speedSettings.position,
       selectedSources: speedSettings.selectedSources,
       instrumentIasConnected: isConnected && ias != null,
