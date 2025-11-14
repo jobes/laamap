@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { Component, ElementRef, inject, viewChildren } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -16,7 +16,7 @@ import { mapFeature } from '../../../store/features/map.feature';
   selector: 'laamap-speed-meter-widget',
   templateUrl: './speed-meter-widget.component.html',
   styleUrls: ['./speed-meter-widget.component.scss'],
-  imports: [TranslocoModule, LetDirective, CdkDrag, AsyncPipe],
+  imports: [TranslocoModule, LetDirective, CdkDrag, AsyncPipe, DecimalPipe],
 })
 export class SpeedMeterWidgetComponent {
   containers = viewChildren<CdkDrag, ElementRef<HTMLElement>>(CdkDrag, {

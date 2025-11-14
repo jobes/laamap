@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 /// <reference types="cypress" />
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common';
 import {
