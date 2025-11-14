@@ -12,6 +12,7 @@ import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { instrumentSpeedSettingsActions } from '../../../../../store/actions/settings.actions';
+import { planeInstrumentsFeature } from '../../../../../store/features/plane-instruments.feature';
 import { instrumentsFeature } from '../../../../../store/features/settings/instruments.feature';
 
 @Component({
@@ -37,6 +38,10 @@ export class SpeedWidgetSettingsComponent {
   private readonly translocoService = inject(TranslocoService);
   speedWidgetColorsSettings$ = this.store.select(
     instrumentsFeature.selectSpeedMeter,
+  );
+
+  instrumentConnected = this.store.selectSignal(
+    planeInstrumentsFeature.selectConnected,
   );
 
   setSelectedSpeedSources(selectedSources: ('gps' | 'ias')[]): void {
