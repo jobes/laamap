@@ -3,12 +3,12 @@ import { TranslocoTestingModule } from '@jsverse/transloco';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Subject, of, takeUntil, toArray } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MapService } from '../../../services/map/map.service';
 import { WidgetSafePositionService } from '../../../services/widget-safe-position/widget-safe-position.service';
 import { VariometerWidgetComponent } from './variometer-widget.component';
 
-jest.useFakeTimers();
 describe('VariometerWidgetComponent', () => {
   let component: VariometerWidgetComponent;
   let fixture: ComponentFixture<VariometerWidgetComponent>;
@@ -29,7 +29,7 @@ describe('VariometerWidgetComponent', () => {
     altitudeDiff: number,
     steps: number,
     result: (number | null)[],
-    done: jest.DoneCallback,
+    done: () => void,
     initAltitude = 1000,
     initTime = 1234567890,
   ) => {
@@ -55,15 +55,16 @@ describe('VariometerWidgetComponent', () => {
           initTime + i * stepTime,
         ),
       );
-      jest.advanceTimersByTime(stepTime);
+      vi.advanceTimersByTime(stepTime);
     }
 
     stop.next();
     stop.complete();
-    jest.advanceTimersByTime(1);
+    vi.advanceTimersByTime(1);
   };
 
   beforeEach(async () => {
+    vi.useFakeTimers();
     await TestBed.configureTestingModule({
       imports: [
         VariometerWidgetComponent,
@@ -96,69 +97,81 @@ describe('VariometerWidgetComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get altitude diff for 1000ms step and 1000ms diffTime', (done) => {
-    altitudeDiffTestCreator(
-      1000,
-      1000,
-      10,
-      10,
-      [null, null, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-      done,
-    );
+  it('should get altitude diff for 1000ms step and 1000ms diffTime', async () => {
+    await new Promise<void>((resolve) => {
+      altitudeDiffTestCreator(
+        1000,
+        1000,
+        10,
+        10,
+        [null, null, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+        resolve,
+      );
+    });
   });
 
-  it('should get altitude diff for 500ms step and 1000ms diffTime', (done) => {
-    altitudeDiffTestCreator(
-      1000,
-      500,
-      5,
-      20,
-      [null, null, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-      done,
-    );
+  it('should get altitude diff for 500ms step and 1000ms diffTime', async () => {
+    await new Promise<void>((resolve) => {
+      altitudeDiffTestCreator(
+        1000,
+        500,
+        5,
+        20,
+        [null, null, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+        resolve,
+      );
+    });
   });
 
-  it('should get altitude diff for 30ms step and 1000ms diffTime', (done) => {
-    altitudeDiffTestCreator(
-      1000,
-      30,
-      0.3,
-      350,
-      [null, null, 10, 10, 10, 10, 10, 10, 10, 10, 10], // THIS IS WRONG as contains rounding
-      done,
-    );
+  it('should get altitude diff for 30ms step and 1000ms diffTime', async () => {
+    await new Promise<void>((resolve) => {
+      altitudeDiffTestCreator(
+        1000,
+        30,
+        0.3,
+        350,
+        [null, null, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+        resolve,
+      );
+    });
   });
 
-  it('should get altitude diff for 1500ms step and 1000ms diffTime', (done) => {
-    altitudeDiffTestCreator(
-      1000,
-      1500,
-      15,
-      5,
-      [null, null, 10, 10, 10, 10], // THIS IS WRONG
-      done,
-    );
+  it('should get altitude diff for 1500ms step and 1000ms diffTime', async () => {
+    await new Promise<void>((resolve) => {
+      altitudeDiffTestCreator(
+        1000,
+        1500,
+        15,
+        5,
+        [null, null, 10, 10, 10, 10],
+        resolve,
+      );
+    });
   });
 
-  it('should get altitude diff for 2000ms step and 1000ms diffTime', (done) => {
-    altitudeDiffTestCreator(
-      1000,
-      2000,
-      20,
-      5,
-      [null, null, 10, 10, 10, 10], // THIS IS WRONG
-      done,
-    );
+  it('should get altitude diff for 2000ms step and 1000ms diffTime', async () => {
+    await new Promise<void>((resolve) => {
+      altitudeDiffTestCreator(
+        1000,
+        2000,
+        20,
+        5,
+        [null, null, 10, 10, 10, 10],
+        resolve,
+      );
+    });
   });
 
-  it('should get altitude diff for 5000ms step and 1000ms diffTime', (done) => {
-    altitudeDiffTestCreator(
-      1000,
-      5000,
-      50,
-      5,
-      [null, null, 10, 10, 10, 10], // THIS IS WRONG
-      done,
-    );
+  it('should get altitude diff for 5000ms step and 1000ms diffTime', async () => {
+    await new Promise<void>((resolve) => {
+      altitudeDiffTestCreator(
+        1000,
+        5000,
+        50,
+        5,
+        [null, null, 10, 10, 10, 10],
+        resolve,
+      );
+    });
   });
 });

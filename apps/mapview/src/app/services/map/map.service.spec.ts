@@ -3,7 +3,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SwUpdate } from '@angular/service-worker';
 import { TranslocoTestingModule } from '@jsverse/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
-import maplibregl from 'maplibre-gl';
 
 import { GamepadHandlerService } from '../gamepad-handler/gamepad-handler.service';
 import { MapService } from './map.service';
@@ -17,15 +16,40 @@ describe('MapService', () => {
       providers: [
         provideMockStore({}),
         { provide: SwUpdate, useValue: {} },
-        { provide: GamepadHandlerService, useValue: { init: jest.fn() } },
+        { provide: GamepadHandlerService, useValue: { init: vi.fn() } },
       ],
     });
-    const mockMapOn = jest.fn();
-    jest.spyOn(maplibregl, 'Map').mockImplementation((() => {
-      return {
-        on: mockMapOn,
-      };
-    }) as unknown as undefined);
+
+    vi.mock('maplibre-gl', () => ({
+      __esModule: true,
+      Map: vi.fn().mockImplementation(() => ({
+        on: vi.fn(),
+        remove: vi.fn(),
+        addControl: vi.fn(),
+        _getUIString: vi.fn(),
+      })),
+      GeolocateControl: vi.fn().mockImplementation(() => ({
+        on: vi.fn(),
+      })),
+      NavigationControl: vi.fn().mockImplementation(() => ({
+        _zoomInButton: {
+          cloneNode: vi.fn().mockReturnValue({ addEventListener: vi.fn() }),
+          replaceWith: vi.fn(),
+        },
+        _zoomOutButton: {
+          cloneNode: vi.fn().mockReturnValue({ addEventListener: vi.fn() }),
+          replaceWith: vi.fn(),
+        },
+        on: vi.fn(),
+      })),
+      AttributionControl: vi.fn().mockImplementation(() => ({
+        on: vi.fn(),
+      })),
+      ScaleControl: vi.fn().mockImplementation(() => ({
+        on: vi.fn(),
+      })),
+      LngLat: vi.fn().mockImplementation(() => ({})),
+    }));
 
     service = TestBed.inject(MapService);
   });

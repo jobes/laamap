@@ -50,7 +50,7 @@ describe('LoggerService', () => {
           provide: MatSnackBar,
           useValue: { open: () => ({ onAction: () => of({}) }) },
         },
-        { provide: MatDialog, useValue: { open: jest.fn() } },
+        { provide: MatDialog, useValue: { open: vi.fn() } },
         { provide: TranslocoService, useValue: { translate: () => '' } },
         {
           provide: SwUpdate,
@@ -86,7 +86,7 @@ describe('LoggerService', () => {
   });
 
   it('should have no news after first install', () => {
-    global.localStorage = new LocalStorageMock();
+    vi.stubGlobal('localStorage', new LocalStorageMock());
     service.logPwaEvents();
     expect(dialogService.open).toHaveBeenCalledWith(
       VersionNewsDialogComponent,

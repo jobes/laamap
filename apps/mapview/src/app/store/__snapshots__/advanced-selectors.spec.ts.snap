@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`advanced-selectors selectLineDefinitionBorderGeoJson should build border geojson feature collection 1`] = `
+exports[`advanced-selectors > selectLineDefinitionBorderGeoJson > should build border geojson feature collection 1`] = `
 {
   "features": [
     {
@@ -25,7 +25,7 @@ exports[`advanced-selectors selectLineDefinitionBorderGeoJson should build borde
 }
 `;
 
-exports[`advanced-selectors selectLineDefinitionSegmentGeoJson should build segment geojson feature collection 1`] = `
+exports[`advanced-selectors > selectLineDefinitionSegmentGeoJson > should build segment geojson feature collection 1`] = `
 {
   "features": [
     {
