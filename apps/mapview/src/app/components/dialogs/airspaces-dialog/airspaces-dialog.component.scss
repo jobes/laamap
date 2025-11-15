@@ -35,9 +35,7 @@ mat-accordion {
 mat-panel-title {
   line-clamp: 2;
   -webkit-line-clamp: 2;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  display: -moz-box;
   display: -webkit-box;
 }
 
