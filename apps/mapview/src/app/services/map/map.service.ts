@@ -2,8 +2,14 @@ import { Injectable, NgZone, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
-import { GeolocateControl, LngLat, ScaleControl } from 'maplibre-gl';
-import { AttributionControl, Map, NavigationControl } from 'maplibre-gl';
+import {
+  AttributionControl,
+  GeolocateControl,
+  LngLat,
+  Map,
+  NavigationControl,
+  ScaleControl,
+} from 'maplibre-gl';
 import { take } from 'rxjs';
 
 import { environment } from '../../../environments/environment';

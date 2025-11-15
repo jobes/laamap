@@ -97,12 +97,15 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "reportsDirectory": "coverage/mapview"
+        "reportsDirectory": "../../coverage/mapview"
       },
       "configurations": {
         "watch": {
           "watch": true,
-          "ui": true
+          "ui": true,
+          "coverage": {
+            "enabled": true
+          }
         }
       }
     },

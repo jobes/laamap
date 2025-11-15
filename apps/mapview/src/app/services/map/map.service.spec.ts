@@ -22,33 +22,45 @@ describe('MapService', () => {
 
     vi.mock('maplibre-gl', () => ({
       __esModule: true,
-      Map: vi.fn().mockImplementation(() => ({
-        on: vi.fn(),
-        remove: vi.fn(),
-        addControl: vi.fn(),
-        _getUIString: vi.fn(),
-      })),
-      GeolocateControl: vi.fn().mockImplementation(() => ({
-        on: vi.fn(),
-      })),
-      NavigationControl: vi.fn().mockImplementation(() => ({
-        _zoomInButton: {
-          cloneNode: vi.fn().mockReturnValue({ addEventListener: vi.fn() }),
-          replaceWith: vi.fn(),
-        },
-        _zoomOutButton: {
-          cloneNode: vi.fn().mockReturnValue({ addEventListener: vi.fn() }),
-          replaceWith: vi.fn(),
-        },
-        on: vi.fn(),
-      })),
-      AttributionControl: vi.fn().mockImplementation(() => ({
-        on: vi.fn(),
-      })),
-      ScaleControl: vi.fn().mockImplementation(() => ({
-        on: vi.fn(),
-      })),
-      LngLat: vi.fn().mockImplementation(() => ({})),
+      Map: vi.fn().mockImplementation(function () {
+        return {
+          on: vi.fn(),
+          remove: vi.fn(),
+          addControl: vi.fn(),
+          _getUIString: vi.fn(),
+        };
+      }),
+      GeolocateControl: vi.fn().mockImplementation(function () {
+        return {
+          on: vi.fn(),
+        };
+      }),
+      NavigationControl: vi.fn().mockImplementation(function () {
+        return {
+          _zoomInButton: {
+            cloneNode: vi.fn().mockReturnValue({ addEventListener: vi.fn() }),
+            replaceWith: vi.fn(),
+          },
+          _zoomOutButton: {
+            cloneNode: vi.fn().mockReturnValue({ addEventListener: vi.fn() }),
+            replaceWith: vi.fn(),
+          },
+          on: vi.fn(),
+        };
+      }),
+      AttributionControl: vi.fn().mockImplementation(function () {
+        return {
+          on: vi.fn(),
+        };
+      }),
+      ScaleControl: vi.fn().mockImplementation(function () {
+        return {
+          on: vi.fn(),
+        };
+      }),
+      LngLat: vi.fn().mockImplementation(function () {
+        return {};
+      }),
     }));
 
     service = TestBed.inject(MapService);

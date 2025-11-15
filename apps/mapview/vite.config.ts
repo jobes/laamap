@@ -16,8 +16,9 @@ export default defineConfig(() => ({
     setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: './coverage/mapview',
-      provider: 'v8' as const,
+      provider: 'v8',
+      reportsDirectory: '../../coverage/mapview',
+      include: ['src/**/*.{ts,tsx}'],
     },
   },
 }));
