@@ -22,8 +22,9 @@ jobs:
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track main origin/main
       - run: echo $PWD
+      - run: cat /home/runner/work/laamap/laamap/apps/mapview/vite.config.ts
       - run: ls -la
-      - run: npx nx format:check
+      - run: npx nx format:check --verbose
       - run: npx nx affected -t preprocess_env --output-style=stream
       - run: npx nx affected -t stylelint --output-style=stream
       - run: npx nx affected -t build --output-style=stream
