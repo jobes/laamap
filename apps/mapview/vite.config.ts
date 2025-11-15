@@ -6,7 +6,7 @@ import { defineConfig } from 'vite';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: './node_modules/.vite/mapview',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [angular(), nxViteTsPaths() as any, nxCopyAssetsPlugin(['*.md'])],
   test: {
     name: 'mapview',
     globals: true,
@@ -15,7 +15,7 @@ export default defineConfig(() => ({
     setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      provider: 'v8',
+      provider: 'v8' as const,
       reportsDirectory: '../../coverage/mapview',
       include: ['src/**/*.{ts,tsx}'],
     },
