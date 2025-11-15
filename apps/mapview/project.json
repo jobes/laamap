@@ -94,10 +94,20 @@
       "executor": "@nx/eslint:lint"
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "apps/mapview/jest.config.ts"
+        "reportsDirectory": "../../coverage/mapview",
+        "configFile": "apps/mapview/vite.config.ts"
+      },
+      "configurations": {
+        "watch": {
+          "watch": true,
+          "ui": true,
+          "coverage": {
+            "enabled": true
+          }
+        }
       }
     },
     "stylelint": {

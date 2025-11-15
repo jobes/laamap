@@ -2,8 +2,14 @@ import { Injectable, NgZone, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
-import maplibregl from 'maplibre-gl';
-import { Map } from 'maplibre-gl';
+import {
+  AttributionControl,
+  GeolocateControl,
+  LngLat,
+  Map,
+  NavigationControl,
+  ScaleControl,
+} from 'maplibre-gl';
 import { take } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
@@ -125,7 +131,7 @@ export class MapService {
   private addControlsToMap(): void {
     this.addSettingsControl();
     this.addGeoLocateControl();
-    const navigationControl = new maplibregl.NavigationControl({
+    const navigationControl = new NavigationControl({
       showCompass: true,
       showZoom: true,
       visualizePitch: true,
@@ -135,18 +141,16 @@ export class MapService {
     this.addNavigationControl();
 
     this.instance.addControl(
-      new maplibregl.AttributionControl({
+      new AttributionControl({
         customAttribution:
           '<a href="https://www.rainviewer.com/"; target="_blank">Rain viewer</a>',
       }),
       'bottom-right',
     );
-    this.instance.addControl(new maplibregl.ScaleControl({}), 'bottom-right');
+    this.instance.addControl(new ScaleControl({}), 'bottom-right');
   }
 
-  private overrideNavigationControl(
-    control: maplibregl.NavigationControl,
-  ): void {
+  private overrideNavigationControl(control: NavigationControl): void {
     // remove listeners
     const clonedZoomIn = control._zoomInButton.cloneNode(
       true,
@@ -170,7 +174,7 @@ export class MapService {
   }
 
   private addGeoLocateControl(): void {
-    const control = new maplibregl.GeolocateControl({
+    const control = new GeolocateControl({
       trackUserLocation: true,
       positionOptions: { enableHighAccuracy: true },
       showUserLocation: true,
@@ -207,18 +211,13 @@ export class MapService {
     }
     return (
       this.instance.terrain.getElevationForLngLatZoom(
-        new maplibregl.LngLat(
-          geoLocation.coords.longitude,
-          geoLocation.coords.latitude,
-        ),
+        new LngLat(geoLocation.coords.longitude, geoLocation.coords.latitude),
         this.instance.transform.tileZoom,
       ) / this.instance.terrain.exaggeration
     );
   }
 
-  private overrideGeoLocationControl(
-    control: maplibregl.GeolocateControl,
-  ): void {
+  private overrideGeoLocationControl(control: GeolocateControl): void {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     control._updateCamera = () => {}; // disable auto updating camera, do it through effects
   }

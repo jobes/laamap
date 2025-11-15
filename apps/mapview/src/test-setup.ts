@@ -1,13 +1,18 @@
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@analogjs/vitest-angular/setup-zone';
+import '@angular/compiler';
+import { getTestBed } from '@angular/core/testing';
+import {
+  BrowserTestingModule,
+  platformBrowserTesting,
+} from '@angular/platform-browser/testing';
+import { vi } from 'vitest';
 
-// eslint-disable-next-line @typescript-eslint/prefer-namespace-keyword, @typescript-eslint/no-namespace
-declare module window {
-  const google: typeof import('google-one-tap');
-  const URL: { createObjectURL: jest.Mock };
-}
-window.URL.createObjectURL = jest.fn();
+getTestBed().initTestEnvironment(
+  BrowserTestingModule,
+  platformBrowserTesting(),
+);
 
-setupZoneTestEnv({
-  errorOnUnknownElements: true,
-  errorOnUnknownProperties: true,
+const createObjectURLMock = vi.fn().mockImplementation((file: File) => {
+  return file.name;
 });
+window.URL.createObjectURL = createObjectURLMock;

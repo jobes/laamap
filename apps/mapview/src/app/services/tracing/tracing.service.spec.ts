@@ -37,7 +37,7 @@ describe('TracingService', () => {
   let tracedItems: object[] = [];
 
   const dispatchGeolocationBySpeedEverySecond = (speed: number): void => {
-    jest.advanceTimersByTime(1000);
+    vi.advanceTimersByTime(1000);
     store.dispatch(
       mapActions.geolocationChanged({
         geoLocation: geoLocationBySpeed(speed),
@@ -66,12 +66,12 @@ describe('TracingService', () => {
         {
           provide: TracingService,
           useValue: {
-            createFlyTrace: jest.fn().mockImplementation(() => {
+            createFlyTrace: vi.fn().mockImplementation(() => {
               tracing = true;
               return of('name');
             }),
-            endFlyTrace: jest.fn().mockImplementation(() => (tracing = false)),
-            addTraceItem: jest.fn().mockImplementation((args) => {
+            endFlyTrace: vi.fn().mockImplementation(() => (tracing = false)),
+            addTraceItem: vi.fn().mockImplementation((args) => {
               if (tracing) {
                 tracedItems.push(args);
               }
@@ -91,7 +91,8 @@ describe('TracingService', () => {
   });
 
   it('should not save route because of low speed', async () => {
-    jest.useFakeTimers().setSystemTime(new Date('2020-01-01'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2020-01-01'));
     dispatchGeolocationBySpeedEverySecond(0);
     dispatchGeolocationBySpeedEverySecond(10);
     dispatchGeolocationBySpeedEverySecond(0);
@@ -100,7 +101,8 @@ describe('TracingService', () => {
   });
 
   it('should save one route', async () => {
-    jest.useFakeTimers().setSystemTime(new Date('2020-01-01'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2020-01-01'));
     const initTime = new Date().getTime();
     dispatchGeolocationBySpeedEverySecond(0);
     dispatchGeolocationBySpeedEverySecond(10);

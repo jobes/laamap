@@ -31,9 +31,9 @@ describe('GamepadHandlerService', () => {
         }),
         {
           provide: MatDialog,
-          useValue: { openDialogs: ['dialog'], closeAll: jest.fn() },
+          useValue: { openDialogs: ['dialog'], closeAll: vi.fn() },
         },
-        { provide: MatBottomSheet, useValue: { dismiss: jest.fn() } },
+        { provide: MatBottomSheet, useValue: { dismiss: vi.fn() } },
       ],
     });
     service = TestBed.inject(GamepadHandlerService);
@@ -108,7 +108,7 @@ describe('GamepadHandlerService', () => {
     });
   });
 
-  it('close dialog using gamepad', (done) => {
+  it('close dialog using gamepad', async () => {
     service.init(null as unknown as Map);
     service.disabled.set(false);
     service['gamePadSubj$'].next([
@@ -129,29 +129,31 @@ describe('GamepadHandlerService', () => {
       },
     ]);
 
-    setTimeout(() => {
-      service['gamePadSubj$'].next([
-        {
-          axes: [0, 0.7, 0, 0],
-          buttons: [
-            { pressed: false, touched: false, value: 0 },
-            { pressed: false, touched: false, value: 0 },
-            { pressed: false, touched: false, value: 0 },
-            { pressed: true, touched: false, value: 1 },
-          ],
-          id: 'test',
-          index: 0,
-          mapping: 'standard',
-          timestamp: 1,
-          connected: true,
-          vibrationActuator: null as unknown as GamepadHapticActuator,
-        },
-      ]);
+    await new Promise<void>((resolve) => {
       setTimeout(() => {
-        expect(service['bottomSheet'].dismiss).toHaveBeenCalledTimes(1);
-        expect(service['dialog'].closeAll).toHaveBeenCalledTimes(1);
-        done();
+        service['gamePadSubj$'].next([
+          {
+            axes: [0, 0.7, 0, 0],
+            buttons: [
+              { pressed: false, touched: false, value: 0 },
+              { pressed: false, touched: false, value: 0 },
+              { pressed: false, touched: false, value: 0 },
+              { pressed: true, touched: false, value: 1 },
+            ],
+            id: 'test',
+            index: 0,
+            mapping: 'standard',
+            timestamp: 1,
+            connected: true,
+            vibrationActuator: null as unknown as GamepadHapticActuator,
+          },
+        ]);
+        setTimeout(() => {
+          expect(service['bottomSheet'].dismiss).toHaveBeenCalledTimes(1);
+          expect(service['dialog'].closeAll).toHaveBeenCalledTimes(1);
+          resolve();
+        }, 50);
       }, 50);
-    }, 50);
+    });
   });
 });

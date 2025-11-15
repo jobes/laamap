@@ -248,7 +248,7 @@ describe('advanced-selectors', () => {
 
   describe('selectRouteNavigationStats', () => {
     afterEach(() => {
-      jest.restoreAllMocks();
+      vi.restoreAllMocks();
     });
 
     it('should return null when geoLocation is missing', () => {
@@ -257,10 +257,8 @@ describe('advanced-selectors', () => {
     });
 
     it('should calculate distance and duration using current speed when minSpeedHit', () => {
-      const turfDistanceSpy = jest
-        .spyOn(turf, 'distance')
-        .mockReturnValueOnce(1)
-        .mockReturnValueOnce(2);
+      vi.mock('@turf/turf', { spy: true });
+      turf.distance = vi.fn().mockReturnValueOnce(1).mockReturnValueOnce(2);
 
       const geoLocation = {
         coords: { longitude: 0, latitude: 0, speed: 10, heading: 0 },
@@ -278,7 +276,7 @@ describe('advanced-selectors', () => {
         80,
       );
 
-      expect(turfDistanceSpy).toHaveBeenCalledTimes(2);
+      expect(turf.distance).toHaveBeenCalledTimes(2);
       expect(result).toEqual({
         distanceList: [1, 2],
         durationList: [100, 200],
@@ -286,7 +284,8 @@ describe('advanced-selectors', () => {
     });
 
     it('should calculate duration from averageSpeed when minSpeedHit is false', () => {
-      jest.spyOn(turf, 'distance').mockReturnValueOnce(1);
+      vi.mock('@turf/turf', { spy: true });
+      turf.distance = vi.fn().mockReturnValue(1);
 
       const geoLocation = {
         coords: { longitude: 0, latitude: 0, speed: 5 },
@@ -382,7 +381,7 @@ describe('advanced-selectors', () => {
     it('should calculate aggregated distance and time as well as arrival times', () => {
       // Fake Date so that arrival times are deterministic
       const baseDate = new Date('2025-01-01T00:00:00Z');
-      jest.useFakeTimers().setSystemTime(baseDate);
+      vi.useFakeTimers().setSystemTime(baseDate);
 
       const routeNavStats = {
         distanceList: [1, 2, 3],

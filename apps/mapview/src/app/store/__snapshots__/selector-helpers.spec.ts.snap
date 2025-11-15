@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Selector helpers barDefinition should define normal bars 1`] = `
+exports[`Selector helpers > barDefinition > should define normal bars 1`] = `
 {
   "alertLowerPercentage": 20,
   "alertUpperPercentage": 20,
@@ -16,7 +16,7 @@ exports[`Selector helpers barDefinition should define normal bars 1`] = `
 }
 `;
 
-exports[`Selector helpers barDefinition should define normal bars overflowed alert 1`] = `
+exports[`Selector helpers > barDefinition > should define normal bars overflowed alert 1`] = `
 {
   "alertLowerPercentage": 33.33333333333333,
   "alertUpperPercentage": 0,
@@ -32,7 +32,7 @@ exports[`Selector helpers barDefinition should define normal bars overflowed ale
 }
 `;
 
-exports[`Selector helpers barDefinition should define normal bars overflowed caution 1`] = `
+exports[`Selector helpers > barDefinition > should define normal bars overflowed caution 1`] = `
 {
   "alertLowerPercentage": 26.666666666666668,
   "alertUpperPercentage": 0,
@@ -48,7 +48,7 @@ exports[`Selector helpers barDefinition should define normal bars overflowed cau
 }
 `;
 
-exports[`Selector helpers barExtraValues should be hidden when not connected 1`] = `
+exports[`Selector helpers > barExtraValues > should be hidden when not connected 1`] = `
 {
   "alert": false,
   "caution": false,
@@ -58,7 +58,7 @@ exports[`Selector helpers barExtraValues should be hidden when not connected 1`]
 }
 `;
 
-exports[`Selector helpers barExtraValues should be hidden when not shown 1`] = `
+exports[`Selector helpers > barExtraValues > should be hidden when not shown 1`] = `
 {
   "alert": false,
   "caution": false,
@@ -68,7 +68,7 @@ exports[`Selector helpers barExtraValues should be hidden when not shown 1`] = `
 }
 `;
 
-exports[`Selector helpers barExtraValues should be hidden when value null 1`] = `
+exports[`Selector helpers > barExtraValues > should be hidden when value null 1`] = `
 {
   "alert": false,
   "caution": false,
@@ -78,7 +78,7 @@ exports[`Selector helpers barExtraValues should be hidden when value null 1`] = 
 }
 `;
 
-exports[`Selector helpers barExtraValues should map when value bigger than max bar 1`] = `
+exports[`Selector helpers > barExtraValues > should map when value bigger than max bar 1`] = `
 {
   "alert": true,
   "caution": true,
@@ -89,7 +89,7 @@ exports[`Selector helpers barExtraValues should map when value bigger than max b
 }
 `;
 
-exports[`Selector helpers barExtraValues should map when value lower than min bar 1`] = `
+exports[`Selector helpers > barExtraValues > should map when value lower than min bar 1`] = `
 {
   "alert": true,
   "caution": true,
@@ -100,7 +100,7 @@ exports[`Selector helpers barExtraValues should map when value lower than min ba
 }
 `;
 
-exports[`Selector helpers barExtraValues should map with lower alert 1`] = `
+exports[`Selector helpers > barExtraValues > should map with lower alert 1`] = `
 {
   "alert": true,
   "caution": true,
@@ -111,7 +111,7 @@ exports[`Selector helpers barExtraValues should map with lower alert 1`] = `
 }
 `;
 
-exports[`Selector helpers barExtraValues should map with lower caution 1`] = `
+exports[`Selector helpers > barExtraValues > should map with lower caution 1`] = `
 {
   "alert": false,
   "caution": true,
@@ -122,7 +122,7 @@ exports[`Selector helpers barExtraValues should map with lower caution 1`] = `
 }
 `;
 
-exports[`Selector helpers barExtraValues should map with no caution and alert 1`] = `
+exports[`Selector helpers > barExtraValues > should map with no caution and alert 1`] = `
 {
   "alert": false,
   "caution": false,
@@ -133,7 +133,7 @@ exports[`Selector helpers barExtraValues should map with no caution and alert 1`
 }
 `;
 
-exports[`Selector helpers barExtraValues should map with upper alert 1`] = `
+exports[`Selector helpers > barExtraValues > should map with upper alert 1`] = `
 {
   "alert": true,
   "caution": true,
@@ -144,7 +144,7 @@ exports[`Selector helpers barExtraValues should map with upper alert 1`] = `
 }
 `;
 
-exports[`Selector helpers barExtraValues should map with upper caution 1`] = `
+exports[`Selector helpers > barExtraValues > should map with upper caution 1`] = `
 {
   "alert": false,
   "caution": true,
