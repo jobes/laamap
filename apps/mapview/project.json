@@ -97,7 +97,8 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "reportsDirectory": "../../coverage/mapview"
+        "reportsDirectory": "../../coverage/mapview",
+        "configFile": "apps/mapview/vite.config.ts"
       },
       "configurations": {
         "watch": {
