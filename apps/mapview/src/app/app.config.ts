@@ -21,6 +21,7 @@ import { LightgalleryModule } from 'lightgallery/angular';
 import { provideQuillConfig } from 'ngx-quill/config';
 
 import { AltitudePipe } from './pipes/altitude/altitude.pipe';
+import { SpeedPipe } from './pipes/speed/speed.pipe';
 import {
   TranslocoHttpLoader,
   activeLang,
@@ -102,6 +103,7 @@ export const appConfig: ApplicationConfig = {
       LightgalleryModule,
     ),
     AltitudePipe,
+    SpeedPipe,
     {
       provide: APP_BASE_HREF,
       useFactory: (platformLocation: PlatformLocation) =>

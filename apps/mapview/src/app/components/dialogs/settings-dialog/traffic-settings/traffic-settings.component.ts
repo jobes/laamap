@@ -17,10 +17,17 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslocoModule } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
-import { EHeightUnit } from '../../../../services/open-aip/airport.interfaces';
+import {
+  EHeightUnit,
+  ESpeedUnit,
+} from '../../../../services/open-aip/airport.interfaces';
 import { TrafficService } from '../../../../services/traffic/traffic.service';
 import { trafficSettingsActions } from '../../../../store/actions/settings.actions';
-import { trafficFeature } from '../../../../store/features/settings/traffic.feature';
+import {
+  AirplaneDisplayOption,
+  airplaneDisplayOptions,
+  trafficFeature,
+} from '../../../../store/features/settings/traffic.feature';
 
 @Component({
   selector: 'laamap-traffic-settings',
@@ -44,6 +51,7 @@ export class TrafficSettingsComponent {
   private traffic = inject(TrafficService);
 
   EHeightUnit = EHeightUnit;
+  ESpeedUnit = ESpeedUnit;
   enabled = this.store.selectSignal(trafficFeature.selectEnabled);
   isRego = this.store.selectSignal(trafficFeature.selectIsRego);
   regoOrLabel = this.store.selectSignal(trafficFeature.selectRegoOrLabel);
@@ -59,9 +67,16 @@ export class TrafficSettingsComponent {
   altitudeDisplayUnit = this.store.selectSignal(
     trafficFeature.selectAltitudeDisplayUnit,
   );
+  speedDisplayUnit = this.store.selectSignal(
+    trafficFeature.selectSpeedDisplayUnit,
+  );
   actualizationPeriod = this.store.selectSignal(
     trafficFeature.selectActualizationPeriod,
   );
+  displayLine1 = this.store.selectSignal(trafficFeature.selectDisplayLine1);
+  displayLine2 = this.store.selectSignal(trafficFeature.selectDisplayLine2);
+
+  displayOptions = airplaneDisplayOptions;
 
   loginForm = new FormGroup({
     email: new FormControl('', {
@@ -154,11 +169,31 @@ export class TrafficSettingsComponent {
     );
   }
 
+  setSpeedDisplayUnit(speedDisplayUnit: ESpeedUnit): void {
+    this.store.dispatch(
+      trafficSettingsActions.speedDisplayUnitChanged({
+        speedDisplayUnit,
+      }),
+    );
+  }
+
   setActualizationPeriod(actualizationPeriod: number): void {
     this.store.dispatch(
       trafficSettingsActions.actualizationPeriodChanged({
         actualizationPeriod,
       }),
+    );
+  }
+
+  setDisplayLine1(displayLine1: AirplaneDisplayOption[]): void {
+    this.store.dispatch(
+      trafficSettingsActions.displayLine1Changed({ displayLine1 }),
+    );
+  }
+
+  setDisplayLine2(displayLine2: AirplaneDisplayOption[]): void {
+    this.store.dispatch(
+      trafficSettingsActions.displayLine2Changed({ displayLine2 }),
     );
   }
 }

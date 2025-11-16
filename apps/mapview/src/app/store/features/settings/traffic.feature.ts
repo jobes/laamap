@@ -1,8 +1,24 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 
-import { EHeightUnit } from '../../../services/open-aip/airport.interfaces';
+import {
+  EHeightUnit,
+  ESpeedUnit,
+} from '../../../services/open-aip/airport.interfaces';
 import { trafficEffectsActions } from '../../actions/effects.actions';
 import { trafficSettingsActions } from '../../actions/settings.actions';
+
+export const airplaneDisplayOptions = [
+  'callsign',
+  'label',
+  'rego',
+  'model',
+  'pilotName',
+  'speed',
+  'altitude',
+  'vspeed',
+] as const;
+
+export type AirplaneDisplayOption = (typeof airplaneDisplayOptions)[number];
 
 function makeId(length: number) {
   let result = '';
@@ -25,7 +41,10 @@ const initialState = {
   maxAge: 5,
   maxHeightAboveMe: 1000,
   altitudeDisplayUnit: EHeightUnit.meter,
+  speedDisplayUnit: ESpeedUnit.kph,
   actualizationPeriod: 10,
+  displayLine1: ['callsign', 'label', 'rego'] as AirplaneDisplayOption[],
+  displayLine2: ['altitude', 'speed'] as AirplaneDisplayOption[],
 };
 
 export const trafficFeature = createFeature({
@@ -97,10 +116,31 @@ export const trafficFeature = createFeature({
       }),
     ),
     on(
+      trafficSettingsActions.speedDisplayUnitChanged,
+      (state, { speedDisplayUnit }): typeof initialState => ({
+        ...state,
+        speedDisplayUnit,
+      }),
+    ),
+    on(
       trafficSettingsActions.actualizationPeriodChanged,
       (state, { actualizationPeriod }): typeof initialState => ({
         ...state,
         actualizationPeriod,
+      }),
+    ),
+    on(
+      trafficSettingsActions.displayLine1Changed,
+      (state, { displayLine1 }): typeof initialState => ({
+        ...state,
+        displayLine1,
+      }),
+    ),
+    on(
+      trafficSettingsActions.displayLine2Changed,
+      (state, { displayLine2 }): typeof initialState => ({
+        ...state,
+        displayLine2,
       }),
     ),
   ),

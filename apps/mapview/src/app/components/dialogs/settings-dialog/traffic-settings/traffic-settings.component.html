@@ -144,6 +144,23 @@
               </mat-form-field>
 
               <mat-form-field>
+                <mat-label>{{ t('speedDisplayUnit') }}</mat-label>
+                <mat-select
+                  [ngModel]="speedDisplayUnit()"
+                  (ngModelChange)="setSpeedDisplayUnit($event)"
+                >
+                  <ng-template transloco let-s translocoPrefix="shared.speed">
+                    <mat-option [value]="ESpeedUnit.kph">{{
+                      s('kph')
+                    }}</mat-option>
+                    <mat-option [value]="ESpeedUnit.mps">{{
+                      s('mps')
+                    }}</mat-option>
+                  </ng-template>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field>
                 <mat-label>{{ t('actualizationPeriod') }}</mat-label>
                 <input
                   matInput
@@ -154,6 +171,36 @@
                   [ngModel]="actualizationPeriod()"
                   (ngModelChange)="setActualizationPeriod($event)"
                 />
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>{{ t('displayLine1') }}</mat-label>
+                <mat-select
+                  [ngModel]="displayLine1()"
+                  (ngModelChange)="setDisplayLine1($event)"
+                  multiple
+                >
+                  @for (option of displayOptions; track option) {
+                    <mat-option [value]="option">{{
+                      t('displayOptions.' + option)
+                    }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>{{ t('displayLine2') }}</mat-label>
+                <mat-select
+                  [ngModel]="displayLine2()"
+                  (ngModelChange)="setDisplayLine2($event)"
+                  multiple
+                >
+                  @for (option of displayOptions; track option) {
+                    <mat-option [value]="option">{{
+                      t('displayOptions.' + option)
+                    }}</mat-option>
+                  }
+                </mat-select>
               </mat-form-field>
             </div>
           }
