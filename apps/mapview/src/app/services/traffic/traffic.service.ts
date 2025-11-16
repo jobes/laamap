@@ -1,14 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, map, of, tap } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { AltitudePipe } from '../../pipes/altitude/altitude.pipe';
+import { SpeedPipe } from '../../pipes/speed/speed.pipe';
 import { mapFeature } from '../../store/features/map.feature';
 import { trafficFeature } from '../../store/features/settings/traffic.feature';
 import { MapService } from '../map/map.service';
-import { EHeightUnit, EReferenceDatum } from '../open-aip/airport.interfaces';
+import {
+  EHeightUnit,
+  EReferenceDatum,
+  ESpeedUnit,
+} from '../open-aip/airport.interfaces';
 
 export interface TrafficEntry {
   timestamp: number;
@@ -33,6 +38,7 @@ export interface TrafficEntry {
   username?: string;
   aircraftId?: string;
   displayAltitude: string;
+  displaySpeed: string;
 }
 
 @Injectable({
@@ -43,6 +49,7 @@ export class TrafficService {
   private readonly store = inject(Store);
   private readonly mapService = inject(MapService);
   private readonly altitudePipe = inject(AltitudePipe);
+  private readonly speedPipe = inject(SpeedPipe);
   private lastFixTime = 0; // never send data for same timestamp
   private accessKey = this.store.selectSignal(trafficFeature.selectAccessKey);
 
@@ -117,7 +124,7 @@ export class TrafficService {
     );
   }
 
-  liveTraffic(maxAge: number, heighUnit: EHeightUnit) {
+  liveTraffic(maxAge: number, heighUnit: EHeightUnit, speedUnit: ESpeedUnit) {
     const bounds = this.mapService.instance.getBounds();
     return this.http
       .post<{ data: string[] }>(
@@ -133,15 +140,26 @@ export class TrafficService {
           headers: { Authorization: `Bearer ${this.accessKey()}` },
         },
       )
-      .pipe(map((res) => this.parseData(res.data, heighUnit)));
+      .pipe(map((res) => this.parseData(res.data, heighUnit, speedUnit)));
   }
 
-  private parseData(data: string[], heighUnit: EHeightUnit) {
-    return data.map((d) => this.parseSubData(d.split(','), heighUnit));
+  private parseData(
+    data: string[],
+    heighUnit: EHeightUnit,
+    speedUnit: ESpeedUnit,
+  ) {
+    return data.map((d) =>
+      this.parseSubData(d.split(','), heighUnit, speedUnit),
+    );
   }
 
-  private parseSubData(data: string[], heighUnit: EHeightUnit): TrafficEntry {
+  private parseSubData(
+    data: string[],
+    heighUnit: EHeightUnit,
+    speedUnit: ESpeedUnit,
+  ): TrafficEntry {
     const altitude = +(data.find((d) => d.startsWith('A'))?.slice(1) ?? 0);
+    const speed = +(data.find((d) => d.startsWith('S'))?.slice(1) ?? 0);
     const displayAltitude = this.altitudePipe.transform(
       {
         value: altitude,
@@ -149,6 +167,13 @@ export class TrafficService {
         referenceDatum: EReferenceDatum.msl,
       },
       heighUnit,
+    );
+    const displaySpeed = this.speedPipe.transform(
+      {
+        value: speed,
+        unit: ESpeedUnit.mps,
+      },
+      speedUnit,
     );
     return {
       timestamp: +(data.find((d) => d.startsWith('T'))?.slice(1) ?? 0),
@@ -158,7 +183,8 @@ export class TrafficService {
       displayAltitude,
       rego: data.find((d) => d.startsWith('E'))?.slice(1),
       course: +(data.find((d) => d.startsWith('C'))?.slice(1) ?? 0),
-      speed: +(data.find((d) => d.startsWith('S'))?.slice(1) ?? 0),
+      speed,
+      displaySpeed,
       vspeed: +(data.find((d) => d.startsWith('V'))?.slice(1) ?? 0),
       label: data.find((d) => d.startsWith('B'))?.slice(1),
       callsign: data.find((d) => d.startsWith('m'))?.slice(1),

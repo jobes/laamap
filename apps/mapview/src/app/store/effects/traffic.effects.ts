@@ -148,6 +148,7 @@ export class TrafficEffects {
           this.store.select(trafficFeature.selectMaxHeightAboveMe),
           this.store.select(mapFeature.selectGeoLocation),
           this.store.select(trafficFeature.selectAltitudeDisplayUnit),
+          this.store.select(trafficFeature.selectSpeedDisplayUnit),
           this.store.select(trafficFeature.selectActualizationPeriod),
           this.store.select(trafficFeature.selectDeviceId),
         ),
@@ -158,10 +159,11 @@ export class TrafficEffects {
             maxHeightAboveMe,
             geolocation,
             heighUnit,
+            speedUnit,
             actualizationPeriod,
             deviceId,
           ]) =>
-            this.trafficService.liveTraffic(maxAge, heighUnit).pipe(
+            this.trafficService.liveTraffic(maxAge, heighUnit, speedUnit).pipe(
               map((data) =>
                 data.filter(
                   (d) =>

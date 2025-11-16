@@ -1,9 +1,14 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, effect, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import * as turf from '@turf/turf';
-import { GeoJSONSource, LngLat, LngLatLike } from 'maplibre-gl';
+import { GeoJSONSource, LngLat } from 'maplibre-gl';
 import { Observable, forkJoin } from 'rxjs';
 
+import {
+  AirplaneDisplayOption,
+  trafficFeature,
+} from '../../../store/features/settings/traffic.feature';
 import { MapHelperFunctionsService } from '../../map-helper-functions/map-helper-functions.service';
 import { TrafficEntry } from '../../traffic/traffic.service';
 import { MapService } from '../map.service';
@@ -15,6 +20,24 @@ export class OnMapTrafficService {
   private readonly mapService = inject(MapService);
   private readonly mapHelper = inject(MapHelperFunctionsService);
   private readonly baseHref = inject(APP_BASE_HREF);
+  private readonly store = inject(Store);
+
+  constructor() {
+    // Watch for changes in display settings and update text field accordingly
+    effect(() => {
+      // Reading these signals triggers the effect when they change
+      this.store.selectSignal(trafficFeature.selectDisplayLine1)();
+      this.store.selectSignal(trafficFeature.selectDisplayLine2)();
+
+      // Only update if the layer exists (map is initialized)
+      if (
+        this.mapService.instance &&
+        this.mapService.instance.getLayer('trafficLayer')
+      ) {
+        this.updateTextFieldExpression();
+      }
+    });
+  }
 
   private readonly imageList = {
     type0: 'plane.svg',
@@ -258,15 +281,6 @@ export class OnMapTrafficService {
         'icon-optional': false,
         'text-overlap': 'always',
         'text-allow-overlap': true,
-        'text-field': [
-          'concat',
-          ['get', 'label'],
-          ['get', 'rego'],
-          '  ',
-          ['get', 'callsign'],
-          '\n',
-          ['get', 'displayAltitude'],
-        ],
         'text-optional': false,
         'text-anchor': 'bottom',
         'text-offset': [0, -1.2],
@@ -285,6 +299,77 @@ export class OnMapTrafficService {
     this.mapService.instance.on('mouseleave', 'trafficLayer', () => {
       this.mapService.instance.getCanvasContainer().style.cursor = '';
     });
+
+    // Set initial text field expression based on current settings
+    this.updateTextFieldExpression();
+  }
+
+  updateTextFieldExpression(): void {
+    const line1 = this.buildLineExpression(
+      this.store.selectSignal(trafficFeature.selectDisplayLine1)(),
+    );
+    const line2 = this.buildLineExpression(
+      this.store.selectSignal(trafficFeature.selectDisplayLine2)(),
+    );
+
+    let textFieldExpression: unknown;
+
+    if (line1 && line2) {
+      textFieldExpression = ['concat', line1, '\n', line2];
+    } else if (line1) {
+      textFieldExpression = line1;
+    } else if (line2) {
+      textFieldExpression = line2;
+    } else {
+      textFieldExpression = '';
+    }
+
+    this.mapService.instance.setLayoutProperty(
+      'trafficLayer',
+      'text-field',
+      textFieldExpression,
+    );
+  }
+
+  private buildLineExpression(options: AirplaneDisplayOption[]) {
+    const expressions = options.map((option) =>
+      this.getFieldExpression(option),
+    );
+
+    if (expressions.length === 0) {
+      return null;
+    }
+    if (expressions.length === 1) {
+      return expressions[0];
+    }
+    // Combine multiple expressions with spaces
+    return [
+      'concat',
+      ...expressions.flatMap((expr, i) =>
+        i < expressions.length - 1 ? [expr, ' '] : [expr],
+      ),
+    ];
+  }
+
+  private getFieldExpression(option: AirplaneDisplayOption) {
+    switch (option) {
+      case 'callsign':
+        return ['get', 'callsign'];
+      case 'label':
+        return ['get', 'label'];
+      case 'rego':
+        return ['get', 'rego'];
+      case 'model':
+        return ['get', 'model'];
+      case 'pilotName':
+        return ['get', 'pilotName'];
+      case 'speed':
+        return ['get', 'displaySpeed'];
+      case 'altitude':
+        return ['get', 'displayAltitude'];
+      case 'vspeed':
+        return ['concat', ['get', 'vspeed'], ' m/s'];
+    }
   }
 
   setData(entries: TrafficEntry[], actualizationPeriod: number): void {

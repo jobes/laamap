@@ -261,6 +261,18 @@
       "altitudeUnit": {
         "meter": "meter",
         "feet": "feet"
+      },
+      "displayLine1": "Zobraziť na prvom riadku",
+      "displayLine2": "Zobraziť na druhom riadku",
+      "displayOptions": {
+        "callsign": "Volací znak",
+        "label": "Označenie",
+        "rego": "Imatrikulačka",
+        "model": "Model lietadla",
+        "pilotName": "Meno pilota",
+        "speed": "Rýchlosť",
+        "altitude": "Výška",
+        "vspeed": "Vertikálna rýchlosť"
       }
     },
     "aircraftBarInstrument": {

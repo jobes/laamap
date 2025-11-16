@@ -4,13 +4,17 @@ import {
   GamePadShortCutName,
   IGamePadActions,
 } from '../../services/gamepad-handler/gamepad-handler.types';
-import { EHeightUnit } from '../../services/open-aip/airport.interfaces';
+import {
+  EHeightUnit,
+  ESpeedUnit,
+} from '../../services/open-aip/airport.interfaces';
 import { EAirSpaceType } from '../../services/open-aip/airspaces.interfaces';
 import { PlaneInstrumentsBarKeys } from '../features/plane-instruments.initial-state';
 import {
   AllowedNavigationGoalWidgetRowType,
   AllowedNavigationNextPointWidgetRowType,
 } from '../features/settings/navigation.feature';
+import { AirplaneDisplayOption } from '../features/settings/traffic.feature';
 
 export const airspacesActivity = [
   'unknown',
@@ -272,7 +276,16 @@ export const trafficSettingsActions = createActionGroup({
     'Altitude display unit changed': props<{
       altitudeDisplayUnit: EHeightUnit;
     }>(),
+    'Speed display unit changed': props<{
+      speedDisplayUnit: ESpeedUnit;
+    }>(),
     'Actualization period changed': props<{ actualizationPeriod: number }>(),
+    'Display line 1 changed': props<{
+      displayLine1: AirplaneDisplayOption[];
+    }>(),
+    'Display line 2 changed': props<{
+      displayLine2: AirplaneDisplayOption[];
+    }>(),
   },
 });
 

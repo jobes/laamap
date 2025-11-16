@@ -261,6 +261,18 @@
       "altitudeUnit": {
         "meter": "meter",
         "feet": "feet"
+      },
+      "displayLine1": "Display on line 1",
+      "displayLine2": "Display on line 2",
+      "displayOptions": {
+        "callsign": "Callsign",
+        "label": "Label",
+        "rego": "Registration",
+        "model": "Aircraft Model",
+        "pilotName": "Pilot Name",
+        "speed": "Speed",
+        "altitude": "Altitude",
+        "vspeed": "Vertical Speed"
       }
     },
     "aircraftBarInstrument": {
