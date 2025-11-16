@@ -31,11 +31,7 @@ export class SpeedPipe implements PipeTransform {
     unit: ESpeedUnit,
     resultUnit?: ESpeedUnit,
   ): number {
-    if (
-      resultUnit === null ||
-      resultUnit === undefined ||
-      unit === resultUnit
-    ) {
+    if (!resultUnit || unit === resultUnit) {
       return value;
     }
     if (unit === ESpeedUnit.kph && resultUnit === ESpeedUnit.mps) {
@@ -44,6 +40,8 @@ export class SpeedPipe implements PipeTransform {
     if (unit === ESpeedUnit.mps && resultUnit === ESpeedUnit.kph) {
       return value * 3.6;
     }
-    throw new Error(`Unsupported speed conversion from ${unit} to ${resultUnit}`);
+    throw new Error(
+      `Unsupported speed conversion from ${unit} to ${resultUnit}`,
+    );
   }
 }
