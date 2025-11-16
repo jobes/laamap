@@ -39,11 +39,11 @@ export class SpeedPipe implements PipeTransform {
       return value;
     }
     if (unit === ESpeedUnit.kph && resultUnit === ESpeedUnit.mps) {
-      return value * 0.277778;
+      return value / 3.6;
     }
     if (unit === ESpeedUnit.mps && resultUnit === ESpeedUnit.kph) {
       return value * 3.6;
     }
-    return 0;
+    throw new Error(`Unsupported speed conversion from ${unit} to ${resultUnit}`);
   }
 }
