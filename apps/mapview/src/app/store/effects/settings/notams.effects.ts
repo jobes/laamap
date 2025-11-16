@@ -44,7 +44,11 @@ export class NotamsSettingsEffects {
         switchMap((notams) =>
           this.store.select(notamsFeature.selectNonHiddenNotams(notams)),
         ),
-        tap((geojson) => this.onMapNotamsService.setNotamsGeoJson(geojson)),
+        tap((geojson) =>
+          this.onMapNotamsService.setNotamsGeoJson(
+            JSON.parse(JSON.stringify(geojson)),
+          ),
+        ),
       );
     },
     { dispatch: false },

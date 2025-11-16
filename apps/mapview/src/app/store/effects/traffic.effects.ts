@@ -170,7 +170,10 @@ export class TrafficEffects {
                 ),
               ),
               tap((data) =>
-                this.onMapTrafficService.setData(data, actualizationPeriod),
+                this.onMapTrafficService.setData(
+                  JSON.parse(JSON.stringify(data)),
+                  actualizationPeriod,
+                ),
               ),
               catchError((error) => {
                 if (error.status === 401) {

@@ -138,14 +138,16 @@ export class OpenAipService {
       mainRunway: this.runwayPaved(
         feature.properties.runways?.find((runway) => runway.mainRunway),
       ),
-      runways: feature.properties.runways?.sort((a, b) =>
+      runways: [...(feature.properties.runways ?? [])].sort((a, b) =>
         a.mainRunway === b.mainRunway ? 0 : a.mainRunway ? -1 : 1,
       ),
       mainFrequency:
         feature.properties.frequencies?.find((freq) => freq.primary) ?? {},
-      frequencies: feature.properties.frequencies?.sort((a, b) =>
-        a.primary === b.primary ? 0 : a.primary ? -1 : 1,
-      ),
+      frequencies: [
+        ...(feature.properties.frequencies ?? []).sort((a, b) =>
+          a.primary === b.primary ? 0 : a.primary ? -1 : 1,
+        ),
+      ],
     };
   }
 
