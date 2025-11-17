@@ -37,9 +37,9 @@ export class TrafficDialogComponent {
   transloco = inject(TranslocoService);
 
   trafficType = computed(() => {
-    const typeId = parseInt(this.data.objectType || '0');
+    const typeId = parseInt(this.data.objectType || '0', 10);
     const type = trafficTypes.find((t) => t.id === typeId);
-    return type;
+    return type ?? trafficTypes.find((t) => t.id === 0);
   });
 
   // Helper methods
