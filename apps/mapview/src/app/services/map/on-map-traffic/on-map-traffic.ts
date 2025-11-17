@@ -12,7 +12,7 @@ import {
 import { MapHelperFunctionsService } from '../../map-helper-functions/map-helper-functions.service';
 import { TrafficEntry } from '../../traffic/traffic.service';
 import { MapService } from '../map.service';
-import { airplaneTypes } from './airplane-types';
+import { trafficTypes } from './traffic-types';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +40,7 @@ export class OnMapTrafficService {
     });
   }
   private generateImageList(): Record<string, string> {
-    return airplaneTypes.reduce(
+    return trafficTypes.reduce(
       (list, type) => {
         list[`type${type.id}`] = `${type.icon}.svg`;
         list[`type${type.id}Grey`] = `${type.icon}-grey.svg`;

@@ -1,4 +1,4 @@
-export const airplaneTypes = [
+export const trafficTypes = [
   { id: 0, cat: 'other', name: 'Unknown', icon: 'unknown' },
   { id: 1, cat: 'air', name: 'Glider', icon: 'glider' },
   { id: 2, cat: 'air', name: 'Tow', icon: 'towplane' },
