@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <g fill="#888888" stroke="#003d7a" stroke-width="0.5">
+    <!-- Glider body -->
+    <ellipse cx="16" cy="16" rx="1.5" ry="8" transform="rotate(0 16 16)"/>
+    <!-- Long wings -->
+    <ellipse cx="16" cy="14" rx="15" ry="1.5"/>
+    <!-- Wing tips -->
+    <circle cx="2" cy="14" r="1"/>
+    <circle cx="30" cy="14" r="1"/>
+    <!-- Tail -->
+    <ellipse cx="16" cy="25" rx="3" ry="1"/>
+  </g>
+</svg>

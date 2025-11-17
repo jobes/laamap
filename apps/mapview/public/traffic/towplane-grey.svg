@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <g fill="#888888" stroke="#cc6600" stroke-width="0.5">
+    <!-- Towplane fuselage -->
+    <ellipse cx="16" cy="16" rx="1.5" ry="9"/>
+    <!-- Wings -->
+    <ellipse cx="16" cy="14" rx="10" ry="1.5"/>
+    <!-- Propeller -->
+    <ellipse cx="16" cy="6" rx="3" ry="0.8" opacity="0.5"/>
+    <!-- Engine cowling -->
+    <ellipse cx="16" cy="8" rx="2" ry="2"/>
+    <!-- Landing gear -->
+    <circle cx="14" cy="20" r="1"/>
+    <circle cx="18" cy="20" r="1"/>
+    <!-- Tail -->
+    <ellipse cx="16" cy="25" rx="2.5" ry="1"/>
+    <rect x="15.5" y="22" width="1" height="3"/>
+    <!-- Tow hook -->
+    <circle cx="16" cy="26" r="0.5" fill="#888888"/>
+  </g>
+</svg>
