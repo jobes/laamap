@@ -30,6 +30,7 @@ import {
   layerAirportActions,
   layerInterestPointsActions,
   layerNotamsActions,
+  layerTrafficActions,
   mapActions,
 } from '../actions/map.actions';
 import {
@@ -332,6 +333,10 @@ export class MapEffects {
     doubleClick: this.actions$.pipe(ofType(mapActions.zoom), startWith(null)),
     interestPoint: this.actions$.pipe(
       ofType(layerInterestPointsActions.clicked),
+      startWith(null),
+    ),
+    traffic: this.actions$.pipe(
+      ofType(layerTrafficActions.clicked),
       startWith(null),
     ),
   };

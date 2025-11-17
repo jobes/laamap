@@ -1,0 +1,52 @@
+.external-link mat-icon {
+  font-size: 1rem;
+  display: contents;
+}
+
+.container {
+  margin-top: -1rem;
+}
+
+.info {
+  .mat-caption {
+    display: block;
+    color: var(--label-color);
+
+    &::after {
+      content: ': ';
+    }
+  }
+
+  .value {
+    margin-left: 0.5rem;
+
+    .split-list {
+      &:not(:first-child) {
+        &::before {
+          content: ', ';
+        }
+      }
+    }
+  }
+}
+
+mat-accordion {
+  display: block;
+  margin: 1rem 0;
+}
+
+.highlight {
+  font-weight: 500;
+}
+
+@media screen and (width > 500px) {
+  .info {
+    .mat-caption {
+      display: inline;
+    }
+
+    .value {
+      margin-left: 0;
+    }
+  }
+}

@@ -34,7 +34,7 @@ export interface TrafficEntry {
   pureTrackKey?: string;
   trackerId?: string;
   pilotName?: string;
-  groundLevel?: string;
+  groundLevel?: number;
   username?: string;
   aircraftId?: string;
   displayAltitude: string;
@@ -193,7 +193,7 @@ export class TrafficService {
       trackerId: data.find((d) => d.startsWith('D'))?.slice(1),
       pilotName: data.find((d) => d.startsWith('N'))?.slice(1),
       model: data.find((d) => d.startsWith('M'))?.slice(1),
-      groundLevel: data.find((d) => d.startsWith('g'))?.slice(1),
+      groundLevel: +(data.find((d) => d.startsWith('g'))?.slice(1) ?? 0),
       color: data.find((d) => d.startsWith('c'))?.slice(1),
       aircraftId: data.find((d) => d.startsWith('a'))?.slice(1),
       username: data.find((d) => d.startsWith('u'))?.slice(1),
