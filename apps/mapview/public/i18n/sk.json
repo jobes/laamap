@@ -359,7 +359,7 @@
     },
     "boolean": {
       "false": "Nie",
-      "true": "Ano"
+      "true": "Áno"
     },
     "runways": "Dráhy",
     "runwaysDetail": {
@@ -512,7 +512,7 @@
     },
     "boolean": {
       "false": "Nie",
-      "true": "Ano"
+      "true": "Áno"
     }
   },
   "notamsDialog": {
@@ -882,7 +882,7 @@
     },
     "boolean": {
       "false": "Nie",
-      "true": "Ano"
+      "true": "Áno"
     }
   },
   "notams": {
