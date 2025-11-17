@@ -93,14 +93,14 @@
       <span class="mat-caption">{{ t('vspeed') }}</span>
       <span class="value">
         @if (data.vspeed || data.vspeed === 0) {
-          <span class="value">{{
+          {{
             {
               value: data.vspeed,
               unit: ESpeedUnit.mps,
             } | speed: ESpeedUnit.mps
-          }}</span>
+          }}
         } @else {
-          <span class="value">{{ t('na') }}</span>
+          {{ t('na') }}
         }
       </span>
     </div>
