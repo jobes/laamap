@@ -5,6 +5,7 @@ import * as turf from '@turf/turf';
 import { GeoJSONSource, LngLat } from 'maplibre-gl';
 import { Observable, forkJoin } from 'rxjs';
 
+import { layerTrafficActions } from '../../../store/actions/map.actions';
 import {
   AirplaneDisplayOption,
   trafficFeature,
@@ -144,6 +145,16 @@ export class OnMapTrafficService {
 
     this.mapService.instance.on('mouseleave', 'trafficLayer', () => {
       this.mapService.instance.getCanvasContainer().style.cursor = '';
+    });
+
+    this.mapService.instance.on('click', 'trafficLayer', (event) => {
+      this.store.dispatch(
+        layerTrafficActions.clicked({
+          features: JSON.parse(
+            JSON.stringify(event.features ?? []),
+          ) as GeoJSON.Feature[],
+        }),
+      );
     });
 
     // Set initial text field expression based on current settings

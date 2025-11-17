@@ -55,4 +55,18 @@
       <span matListItemTitle>{{ t('showNotams') }}</span>
     </a>
   }
+
+  @if (data.traffic) {
+    <a mat-list-item (click)="showTraffic(data.traffic.features)" tabindex="0">
+      <span matListItemTitle>{{ t('showTraffic') }}</span>
+      <span matLine>
+        {{
+          data.traffic.features[0].properties['callsign'] ||
+            data.traffic.features[0].properties['label'] ||
+            data.traffic.features[0].properties['rego'] ||
+            t('unknownTraffic')
+        }}
+      </span>
+    </a>
+  }
 </mat-nav-list>

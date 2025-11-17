@@ -1,0 +1,176 @@
+<ng-template transloco let-t translocoPrefix="trafficDialog">
+  <h1 mat-dialog-title>
+    {{
+      t('title', {
+        callsign:
+          data.callsign || data.label || data.rego || 'Unknown Aircraft',
+      })
+    }}
+  </h1>
+  <div mat-dialog-content class="container">
+    <div class="info">
+      <span class="mat-caption">{{ t('objectType') }}</span>
+      <span class="value">
+        {{ t('trafficType.' + trafficType()?.id) }}
+        <img
+          src="public/traffic/{{ trafficType()?.icon }}.svg"
+          alt="{{ t('trafficType.' + trafficType()?.id) }}"
+        />
+      </span>
+    </div>
+
+    <div class="info">
+      <span class="mat-caption">{{ t('timestamp') }}</span
+      ><span class="value">{{
+        data.timestamp
+          ? (data.timestamp * 1000 | translocoDate: { timeStyle: 'medium' })
+          : 'N/A'
+      }}</span>
+    </div>
+
+    <div class="info">
+      <span class="mat-caption">{{ t('altitude') }}</span>
+      @if (data.alt || data.alt === 0) {
+        <span class="value"
+          >{{
+            {
+              value: data.alt,
+              unit: EHeightUnit.meter,
+              referenceDatum: EReferenceDatum.msl,
+            } | altitude
+          }}
+          ({{
+            {
+              value: data.alt,
+              unit: EHeightUnit.meter,
+              referenceDatum: EReferenceDatum.msl,
+            } | altitude: EHeightUnit.feet
+          }})</span
+        >
+      } @else {
+        <span class="value">{{ t('na') }}</span>
+      }
+    </div>
+
+    <div class="info">
+      <span class="mat-caption">{{ t('rego') }}</span>
+      <span class="value"
+        >{{ getValueOrNA(data.rego) }}
+        @if (data.rego) {
+          <a
+            class="external-link"
+            href="https://www.planespotters.net/photos/reg/{{ data.rego }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            >{{ t('photos') }}<mat-icon>open_in_new</mat-icon></a
+          >
+        }
+      </span>
+    </div>
+
+    <div class="info">
+      <span class="mat-caption">{{ t('course') }}</span>
+      <span class="value"> {{ getValueOrNA(data.course) }}° </span>
+    </div>
+
+    <div class="info">
+      <span class="mat-caption">{{ t('speed') }}</span>
+      <span class="value">
+        @if (data.speed || data.speed === 0) {
+          <span class="value">{{
+            {
+              value: data.speed,
+              unit: ESpeedUnit.mps,
+            } | speed: ESpeedUnit.kph
+          }}</span>
+        } @else {
+          <span class="value">{{ t('na') }}</span>
+        }
+      </span>
+    </div>
+
+    <div class="info">
+      <span class="mat-caption">{{ t('vspeed') }}</span>
+      <span class="value">
+        @if (data.vspeed || data.vspeed === 0) {
+          <span class="value">{{
+            {
+              value: data.vspeed,
+              unit: ESpeedUnit.mps,
+            } | speed: ESpeedUnit.mps
+          }}</span>
+        } @else {
+          <span class="value">{{ t('na') }}</span>
+        }
+      </span>
+    </div>
+
+    <div class="info">
+      <span class="mat-caption">{{ t('label') }}</span>
+      <span class="value"> {{ getValueOrNA(data.label) }} </span>
+    </div>
+
+    <div class="info">
+      <span class="mat-caption">{{ t('callsign') }}</span>
+      <span class="value"> {{ getValueOrNA(data.callsign) }} </span>
+    </div>
+
+    @if (data.pilotName) {
+      <div class="info">
+        <span class="mat-caption">{{ t('pilotName') }}</span>
+        <span class="value"> {{ getValueOrNA(data.pilotName) }} </span>
+      </div>
+    }
+
+    <div class="info">
+      <span class="mat-caption">{{ t('model') }}</span>
+      <span class="value"> {{ getValueOrNA(data.model) }} </span>
+    </div>
+
+    <div class="info">
+      <span class="mat-caption">{{ t('groundLevel') }}</span>
+      <span class="value">
+        @if (data.groundLevel || data.groundLevel === 0) {
+          <span class="value">{{
+            {
+              value: data.groundLevel,
+              unit: EHeightUnit.meter,
+              referenceDatum: EReferenceDatum.msl,
+            } | altitude: EHeightUnit.meter
+          }}</span>
+        } @else {
+          <span class="value">{{ t('na') }}</span>
+        }
+      </span>
+    </div>
+
+    <div class="info">
+      <span class="mat-caption">{{ t('aircraftId') }}</span>
+      <span class="value"> {{ getValueOrNA(data.aircraftId) }} </span>
+    </div>
+
+    @if (data.username) {
+      <div class="info">
+        <span class="mat-caption">{{ t('username') }}</span>
+        <span class="value">{{ data.username }}</span>
+      </div>
+    }
+
+    <div class="info">
+      <span class="mat-caption">{{ t('onGround') }}</span>
+      <ng-template transloco let-b translocoPrefix="shared.boolean">
+        <span class="value">{{
+          data.onGround === '1' ? b('true') : b('false')
+        }}</span>
+      </ng-template>
+    </div>
+
+    <div class="info">
+      <span class="mat-caption">{{ t('state') }}</span>
+      <span class="value">{{ t('stateValues.' + (data.state || '-')) }}</span>
+    </div>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>{{ t('close') }}</button>
+  </div>
+</ng-template>

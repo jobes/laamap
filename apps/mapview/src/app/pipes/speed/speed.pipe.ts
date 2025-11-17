@@ -4,7 +4,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import { ESpeedUnit } from '../../services/open-aip/airport.interfaces';
 
 @Pipe({
-  name: 'Speed',
+  name: 'speed',
 })
 export class SpeedPipe implements PipeTransform {
   private transloco = inject(TranslocoService);

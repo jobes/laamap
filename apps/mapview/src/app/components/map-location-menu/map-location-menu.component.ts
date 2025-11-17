@@ -15,6 +15,7 @@ import { MapHelperFunctionsService } from '../../services/map-helper-functions/m
 import { INotamDecodedResponse } from '../../services/notams/notams.interface';
 import { IAirportResponse } from '../../services/open-aip/airport.interfaces';
 import { IAirspace } from '../../services/open-aip/airspaces.interfaces';
+import { TrafficEntry } from '../../services/traffic/traffic.service';
 import { mapLocationMenuActions } from '../../store/actions/map.actions';
 import { AirportDialogComponent } from '../dialogs/airport-dialog/airport-dialog.component';
 import { AirspacesDialogComponent } from '../dialogs/airspaces-dialog/airspaces-dialog.component';
@@ -23,6 +24,7 @@ import {
   CreateInterestPointDialogInput,
 } from '../dialogs/create-interest-point-dialog/create-interest-point-dialog.component';
 import { NotamsDialogComponent } from '../dialogs/notams-dialog/notams-dialog.component';
+import { TrafficDialogComponent } from '../dialogs/traffic-dialog/traffic-dialog.component';
 
 @Component({
   selector: 'laamap-map-location-menu',
@@ -46,6 +48,9 @@ export class MapLocationMenuComponent {
     };
     interestPoint?: {
       features: GeoJSON.Feature<Point, IDbInterestPoint>[];
+    };
+    traffic?: {
+      features: GeoJSON.Feature<Point, TrafficEntry>[];
     };
   }>(MAT_BOTTOM_SHEET_DATA);
   private readonly mapHelper = inject(MapHelperFunctionsService);
@@ -90,6 +95,18 @@ export class MapLocationMenuComponent {
     this.dialog.open(NotamsDialogComponent, {
       maxWidth: '100%',
       data: notams?.map((notam) => notam.decoded),
+    });
+  }
+
+  showTraffic(features: GeoJSON.Feature[]): void {
+    this.bottomSheetRef.dismiss();
+    const trafficData = this.mapHelper.decodeGeoJsonProperties(
+      features[0].properties,
+    ) as TrafficEntry;
+
+    this.dialog.open(TrafficDialogComponent, {
+      maxWidth: '100%',
+      data: trafficData,
     });
   }
 
