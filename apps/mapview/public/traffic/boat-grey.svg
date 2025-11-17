@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <g fill="#888888" stroke="#003d7a" stroke-width="0.5">
+    <!-- Boat hull -->
+    <path d="M 6 18 Q 16 22 26 18 L 24 20 Q 16 24 8 20 Z"/>
+    <!-- Deck -->
+    <ellipse cx="16" cy="18" rx="8" ry="2" fill="#888888"/>
+    <!-- Mast -->
+    <rect x="15.5" y="8" width="1" height="12"/>
+    <!-- Sail -->
+    <path d="M 16 8 Q 12 12 16 16 Q 20 12 16 8 Z" fill="#888888" opacity="0.8"/>
+    <!-- Cabin -->
+    <rect x="12" y="16" width="8" height="3" rx="1" fill="#888888"/>
+  </g>
+</svg>
