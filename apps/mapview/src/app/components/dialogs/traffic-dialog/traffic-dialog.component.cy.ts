@@ -21,7 +21,7 @@ class WrapperComponent implements OnInit {
 
 describe(TrafficDialogComponent.name, () => {
   const trafficFixture: TrafficEntry = {
-    timestamp: Date.now(),
+    timestamp: new Date('2024-06-01T15:35:21Z').getTime() / 1000,
     lat: 48.1486,
     lng: 17.1077,
     alt: 1500,
@@ -31,15 +31,15 @@ describe(TrafficDialogComponent.name, () => {
     callsign: 'TEST123',
     label: 'Test Aircraft',
     rego: 'OK-TEST',
-    objectType: 'plane',
-    state: 'flying',
+    objectType: '2',
+    state: '2',
     model: 'Cessna 172',
     color: '#FF0000',
     onGround: 'false',
     pureTrackKey: 'test-key',
     trackerId: 'tracker-123',
     pilotName: 'John Doe',
-    groundLevel: '200m',
+    groundLevel: 200,
     username: 'testpilot',
     aircraftId: 'aircraft-123',
     displayAltitude: '1500m',
@@ -56,25 +56,57 @@ describe(TrafficDialogComponent.name, () => {
     // Check that dialog title contains callsign
     cy.get('[mat-dialog-title]').should('contain', 'TEST123');
 
-    // Check that structured data is displayed
-    cy.get('.traffic-info').should('exist');
-    cy.get('.info-row').should('have.length.greaterThan', 5);
-
-    // Check close button works
-    cy.get('button').contains('Close').click();
-  });
-
-  it('shows traffic information properly formatted', () => {
-    cy.mount(WrapperComponent, {
-      componentProperties: {
-        data: trafficFixture,
-      },
-    });
-
-    // Verify structured information display
-    cy.get('.info-row').should('contain', 'Callsign');
-    cy.get('.info-row').should('contain', 'TEST123');
-    cy.get('.info-row').should('contain', 'Registration');
-    cy.get('.info-row').should('contain', 'OK-TEST');
+    cy.get('[data-cy="traffic-object-type"]').should(
+      'contain',
+      'Typ objektu Ťažné lietadlo',
+    );
+    cy.get('[data-cy="traffic-timestamp"]').should(
+      'contain',
+      'Čas poslednej pozície17:35:21',
+    );
+    cy.get('[data-cy="traffic-altitude"]').should(
+      'contain',
+      'Nadmorská výška1500m n.m. (4921ft n.m.)',
+    );
+    cy.get('[data-cy="traffic-rego"]').should('contain', 'RegistráciaOK-TEST');
+    cy.get('[data-cy="traffic-course"]').should('contain', 'Kurz 90°');
+    cy.get('[data-cy="traffic-speed"]').should('contain', 'Rýchlosť432km/h');
+    cy.get('[data-cy="traffic-vspeed"]').should(
+      'contain',
+      'Vertikálna rýchlosť 5m/s',
+    );
+    cy.get('[data-cy="traffic-label"]').should(
+      'contain',
+      'Označenie Test Aircraft',
+    );
+    cy.get('[data-cy="traffic-callsign"]').should(
+      'contain',
+      'Volací znak TEST123',
+    );
+    cy.get('[data-cy="traffic-pilot-name"]').should(
+      'contain',
+      'Meno pilota John Doe',
+    );
+    cy.get('[data-cy="traffic-model"]').should(
+      'contain',
+      'Model lietadla Cessna 172',
+    );
+    cy.get('[data-cy="traffic-ground-level"]').should(
+      'contain',
+      'Úroveň terénu200m n.m.',
+    );
+    cy.get('[data-cy="traffic-aircraft-id"]').should(
+      'contain',
+      'ID lietadla aircraft-123',
+    );
+    cy.get('[data-cy="traffic-username"]').should(
+      'contain',
+      'Používateľské menotestpilot',
+    );
+    cy.get('[data-cy="traffic-on-ground"]').should('contain', 'Na zemiNie');
+    cy.get('[data-cy="traffic-pilot-name"]').should(
+      'contain',
+      'Meno pilota John Doe',
+    );
   });
 });

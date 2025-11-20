@@ -19,17 +19,16 @@ describe(VariometerWidgetComponent.name, () => {
           useValue: { safePosition$: () => of({ x: 30, y: 50 }) },
         },
       ],
-      componentProperties: {
-        colorsByClimbing$: of({
-          position: {
-            x: 30,
-            y: 50,
-          },
-          bgColor: '#002266',
-          textColor: '#ccddee',
-          climbingSpeed: -2.9,
-        }),
-      },
+    }).then((wrapper) => {
+      wrapper.component.colorsByClimbing$ = of({
+        position: {
+          x: 30,
+          y: 50,
+        },
+        bgColor: '#002266',
+        textColor: '#ccddee',
+        climbingSpeed: -2.9,
+      });
     });
     cy.get('.value').contains('-2,9 m/s');
   });

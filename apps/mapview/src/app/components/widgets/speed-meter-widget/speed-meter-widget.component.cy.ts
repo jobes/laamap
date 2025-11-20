@@ -23,6 +23,7 @@ describe(SpeedMeterWidgetComponent.name, () => {
                   y: 50,
                 },
                 selectedSources: ['gps', 'ias'],
+                instrumentIasConnected: true,
               },
             },
           ],
