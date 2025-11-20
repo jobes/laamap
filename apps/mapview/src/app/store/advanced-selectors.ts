@@ -2,7 +2,7 @@ import { createSelector, select } from '@ngrx/store';
 import * as turf from '@turf/turf';
 import { Feature, LineString } from 'geojson';
 import { LngLat } from 'maplibre-gl';
-import { auditTime, map, pairwise, pipe, startWith, switchMap } from 'rxjs';
+import { auditTime, map, pairwise, pipe, startWith } from 'rxjs';
 
 import { altitudeFromPressure } from '../helper';
 import {

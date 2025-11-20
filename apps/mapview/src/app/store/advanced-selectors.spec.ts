@@ -1,5 +1,6 @@
 import * as turf from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
+import { Subject } from 'rxjs';
 
 import {
   altitude,
@@ -25,7 +26,7 @@ describe('advanced-selectors', () => {
           heading: 4,
           altitude: 5,
         },
-      } as any;
+      } as unknown as GeolocationPosition;
       const heading = 33;
       const zoom = 10;
       const pitch = 45;
@@ -68,7 +69,7 @@ describe('advanced-selectors', () => {
           speed: 30,
           heading: 0,
         },
-      } as any;
+      } as unknown as GeolocationPosition;
       const result = selectLineDefinitionSegmentGeoJson.projector(
         false,
         geoLocation,
@@ -86,7 +87,7 @@ describe('advanced-selectors', () => {
           speed: 10,
           heading: 0,
         },
-      } as any;
+      } as unknown as GeolocationPosition;
 
       const result = selectLineDefinitionSegmentGeoJson.projector(
         true,
@@ -127,7 +128,7 @@ describe('advanced-selectors', () => {
           speed: 10,
           heading: 0,
         },
-      } as any;
+      } as unknown as GeolocationPosition;
 
       const result = selectLineDefinitionBorderGeoJson.projector(
         true,
@@ -152,17 +153,17 @@ describe('advanced-selectors', () => {
     it('should pick the correct color setting depending on current speed', () => {
       const geoLocation = {
         coords: { speed: 10 }, // m/s => 36 km/h
-      } as any;
+      } as unknown as GeolocationPosition;
 
       const speedSettings = {
-        position: 'top-left',
+        position: { x: 0, y: 0 },
         colorsBySpeed: [
           { minSpeed: 0, textColor: 'black', bgColor: 'white' },
           { minSpeed: 30, textColor: 'green', bgColor: 'yellow' },
           { minSpeed: 50, textColor: 'red', bgColor: 'pink' },
         ],
-        selectedSources: ['gps'],
-      } as any;
+        selectedSources: ['gps'] as ('gps' | 'ias')[],
+      };
 
       const result = selectColorsBySpeed.projector(
         geoLocation,
@@ -174,7 +175,7 @@ describe('advanced-selectors', () => {
       expect(result).toEqual({
         textColor: 'green',
         bgColor: 'yellow',
-        position: 'top-left',
+        position: { x: 0, y: 0 },
         airSpeed: 0,
         groundSpeed: 10,
         instrumentIasConnected: false,
@@ -185,17 +186,17 @@ describe('advanced-selectors', () => {
     it('should return correct colors when instruments are connected, but no IAS', () => {
       const geoLocation = {
         coords: { speed: 10 }, // m/s => 36 km/h
-      } as any;
+      } as unknown as GeolocationPosition;
 
       const speedSettings = {
-        position: 'top-left',
+        position: { x: 0, y: 0 },
         colorsBySpeed: [
           { minSpeed: 0, textColor: 'black', bgColor: 'white' },
           { minSpeed: 30, textColor: 'green', bgColor: 'yellow' },
           { minSpeed: 50, textColor: 'red', bgColor: 'pink' },
         ],
-        selectedSources: ['gps'],
-      } as any;
+        selectedSources: ['gps'] as ('gps' | 'ias')[],
+      };
 
       const result = selectColorsBySpeed.projector(
         geoLocation,
@@ -207,7 +208,7 @@ describe('advanced-selectors', () => {
       expect(result).toEqual({
         textColor: 'green',
         bgColor: 'yellow',
-        position: 'top-left',
+        position: { x: 0, y: 0 },
         airSpeed: 0,
         groundSpeed: 10,
         instrumentIasConnected: false,
@@ -218,17 +219,17 @@ describe('advanced-selectors', () => {
     it('should return correct colors when instruments are connected with IAS', () => {
       const geoLocation = {
         coords: { speed: 10 }, // m/s => 36 km/h
-      } as any;
+      } as unknown as GeolocationPosition;
 
       const speedSettings = {
-        position: 'top-left',
+        position: { x: 0, y: 0 },
         colorsBySpeed: [
           { minSpeed: 0, textColor: 'black', bgColor: 'white' },
           { minSpeed: 30, textColor: 'green', bgColor: 'yellow' },
           { minSpeed: 50, textColor: 'red', bgColor: 'pink' },
         ],
-        selectedSources: ['gps'],
-      } as any;
+        selectedSources: ['gps'] as ('gps' | 'ias')[],
+      };
 
       const result = selectColorsBySpeed.projector(
         geoLocation,
@@ -240,7 +241,10 @@ describe('advanced-selectors', () => {
       expect(result).toEqual({
         textColor: 'red',
         bgColor: 'pink',
-        position: 'top-left',
+        position: {
+          x: 0,
+          y: 0,
+        },
         airSpeed: 20,
         groundSpeed: 10,
         instrumentIasConnected: true,
@@ -265,12 +269,12 @@ describe('advanced-selectors', () => {
 
       const geoLocation = {
         coords: { longitude: 0, latitude: 0, speed: 10, heading: 0 },
-      } as any;
+      } as GeolocationPosition;
 
       const route = [
-        { point: new LngLat(0.01, 0.01) },
-        { point: new LngLat(0.02, 0.02) },
-      ] as any;
+        { point: new LngLat(0.01, 0.01), name: 'Point 1' },
+        { point: new LngLat(0.02, 0.02), name: 'Point 2' },
+      ];
 
       const result = selectRouteNavigationStats.projector(
         true,
@@ -292,8 +296,8 @@ describe('advanced-selectors', () => {
 
       const geoLocation = {
         coords: { longitude: 0, latitude: 0, speed: 5 },
-      } as any;
-      const route = [{ point: new LngLat(0.01, 0.01) }] as any;
+      } as GeolocationPosition;
+      const route = [{ point: new LngLat(0.01, 0.01), name: 'Point 1' }];
 
       const averageSpeedKph = 72; // -> 20 m/s
       const result = selectRouteNavigationStats.projector(
@@ -312,7 +316,7 @@ describe('advanced-selectors', () => {
 
   describe('selectHeighSettings', () => {
     it('should compute GPS and pressure based altitude/gnd correctly without terrain', () => {
-      const geolocation = { coords: { altitude: 1000 } } as any;
+      const geolocation = { coords: { altitude: 1000 } } as GeolocationPosition;
       const altimeterSettings = {
         bgColor: 'black',
         textColor: 'white',
@@ -320,10 +324,24 @@ describe('advanced-selectors', () => {
         gndAltitude: 50,
         qnh: 1013,
         qfe: 1005,
-        show: ['gps', 'pressure'],
-        position: 'top-right',
-      } as any;
-      const terrainSettings = { enabled: false } as any;
+        show: ['altitudeM', 'gndM'] as (
+          | 'altitudeM'
+          | 'gndM'
+          | 'altitudeFt'
+          | 'gndFt'
+          | 'pressureAltitudeM'
+          | 'pressureGndM'
+          | 'pressureAltitudeFt'
+          | 'pressureGndFt'
+        )[],
+        position: { x: 0, y: 0 },
+        method: 'manual' as const,
+      };
+      const terrainSettings = {
+        enabled: false,
+        gndHeightCalculateUsingTerrain: false,
+        exaggeration: 1,
+      };
       const terrainElevation = 0;
       const pressure = 101000;
 
@@ -342,7 +360,7 @@ describe('advanced-selectors', () => {
     });
 
     it('should use terrain elevation when enabled', () => {
-      const geolocation = { coords: { altitude: 500 } } as any;
+      const geolocation = { coords: { altitude: 500 } } as GeolocationPosition;
       const altimeterSettings = {
         bgColor: 'black',
         textColor: 'white',
@@ -350,13 +368,24 @@ describe('advanced-selectors', () => {
         gndAltitude: 0,
         qnh: 1013,
         qfe: 1005, // ignored as terrain changes this value changes as well
-        show: [],
-        position: 'bottom',
-      } as any;
+        show: [] as (
+          | 'altitudeM'
+          | 'gndM'
+          | 'altitudeFt'
+          | 'gndFt'
+          | 'pressureAltitudeM'
+          | 'pressureGndM'
+          | 'pressureAltitudeFt'
+          | 'pressureGndFt'
+        )[],
+        position: { x: 0, y: 0 },
+        method: 'manual' as const,
+      };
       const terrainSettings = {
         enabled: true,
         gndHeightCalculateUsingTerrain: true,
-      } as any;
+        exaggeration: 1,
+      };
       const terrainElevation = 200;
       const pressure = 101000;
 
@@ -389,7 +418,7 @@ describe('advanced-selectors', () => {
       const routeNavStats = {
         distanceList: [1, 2, 3],
         durationList: [10, 20, 30],
-      } as any;
+      };
 
       const result = selectNavigationStats.projector(routeNavStats);
 
@@ -423,13 +452,17 @@ describe('advanced-selectors', () => {
 
   describe('altitude$', () => {
     it('should return GPS altitude when source is not pressure', () => {
-      const varioSetting = { source: 'gps' } as any;
-      const altimeterSettings = { qnh: 1013 } as any;
+      const varioSetting = { source: 'gps' as const } as Parameters<
+        typeof altitude.projector
+      >[0];
+      const altimeterSettings = { qnh: 1013 } as Parameters<
+        typeof altitude.projector
+      >[1];
       const pressure = 101325;
       const location = {
         coords: { altitude: 123 },
         timestamp: 9999,
-      } as any;
+      } as GeolocationPosition;
 
       const result = altitude.projector(
         varioSetting,
@@ -445,13 +478,17 @@ describe('advanced-selectors', () => {
     });
 
     it('should return GPS altitude when pressure is missing', () => {
-      const varioSetting = { source: 'pressure' } as any;
-      const altimeterSettings = { qnh: 1013 } as any;
+      const varioSetting = { source: 'pressure' as const } as Parameters<
+        typeof altitude.projector
+      >[0];
+      const altimeterSettings = { qnh: 1013 } as Parameters<
+        typeof altitude.projector
+      >[1];
       const pressure = null;
       const location = {
         coords: { altitude: 123 },
         timestamp: 9999,
-      } as any;
+      } as GeolocationPosition;
 
       const result = altitude.projector(
         varioSetting,
@@ -467,13 +504,17 @@ describe('advanced-selectors', () => {
     });
 
     it('should return pressure altitude when source is pressure and data exists', () => {
-      const varioSetting = { source: 'pressure' } as any;
-      const altimeterSettings = { qnh: 1013 } as any;
+      const varioSetting = { source: 'pressure' as const } as Parameters<
+        typeof altitude.projector
+      >[0];
+      const altimeterSettings = { qnh: 1013 } as Parameters<
+        typeof altitude.projector
+      >[1];
       const pressure = 101300; // 1013 hPa
       const location = {
         coords: { altitude: 500 },
         timestamp: 1000,
-      } as any;
+      } as GeolocationPosition;
 
       const now = new Date().getTime();
       vi.useFakeTimers().setSystemTime(now);
@@ -492,10 +533,9 @@ describe('advanced-selectors', () => {
   });
   describe('climbingSpeedMs', () => {
     it('should calculate climbing speed correctly (default 1000ms)', async () => {
-      const { Subject } = await import('rxjs');
       vi.useFakeTimers();
       const diffTime = 1000;
-      const source$ = new Subject<any>();
+      const source$ = new Subject<Record<string, unknown>>();
       const results: (number | null)[] = [];
 
       source$.pipe(climbingSpeedMs(diffTime)).subscribe((val) => {
@@ -542,10 +582,9 @@ describe('advanced-selectors', () => {
     });
 
     it('should calculate climbing speed with 500ms diffTime', async () => {
-      const { Subject } = await import('rxjs');
       vi.useFakeTimers();
       const diffTime = 500;
-      const source$ = new Subject<any>();
+      const source$ = new Subject<Record<string, unknown>>();
       const results: (number | null)[] = [];
 
       source$.pipe(climbingSpeedMs(diffTime)).subscribe((val) => {
@@ -587,10 +626,9 @@ describe('advanced-selectors', () => {
     });
 
     it('should calculate climbing speed with 2000ms diffTime', async () => {
-      const { Subject } = await import('rxjs');
       vi.useFakeTimers();
       const diffTime = 2000;
-      const source$ = new Subject<any>();
+      const source$ = new Subject<Record<string, unknown>>();
       const results: (number | null)[] = [];
 
       source$.pipe(climbingSpeedMs(diffTime)).subscribe((val) => {
