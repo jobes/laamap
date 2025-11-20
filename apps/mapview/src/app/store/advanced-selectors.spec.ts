@@ -2,6 +2,8 @@ import * as turf from '@turf/turf';
 import { LngLat } from 'maplibre-gl';
 
 import {
+  altitude,
+  climbingSpeedMs,
   selectColorsBySpeed,
   selectHeighSettings,
   selectLineDefinitionBorderGeoJson,
@@ -9,6 +11,7 @@ import {
   selectNavigationStats,
   selectOnMapTrackingState,
   selectRouteNavigationStats,
+  selectTrackInProgressWithMinSpeed,
 } from './advanced-selectors';
 
 describe('advanced-selectors', () => {
@@ -406,6 +409,226 @@ describe('advanced-selectors', () => {
       expect(
         (result?.arriveTimeToGoal?.getTime() ?? 0) - baseDate.getTime(),
       ).toBe(60 * 1000);
+    });
+  });
+  describe('selectTrackInProgressWithMinSpeed', () => {
+    it('should return object with hitMinSpeed and trackSavingInProgress', () => {
+      const result = selectTrackInProgressWithMinSpeed.projector(true, true);
+      expect(result).toEqual({
+        hitMinSpeed: true,
+        trackSavingInProgress: true,
+      });
+    });
+  });
+
+  describe('altitude$', () => {
+    it('should return GPS altitude when source is not pressure', () => {
+      const varioSetting = { source: 'gps' } as any;
+      const altimeterSettings = { qnh: 1013 } as any;
+      const pressure = 101325;
+      const location = {
+        coords: { altitude: 123 },
+        timestamp: 9999,
+      } as any;
+
+      const result = altitude.projector(
+        varioSetting,
+        altimeterSettings,
+        pressure,
+        location,
+      );
+
+      expect(result).toEqual({
+        altitude: 123,
+        timestamp: 9999,
+      });
+    });
+
+    it('should return GPS altitude when pressure is missing', () => {
+      const varioSetting = { source: 'pressure' } as any;
+      const altimeterSettings = { qnh: 1013 } as any;
+      const pressure = null;
+      const location = {
+        coords: { altitude: 123 },
+        timestamp: 9999,
+      } as any;
+
+      const result = altitude.projector(
+        varioSetting,
+        altimeterSettings,
+        pressure,
+        location,
+      );
+
+      expect(result).toEqual({
+        altitude: 123,
+        timestamp: 9999,
+      });
+    });
+
+    it('should return pressure altitude when source is pressure and data exists', () => {
+      const varioSetting = { source: 'pressure' } as any;
+      const altimeterSettings = { qnh: 1013 } as any;
+      const pressure = 101300; // 1013 hPa
+      const location = {
+        coords: { altitude: 500 },
+        timestamp: 1000,
+      } as any;
+
+      const now = new Date().getTime();
+      vi.useFakeTimers().setSystemTime(now);
+
+      const result = altitude.projector(
+        varioSetting,
+        altimeterSettings,
+        pressure,
+        location,
+      );
+
+      // 1013 hPa at 1013 QNH is approx 0 altitude
+      expect(result.altitude).toBeCloseTo(0, 0);
+      expect(result.timestamp).toBe(now);
+    });
+  });
+  describe('climbingSpeedMs', () => {
+    it('should calculate climbing speed correctly (default 1000ms)', async () => {
+      const { Subject } = await import('rxjs');
+      vi.useFakeTimers();
+      const diffTime = 1000;
+      const source$ = new Subject<any>();
+      const results: (number | null)[] = [];
+
+      source$.pipe(climbingSpeedMs(diffTime)).subscribe((val) => {
+        results.push(val);
+      });
+
+      const createState = (alt: number, time: number) => ({
+        'settings.instruments': {
+          varioMeter: { source: 'gps' },
+          altimeter: { qnh: 1013 },
+        },
+        planeInstruments: { airPressure: 101325 },
+        map: {
+          geoLocation: {
+            coords: { altitude: alt },
+            timestamp: time,
+          },
+        },
+      });
+
+      // Initial emission (t=0)
+      expect(results.length).toBe(1);
+      expect(results[0]).toBeNull();
+
+      // Emit first state
+      source$.next(createState(100, 10000));
+      vi.advanceTimersByTime(diffTime);
+      expect(results.length).toBe(2);
+      expect(results[1]).toBeNull();
+
+      // Emit second state
+      source$.next(createState(110, 11000)); // 1s later, 10m higher
+      vi.advanceTimersByTime(diffTime);
+      expect(results.length).toBe(3);
+      expect(results[2]).toBe(10);
+
+      // Emit third state (descent)
+      source$.next(createState(105, 12000)); // 1s later, 5m lower
+      vi.advanceTimersByTime(diffTime);
+      expect(results.length).toBe(4);
+      expect(results[3]).toBe(-5);
+
+      vi.useRealTimers();
+    });
+
+    it('should calculate climbing speed with 500ms diffTime', async () => {
+      const { Subject } = await import('rxjs');
+      vi.useFakeTimers();
+      const diffTime = 500;
+      const source$ = new Subject<any>();
+      const results: (number | null)[] = [];
+
+      source$.pipe(climbingSpeedMs(diffTime)).subscribe((val) => {
+        results.push(val);
+      });
+
+      const createState = (alt: number, time: number) => ({
+        'settings.instruments': {
+          varioMeter: { source: 'gps' },
+          altimeter: { qnh: 1013 },
+        },
+        planeInstruments: { airPressure: 101325 },
+        map: {
+          geoLocation: {
+            coords: { altitude: alt },
+            timestamp: time,
+          },
+        },
+      });
+
+      // Initial emission
+      expect(results.length).toBe(1);
+      expect(results[0]).toBeNull();
+
+      // Emit first state
+      source$.next(createState(200, 1000));
+      vi.advanceTimersByTime(diffTime);
+      expect(results.length).toBe(2);
+      expect(results[1]).toBeNull();
+
+      // Emit second state (500ms later, 2m higher)
+      // Speed = 2m / 0.5s = 4 m/s
+      source$.next(createState(202, 1500));
+      vi.advanceTimersByTime(diffTime);
+      expect(results.length).toBe(3);
+      expect(results[2]).toBe(4);
+
+      vi.useRealTimers();
+    });
+
+    it('should calculate climbing speed with 2000ms diffTime', async () => {
+      const { Subject } = await import('rxjs');
+      vi.useFakeTimers();
+      const diffTime = 2000;
+      const source$ = new Subject<any>();
+      const results: (number | null)[] = [];
+
+      source$.pipe(climbingSpeedMs(diffTime)).subscribe((val) => {
+        results.push(val);
+      });
+
+      const createState = (alt: number, time: number) => ({
+        'settings.instruments': {
+          varioMeter: { source: 'gps' },
+          altimeter: { qnh: 1013 },
+        },
+        planeInstruments: { airPressure: 101325 },
+        map: {
+          geoLocation: {
+            coords: { altitude: alt },
+            timestamp: time,
+          },
+        },
+      });
+
+      // Initial emission
+      expect(results.length).toBe(1);
+      expect(results[0]).toBeNull();
+
+      // Emit first state
+      source$.next(createState(500, 10000));
+      vi.advanceTimersByTime(diffTime);
+      expect(results.length).toBe(2);
+      expect(results[1]).toBeNull();
+
+      // Emit second state (2000ms later, 20m lower)
+      // Speed = -20m / 2s = -10 m/s
+      source$.next(createState(480, 12000));
+      vi.advanceTimersByTime(diffTime);
+      expect(results.length).toBe(3);
+      expect(results[2]).toBe(-10);
+
+      vi.useRealTimers();
     });
   });
 });

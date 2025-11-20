@@ -1,7 +1,8 @@
-import { createSelector } from '@ngrx/store';
+import { createSelector, select } from '@ngrx/store';
 import * as turf from '@turf/turf';
 import { Feature, LineString } from 'geojson';
 import { LngLat } from 'maplibre-gl';
+import { auditTime, map, pairwise, pipe, startWith, switchMap } from 'rxjs';
 
 import { altitudeFromPressure } from '../helper';
 import {
@@ -267,6 +268,73 @@ export const selectNavigationStats = createSelector(
     };
   },
 );
+
+export const altitude = createSelector(
+  instrumentsFeature.selectVarioMeter,
+  instrumentsFeature.selectAltimeter,
+  planeInstrumentsFeature.selectAirPressure,
+  mapFeature.selectGeoLocation,
+  (varioSetting, altimeterSettings, pressure, location) =>
+    varioSetting.source === 'pressure' && pressure && altimeterSettings.qnh
+      ? {
+          altitude: altitudeFromPressure(pressure ?? 0, altimeterSettings.qnh),
+          timestamp: new Date().getTime(),
+        }
+      : {
+          altitude: location?.coords.altitude,
+          timestamp: location?.timestamp ?? new Date().getTime(),
+        },
+);
+
+export const climbingSpeedMs = (diffTime: number) => {
+  return pipe(
+    select(altitude),
+    auditTime(diffTime),
+    startWith(null),
+    startWith(null),
+    pairwise(),
+    map(([prev, curr]) =>
+      (curr?.altitude || curr?.altitude === 0) &&
+      (prev?.altitude || prev?.altitude === 0)
+        ? {
+            altDiff: curr.altitude - prev.altitude,
+            timeDiff: curr.timestamp - prev.timestamp,
+          }
+        : null,
+    ),
+    map((diffs) =>
+      diffs !== null ? (diffs.altDiff * 1000) / diffs.timeDiff : null,
+    ),
+  );
+};
+
+export const colorsByClimbing = (settings: {
+  diffTime: number;
+  colorsByClimbing: {
+    minClimbing: number;
+    bgColor: string;
+    textColor: string;
+  }[];
+}) => {
+  return pipe(
+    climbingSpeedMs(settings.diffTime),
+    map(
+      (climbingSpeed) =>
+        [
+          [...settings.colorsByClimbing]
+            .reverse()
+            .find((setting) => setting.minClimbing <= (climbingSpeed ?? 0)) ??
+            null,
+          climbingSpeed,
+        ] as const,
+    ),
+    map(([settings, climbingSpeed]) => ({
+      bgColor: settings?.bgColor || 'white',
+      textColor: settings?.textColor || 'black',
+      climbingSpeed,
+    })),
+  );
+};
 
 function currentDateAddSeconds(seconds: number): Date {
   const date = new Date();

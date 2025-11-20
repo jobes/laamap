@@ -8,7 +8,7 @@
     }}
   </h1>
   <div mat-dialog-content class="container">
-    <div class="info">
+    <div class="info" data-cy="traffic-object-type">
       <span class="mat-caption">{{ t('objectType') }}</span>
       <span class="value">
         {{ t('trafficType.' + trafficType()?.id) }}
@@ -19,7 +19,7 @@
       </span>
     </div>
 
-    <div class="info">
+    <div class="info" data-cy="traffic-timestamp">
       <span class="mat-caption">{{ t('timestamp') }}</span
       ><span class="value">{{
         data.timestamp
@@ -28,7 +28,7 @@
       }}</span>
     </div>
 
-    <div class="info">
+    <div class="info" data-cy="traffic-altitude">
       <span class="mat-caption">{{ t('altitude') }}</span>
       @if (data.alt || data.alt === 0) {
         <span class="value"
@@ -52,7 +52,7 @@
       }
     </div>
 
-    <div class="info">
+    <div class="info" data-cy="traffic-rego">
       <span class="mat-caption">{{ t('rego') }}</span>
       <span class="value"
         >{{ getValueOrNA(data.rego) }}
@@ -68,12 +68,12 @@
       </span>
     </div>
 
-    <div class="info">
+    <div class="info" data-cy="traffic-course">
       <span class="mat-caption">{{ t('course') }}</span>
       <span class="value"> {{ getValueOrNA(data.course) }}° </span>
     </div>
 
-    <div class="info">
+    <div class="info" data-cy="traffic-speed">
       <span class="mat-caption">{{ t('speed') }}</span>
       <span class="value">
         @if (data.speed || data.speed === 0) {
@@ -89,7 +89,7 @@
       </span>
     </div>
 
-    <div class="info">
+    <div class="info" data-cy="traffic-vspeed">
       <span class="mat-caption">{{ t('vspeed') }}</span>
       <span class="value">
         @if (data.vspeed || data.vspeed === 0) {
@@ -105,29 +105,29 @@
       </span>
     </div>
 
-    <div class="info">
+    <div class="info" data-cy="traffic-label">
       <span class="mat-caption">{{ t('label') }}</span>
       <span class="value"> {{ getValueOrNA(data.label) }} </span>
     </div>
 
-    <div class="info">
+    <div class="info" data-cy="traffic-callsign">
       <span class="mat-caption">{{ t('callsign') }}</span>
       <span class="value"> {{ getValueOrNA(data.callsign) }} </span>
     </div>
 
     @if (data.pilotName) {
-      <div class="info">
+      <div class="info" data-cy="traffic-pilot-name">
         <span class="mat-caption">{{ t('pilotName') }}</span>
         <span class="value"> {{ getValueOrNA(data.pilotName) }} </span>
       </div>
     }
 
-    <div class="info">
+    <div class="info" data-cy="traffic-model">
       <span class="mat-caption">{{ t('model') }}</span>
       <span class="value"> {{ getValueOrNA(data.model) }} </span>
     </div>
 
-    <div class="info">
+    <div class="info" data-cy="traffic-ground-level">
       <span class="mat-caption">{{ t('groundLevel') }}</span>
       <span class="value">
         @if (data.groundLevel || data.groundLevel === 0) {
@@ -144,19 +144,19 @@
       </span>
     </div>
 
-    <div class="info">
+    <div class="info" data-cy="traffic-aircraft-id">
       <span class="mat-caption">{{ t('aircraftId') }}</span>
       <span class="value"> {{ getValueOrNA(data.aircraftId) }} </span>
     </div>
 
     @if (data.username) {
-      <div class="info">
+      <div class="info" data-cy="traffic-username">
         <span class="mat-caption">{{ t('username') }}</span>
         <span class="value">{{ data.username }}</span>
       </div>
     }
 
-    <div class="info">
+    <div class="info" data-cy="traffic-on-ground">
       <span class="mat-caption">{{ t('onGround') }}</span>
       <ng-template transloco let-b translocoPrefix="shared.boolean">
         <span class="value">{{
@@ -165,7 +165,7 @@
       </ng-template>
     </div>
 
-    <div class="info">
+    <div class="info" data-cy="traffic-state">
       <span class="mat-caption">{{ t('state') }}</span>
       <span class="value">{{ t('stateValues.' + (data.state || '-')) }}</span>
     </div>
