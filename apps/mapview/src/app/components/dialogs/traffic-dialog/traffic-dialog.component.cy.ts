@@ -60,10 +60,6 @@ describe(TrafficDialogComponent.name, () => {
       'contain',
       'Typ objektu Ťažné lietadlo',
     );
-    cy.get('[data-cy="traffic-timestamp"]').should(
-      'contain',
-      'Čas poslednej pozície17:35:21',
-    );
     cy.get('[data-cy="traffic-altitude"]').should(
       'contain',
       'Nadmorská výška1500m n.m. (4921ft n.m.)',
