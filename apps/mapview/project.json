@@ -94,16 +94,14 @@
       "executor": "@nx/eslint:lint"
     },
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
         "reportsDirectory": "../../coverage/mapview",
         "configFile": "apps/mapview/vite.config.ts"
       },
       "configurations": {
-        "watch": {
-          "watch": true,
-          "ui": true,
+        "coverage": {
           "coverage": {
             "enabled": true
           }

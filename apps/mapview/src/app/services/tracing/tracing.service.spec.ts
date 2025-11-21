@@ -10,8 +10,10 @@ import { of } from 'rxjs';
 import { mapActions } from '../../store/actions/map.actions';
 import { MapEffects } from '../../store/effects/map.effects';
 import { mapFeature } from '../../store/features/map.feature';
+import { planeInstrumentsFeature } from '../../store/features/plane-instruments.feature';
 import { generalFeature } from '../../store/features/settings/general.feature';
 import { navigationSettingsFeature } from '../../store/features/settings/navigation.feature';
+import { trafficFeature } from '../../store/features/settings/traffic.feature';
 import { MapService } from '../map/map.service';
 import { OnMapDirectionLineService } from '../map/on-map-direction-line/on-map-direction-line.service';
 import { TracingService } from './tracing.service';
@@ -57,6 +59,8 @@ describe('TracingService', () => {
             [mapFeature.name]: mapFeature.reducer,
             [navigationSettingsFeature.name]: navigationSettingsFeature.reducer,
             [generalFeature.name]: generalFeature.reducer,
+            [planeInstrumentsFeature.name]: planeInstrumentsFeature.reducer,
+            [trafficFeature.name]: trafficFeature.reducer,
           }),
           EffectsModule.forRoot([MapEffects]),
         ),
