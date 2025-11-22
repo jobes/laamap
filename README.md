@@ -1,108 +1,75 @@
-### Aviation map for Slovakia
+# Stork Nav: The Open-Source Navigation & EFIS
 
-[Live App](https://map.stork-nav.app/)
+[Launch Your Co-Pilot](https://map.stork-nav.app/)
 
-[![CI](https://github.com/jobes/laamap/actions/workflows/ci.yml/badge.svg)](https://github.com/jobes/laamap/actions/workflows/ci.yml)
-[![deploy mapview](https://github.com/jobes/laamap/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/jobes/laamap/actions/workflows/gh-pages.yml)
+Stork Nav is a powerful, open-source flight navigation system and Electronic Flight Instrument System (EFIS) designed specifically for the VFR pilot. It combines professional-grade features with a clean, customizable interface, making it the perfect co-pilot for ultralight, LSA, homebuilt, and general aviation aircraft.
 
-- weather radar for storms (using [rainviewer](https://www.rainviewer.com/))
-- airspaces (using [openaip.net](https://www.openaip.net/))
-- airports (using [openaip.net](https://www.openaip.net/))
-- image gallery (used for some airports) powered by [lightgallery](https://www.lightgalleryjs.com/)
-- notams (using [notams.aim.faa.gov](https://notams.aim.faa.gov))
-- compass and position visualization
-- direction line for showing fly direction and approximate distance for given time. This line is shown after minimum speed is exceed
-- widgets for GPS powered instuments - speed meter, altitude meter and vario meter
-- widget for current flight duration and on clicking on this widget flight history is displayed
-- navigation to multiple points on map, widget with current navigation statistics
-- map control using gamepad with basic dialog control support
-- save own point to map that can be used for the navigation
-- global search on left top with search icon, there can se searched for route, airport, interest point and address
-- map can be installed as PWA
-- support for terrain, it is visible on map and altitude above ground is calculated using MSL altitude (from GPS) and terrain elevation
-- slovak and english language, world wide notams, AIP, address search
-- sync interest point to / from server, google login required
-- puretrack integration, live traffic on map
+Built by pilots, for pilots, Stork Nav is completely open-source, community-driven, and free from the clutter of expensive, proprietary software.
 
-### Secrets and keys
+## Core Features:
 
-Keys are required for some functionalities, for example for [maptiler](https://www.maptiler.com/). Keys and passwords should be saved in `.env` file
+**Flight Planning & Navigation**
 
-```
-NX_MAP_TILES_KEY=yourKey
-NX_LIGHT_GALLERY_KEY=yourKey
-NX_NOTAM_PROXY=proxy for https://notams.aim.faa.gov/notamSearch/search for fixing CORS
-```
+- **Full Navigation Suite:** Create, save, and fly complex routes with ease.
 
-for FTP deploy
+- **Comprehensive Search:** Instantly find airports, your navigation routes, points of interest, or even city addresses. [maptiler.com](https://www.maptiler.com/)
 
-```
-FTP_PASSWORD=
-FTP_SERVER=
-FTP_USERNAME=
-```
+- **Essential Airspace Data:** Stay aware and compliant with up-to-date airspace information and NOTAMs ([notams.aim.faa.gov](https://notams.aim.faa.gov)) overlaid directly on the map. [openaip.net](https://www.openaip.net/)
 
-### Wordpress reverse proxy
+- **Key Airport Information:** Access crucial airport information, including frequencies, runways, and services, right at your fingertips. [openaip.net](https://www.openaip.net/)
 
-NX_NOTAM_PROXY has to be set to a proxy URL, if there is no access to a server, just to a wordpress, simple reverse proxy can be installed from
-`apps/wordpress-plugins/simple-reverse-proxy`. It will add a `Simple reverse proxy` to settings menu in wordpress, where Proxy name should ne `notams` and URL `https://notams.aim.faa.gov/notamSearch/search`.
+- **Heading Arc Display:** An intuitive compass arc is displayed at the bottom of the screen, giving you clear heading information without cluttering your map view.
 
-### Map icon
+- **Predictive Track Vector:** See exactly where you're going. A segmented line projects your flight path for the next 5 minutes, with each segment representing one minute of flight time. It’s perfect for anticipating airspace boundaries and planning your next turn.
 
-flaticon.com [aviation icons](https://www.flaticon.com/free-icon/airport_3295244)
+- **Live Airspace Status:** Don't just see airspace—know if it's active. Stork Nav displays the current activation status for relevant airspace, helping you navigate complex areas with confidence.
 
-### POI icons
+**Unparalleled Situational Awareness**
 
-https://www.pngwing.com/en/free-png-izway/download?width=24
+- **Live Weather Radar:** See weather systems in real-time to make safer routing decisions. [rainviewer.com](https://www.rainviewer.com/)
 
-https://www.pngwing.com/en/free-png-bhypm/download?width=24
+- **Traffic Display:** With PureTrack integration, see nearby air traffic to enhance visual scanning and avoid conflicts. [puretrack.io](https://puretrack.io/)
 
-https://www.pngwing.com/en/free-png-tmyal/download?width=24
+- **Terrain & AGL:** The map displays detailed terrain data, automatically calculating your height Above Ground Level (AGL) for enhanced low-level flight safety. [maptiler.com](https://www.maptiler.com/)
 
-https://www.pngwing.com/en/free-png-tfyct/download?width=24
+**Key EFIS & Instrument Panel**
 
-https://www.pngwing.com/en/free-png-sactd/download?width=24
+- **Primary Flight Instruments:** Get a full panel of GPS-based digital instruments, including an Altimeter, Compass, Speed Meter, and Vario.
 
-https://www.pngwing.com/en/free-png-nvgek/download?width=24
+- **Engine & Systems Monitoring:** Connect your sensors to monitor critical data like RPM, CHT1/CHT2, Oil Temperature & Pressure, and Fuel Level.
 
-https://www.pngwing.com/en/free-png-snkwy/download?width=24
+- **Radio Integration:** Instantly access local airport frequencies.
 
-https://www.pngwing.com/en/free-png-ptmbg/download?width=24
+**Innovative & User-Focused Design**
 
-https://www.pngwing.com/en/free-png-sjmfo/download?width=24
+- **Clean & Customizable View:** The main screen is a beautiful map with movable widgets. You decide what you see and where.
 
-https://www.pngwing.com/en/free-png-tnjav/download?width=24
+- **Gamepad Control:** Get precise, tactile control with or without gloves. Connect a gamepad for easy, eyes-up operation, eliminating touchscreen errors in the cockpit.
 
-https://www.pngwing.com/en/free-png-tnvzw/download?width=24
+- **Automatic Flight Logging:** The app automatically detects flight based on your speed, logging your duration and history for you.
 
-https://www.pngwing.com/en/free-png-hcwtd/download?width=24
+- **Progressive Web App (PWA):** Install Stork Nav directly from your browser—no app store needed. It works on almost any device and can be used offline.
 
-https://www.pngwing.com/en/free-png-vuicb/download?width=24
+Stork Nav is more than a moving map. It’s a complete, modern, and open flight deck for your aircraft. Download today and experience the future of VFR navigation!
 
-https://www.freepik.com/icon/point-interest_7616080
+## Master Stork Nav with Our Video Guides
 
-https://www.freepik.com/icon/correct_7616102
+Ready to unlock the full power of Stork Nav? Our series of short video tutorials is the fastest way to get you from first-time setup to expert pilot. These guides will walk you through every feature, ensuring you get the most out of your new digital co-pilot.
 
-https://www.freepik.com/icon/travel-guide_7616101
+**Getting Started**: Basic Functionality See a quick tour of the main interface, map controls, and essential features to get you flying right away. [Watch the video](https://youtube.com)
 
-https://www.freepik.com/icon/setting_7616100
+**First Flight**: Setup & Configuration Learn how to install the app, customize your display widgets, and configure the core settings for your first flight. [Watch the video](https://youtube.com)
 
-https://www.freepik.com/icon/map-book_7616099
+**Eyes on the Sky**: Traffic Display See how to use the PureTrack integration to display nearby air traffic, enhancing your situational awareness and visual scanning. [Watch the video](https://youtube.com)
 
-https://www.freepik.com/icon/search_7616098
+**Staying Safe**: Airspace Awareness Learn how Stork Nav helps you visualize airspace boundaries and, more importantly, understand their live activation status for a safe and compliant flight. Watch the video: [Watch the video](https://youtube.com)
 
-https://www.freepik.com/icon/school_7616094
+**Navigating with Confidence**: Master the powerful navigation tools, from creating simple direct-to routes to planning complex, multi-leg journeys with ease. Watch the video: [Watch the video](https://youtube.com)
 
-https://www.freepik.com/icon/flag_7616092
+**Understanding Your Instruments**: Take a deep dive into the primary flight instruments, including the altimeter, vario, heading arc, and the predictive 5-minute track vector. [Watch the video](https://youtube.com)
 
-https://www.freepik.com/icon/meeting-place_7616091
+**Planning for Weather**: Learn how to use the live weather radar overlay to make informed routing decisions and stay clear of adverse conditions. [Watch the video](https://youtube.com)
 
-https://www.freepik.com/icon/time_7616089
+**Glove-Friendly Flying**: Gamepad Control Discover how to set up and use a physical gamepad for precise, tactile control—the perfect solution for eliminating touchscreen errors while wearing gloves. [Watch the video](https://youtube.com)
 
-https://www.freepik.com/icon/restaurant_7616087
-
-https://www.freepik.com/icon/favourite_7616072
-
-https://www.freepik.com/icon/home-address_7616069
-
-traffic icon from: https://www.onlinewebfonts.com/icon"
+**The Digital Cockpit**: EFIS & Engine Monitoring For advanced users, this guide shows you how to connect your engine sensors and configure the full EFIS for monitoring RPM, temperatures, pressures, and fuel level. [Watch the video](https://youtube.com)
