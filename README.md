@@ -56,20 +56,20 @@ Stork Nav is more than a moving map. It’s a complete, modern, and open flight 
 
 Ready to unlock the full power of Stork Nav? Our series of short video tutorials is the fastest way to get you from first-time setup to expert pilot. These guides will walk you through every feature, ensuring you get the most out of your new digital co-pilot.
 
-Getting Started: Basic Functionality See a quick tour of the main interface, map controls, and essential features to get you flying right away. [Watch the video](https://youtube.com)
+**Getting Started**: Basic Functionality See a quick tour of the main interface, map controls, and essential features to get you flying right away. [Watch the video](https://youtube.com)
 
-First Flight: Setup & Configuration Learn how to install the app, customize your display widgets, and configure the core settings for your first flight. [Watch the video](https://youtube.com)
+**First Flight**: Setup & Configuration Learn how to install the app, customize your display widgets, and configure the core settings for your first flight. [Watch the video](https://youtube.com)
 
-Eyes on the Sky: Traffic Display See how to use the PureTrack integration to display nearby air traffic, enhancing your situational awareness and visual scanning. [Watch the video](https://youtube.com)
+**Eyes on the Sky**: Traffic Display See how to use the PureTrack integration to display nearby air traffic, enhancing your situational awareness and visual scanning. [Watch the video](https://youtube.com)
 
-Staying Safe: Airspace Awareness Learn how Stork Nav helps you visualize airspace boundaries and, more importantly, understand their live activation status for a safe and compliant flight. Watch the video: [Watch the video](https://youtube.com)
+**Staying Safe**: Airspace Awareness Learn how Stork Nav helps you visualize airspace boundaries and, more importantly, understand their live activation status for a safe and compliant flight. Watch the video: [Watch the video](https://youtube.com)
 
-Navigating with Confidence Master the powerful navigation tools, from creating simple direct-to routes to planning complex, multi-leg journeys with ease. Watch the video: [Watch the video](https://youtube.com)
+**Navigating with Confidence**: Master the powerful navigation tools, from creating simple direct-to routes to planning complex, multi-leg journeys with ease. Watch the video: [Watch the video](https://youtube.com)
 
-Understanding Your Instruments Take a deep dive into the primary flight instruments, including the altimeter, vario, heading arc, and the predictive 5-minute track vector. [Watch the video](https://youtube.com)
+**Understanding Your Instruments**: Take a deep dive into the primary flight instruments, including the altimeter, vario, heading arc, and the predictive 5-minute track vector. [Watch the video](https://youtube.com)
 
-Planning for Weather Learn how to use the live weather radar overlay to make informed routing decisions and stay clear of adverse conditions. [Watch the video](https://youtube.com)
+**Planning for Weather**: Learn how to use the live weather radar overlay to make informed routing decisions and stay clear of adverse conditions. [Watch the video](https://youtube.com)
 
-Glove-Friendly Flying: Gamepad Control Discover how to set up and use a physical gamepad for precise, tactile control—the perfect solution for eliminating touchscreen errors while wearing gloves. [Watch the video](https://youtube.com)
+**Glove-Friendly Flying**: Gamepad Control Discover how to set up and use a physical gamepad for precise, tactile control—the perfect solution for eliminating touchscreen errors while wearing gloves. [Watch the video](https://youtube.com)
 
-The Digital Cockpit: EFIS & Engine Monitoring For advanced users, this guide shows you how to connect your engine sensors and configure the full EFIS for monitoring RPM, temperatures, pressures, and fuel level. [Watch the video](https://youtube.com)
+**The Digital Cockpit**: EFIS & Engine Monitoring For advanced users, this guide shows you how to connect your engine sensors and configure the full EFIS for monitoring RPM, temperatures, pressures, and fuel level. [Watch the video](https://youtube.com)
