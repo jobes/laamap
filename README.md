@@ -16,7 +16,7 @@ Built by pilots, for pilots, Stork Nav is completely open-source, community-driv
 
 - **Essential Airspace Data:** Stay aware and compliant with up-to-date airspace information and NOTAMs ([notams.aim.faa.gov](https://notams.aim.faa.gov)) overlaid directly on the map. [openaip.net](https://www.openaip.net/)
 
-- **Key Airport Information** Access crucial airport information, including frequencies, runways, and services, right at your fingertips. [openaip.net](https://www.openaip.net/)
+- **Key Airport Information:** Access crucial airport information, including frequencies, runways, and services, right at your fingertips. [openaip.net](https://www.openaip.net/)
 
 - **Heading Arc Display:** An intuitive compass arc is displayed at the bottom of the screen, giving you clear heading information without cluttering your map view.
 
