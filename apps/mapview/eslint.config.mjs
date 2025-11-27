@@ -4,7 +4,6 @@ import playwright from 'eslint-plugin-playwright';
 import baseConfig from '../../eslint.config.mjs';
 
 export default [
-  playwright.configs['flat/recommended'],
   ...baseConfig,
   ...nx.configs['flat/angular'],
   ...nx.configs['flat/angular-template'],
@@ -41,5 +40,9 @@ export default [
     files: ['**/*.ts', '**/*.js'],
     // Override or add rules here
     rules: {},
+  },
+  {
+    ...playwright.configs['flat/recommended'],
+    files: ['**/e2e/**/*.ts'],
   },
 ];
