@@ -1,8 +1,10 @@
 import nx from '@nx/eslint-plugin';
+import playwright from 'eslint-plugin-playwright';
 
 import baseConfig from '../../eslint.config.mjs';
 
 export default [
+  playwright.configs['flat/recommended'],
   ...baseConfig,
   ...nx.configs['flat/angular'],
   ...nx.configs['flat/angular-template'],
@@ -34,5 +36,10 @@ export default [
       '@angular-eslint/template/click-events-have-key-events': ['warn'],
       '@angular-eslint/template/interactive-supports-focus': ['warn'],
     },
+  },
+  {
+    files: ['**/*.ts', '**/*.js'],
+    // Override or add rules here
+    rules: {},
   },
 ];
