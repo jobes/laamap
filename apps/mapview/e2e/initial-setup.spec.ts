@@ -11,7 +11,7 @@ test('has title', async ({ page }) => {
   await page.goto('/', { waitUntil: 'networkidle' });
   await showClickPosition(page);
 
-  await expect(await page.locator('body')).toBeVisible();
+  await expect(page.locator('body')).toBeVisible();
   await page.locator('.maplibregl-ctrl-geolocate').click();
   await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'settings' }).click();
