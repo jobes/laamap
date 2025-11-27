@@ -78,7 +78,7 @@ export const appConfig: ApplicationConfig = {
             strictActionImmutability: true,
             strictStateSerializability: true,
             strictActionSerializability: true,
-            strictActionWithinNgZone: true,
+            strictActionWithinNgZone: false,
             strictActionTypeUniqueness: true,
           },
           metaReducers,
