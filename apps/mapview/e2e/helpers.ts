@@ -100,7 +100,7 @@ export async function showClickPosition(page: Page) {
 }
 
 export function mockWakeLock(page: Page) {
-  page.addInitScript(() => {
+  return page.addInitScript(() => {
     (
       window.navigator as unknown as { wakeLock: { request: unknown } }
     ).wakeLock.request = async () => {
