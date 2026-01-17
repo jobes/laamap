@@ -7,10 +7,10 @@ import { Store } from '@ngrx/store';
 import maplibreGl from 'maplibre-gl';
 import {
   combineLatest,
+  distinctUntilChanged,
   filter,
   map,
   of,
-  pairwise,
   sampleTime,
   startWith,
   switchMap,
@@ -112,7 +112,13 @@ export class MapEffects {
 
   moveMapOnGpsTracking$ = createEffect(
     () => {
+      const movingFix = [] as number[];
       return this.store.select(selectOnMapTrackingState).pipe(
+        distinctUntilChanged(
+          (a, b) =>
+            a.geoLocation?.coords.latitude === b.geoLocation?.coords.latitude &&
+            a.geoLocation?.coords.longitude === b.geoLocation?.coords.longitude,
+        ),
         filter(
           (
             params,
@@ -120,70 +126,77 @@ export class MapEffects {
             geoLocation: NonNullable<(typeof params)['geoLocation']>;
           } => this.trackingActive(params),
         ),
-        startWith({
-          geoLocation: null,
-          heading: 0,
-          zoom: 0,
-          pitch: 0,
-          minSpeedHit: false,
-        }),
-        pairwise(),
         filter(() => !this.animationInProgress),
-        tap(
-          ([previous, { geoLocation, heading, zoom, pitch, minSpeedHit }]) => {
-            this.animationInProgress = true;
-            const center = new maplibreGl.LngLat(
-              geoLocation?.coords.longitude ?? 0,
-              geoLocation?.coords.latitude ?? 0,
+        tap(({ geoLocation, heading, zoom, pitch, minSpeedHit }) => {
+          this.animationInProgress = true;
+          const center = new maplibreGl.LngLat(
+            geoLocation?.coords.longitude ?? 0,
+            geoLocation?.coords.latitude ?? 0,
+          );
+
+          if (this.startGpsTracking) {
+            this.mapService.instance.flyTo(
+              {
+                center,
+                bearing: heading ?? 0,
+                zoom,
+                pitch,
+                duration: flyAnimationDuration,
+              },
+              {
+                geolocateSource: true,
+              },
+            );
+            setTimeout(() => {
+              this.startGpsTracking = false; // wait until initial animation ends
+              this.animationInProgress = false;
+              this.store.dispatch(
+                mapEffectsActions.geolocationTrackingRunning({
+                  following: this.trackingActive({ geoLocation }),
+                }),
+              );
+            }, flyAnimationDuration);
+          } else {
+            if (minSpeedHit) {
+              movingFix.push(new Date().getTime());
+              if (movingFix.length > 5) {
+                movingFix.shift();
+              }
+            } else {
+              movingFix.length = 0;
+            }
+
+            let duration = minSpeedHit
+              ? movingFix.reduce(
+                  (acc, cur, index, arr) =>
+                    index === 0 ? 0 : Math.max(acc, cur - arr[index - 1]),
+                  0,
+                )
+              : compassDuration;
+
+            if (duration > 5000) {
+              movingFix.length = 0;
+              duration = 5000;
+            }
+
+            if (duration < 200) {
+              duration = 2000;
+            }
+            this.mapService.instance.easeTo(
+              {
+                center,
+                bearing: heading ?? 0,
+                duration: duration < 0 ? 0 : duration,
+                easing: (n) => n,
+              },
+              {
+                geolocateSource: true,
+              },
             );
 
-            if (this.startGpsTracking) {
-              this.mapService.instance.flyTo(
-                {
-                  center,
-                  bearing: heading ?? 0,
-                  zoom,
-                  pitch,
-                  duration: flyAnimationDuration,
-                },
-                {
-                  geolocateSource: true,
-                },
-              );
-              setTimeout(() => {
-                this.startGpsTracking = false; // wait until initial animation ends
-                this.animationInProgress = false;
-                this.store.dispatch(
-                  mapEffectsActions.geolocationTrackingRunning({
-                    following: this.trackingActive({ geoLocation }),
-                  }),
-                );
-              }, flyAnimationDuration);
-            } else {
-              const duration = !minSpeedHit
-                ? compassDuration
-                : (geoLocation?.timestamp ?? 0) -
-                  (previous.geoLocation?.timestamp ?? 0);
-              this.mapService.instance.easeTo(
-                {
-                  center,
-                  bearing: heading ?? 0,
-                  duration: duration < 0 ? 0 : duration,
-                  easing: (n) => n,
-                },
-                {
-                  geolocateSource: true,
-                },
-              );
-              setTimeout(
-                () => {
-                  this.animationInProgress = false;
-                },
-                duration < 0 ? 0 : duration * 0.9,
-              );
-            }
-          },
-        ),
+            this.animationInProgress = false;
+          }
+        }),
       );
     },
     { dispatch: false },
@@ -294,22 +307,6 @@ export class MapEffects {
           });
         }),
       );
-    },
-    { dispatch: false },
-  );
-
-  mapMoved$ = createEffect(
-    () => {
-      return this.store
-        .select(mapFeature.selectGeoLocationFollowing)
-        .pipe(
-          tap((active) =>
-            document.documentElement.style.setProperty(
-              '--location-animation-duration',
-              active ? '1s' : '0s',
-            ),
-          ),
-        );
     },
     { dispatch: false },
   );

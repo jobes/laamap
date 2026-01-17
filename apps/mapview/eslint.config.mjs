@@ -43,6 +43,9 @@ export default [
   },
   {
     ...playwright.configs['flat/recommended'],
-    files: ['**/e2e/**/*.ts'],
+    files: ['**/e2e/**/*spec.ts'],
+    rules: {
+      'playwright/no-wait-for-timeout': 'off',
+    },
   },
 ];
