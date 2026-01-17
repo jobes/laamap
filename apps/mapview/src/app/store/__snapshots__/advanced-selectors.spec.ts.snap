@@ -37,44 +37,6 @@ exports[`advanced-selectors > selectLineDefinitionSegmentGeoJson > should build 
           ],
           [
             0,
-            0.00009,
-          ],
-        ],
-        "type": "LineString",
-      },
-      "properties": {
-        "color": "white",
-      },
-      "type": "Feature",
-    },
-    {
-      "geometry": {
-        "coordinates": [
-          [
-            0,
-            0.00009,
-          ],
-          [
-            0,
-            0.00018,
-          ],
-        ],
-        "type": "LineString",
-      },
-      "properties": {
-        "color": "black",
-      },
-      "type": "Feature",
-    },
-    {
-      "geometry": {
-        "coordinates": [
-          [
-            0,
-            0.00018,
-          ],
-          [
-            0,
             0.00027,
           ],
         ],
