@@ -18,7 +18,7 @@ test('has title', async ({ page }) => {
   let i = 0;
   for (const coord of mockData) {
     i++;
-    setGeolocation(
+    await setGeolocation(
       page,
       coord.latitude,
       coord.longitude,

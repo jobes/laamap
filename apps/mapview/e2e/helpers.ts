@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 
-export function setGeolocation(
+export async function setGeolocation(
   page: Page,
   latitude: number,
   longitude: number,
@@ -8,7 +8,7 @@ export function setGeolocation(
   heading: number,
   speed: number,
 ) {
-  page.evaluate(
+  await page.evaluate(
     ([latitude, longitude, altitude, heading, speed]) => {
       (
         window as unknown as { globalLocationSuccessCallback: PositionCallback }
@@ -115,7 +115,7 @@ export async function navigateWithStubs(page: Page, url: string) {
   await geolocationStub(page, 47.957118, 18.186473, 150, 340, 0);
   await mockWakeLock(page);
   await page.goto(url);
-  page.evaluate('document.body.style.zoom=1.5');
+  await page.evaluate('document.body.style.zoom=1.5');
   await showClickPosition(page);
   await page.waitForLoadState('networkidle');
 }
