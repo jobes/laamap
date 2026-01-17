@@ -2,7 +2,6 @@
 :root {
   --bearing: 0; // map rotation
   --heading: 0; // device rotation to magnetic north
-  --location-animation-duration: 0s;
   --widget-font-size-ratio: 1;
   --label-color: grey;
   --direction-line-color: black;
@@ -59,7 +58,6 @@ body {
   background: none;
   width: 2rem;
   height: 2rem;
-  transition: transform var(--location-animation-duration);
 
   &::after,
   &::before {

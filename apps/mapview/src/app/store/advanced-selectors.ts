@@ -34,10 +34,11 @@ export const selectOnMapTrackingState = createSelector(
 export const selectLineDefinitionSegmentGeoJson = createSelector(
   mapFeature.selectMinSpeedHit,
   mapFeature.selectGeoLocation,
+  mapFeature.selectGeoLocationTrackingActive,
   navigationSettingsFeature.selectDirectionLineSegmentSeconds,
   navigationSettingsFeature.selectDirectionLineSegmentCount,
-  (minSpeedHit, geoLocation, seconds, segmentCount) => {
-    if (geoLocation && minSpeedHit) {
+  (minSpeedHit, geoLocation, trackingActive, seconds, segmentCount) => {
+    if (geoLocation && minSpeedHit && trackingActive) {
       const startPoint = [
         geoLocation.coords.longitude,
         geoLocation.coords.latitude,
