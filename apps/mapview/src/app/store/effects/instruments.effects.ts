@@ -5,9 +5,11 @@ import { TranslocoService } from '@jsverse/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
+  Observable,
   catchError,
   filter,
   finalize,
+  from,
   map,
   of,
   retry,
@@ -38,6 +40,18 @@ export class InstrumentsEffects {
     value: string | number | null;
   }>;
 
+  getValues(url: string): Observable<IPlaneInstruments> {
+    const fetchPromise = fetch(`https://${url}/values`, {
+      method: 'GET',
+      targetAddressSpace: 'private',
+    } as any).then((response) => {
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+    });
+
+    return from(fetchPromise);
+  }
+
   loadPlaneInstruments$ = createEffect(
     () => {
       return this.store.select(mapFeature.selectLoaded).pipe(
@@ -48,7 +62,7 @@ export class InstrumentsEffects {
         ),
         filter((url) => !!url),
         switchMap((url) =>
-          this.http.get<IPlaneInstruments>(`https://${url}/values`).pipe(
+          this.getValues(url).pipe(
             tap((values) =>
               this.store.dispatch(
                 instrumentsEffectsActions.planeInstrumentsValuesChanged({
